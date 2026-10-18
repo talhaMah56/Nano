@@ -236,6 +236,8 @@ def get_peak_flops(device_name: str) -> float:
         (["b200"], 2.25e15),
         (["b100"], 1.8e15),
         # NVIDIA Hopper
+        # cisc662: GH200 must precede "h200" ("nvidia gh200 120gb" contains "h200"). Its GPU is an H100 (132 SMs).
+        (["gh200"], 989e12),
         (["h200", "nvl"], 836e12),
         (["h200", "pcie"], 836e12),
         (["h200"], 989e12),
@@ -291,6 +293,9 @@ def get_peak_bandwidth(device_name: str) -> float:
         (["b200"], 8.0e12),
         (["b100"], 8.0e12),
         # NVIDIA Hopper
+        # cisc662: DeltaAI's GH200 has 96 GB HBM3 (4.0 TB/s); "120gb" in its name is the Grace LPDDR5X.
+        # Must precede "h200", which is a substring of "gh200".
+        (["gh200"], 4.0e12),
         (["h200"], 4.8e12),
         (["h100", "nvl"], 3.9e12),
         (["h100", "pcie"], 2.0e12),

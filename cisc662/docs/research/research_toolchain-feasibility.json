@@ -1,0 +1,220 @@
+{
+ "summary": "The toolchain works on DeltaAI. The full NVIDIA path is ready now. The AMD path can only be compiled and inspected, not run, because no ROCm and no AMD GPU are reachable from bffp-dtai-gh.\n\n(1) Flash-Attention-3: both varunneal/flash-attention-3 and kernels-community/flash-attn3 publish `build/torch29-cxx11-cu128-aarch64-linux`. kernels 0.11.7 computes exactly that variant name on this machine. It does not depend on the GPU, so the login and compute nodes give the same name. The varunneal binary is aarch64, needs GLIBC 2.34 (the system has 2.38) and contains 63 sm_90a cubins. It was built with FP16 disabled, so it is bf16 only. Its API matches nanochat's calls. One trap: nanochat's loader swallows every exception and silently falls back to SDPA.\n\n(2) The venv is ready (SETUP DONE): torch 2.9.1+cu128, triton 3.5.1, kernels 0.11.7, all matching uv.lock. Triton's aarch64 wheel includes the AMD backend and aarch64 copies of ptxas 12.8, cuobjdump and nvdisasm. On the login node with no GPU, Triton cross-compiled a vector-add and a bf16 matmul for cuda:90, hip:gfx90a and hip:gfx908, producing every stage:\n- cuda: ttir, ttgir, llir, ptx, cubin, plus sass on request\n- hip: ttir, ttgir, llir, amdgcn, hsaco\n\nThe code shows the expected instructions: wgmma/HGMMA on sm_90a; v_mfma_f32_32x32x8bf16_1k on gfx90a vs v_mfma_f32_32x32x4bf16 with AGPRs on gfx908. Profilers: nsys 2025.3.1 and ncu 2025.2.0. ncu lists the gh100 chip (GH200's GPU) and has a roofline section set.\n\n(3) Hand-written HIP to AMDGCN needs no install. Cray CCE 20 clang (LLVM 20.1.6) is already on the system with amdgcn and nvptx targets, plus llvm-objdump, llvm-readelf, llvm-mc and ld.lld. It compiled HIP device code to gfx90a/gfx908 assembly and code objects, and the same kernels to sm_90a PTX. conda-forge clang (aarch64, up to 23.1.3, all LLVM targets by default) is a fallback. Triton's own LLVM (22.0.0git) has no command-line tools; it is only usable from Python, starting from LLVM IR.\n\n(4) Known issues:\n- Login shells set CC=cc and CXX=CC (the Cray compiler wrappers), which inductor and Triton's launcher build then use.\n- GPU performance counters need `--constraint=nvperf`, which keeps the node shared. `--constraint=perf` makes the job node-exclusive, billed as 4 GPUs.\n- ghx4-interactive is billed at 2x.\n- rustbpe and tiktoken installed as prebuilt aarch64 wheels.\n- Unknown: whether compute nodes have internet, and the compute-node driver version.\n\n(5) Dump and register-count methods were all tested; details are in the facts below.\n\nArtifacts are in /work/nvme/bffp/tmahmood1/cisc662/scratch/toolchain-feasibility/:\n- scripts/triton_xcompile.py, scripts/triton_mlir_dump.py, scripts/env_probe.py\n- triton_xcompile/{cuda_sm90,hip_gfx90a,hip_gfx908}/ and triton_xcompile/summary.json\n- hip_clang/ (mini_hip.h, mini_cuda.h, kernels.hip, kernels.cu and outputs)\n- mlir_dump/\n\nThe 115 MB FA3 inspection download (fa3_download/) and its 118 MB hf-xet duplicate (hf_home/xet) can be deleted.\n\nWorking cross-compile snippet for Triton 3.5.1. Set TRITON_CACHE_DIR first; constexpr parameters must appear in `signature` as \"constexpr\":\n```python\nimport triton, triton.language as tl\nfrom triton.backends.compiler import GPUTarget\n@triton.jit\ndef add_kernel(x_ptr, y_ptr, out_ptr, n_elements, BLOCK_SIZE: tl.constexpr):\n    offs = tl.program_id(0) * BLOCK_SIZE + tl.arange(0, BLOCK_SIZE); m = offs < n_elements\n    tl.store(out_ptr + offs, tl.load(x_ptr + offs, mask=m) + tl.load(y_ptr + offs, mask=m), mask=m)\nD16 = [[\"tt.divisibility\", 16]]\nsrc = triton.compiler.ASTSource(fn=add_kernel,\n    signature={\"x_ptr\": \"*fp32\", \"y_ptr\": \"*fp32\", \"out_ptr\": \"*fp32\", \"n_elements\": \"i32\", \"BLOCK_SIZE\": \"constexpr\"},\n    constexprs={\"BLOCK_SIZE\": 1024}, attrs={(0,): D16, (1,): D16, (2,): D16, (3,): D16})\nfor tgt in (GPUTarget(\"cuda\", 90, 32), GPUTarget(\"hip\", \"gfx90a\", 64), GPUTarget(\"hip\", \"gfx908\", 64)):\n    k = triton.compile(src, target=tgt, options={\"num_warps\": 4})\n    print(tgt, sorted(k.asm))  # cuda: cubin llir ptx source ttgir ttir (+lazy 'sass'); hip: amdgcn hsaco llir source ttgir ttir\n```",
+ "facts": [
+  {
+   "topic": "FA3 hub variants",
+   "claim": "varunneal/flash-attention-3 publishes these variants:\n- torch29-cxx11-cu128-aarch64-linux (also cu126 and cu130 aarch64)\n- torch210, torch211, torch212 for cu126/cu128/cu130 on both aarch64 and x86_64\n- torch28 builds for x86_64 only\n\nThe aarch64 cu128 variant contains flash_attention_3/{_C.abi3.so (122.9 MB), __init__.py, flash_attn_config.py, flash_attn_interface.py}.",
+   "evidence": "curl https://huggingface.co/api/models/varunneal/flash-attention-3/tree/main/build and .../tree/main/build/torch29-cxx11-cu128-aarch64-linux?recursive=true (queried 2026-10-17)",
+   "confidence": "verified"
+  },
+  {
+   "topic": "FA3 hub variants",
+   "claim": "kernels-community/flash-attn3 publishes torch29-cxx11-cu128-aarch64-linux, plus torch29 cu126 aarch64 and torch28 cu126/cu128/cu129 aarch64. Its torch210 and newer builds, and every torch-stable-abi* build, are x86_64 only. The aarch64 cu128 file _flash_attn3_847092b_dirty.abi3.so is 822 MB.",
+   "evidence": "curl https://huggingface.co/api/models/kernels-community/flash-attn3/tree/main/build (and the variant subtree)",
+   "confidence": "verified"
+  },
+  {
+   "topic": "kernels 0.11.7 variant selection",
+   "claim": "build_variant() builds the name as torch{major}{minor}-{cxx11|cxx98}-cu{major}{minor}-{machine}-{os}:\n- torch version from torch.__version__\n- cxx11 vs cxx98 from torch.compiled_with_cxx11_abi()\n- CUDA version from torch.version.cuda\n- machine from platform.machine(), os from platform.system().lower()\n\nThe search order is [that name, 'torch-cuda', 'torch-universal']. GPU arch and glibc are not used (glibc only goes into the user-agent string), and torch-stable-abi* variants are never looked up. On this venv it evaluates to torch29-cxx11-cu128-aarch64-linux. The name does not depend on GPU presence, so the login and compute nodes match.",
+   "evidence": "/work/nvme/bffp/tmahmood1/cisc662/venv/lib/python3.10/site-packages/kernels/utils.py lines 67-128; scratch/toolchain-feasibility/scripts/env_probe.py output",
+   "confidence": "verified"
+  },
+  {
+   "topic": "kernels cache location",
+   "claim": "The kernels cache directory is $KERNELS_CACHE (HF_KERNELS_CACHE is deprecated). If unset, cache_dir=None goes to snapshot_download, which uses HF_HUB_CACHE=$HF_HOME/hub. With env.sh, the FA3 files land in /work/nvme/bffp/tmahmood1/cisc662/cache/hf/hub/models--varunneal--flash-attention-3/snapshots/<sha>/build/torch29-cxx11-cu128-aarch64-linux/.\n\nhf-xet also keeps a chunk cache at $HF_HOME/xet that duplicates downloaded bytes: 118 MB was observed for a 115 MB download. The size knob HF_XET_CHUNK_CACHE_SIZE_BYTES exists in the hf_xet binary.",
+   "evidence": "kernels/utils.py lines 27-38 and 180-199; huggingface_hub/constants.py lines 130-165 and 292-293; du on scratch hf_home/xet; strings hf_xet.abi3.so",
+   "confidence": "verified"
+  },
+  {
+   "topic": "kernels network/offline behavior",
+   "claim": "get_kernel() defaults to revision 'main', which is unpinned. Each call queries the HF API unless HF_HUB_OFFLINE=1. Offline, snapshot_download resolves refs/main from the cache.\n\nA download pinned to a commit SHA does not write refs/main, so an offline get_kernel('main') on such a cache fails. In nanochat that failure silently means SDPA.\n\nCurrent main: varunneal de87b9b5af06dd9984df595bef90b2eba44b181a (2026-03-20); kernels-community e29f138fc363b396e5d2706c8a5f6fa7d36f41e0 (2026-09-01, tags v0.0.1-v0.0.4).",
+   "evidence": "kernels/_versions.py select_revision_or_version; huggingface_hub/_snapshot_download.py lines 160-240 and 286-300; the pinned download in scratch/fa3_download has no refs/ dir; https://huggingface.co/api/models/<repo> and /refs",
+   "confidence": "verified"
+  },
+  {
+   "topic": "FA3 binary compatibility",
+   "claim": "The varunneal aarch64 cu128 _C.abi3.so at de87b9b is an aarch64 ELF.\n- Links against libc10.so, libtorch_cpu.so and libcudart.so.12, but not libcuda.\n- Needs at most GLIBC_2.34; the system has glibc 2.38.\n- Contains 63 sm_90a and 2 sm_80 cubins and no PTX.\n- Build flags: FLASHATTENTION_DISABLE_FP16=True, DISABLE_SM8x=True, so bf16/fp8 only.\n- flash_attn_func(q,k,v,softmax_scale,causal,qv,...,window_size=(-1,-1),...) and flash_attn_with_kvcache match nanochat's call sites.\n\nThe file was inspected only, never imported.",
+   "evidence": "file, readelf -d, objdump -T and cuobjdump -lelf on scratch/toolchain-feasibility/fa3_download/.../_C.abi3.so; flash_attn_config.py; flash_attn_interface.py line 764; nanochat/flash_attention.py lines 130 and 160",
+   "confidence": "verified"
+  },
+  {
+   "topic": "nanochat FA3 silent fallback",
+   "claim": "_load_flash_attention_3() wraps get_kernel in `except Exception: return None`. Any failure, such as no network, a missing variant or an import error, silently selects SDPA. USE_FA3 is also False unless COMPUTE_DTYPE is bf16. On sm90 it calls get_kernel('varunneal/flash-attention-3') directly; for other GPUs it first calls has_kernel(), which needs network.",
+   "evidence": "/u/tmahmood1/project/nanochat/nanochat/flash_attention.py lines 24-71",
+   "confidence": "verified"
+  },
+  {
+   "topic": "venv state",
+   "claim": "The venv is built (setup_env.log ends with SETUP DONE):\n- python 3.10.22\n- torch 2.9.1+cu128: CUDA 12.8, cxx11 ABI, arch flags sm_80 sm_90 sm_100 sm_120, cuDNN 9.10.2\n- triton 3.5.1, kernels 0.11.7, tiktoken 0.11.0, rustbpe 0.1.0, huggingface-hub 0.34.4, numpy 1.26.4\n\nAll match uv.lock. torch.cuda.is_available() is False on the login node, as expected.",
+   "evidence": "/work/nvme/bffp/tmahmood1/cisc662/logs/setup_env.log; scripts/env_probe.py output; /u/tmahmood1/project/nanochat/uv.lock",
+   "confidence": "verified"
+  },
+  {
+   "topic": "Triton aarch64 wheel contents",
+   "claim": "The triton 3.5.1 aarch64 wheel contains:\n- backends/amd: compiler.py, driver.py, lib/{ockl.bc, ocml.bc, asanrtl.bc}\n- backends/nvidia/bin: ptxas (CUDA 12.8 V12.8.93), cuobjdump and nvdisasm (12.8.55), all aarch64 ELF\n- libdevice.10.bc and CUPTI\n\nlibtriton.so is aarch64. Both 'amd' and 'nvidia' backends register.",
+   "evidence": "ls and file on venv/lib/python3.10/site-packages/triton/backends/*; ptxas --version; env_probe triton_backends=['amd','nvidia']",
+   "confidence": "verified"
+  },
+  {
+   "topic": "Triton GPU-less cross-compile",
+   "claim": "triton.compile with an explicit GPUTarget works on the login node without a GPU:\n- cuda:90 produced source, ttir, ttgir, llir, ptx, cubin\n- hip gfx90a and gfx908 produced source, ttir, ttgir, llir, amdgcn, hsaco; the hsaco is linked by Triton's built-in LLD (amd.link_hsaco), so no ROCm is needed\n\nAll 6 compiles (vector-add plus a bf16 matmul, 3 targets) succeeded in about 40 s wall on the busy login node, using under 100 MB RSS.\n\nAPI details for 3.5.1:\n- signature is a name-to-type dict and must include 'constexpr' entries\n- constexprs are keyed by name or (idx,)\n- attrs are {(idx,): [['tt.divisibility',16]]}",
+   "evidence": "scratch/toolchain-feasibility/scripts/triton_xcompile.py; triton_xcompile/summary.json; triton/compiler/compiler.py lines 52-85 and 222-349; triton/backends/amd/compiler.py lines 435-457",
+   "confidence": "verified"
+  },
+  {
+   "topic": "NVIDIA codegen evidence (sm_90a)",
+   "claim": "Matmul (bf16, 128x128x64 tile, 8 warps, 3 stages):\n- PTX is `.version 8.7 / .target sm_90a`, with 4x wgmma.mma_async.sync.aligned.m64n128k16.f32.bf16.bf16, 24 cp.async.cg and 8 ldmatrix.x4\n- SASS has HGMMA.64, 24 LDGSTS.E.BYPASS.128, LDSM.16.M88.4 and WARPGROUP.ARRIVE\n- 120 registers, 0 spills\n\nVector-add: 26 registers, 0 spills, 128-bit LDG.E.128 loads.",
+   "evidence": "triton_xcompile/cuda_sm90/matmul_kernel.{ptx,sass}; cuobjdump -res-usage; ptxas -v --gpu-name=sm_90a (HPC SDK 12.9)",
+   "confidence": "verified"
+  },
+  {
+   "topic": "AMD codegen evidence (Triton)",
+   "claim": "The same matmul on gfx90a gives 48x v_mfma_f32_32x32x8bf16_1k, 143 VGPR / 0 AGPR / 28 SGPR, occupancy 3. On gfx908 it gives 96x v_mfma_f32_32x32x4bf16, 117 VGPR + 32 AGPR, occupancy 2. Vector-add uses packed v_pk_add_f32 on gfx90a but v_add_f32_e32 on gfx908. CCE llvm-objdump disassembles the Triton hsaco: 48 and 96 MFMA instructions respectively.",
+   "evidence": "triton_xcompile/hip_gfx90a|hip_gfx908/*.amdgcn (metadata comments and .vgpr_count/.agpr_count) and *.hsaco.dis.s",
+   "confidence": "verified"
+  },
+  {
+   "topic": "Triton bundled LLVM",
+   "claim": "libtriton bundles LLVM 22.0.0git (commit 7d5de3033187c8a3bb4d2e322f5462cdaf49808f). The wheel ships no clang, llc, llvm-objdump or ld.lld commands; the only LLVM command-line tool is FileCheck. LLVM is reachable only from Python: llvm.translate_to_asm, llvm.optimize_module, amd.assemble_amdgcn, amd.link_hsaco. That can turn LLVM IR into PTX or AMDGCN, but cannot compile HIP/C++ source or disassemble a binary.",
+   "evidence": "find triton -perm -u+x; dir(triton._C.libtriton.llvm/amd); strings libtriton.so",
+   "confidence": "verified"
+  },
+  {
+   "topic": "System LLVM with AMDGPU (no ROCm)",
+   "claim": "Cray CCE 20.0.0 is installed at /opt/cray/pe/cce/20.0.0/cce-clang/aarch64/bin ('Cray LLVM 20.0.0 based on LLVM version 20.1.6'). Its registered targets include amdgcn, nvptx and nvptx64. It ships clang, llc, llvm-mc, llvm-mca, llvm-objdump, llvm-readelf, ld.lld, amdgpu-arch and clang-offload-bundler. It works when called by absolute path, without loading PrgEnv-cray. craype-accel-amd-gfx908/gfx90a modules exist.",
+   "evidence": "llc --version; ls of that bin dir; module -t avail",
+   "confidence": "verified"
+  },
+  {
+   "topic": "HIP->AMDGCN recipe",
+   "claim": "HIP device code compiles without ROCm. With CB=/opt/cray/pe/cce/20.0.0/cce-clang/aarch64/bin:\n- Assembly: `$CB/clang -x hip --offload-arch=gfx90a --cuda-device-only -nogpulib -nogpuinc -O3 -S k.hip -o k.gfx90a.s`\n- Code object: `$CB/clang -x hip --offload-arch=gfx90a --cuda-device-only --no-gpu-bundle-output -nogpulib -nogpuinc -O3 -c k.hip -o k.gfx90a.hsaco`\n- Disassembly: `$CB/llvm-objdump -d --triple=amdgcn-amd-amdhsa --mcpu=gfx90a k.gfx90a.hsaco`\n- Register counts: `$CB/llvm-readelf --notes` gives .vgpr_count/.sgpr_count/.agpr_count; the .s file has NumVgprs, ScratchSize and Occupancy\n\nThis needs a 15-line mini_hip.h: attribute macros; __builtin_amdgcn_workitem_id_x, workgroup_id_x and workgroup_size_x; fence + s_barrier for __syncthreads; __builtin_amdgcn_rsqf. With -nogpulib there is no ocml math library and no host runtime.\n\nTested on vec_add and RMSNorm for gfx90a and gfx908: v_rsq_f32, ds_write_b32/ds_read2_b32 and s_barrier appear; occupancy is 8 vs 10.",
+   "evidence": "scratch/toolchain-feasibility/hip_clang/{mini_hip.h,kernels.hip,kernels.gfx90a.s,kernels.gfx908.s,*.hsaco,*.hsaco.dis.s}",
+   "confidence": "verified"
+  },
+  {
+   "topic": "Same-LLVM NVPTX path",
+   "claim": "The same CCE clang compiles the same kernels as CUDA device code. Command: `clang -x cuda --cuda-gpu-arch=sm_90a --cuda-device-only -nocudalib -nocudainc --cuda-path=$CUDA_HOME -Wno-unknown-cuda-version -O3 -S`, with a mini_cuda.h using __nvvm_read_ptx_sreg_* (__syncthreads is a clang builtin). The result is PTX 8.7 for sm_90a; ptxas 12.9 reports rmsnorm 22 registers and vec_add 12 registers, 0 spills. Clang warns that CUDA 12.9 is newer than its supported 12.8.",
+   "evidence": "hip_clang/kernels.cu, mini_cuda.h, kernels.sm_90a.clang.ptx/.cubin",
+   "confidence": "verified"
+  },
+  {
+   "topic": "conda-forge LLVM alternative",
+   "claim": "conda-forge has linux-aarch64 clang, llvm-tools and lld up to 23.1.3. The llvmdev-feedstock build.sh never sets LLVM_TARGETS_TO_BUILD (only LLVM_EXPERIMENTAL_TARGETS_TO_BUILD=WebAssembly), so LLVM's default of 'all' applies, which includes AMDGPU and NVPTX. Not installed or tested here.",
+   "evidence": "https://github.com/conda-forge/llvmdev-feedstock/blob/main/recipe/build.sh (cmake block); https://api.anaconda.org/package/conda-forge/{clang,llvm-tools,lld}; https://llvm.org/docs/CMake.html (LLVM_TARGETS_TO_BUILD default 'all')",
+   "confidence": "likely"
+  },
+  {
+   "topic": "Profilers",
+   "claim": "On PATH from HPC SDK 25.5: nsys 2025.3.1.90 and ncu 2025.2.0 (build 35613519).\n- `ncu --list-chips` includes gh100, the Hopper die in GH200 (sm_90).\n- ncu ships C2CLink, Nvlink and roofline sections; `--set roofline` covers about 5,912 metrics, which means many kernel replays.\n- nsys supports --pytorch=autograd-nvtx, --python-sampling, --cuda-graph-trace and --gpu-metrics-devices.\n\nNo actual GPU profiling has been tested yet, because no job was submitted.",
+   "evidence": "nsys --version; ncu --version; ncu --list-chips; ncu --list-sets; nsys profile --help",
+   "confidence": "verified"
+  },
+  {
+   "topic": "DeltaAI counter access",
+   "claim": "DeltaAI docs: 'For GPU jobs, add --constraint=nvperf # can get counters in node-shared mode if cpu counters are not also needed', and '--constraint=perf # this will make the job node-exclusive (whole node jobs only)'. All ghx4 nodes gh[001-150] advertise the features perf, nvperf and xpmem. The docs show an `srun nsys profile --stats=true` example on DeltaAI.",
+   "evidence": "https://docs.ncsa.illinois.edu/systems/deltaai/en/latest/user-guide/debug-perf.html; `sinfo -p ghx4 -o '%N %f %G'`",
+   "confidence": "verified"
+  },
+  {
+   "topic": "DeltaAI billing",
+   "claim": "A job is charged for however many GH200s are needed to cover its requested memory or cores, whichever is larger; 1 GPU is about 72 cores and 110 GB. A node-exclusive hour costs 4 GH200-hours. Charge factor is 1.0 on ghx4 and 2.0 on ghx4-interactive, which allows 1 job in total per user. Defaults are 30 min walltime and 1000 MB per core.",
+   "evidence": "https://docs.ncsa.illinois.edu/systems/deltaai/en/latest/user-guide/job-accounting.html and running-jobs.html",
+   "confidence": "verified"
+  },
+  {
+   "topic": "Compute-node driver",
+   "claim": "The installed kernel driver version on the compute nodes is not visible from the login node. The cuda-compat/13.1.1 module provides driver 590.48.01 forward-compatibility libcuda 'on a node whose installed kernel driver is older than 590.48.01'. It must be loaded inside the job, and on newer drivers it breaks CUDA (CUDA_ERROR_SYSTEM_DRIVER_MISMATCH). Whether ncu 2025.2 works with the actual driver is unconfirmed.",
+   "evidence": "module show cuda-compat/13.1.1 (/sw/user/modules/cuda-compat/13.1.1.lua)",
+   "confidence": "uncertain"
+  },
+  {
+   "topic": "Compiler env gotcha",
+   "claim": "The login environment exports CC=cc and CXX=CC, the Cray craype wrappers.\n- torch inductor's cpp.cxx resolves to (None,'CC').\n- Triton's runtime launcher build uses os.environ['CC'] before falling back to gcc or clang.\n- Triton finds libcuda.so.1 via `/sbin/ldconfig -p`, or TRITON_LIBCUDA_PATH.\n- gcc/g++ 14 are at /opt/cray/pe/gcc-native/14/bin.\n- Python.h exists in the uv-managed CPython.",
+   "evidence": "env_probe.py output; triton/runtime/build.py lines 19-51; triton/backends/nvidia/driver.py lines 22-47",
+   "confidence": "verified"
+  },
+  {
+   "topic": "Inductor defaults on Grace",
+   "claim": "Inductor picks the 'asimd' (NEON) CPU vector ISA on Grace (Neoverse V2). In torch 2.9.1, the FX graph cache, AOTAutograd cache and autotune local cache are on by default. compile_threads is 32 on the login node.",
+   "evidence": "env_probe.py (torch._inductor.config, cpu_vec_isa.pick_vec_isa)",
+   "confidence": "verified"
+  },
+  {
+   "topic": "rustbpe/tiktoken on aarch64",
+   "claim": "rustbpe 0.1.0 and tiktoken 0.11.0 installed from prebuilt wheels tagged cp310-cp310-manylinux_2_17_aarch64, so no Rust toolchain was needed. Both import cleanly.",
+   "evidence": "venv site-packages/{rustbpe,tiktoken}-*.dist-info/WHEEL; env_probe import",
+   "confidence": "verified"
+  },
+  {
+   "topic": "torch aarch64 wheel pitfall",
+   "claim": "Through torch 2.8, PyPI's aarch64 torch wheels were CPU-only (pytorch/pytorch#160162, closed 2026-04-14). nanochat pins torch==2.9.1 to the explicit pytorch-cu128 index via the 'gpu' extra, so a plain `pip install` of anything that depends on torch could replace the CUDA build.",
+   "evidence": "https://github.com/pytorch/pytorch/issues/160162; /u/tmahmood1/project/nanochat/pyproject.toml [tool.uv.sources]",
+   "confidence": "verified"
+  },
+  {
+   "topic": "Triton IR dump knobs",
+   "claim": "Dump controls:\n- TRITON_KERNEL_DUMP=1 with TRITON_DUMP_DIR writes one folder per kernel, keyed by source hash rather than target. It holds .ttir .ttgir .llir .ptx .cubin, a .sass auto-generated by cuobjdump, or .amdgcn .hsaco. Compiling the same kernel for several targets overwrites the shared .ttir/.ttgir/.llir.\n- TRITON_CACHE_DIR/<base32 hash>/ holds {name}.source/.ttir/.ttgir/.llir/.ptx|.amdgcn/.cubin|.hsaco/.json plus __grp__{name}.json.\n- MLIR_ENABLE_DUMP=1 with MLIR_DUMP_PATH=file wrote per-pass MLIR to the file: 67 'IR Dump Before' headers for vector-add.\n- LLVM_IR_ENABLE_DUMP=1 wrote 153 LLVM per-pass dumps to stderr.\n- NVPTX_ENABLE_DUMP / AMDGCN_ENABLE_DUMP print the final assembly.\n- TRITON_DUMP_PTXAS_LOG=1 prints ptxas -v output; Triton already passes -v.\n- TRITON_ALWAYS_COMPILE=1 bypasses the cache.\n- TRITON_PTXAS_PATH, TRITON_CUOBJDUMP_PATH and TRITON_NVDISASM_PATH override the bundled tools.\n\nkernel.asm keys are source, ttir, ttgir, llir, ptx, cubin plus a lazily computed 'sass' on CUDA, or amdgcn and hsaco on HIP.",
+   "evidence": "triton/knobs.py lines 185-215 and 340-502; strings libtriton.so; scratch/toolchain-feasibility/{triton_dump,triton_cache,mlir_dump}/",
+   "confidence": "verified"
+  },
+  {
+   "topic": "Register/spill counts",
+   "claim": "Without a GPU: `ptxas -v --gpu-name=sm_90a k.ptx` gives registers, stack and spill bytes; `cuobjdump -res-usage k.cubin` gives REG, STACK, SHARED and LOCAL. SASS comes from `cuobjdump -sass` or `nvdisasm -c -g`. With a GPU, CompiledKernel.n_regs and n_spills fill in only after module load (first launch or _init_handles). n_spills is CU_FUNC_ATTRIBUTE_LOCAL_SIZE_BYTES/4, i.e. local-memory words, not spill-store bytes.",
+   "evidence": "triton/compiler/compiler.py lines 455-478; triton/backends/nvidia/driver.c lines 113-135; commands run on triton_xcompile/cuda_sm90/*.cubin",
+   "confidence": "verified"
+  },
+  {
+   "topic": "AMD/A100 hardware availability",
+   "claim": "NCSA Delta, the sister system sharing /work, lists partitions gpuMI100x8 (8x AMD MI100), gpuA100x4/x8 and H200x8. This user's Slurm associations are only bffp-dtai-gh and noalloc, so no AMD GPU can be run today.",
+   "evidence": "https://docs.ncsa.illinois.edu/systems/delta/en/latest/user_guide/running_jobs.html and architecture.html; `sacctmgr show assoc user=$USER`",
+   "confidence": "verified"
+  },
+  {
+   "topic": "GH200 memory spec on DeltaAI",
+   "claim": "The DeltaAI docs disagree on GPU memory. The architecture page says 'NVIDIA H100 GPU with 96GB' HBM3. The software page says '120 GB of HBM3 (about 97 GB usable)'. The Slurm gres is named nvidia_gh200_120gb. Most likely this is the 96 GB HBM3 part (spec about 4 TB/s), but the roofline ceilings should be measured, not assumed.",
+   "evidence": "https://docs.ncsa.illinois.edu/systems/deltaai/en/latest/user-guide/architecture.html and software.html; sinfo gres",
+   "confidence": "uncertain"
+  },
+  {
+   "topic": "Compute-node internet",
+   "claim": "The DeltaAI docs (running-jobs, data-mgmt, FAQ) do not say whether compute nodes can reach the internet, e.g. HF Hub. This cannot be tested without a job.",
+   "evidence": "docs pages grepped for internet/outbound/proxy; no matches",
+   "confidence": "uncertain"
+  }
+ ],
+ "recommendations": [
+  "Pre-fetch FA3 once on the login node into the team cache with revision 'main', not a SHA, so refs/main is written. Example: `source cisc662/env/env.sh; python -c \"from kernels.utils import install_kernel; print(install_kernel('varunneal/flash-attention-3', revision='main'))\"`. Record the resolved SHA (currently de87b9b5af06) in docs. Then export HF_HUB_OFFLINE=1 in every Slurm script so jobs never need the network and the version cannot drift mid-semester.",
+  "In the project's own bench harness (cisc662/bench, not nanochat files), log nanochat.flash_attention.HAS_FA3 and USE_FA3 plus torch.version.cuda at the start of every job. Abort if HAS_FA3 is False on GH200, so a silent SDPA fallback cannot contaminate baselines.",
+  "In every Slurm script set `export CC=gcc CXX=g++` (gcc-native 14) before running torch.compile or Triton. This keeps the Cray cc/CC wrappers out of Triton launcher and inductor C++ builds. Keep TRITON_CACHE_DIR and TORCHINDUCTOR_CACHE_DIR on /work/nvme (already in env.sh) so compile time is paid once.",
+  "Profiling jobs: use `--constraint=nvperf` (node-shared). Never use `perf` unless CPU counters are needed, because it makes the job node-exclusive and bills 4 GH200-hours per hour. Bound ncu cost with kernel filters, e.g. `ncu --set roofline -k regex:'rms|rotary|softmax|cross|gemm|flash' --launch-skip 20 --launch-count 3 -o $CISC662_WORK/profiles/...`. Use nsys with `--trace=cuda,nvtx,osrt --pytorch=autograd-nvtx` for step timelines.",
+  "Budget hygiene: prefer the ghx4 batch partition (1.0x) over ghx4-interactive (2.0x, 1 job max). Request 1 GPU with at most 72 cores and about 110 GB so the job is billed as 1 GPU. Use short walltimes (15-30 min) to backfill on the busy queue, and run inside tmux on the login node only for monitoring.",
+  "First GPU smoke job (about 15 min, 1 GPU, ghx4, --constraint=nvperf) should settle the unknowns. It should run `nvidia-smi` (driver version), `curl -sI https://huggingface.co` (internet), a torch CUDA check, the nanochat FA3 check, a Triton vector-add launch printing kernel.n_regs/n_spills, and one tiny nsys and one ncu run (checking for ERR_NVGPUCTRPERM). Load cuda-compat only if the driver is older than 590.48.01.",
+  "Use scratch/toolchain-feasibility/scripts/triton_xcompile.py as the template for the AMD half. Cross-compile every Triton kernel to gfx90a (MI250X) and gfx908 (MI100) on the login node with no GPU cost. Report static metrics: VGPR/AGPR/SGPR, occupancy, MFMA instruction mix, LDS bytes, global_load width. Use a separate TRITON_DUMP_DIR per target, or save from kernel.asm, to avoid the dump-folder overwrite.",
+  "Use CCE clang 20 (absolute path) for hand-written HIP. Run the -S/-c/llvm-objdump/llvm-readelf commands in the HIP recipe, and compile the same source as CUDA (-x cuda --cuda-gpu-arch=sm_90a) for a single-LLVM NVPTX vs AMDGCN comparison next to nvcc. Note the LLVM versions in every comparison: Triton 22.0.0git vs CCE 20.1.6 vs nvcc 12.9. Fall back to conda-forge clang only if CCE turns out to be unsuitable.",
+  "Ask the instructor or NCSA about a small Delta GPU allocation covering gpuMI100x8 (and gpuA100x4 for the proposal's cross-generation check). Delta shares /work with DeltaAI. Without it, rescope the AMD goal in Presentation 1 to compile-only ISA analysis, and state that explicitly.",
+  "Before computing MFU/MBU, add GH200 peaks in project analysis code, not nanochat. Seed them with spec values (H100-class dense BF16 about 989 TFLOPS; HBM about 4 TB/s if this is the 96 GB HBM3 part). Replace them with measured ceilings from a STREAM-like copy kernel and a cuBLAS bf16 GEMM in the first GPU job.",
+  "Optionally set HF_XET_CHUNK_CACHE_SIZE_BYTES=0, or clear $HF_HOME/xet after downloads, to avoid keeping two copies of the kernel binaries on the shared allocation. Delete scratch/toolchain-feasibility/fa3_download and hf_home (about 233 MB) when no longer needed."
+ ],
+ "risks": [
+  "Silent SDPA fallback: nanochat returns None on any FA3 load error (no network, cache missing refs/main, ABI mismatch). Baseline 'FA3' numbers could actually be SDPA unless asserted.",
+  "Compute-node internet access is unknown. Without the pre-fetch plus HF_HUB_OFFLINE=1, get_kernel may fail or hang inside jobs, wasting GPU time and triggering the silent fallback.",
+  "No AMD hardware is reachable under bffp-dtai-gh. The proposal's AMD speedup and timing goals cannot be met on DeltaAI; only static AMDGCN analysis is possible unless Delta MI100 access is obtained.",
+  "Billing traps: --constraint=perf makes jobs node-exclusive (4x charge). ghx4-interactive is billed at 2x. Requesting more than 72 cores or about 110 GB bills extra GPUs. The allocation is shared by about 50 users.",
+  "Profiler compatibility with the unknown compute-node driver is untested, and counter permission depends on the nvperf constraint. The ncu roofline set (about 5,912 metrics) replays each kernel many times, which can blow up job time if not filtered.",
+  "Cray compiler wrappers (CC=cc, CXX=CC) are inherited by Triton and inductor JIT builds and may add unexpected flags or libraries, or break on compute nodes.",
+  "torch.compile warmup (inductor plus Triton) is paid per job unless the caches are warm. It must be excluded from 'seconds per 100 steps' timing.",
+  "Codegen comparisons can be confounded: Triton uses LLVM 22.0.0git, CCE clang uses LLVM 20.1.6, nvcc uses NVVM. Instruction-level differences may come from compiler version rather than source changes.",
+  "The varunneal FA3 build has FP16 and SM8x disabled. FA3 cannot serve fp16 runs, and on V100 (DARWIN, sm_70) or A100 nanochat would use SDPA or the network-dependent kernels-community path, so cross-platform attention comparisons are not like-for-like.",
+  "Unpinned 'main' revisions on the HF hub can change mid-semester and break reproducibility unless runs are kept offline against a cached snapshot.",
+  "The DeltaAI docs disagree on GH200 memory size (96 vs 120 GB HBM3). Using a wrong peak bandwidth would skew the roofline and MBU."
+ ],
+ "open_questions": [
+  "What NVIDIA kernel driver version runs on the ghx4 compute nodes? It decides whether cuda-compat/13.1.1 is needed and whether ncu 2025.2.0 works.",
+  "Do DeltaAI compute nodes have outbound internet (HF Hub, PyPI), or must all downloads happen on the login node?",
+  "Does --constraint=nvperf give ncu counter access in node-shared mode on GH200 without ERR_NVGPUCTRPERM, and does it change the job's billing?",
+  "Can the class get a Delta allocation (gpuMI100x8, gpuA100x4) or another ACCESS AMD resource? If not, should the AMD half be formally rescoped to compile-only ISA analysis in Presentation 1?",
+  "Is DARWIN V100 still going to be used, as the proposal's primary platform says? If so, a separate env is needed there (x86_64, sm_70, no FA3).",
+  "Is the DeltaAI GH200 GPU the 96 GB HBM3 (about 4 TB/s) or a 144 GB HBM3e part, and what power cap or clocks apply? Measured ceilings are needed for the roofline.",
+  "Does torch.compile in base_train.py run cleanly on GH200 with CC/CXX set to gcc/g++, and how many minutes of first-step compile should each benchmark job budget?"
+ ]
+}

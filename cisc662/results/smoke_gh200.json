@@ -1,0 +1,40 @@
+{
+  "host": "gh047.hsn.cm.delta.internal.ncsa.edu",
+  "machine": "aarch64",
+  "slurm_job_id": "3400653",
+  "torch": "2.9.1+cu128",
+  "torch_cuda": "12.8",
+  "triton": "3.5.1",
+  "device": {
+    "name": "NVIDIA GH200 120GB",
+    "capability": "9.0",
+    "sm_count": 132,
+    "total_memory_GiB": 95.07635498046875,
+    "l2_cache_MiB": 60.0
+  },
+  "nvidia_smi": "clocks.current.sm [MHz], clocks.max.sm [MHz], clocks.current.memory [MHz], clocks.max.memory [MHz], power.draw [W], power.limit [W], temperature.gpu\n345 MHz, 1980 MHz, 2619 MHz, 2619 MHz, 86.53 W, 900.00 W, 21\n",
+  "fa3": {
+    "HAS_FA3": true,
+    "USE_FA3": true,
+    "fa3_vs_sdpa_max_abs_err": 0.001953125
+  },
+  "triton_add": {
+    "correct": true,
+    "n_regs": 26,
+    "n_spills": 0,
+    "ptx_ld_global_v4": 4,
+    "sass_LDG_E_128": 4,
+    "dump_dir": "/work/nvme/bffp/tmahmood1/cisc662/scratch/triton_dump"
+  },
+  "bandwidth": {
+    "buffer_GiB": 4.0,
+    "copy_GBps": 3650.5441264465844,
+    "read_sum_GBps": 3396.541503810651
+  },
+  "gemm_8192": {
+    "bf16_TFLOPs": 722.7846686851873,
+    "fp16_TFLOPs": 693.7016668291061,
+    "tf32_TFLOPs": 382.19104011169054,
+    "fp32_TFLOPs": 48.616880179730536
+  }
+}

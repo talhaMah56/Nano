@@ -1,0 +1,315 @@
+{
+ "summary": "I checked these numbers against prior work for the nanochat target kernels on DeltaAI. The GPU is a GH200 with an H100 (96 GB HBM3). Datasheet peaks are 990 TFLOPS BF16 dense and 4.0 TB/s, so the BF16 ridge point is about 248 FLOP/B. A published measurement on Alps GH200 nodes, a similar quad-GH200 system, got 3.80 TB/s reads and 3.71 TB/s writes from HBM.\n\nThe 1.3-2x goal is realistic against PyTorch eager for the memory-bound kernels. Against torch.compile it holds only for the softcap + cross-entropy kernel and for fusions that Inductor does not already do. GEMM against cuBLAS and attention against FA3 will almost certainly fall short of 1.3x. Those two make good informative negative results.\n\n**Against eager (torch 2.9.1):**\n- **RoPE:** about 3-9x is plausible. Eager runs about 7 elementwise kernels plus a cat. Liger reports 8.8x forward versus HuggingFace eager on A100 and 2.5x on H100.\n- **Softcap + cross-entropy:** about 2-3x. Liger's cross-entropy is 2.9x faster for forward plus backward at vocab 32768, with 5x less memory.\n- **RMSNorm:** only about 1.0-1.5x. In 2.9.1, F.rms_norm on CUDA already runs a single fused CUDA kernel (one 128-thread block per row, 8-byte loads). On H100, Liger's RMSNorm is 1.05x faster than torch.nn.RMSNorm forward but 4x slower backward at hidden size 1024. The likeliest win is small rows: the QK-norm over head_dim 128, and n_embd 768.\n\n**Against torch.compile (2.9.1):**\n- Inductor in 2.9.1 already does one-pass online softmax and persistent reductions for rows up to 1024. Reading the code, it should also decompose RMSNorm and fuse it with RoPE, the 1.2 scale, the residual add and the softcap; this still needs confirming from Inductor's generated code.\n- It does not have the newer fused norm-backward pass, does not auto-chunk linear + cross-entropy, and sends GEMMs to cuBLAS by default.\n- Measured in isolation, QuACK was 1.3-1.5x faster than torch.compile (2.7.1) for RMSNorm at row sizes 256-1K, and 1.78x for cross-entropy at vocab 32K (3.02 vs 1.70 TB/s on H100). I digitized these from QuACK's published chart.\n- For the whole linear + cross-entropy step the gain disappears. Cut Cross-Entropy ran in 145 ms against torch.compile's 143 ms on A100, though with 14x less memory. Liger's fused linear cross-entropy took 304 ms.\n- A 2026 PyTorch blog post shows torch.compile 2.11 matching QuACK on norms. Any \"beat torch.compile\" result is therefore tied to the torch version, and the project is pinned at 2.9.1.\n\n**GEMM and attention:**\n- cuBLAS reaches 716 TFLOPS on a 4096\u00b3 BF16 GEMM on H100 SXM. The best hand-written kernel I found reached 764 TFLOPS (1.07x), and only after 11 Hopper-specific steps (wgmma, TMA, warp specialization, clusters, multicast). Triton matmuls run about 0.7-1.0x of cuBLAS.\n- One opening: when the inner (K) dimension is small (K at most 512), a persistent kernel (ThunderKittens) beats cuBLAS by 1.1-1.57x. nanochat's forward GEMMs have K = n_embd, so they sit near this range. A relu\u00b2 epilogue is a second opening, since cuBLASLt has no epilogue for it.\n- FA3 reaches 75% of peak. Triton FA2-style kernels are about 1.5x slower than FA3.\n\n**End-to-end impact will be small:**\n- Each kernel record in modded-nanogpt saved about 1-2% of wall time.\n- In nanochat itself, FA3 gave +9% throughput and FP8 for the lm_head gave +1%.\n- Muon's extra FLOPs are at most T\u00b7m/B (5 Newton-Schulz steps \u00d7 model width \u00f7 tokens per step). With a small batch on one GPU that is about 6%, so profile it before writing a kernel.\n\n**Decode tokens/sec:** nanochat's inference engine runs eager and recasts the fp32 master weights to bf16 inside every Linear call. Decode will be limited by kernel-launch overhead and that cast traffic, so CUDA graphs and pre-casting the weights will matter more than custom kernels. In gpt-fast, compile plus CUDA graphs alone gave 4.2x.\n\n**Design hints:**\n- Use 128-bit loads (8 bf16 values per thread) and put several rows in each thread block when rows are small.\n- Keep each row in registers and reduce with warp shuffles.\n- nanochat's RMSNorm has no weight, so its backward has no dW reduction.\n- RoPE is a rotation, so it commutes with weightless RMSNorm. RoPE, QK-norm and the 1.2 scale can therefore be done in one pass.\n- For cross-entropy, fuse the 15\u00b7tanh softcap, the online log-sum-exp, the target gather and the gradient (including the 1-tanh\u00b2 factor) into one forward/backward kernel.\n- Use TMA and wgmma only for GEMM and attention. Clusters and distributed shared memory only pay off for reductions of 64K elements or more.\n\nThe downloaded papers, source files, Liger's benchmark CSV and the QuACK chart parser are in /work/nvme/bffp/tmahmood1/cisc662/scratch/prior-art/ (pdfs/, src/, dl_quack/, dl_liger/, scripts/parse_quack_svg.py).",
+ "facts": [
+  {
+   "topic": "platform/DeltaAI",
+   "claim": "DeltaAI GPU nodes: 4x GH200 per node (152 nodes); each H100 has 96 GB HBM3; each Grace has 120 GB LPDDR5 (480 GB/node); 72 cores per superchip (288/node); all GPU pairs linked NV6.",
+   "evidence": "https://docs.ncsa.illinois.edu/systems/deltaai/en/latest/user-guide/architecture.html",
+   "confidence": "verified"
+  },
+  {
+   "topic": "platform/GH200 peaks",
+   "claim": "GH200 datasheet: BF16/FP16 tensor 990 TFLOPS dense (1979 with sparsity), FP8 1979 dense, TF32 494 dense, FP32 67 TFLOPS, FP64 34; 96GB HBM3 up to 4 TB/s (144GB HBM3e up to 4.9 TB/s); NVLink-C2C 900 GB/s; module power configurable 450-1000 W (CPU+GPU+memory). BF16 ridge point ~990/4 = ~248 FLOP/B; FP32 ridge ~17 FLOP/B (my arithmetic).",
+   "evidence": "NVIDIA GH200 datasheet https://dam-cdn.nvd.orangelogic.com/AssetLink/tkno03fa645gb7f33w60rf200d330420.pdf ; extracted text /work/nvme/bffp/tmahmood1/cisc662/scratch/prior-art/pdfs/gh200_datasheet.txt lines 186-211",
+   "confidence": "verified"
+  },
+  {
+   "topic": "platform/GH200 measured bandwidth",
+   "claim": "On Alps quad-GH200 nodes (idle), a Hopper kernel achieved 3795.9 GB/s reading local HBM (0.95 of 4 TB/s) and 3712.1 GB/s writing (0.93); HBM->HBM copy 1727 GB/s buffer-rate (0.86, i.e. ~3.45 TB/s total traffic). Use ~3.4-3.8 TB/s as the realistic memory-bound speed-of-light on GH200 (not 3.35 TB/s as in H100-SXM papers).",
+   "evidence": "Fusco et al., arXiv 2408.11556, Fig. 7 and Fig. 9; text at /work/nvme/bffp/tmahmood1/cisc662/scratch/prior-art/pdfs/gh200_datamove.txt lines 440-470",
+   "confidence": "likely"
+  },
+  {
+   "topic": "platform/Hopper SM resources",
+   "claim": "H100: 228 KB shared memory per SM (227 KB max per block), 50 MB L2, 64K 32-bit registers per SM, max 255 registers/thread, cluster size 8 portable / 16 non-portable, TMA moves 1D-5D tensors, distributed shared memory within clusters.",
+   "evidence": "https://docs.nvidia.com/cuda/hopper-tuning-guide/index.html",
+   "confidence": "verified"
+  },
+  {
+   "topic": "platform/V100 and nanochat on pre-Ampere",
+   "claim": "V100: PCIe 112 / SXM2 125 TFLOPS FP16 tensor, 14 / 15.7 TFLOPS FP32, 900 GB/s HBM2, no BF16. nanochat auto-selects FP32 compute on SM<80 (fp16 path needs GradScaler, not implemented), so a V100 baseline would be an FP32, non-tensor-core regime.",
+   "evidence": "https://images.nvidia.com/content/technologies/volta/pdf/volta-v100-datasheet-update-us-1165301-r5.pdf ; /u/tmahmood1/project/nanochat/nanochat/common.py lines 15-35",
+   "confidence": "verified"
+  },
+  {
+   "topic": "platform/AMD",
+   "claim": "MI250X (gfx90a): 220 CUs (110 per GCD), 64 KB LDS, 16 MB L2, 128 GB HBM2e; MI100 (gfx908): 120 CUs, 32 GB. Peak MI250X ~383 TFLOPS FP16/BF16 and ~3.2 TB/s (secondary sources); AMD datasheets could not be fetched.",
+   "evidence": "https://rocm.docs.amd.com/en/latest/reference/gpu-arch-specs.html (CU/LDS/L2/VRAM); peak FLOPs/BW from web search of secondary spec sites",
+   "confidence": "likely"
+  },
+  {
+   "topic": "Inductor/overall",
+   "claim": "PyTorch 2 (ASPLOS'24): TorchInductor 2.27x inference / 1.41x training geomean over eager on A100 across 180+ models. Biggest gains come from fusing pointwise/reduction/scatter ops; ablation (fp16 HF models): without fusion and inlining 0.80x/0.59x. Matmul templates with epilogue fusion are only used under max-autotune; otherwise cuBLAS/cuDNN are used.",
+   "evidence": "DOI 10.1145/3620665.3640366; https://docs.pytorch.org/assets/pytorch2-2.pdf abstract and Table 4; text at /work/nvme/bffp/tmahmood1/cisc662/scratch/prior-art/pdfs/pytorch2.txt lines 55-70, 895-980",
+   "confidence": "verified"
+  },
+  {
+   "topic": "Inductor/torch 2.9.1 defaults",
+   "claim": "torch 2.9.1 (project venv) Inductor defaults: online_softmax=True (a post-grad pass rewrites amax/sub/exp/sum into a one-pass online_softmax_reduce on CUDA/Triton when the reduction is not split); triton.persistent_reductions=True for inner reductions with rnumel<=1024 (64 otherwise); split_reductions=True; max_autotune off, so GEMMs stay cuBLAS extern kernels; cudagraphs off unless mode='reduce-overhead'; MixOrderReduction (fused norm-backward) absent; no linear+CE auto-chunking.",
+   "evidence": "/work/nvme/bffp/tmahmood1/cisc662/venv/lib/python3.10/site-packages/torch/_inductor/config.py lines 197, 440, 690, 1221, 1357; choices.py lines 204-233; fx_passes/post_grad.py lines 298-327; lowering.py lines 7204-7245; grep for mix_order/chunk returned nothing",
+   "confidence": "verified"
+  },
+  {
+   "topic": "RMSNorm/eager baseline",
+   "claim": "In torch 2.9.1, F.rms_norm on CUDA (no weight, as in nanochat) dispatches to at::_fused_rms_norm. This is vectorized_layer_norm_kernel<rms_norm=true>: one CTA of 128 threads (4 warps) per row, vec_size=4 elements (8-byte loads for bf16), Welford-style warp/block combine. Backward is the fused _fused_rms_norm_backward_cuda. The eager baseline is therefore already a single fused kernel, not HF-style multi-kernel eager.",
+   "evidence": "PyTorch v2.9.1 aten/src/ATen/native/layer_norm.cpp rms_norm_symint; cuda/layer_norm_kernel.cu (vec_size=4, launch_vectorized_layer_norm_kernel threads(warp_size, num_threads()/warp_size), blocks(M)); cuda/thread_constants.h num_threads()=C10_WARP_SIZE*4; torchgen packaged native_functions.yaml and derivatives.yaml; copies in /work/nvme/bffp/tmahmood1/cisc662/scratch/prior-art/src/",
+   "confidence": "verified"
+  },
+  {
+   "topic": "RMSNorm/compile path",
+   "claim": "Under torch.compile 2.9.1, _fused_rms_norm has a CompositeImplicitAutograd kernel (rms_norm_composite), and make_fx decomposes such ops when not pre-dispatch. RMSNorm should therefore become pow/mean/rsqrt/mul and be fused by Inductor (persistent reduction for N<=1024) with neighbouring ops. Inductor also has make_fallback(aten._fused_rms_norm) commented as MPS-only. Must be confirmed with TORCH_LOGS=output_code.",
+   "evidence": "native_functions.yaml line 3329-3333; torch/_ops.py decompose() lines 877-888; torch/fx/experimental/proxy_tensor.py lines 898-907; torch/_inductor/lowering.py line 2736; forum thread https://discuss.pytorch.org/t/better-understanding-why-aotautograd-decomposes-fused-rms-norm-backward-for-cuda-but-not-for-meta-tensors/223096 (snippet only)",
+   "confidence": "likely"
+  },
+  {
+   "topic": "Inductor/normalization 2026",
+   "claim": "PyTorch blog (2026-04-07): torch.compile RMSNorm/LayerNorm forward was ~50% of QuACK. After default-heuristic changes (larger RBLOCK, XBLOCK scaling for N<=2048, fewer warps, num_stages pipelining), torch.compile 2.11 is roughly at parity with QuACK on H100/B200. Exceptions: N=384 (non-power-of-2) and very large N on H100 (no DSMEM in Triton). MixOrderReduction norm backward on B200 is 17.07x vs eager, 1.45x vs Liger, 1.34x vs QuACK. Liger RMSNorm bwd at (1152000,384) bf16 on H100 goes from 0.417 to 1.912 TB/s with a 32x smaller split size.",
+   "evidence": "https://pytorch.org/blog/sota-normalization-performance-with-torch-compile/",
+   "confidence": "verified"
+  },
+  {
+   "topic": "QuACK/method",
+   "claim": "QuACK (Guo, Zadouri, Dao; blog 2025-07-10) provides CuTe-DSL RMSNorm/softmax/CE/LayerNorm kernels. It sustains ~3 TB/s (~90% of H100 3.35 TB/s) for reduction dims >4K; FP32 softmax at N=262K runs 3.01 TB/s vs torch.compile 2.7.1's 1.89 TB/s (whose Triton softmax does 2 loads + 1 store). Techniques: 128-bit vectorized loads (8xBF16 per thread), async GMEM->SMEM copies, thread->warp-shuffle->block(SMEM)->cluster(DSMEM) reductions, online softmax when a row exceeds one SM. Requires H100/B200/RTX50, CUDA 12.9+.",
+   "evidence": "https://github.com/Dao-AILab/quack ; https://github.com/Dao-AILab/quack/blob/main/media/2025-07-10-membound-sol.md (copy at /work/nvme/bffp/tmahmood1/cisc662/scratch/prior-art/dl_quack/membound-sol.md)",
+   "confidence": "verified"
+  },
+  {
+   "topic": "QuACK/digitized numbers",
+   "claim": "QuACK BF16 chart (H100 80GB HBM3, M=32K rows; torch 2.7.1 compile default mode, Liger 0.5.10, cuDNN 9.10.1), in GB/s. RMSNorm at N=256/512/1K/2K/4K: QuACK 1913/2298/2581/2761/2900, torch.compile 1278/1576/1948/2185/2303, Liger 1945/2128/2587/2815/2904, cuDNN 1862/2259/2575/2738/2742. Softmax at N=32K: QuACK 2985, compile 1684, Liger 2823. Cross-entropy at N=32K (= nanochat vocab): QuACK 3021, compile 1700, Liger 844; at N=4K: 2692/1396/446. The chart does not say fwd vs bwd (most likely forward).",
+   "evidence": "https://github.com/Dao-AILab/quack/blob/main/media/bf16_kernel_benchmarks_single_row.svg parsed by /work/nvme/bffp/tmahmood1/cisc662/scratch/prior-art/scripts/parse_quack_svg.py (SVG copy in dl_quack/)",
+   "confidence": "likely"
+  },
+  {
+   "topic": "Liger/paper",
+   "claim": "Liger Kernel (Hsu et al., arXiv 2410.10989) reports +20% throughput and -60% memory vs HuggingFace. Kernel benchmarks on 1x A100 80GB vs an unnamed (HF-style eager) baseline: RMSNorm ~7x faster / ~3x less memory at hidden 16384; RoPE ~8x / ~3x; CrossEntropy ~3x / ~5x at V=163840; LayerNorm ~30%; SwiGLU/GeGLU speed parity, ~1.6x less memory. No comparison with torch.compile.",
+   "evidence": "https://arxiv.org/abs/2410.10989 ; https://arxiv.org/html/2410.10989v3 Section 4.1",
+   "confidence": "verified"
+  },
+  {
+   "topic": "Liger/H100 vs torch eager RMSNorm",
+   "claim": "Liger's benchmark data (H100 80GB HBM3, Liger 0.8.0, 2026-06; 'torch' = vanilla torch.nn.RMSNorm eager; 4096 rows). At H=1024: forward 0.0122 vs 0.0128 ms (1.05x faster); backward 0.2996 vs 0.0744 ms (Liger 4.0x slower); full 0.296 vs 0.076 ms. At H=16384: forward 1.57x and full 1.31x faster. Peak memory is equal. Conclusion: at nanochat-like hidden sizes a popular Triton RMSNorm loses to PyTorch's native fused kernel.",
+   "evidence": "https://raw.githubusercontent.com/linkedin/Liger-Kernel/main/benchmark/data/all_benchmark_data.csv (copy /work/nvme/bffp/tmahmood1/cisc662/scratch/prior-art/dl_liger/all_benchmark_data.csv); benchmark/scripts/benchmark_megatron_rms_norm.py line 74",
+   "confidence": "verified"
+  },
+  {
+   "topic": "Liger/CE, RoPE, FLCE data",
+   "claim": "Liger benchmark CSV, A100 (v0.2.1), vs HF eager. CE at V=32768, B*T=16384: fwd+bwd 5.40 vs 15.49 ms (2.9x), memory 2.0 vs 10.2 GB. RoPE (seq 2048, 32 q heads / 8 kv): forward 8.8x and full 4.3x at H=2048. Fused linear CE (H=4096, V=128256, BT=32768): 5.8 vs 27.6 GB memory, but 511 vs 452 ms (1.13x slower). H100 llama4 RoPE: forward 2.5x, full 1.44x at H=2048; slower than HF at H=512.",
+   "evidence": "/work/nvme/bffp/tmahmood1/cisc662/scratch/prior-art/dl_liger/all_benchmark_data.csv (rows cross_entropy, rope, fused_linear_cross_entropy, llama4_rope)",
+   "confidence": "verified"
+  },
+  {
+   "topic": "Liger/FLCE design",
+   "claim": "Liger fused linear cross-entropy chunks the B*T rows (inc_factor=ceil(V/H)). Per chunk: logits=x_chunk@W^T via torch/cuBLAS, then a Triton CE kernel computes loss and gradient in place (softcap supported as softcap*tanh(x/softcap)), then grad_input/grad_weight GEMMs. Gradients are computed during forward, so the backward pass is cheap. MAX_FUSED_SIZE=32768 per block on CUDA.",
+   "evidence": "https://raw.githubusercontent.com/linkedin/Liger-Kernel/main/src/liger_kernel/ops/fused_linear_cross_entropy.py lines 22, 51-245 (copy in /work/nvme/bffp/tmahmood1/cisc662/scratch/prior-art/src/liger_flce.py)",
+   "confidence": "verified"
+  },
+  {
+   "topic": "CCE",
+   "claim": "Cut Cross-Entropy (Wijmans et al., ICLR 2025 oral, arXiv 2411.09009), Table 1: Gemma 2 2B, 8192 tokens, V=256K, A100-SXM4, torch 2.4.1. Loss+grad memory/time: CCE 1,164 MB / 145 ms; torch.compile 16,000 MB / 143 ms; baseline 28,000 MB / 208 ms; Liger 1,474 MB / 304 ms; TorchTune 8 chunks 9,631 MB / 169 ms. Method: blockwise logit recomputation in SRAM, on-the-fly log-sum-exp, gradient filtering (<0.02% of entries non-trivial), vocab sorting. API supports softcap; requires Ampere+ and Triton 3.0+.",
+   "evidence": "https://arxiv.org/abs/2411.09009 ; https://arxiv.org/html/2411.09009v2 Table 1 ; https://github.com/apple/ml-cross-entropy (linear_cross_entropy softcap arg, copy in /work/nvme/bffp/tmahmood1/cisc662/scratch/prior-art/src/cce_linear_cross_entropy.py)",
+   "confidence": "verified"
+  },
+  {
+   "topic": "Attention/FA2",
+   "claim": "FlashAttention-2 (Dao, arXiv 2307.08691): ~2x over FA1, 50-73% of A100 peak, 225 TFLOPS/A100 end-to-end (72% MFU). The FA3 paper states FA2 reaches only 35% utilization on H100.",
+   "evidence": "https://arxiv.org/abs/2307.08691 ; https://arxiv.org/abs/2407.08608",
+   "confidence": "verified"
+  },
+  {
+   "topic": "Attention/FA3",
+   "claim": "FlashAttention-3 (Shah et al., arXiv 2407.08608), H100 SXM5: FP16 up to 740 TFLOPS (75% of 989; clocks fixed at 1830 MHz); FP8 ~1.2 PFLOPS. 1.5-2.0x forward and 1.5-1.75x backward over FA2; 3-16x over standard PyTorch attention; ~1.5x over Triton FA2; faster than cuDNN for seqlen >=1k. Ablation (hdim 128, seqlen 8448, non-causal): 661 TFLOPS full, 582 without GEMM-softmax pipelining, 570 without warp specialization. Uses warp-specialized TMA/WGMMA, ping-pong warpgroups and setmaxnreg; requires H100/H800 and CUDA>=12.3.",
+   "evidence": "https://arxiv.org/abs/2407.08608 ; https://arxiv.org/html/2407.08608v2 ; https://github.com/Dao-AILab/flash-attention README",
+   "confidence": "verified"
+  },
+  {
+   "topic": "Attention/nanochat FA3 on GH200",
+   "claim": "The HF kernels-hub repo varunneal/flash-attention-3 (used by nanochat on sm90) has a torch29-cxx11-cu128-aarch64-linux build, matching the venv's torch 2.9.1+cu128 on Grace. Runtime loading is untested.",
+   "evidence": "https://huggingface.co/api/models/varunneal/flash-attention-3/tree/main/build ; /u/tmahmood1/project/nanochat/nanochat/flash_attention.py lines 23-45",
+   "confidence": "verified"
+  },
+  {
+   "topic": "Attention/nanochat data points",
+   "claim": "nanochat author reports FA3 gave ~9% tok/s improvement, and FP8 for lm_head gave only ~1% speedup at +2 GB memory. nanochat's SDPA fallback builds an explicit boolean mask for sliding windows (default window pattern SSSL, short window 768 at T=2048), so it cannot use the flash SDPA backend. SDPA is a fair attention baseline only with window_pattern=L.",
+   "evidence": "https://github.com/karpathy/nanochat/discussions/481 ; /u/tmahmood1/project/nanochat/nanochat/flash_attention.py lines 77-110; nanochat/gpt.py _compute_window_sizes",
+   "confidence": "verified"
+  },
+  {
+   "topic": "Attention/SDPA backend",
+   "claim": "In torch 2.9.1, SDPA prefers the cuDNN attention backend on sm90/sm100 (minor==0) when built with cuDNN>=9.9, unless TORCH_CUDNN_SDPA_PREFERRED=0. The venv ships cuDNN 9.10.2, so SDPA on GH200 likely runs cuDNN kernels for supported inputs.",
+   "evidence": "PyTorch v2.9.1 aten/src/ATen/native/transformers/cuda/sdp_utils.cpp lines 78-103 (copy /work/nvme/bffp/tmahmood1/cisc662/scratch/prior-art/src/sdp_utils_v2.9.1.cpp); venv nvidia_cudnn_cu12-9.10.2.21",
+   "confidence": "likely"
+  },
+  {
+   "topic": "Attention/other kernels",
+   "claim": "FlexAttention (Dong et al., arXiv 2412.05496): causal forward 1.00-1.22x vs FA2, backward 0.86-1.05x; 0.68-1.43x across variants. ThunderKittens (arXiv 2410.20399) matches FA3 forward and beats the strongest baselines in attention backward by 10-40%. Triton fused-attention tutorial (FA2 algorithm) reaches ~166 TFLOPS FP16 forward on its unnamed doc-build GPU.",
+   "evidence": "https://arxiv.org/html/2412.05496v1 ; https://arxiv.org/abs/2410.20399 ; https://triton-lang.org/main/getting-started/tutorials/06-fused-attention.html",
+   "confidence": "verified"
+  },
+  {
+   "topic": "GEMM/cuBLAS ceiling",
+   "claim": "H100 SXM, BF16, M=N=K=4096, CUDA 12.6: cuBLAS 716 TFLOPS. A hand-written CUDA kernel reached 764 TFLOPS (107%) after 11 steps: wgmma+TMA 317; 128x256 tiles 610; register reallocation 631; L2 tile grouping 660; PTX barriers 704; clusters+TMA multicast 734; async TMA stores 758; Hilbert-curve scheduling 764. Results vs cuBLAS were mixed across N. The author explicitly does not claim to replace cuBLAS.",
+   "evidence": "Pranjal Shankhdhar, 'Outperforming cuBLAS on H100: a Worklog' (2024-11-29) https://cudaforfun.substack.com/p/outperforming-cublas-on-h100-a-worklog",
+   "confidence": "verified"
+  },
+  {
+   "topic": "GEMM/small-K opportunity",
+   "claim": "ThunderKittens Table 2 (H100 80GB SXM, CUDA 12.6, BF16, M=N=4096), TFLOPS for K=64/128/256/512/1024: TK persistent 108/184/309/450/600 vs cuBLAS 69/133/242/407/633. Persistent kernels beat cuBLAS 1.1-1.57x at K<=512 and lose at K=1024. Relevant because nanochat forward GEMMs have K=n_embd (768-1280).",
+   "evidence": "arXiv 2410.20399 Table 2; text at /work/nvme/bffp/tmahmood1/cisc662/scratch/prior-art/pdfs/tk.txt lines 446-457",
+   "confidence": "verified"
+  },
+  {
+   "topic": "GEMM/Triton vs cuBLAS",
+   "claim": "Triton matmul tutorial claims parity with cuBLAS. FP16 on an unnamed Ampere doc-build GPU: 4096^3 cuBLAS 218.6 vs Triton 220.8 TFLOPS; 2048^3 220.8 vs 184.4. Grouped L2 ordering improves 220 to 245 TFLOPS on A100. PyTorch 'CUDA-free inference' (H100): Triton matmuls 1.2-1.4x slower than cuBLAS and AMD Triton FA 1.6x slower than cuDNN SDPA; 100%-Triton Llama3-8B decode reaches 0.76-0.78x of the CUDA path on H100. Triton warp specialization (Triton 3.2) adds 10-15% for FA and FP8 GEMM.",
+   "evidence": "https://triton-lang.org/main/getting-started/tutorials/03-matrix-multiplication.html ; https://pytorch.org/blog/cuda-free-inference-for-llms/ ; https://pytorch.org/blog/warp-specialization/",
+   "confidence": "verified"
+  },
+  {
+   "topic": "GEMM/Hopper instruction-level",
+   "claim": "Without wgmma, H100 tops out around 63% of peak tensor throughput, and TMA removes address-generation overhead (Hazy Research). Hopper microbenchmarking papers (Luo et al.) characterize wgmma, TMA (1.5x matmul speedup from the async model), FP8 (~2x FP16) and DSM.",
+   "evidence": "https://hazyresearch.stanford.edu/blog/2024-05-12-tk ; https://arxiv.org/abs/2402.13499 ; https://arxiv.org/abs/2501.12084",
+   "confidence": "verified"
+  },
+  {
+   "topic": "GEMM/epilogues",
+   "claim": "cuBLASLt (CUDA 12.9) epilogues are DEFAULT, RELU(_AUX)(_BIAS), BIAS, GELU(_AUX)(_BIAS), DRELU(_BGRAD), DGELU(_BGRAD) and BGRADA/B. There is no squared-ReLU epilogue, so fusing nanochat's relu^2 into c_fc needs a CUTLASS/Triton epilogue. modded-nanogpt's fused linear+ReLU^2 Triton kernel cut single-H100 train time from ~831 s to ~813 s (~2.2%).",
+   "evidence": "/opt/nvidia/hpc_sdk/Linux_aarch64/25.5/math_libs/12.9/include/cublasLt.h lines 1810-1912; https://github.com/KellerJordan/modded-nanogpt/pull/197",
+   "confidence": "verified"
+  },
+  {
+   "topic": "modded-nanogpt kernel tricks",
+   "claim": "modded-nanogpt records (8xH100): FP8 lm_head (record 19, 3.142 min); Triton symmetric matmul for Muon (record 27, PR #109); fused linear+ReLU^2 (59); fused softcapped CE fwd/bwd Triton kernels (60, PR #199, -0.9 s of ~106 s); CE kernel optimizations (75, PR #235, -0.9 s); a single fused CE fwd+bwd kernel that avoids recomputing the softcap (79, PR #251, 86.06 -> 85.16 s); QK-norm+RoPE+KeyOffset+FA3 padding/layout fused in Triton (90, PR #344, bundled with other changes). Each kernel change is worth ~1-2% end-to-end. Rule 3 bans extra torch.compile/inductor flags.",
+   "evidence": "https://github.com/KellerJordan/modded-nanogpt README (copy /work/nvme/bffp/tmahmood1/cisc662/scratch/prior-art/src/mnanogpt_README.md lines 155-230); PR bodies via api.github.com/repos/KellerJordan/modded-nanogpt/pulls/{109,197,199,235,251,344}",
+   "confidence": "verified"
+  },
+  {
+   "topic": "Muon/overhead",
+   "claim": "Muon FLOP overhead is at most T*m/B (T NS steps, m model dim, B tokens per step): 0.7% for the NanoGPT speedrun (m=768, B=524288) and 0.5% for Llama-405B; NS runs 5 steps in bf16. For a single-GPU nanochat reduced config with B=32x2048=65,536 tokens/step, 5*768/65536 is ~6% of FLOPs (my estimate), with poor GEMM efficiency at these small dimensions.",
+   "evidence": "https://kellerjordan.github.io/posts/muon/ (2024-12-08)",
+   "confidence": "verified"
+  },
+  {
+   "topic": "Muon/symmetric GEMM",
+   "claim": "X*X^T needs only m*k*m FLOPs if only one triangle is computed. modded-nanogpt PR #109 claims a theoretical 1.5x NS speedup for square matrices (A100 chart vs torch.compile). flash-muon matmul_transpose speedup vs torch: H800 0.90x at dim 1024, 1.19x at 2048, 1.61x at 4096; A100 1.19x / 1.69x / 1.78x. In nanochat's Polar Express loop (5 iters: A=XX^T, B=bA+cA@A, X=aX+BX), two of the three GEMMs are symmetric products. At 768x3072 this saves ~28% of NS FLOPs, so NS speedup is at most ~1.38x.",
+   "evidence": "https://github.com/KellerJordan/modded-nanogpt/pull/109 ; https://github.com/nil0x9/flash-muon README ; /u/tmahmood1/project/nanochat/nanochat/optim.py lines 100-160 ; Polar Express https://arxiv.org/abs/2505.16932 ; Dion https://arxiv.org/abs/2504.05295",
+   "confidence": "likely"
+  },
+  {
+   "topic": "Decode/overhead",
+   "claim": "gpt-fast (PyTorch blog): Llama-7B batch-1 decode on A100-80GB at 330 W: eager 25.5 tok/s (CPU-overhead bound) -> torch.compile reduce-overhead (CUDA graphs) + static KV cache 107 tok/s (72% MBU) -> int8 157.4 -> int4 202.1 -> combined with speculative decoding 244.7 tok/s.",
+   "evidence": "https://pytorch.org/blog/accelerating-generative-ai-2/",
+   "confidence": "verified"
+  },
+  {
+   "topic": "Decode/nanochat specifics",
+   "claim": "nanochat inference (Engine/infer_bench) runs eager with no torch.compile or CUDA graphs. Linear.forward casts the fp32 master weight to the activation dtype on every call. Each decode step therefore reads 4 B and writes 2 B per weight before the bf16 GEMV reads 2 B, about 8 B/param instead of an ideal 2 B, plus one extra kernel launch per Linear. infer_bench's MBU counts weight bytes as numel*element_size (4 B for fp32). The throughput impact has not been measured.",
+   "evidence": "/u/tmahmood1/project/nanochat/nanochat/gpt.py lines 45-50 and 262-268; scripts/infer_bench.py lines 51-53 and 217-218; nanochat/checkpoint_manager.py lines 84-105",
+   "confidence": "likely"
+  },
+  {
+   "topic": "nanochat/kernel-relevant model facts",
+   "claim": "RMSNorm is parameter-free (no weight, so no dW reduction in backward). QK-norm is applied after RoPE over head_dim (default 128), then q,k are scaled by 1.2. MLP is relu^2. Logits are sliced from the padded vocab, cast with .float(), softcapped as 15*tanh(x/15), then passed to F.cross_entropy(ignore_index=-1); the code has a TODO for chunked CE. Default vocab is 32768 and sequence length 2048. base_train wraps the model in torch.compile(dynamic=False); the AdamW and Muon steps are @torch.compile(fullgraph=True).",
+   "evidence": "/u/tmahmood1/project/nanochat/nanochat/gpt.py lines 41-120 and 505-520; nanochat/optim.py lines 23, 111-160; scripts/base_train.py line 246; scripts/tok_train.py line 19",
+   "confidence": "verified"
+  },
+  {
+   "topic": "RoPE+QK-norm fusion identity",
+   "claim": "RoPE rotates dimension pairs, which preserves the L2 norm. With nanochat's weightless RMSNorm, norm(rope(x)) equals rope(norm(x)) up to eps and rounding. A single-pass kernel can therefore compute rsqrt(mean(x^2)) from pre-rotation registers and apply rotation, normalization and the 1.2 scale in one read and one write. The 1.44 factor could also be folded into the FA3 softmax scale, but that must be validated numerically.",
+   "evidence": "Analytic, based on apply_rotary_emb and norm() in /u/tmahmood1/project/nanochat/nanochat/gpt.py; precedent: modded-nanogpt PR #344 and Unsloth qk_norm_rope.py (norm-then-RoPE order)",
+   "confidence": "likely"
+  },
+  {
+   "topic": "Unsloth",
+   "claim": "Unsloth ships Triton kernels for RMSNorm, RoPE, cross-entropy (chunked over vocab, MAX_FUSED_SIZE=65536, softcap and logit scaling), opt-in fused QK-norm+RoPE (Qwen3 order), SwiGLU/GeGLU and LoRA. Its headline '2x faster, 70% less VRAM' is end-to-end fine-tuning with no stated baseline or GPU, so it is not a per-kernel or torch.compile comparison. A code comment says the evict_first cache hint helps T4/L4/A100 but hurts H100/B200.",
+   "evidence": "https://github.com/unslothai/unsloth ; unsloth/kernels/cross_entropy_loss.py lines 34-135, utils.py line 17, qk_norm_rope.py (copies in /work/nvme/bffp/tmahmood1/cisc662/scratch/prior-art/src/)",
+   "confidence": "verified"
+  },
+  {
+   "topic": "Apex",
+   "claim": "apex.normalization.FusedRMSNorm exists: FusedRMSNormAffineFunction with a memory_efficient flag that recomputes the input from the output, backed by the CUDA extension fused_layer_norm_cuda (cuRMSOnlineSum). I found no published H100/A100 speedup numbers. PyTorch's native fused norm kernel uses the same cuWelford* code lineage, so Apex is not expected to beat 2.9.1 eager significantly.",
+   "evidence": "https://github.com/NVIDIA/apex apex/normalization/fused_layer_norm.py lines 202+, csrc/layer_norm_cuda_kernel.cu lines 14-93 (copies in /work/nvme/bffp/tmahmood1/cisc662/scratch/prior-art/src/)",
+   "confidence": "likely"
+  },
+  {
+   "topic": "Triton tutorials numbers",
+   "claim": "Fused softmax (M=4096, fp32, unnamed GPU): naive torch reads 5MN+2M and writes 3MN+2M elements. Triton 1467 vs torch 1396 GB/s at N=12672, but torch is faster at small N (N=256: 710 vs 507 GB/s). LayerNorm backward (fp16, M=4096): Triton slower than torch for N<=4096 (N=1024: 119 vs 372 GB/s), faster for N>=5120 (945 vs 590 GB/s at N=15872). Its dW reduction uses lock-based GROUP_SIZE_M partial buffers.",
+   "evidence": "https://triton-lang.org/main/getting-started/tutorials/02-fused-softmax.html ; https://triton-lang.org/main/getting-started/tutorials/05-layer-norm.html",
+   "confidence": "verified"
+  },
+  {
+   "topic": "Hardware support for toolchains",
+   "claim": "Triton officially supports Linux with NVIDIA CC 8.0+ and AMD ROCm 6.2+, so V100 (sm_70) is unsupported. FA2 needs Ampere/Ada/Hopper; FA3 needs H100/H800. The FlashAttention ROCm CK backend supports MI200/MI250X/MI300/MI355; its Triton backend covers CDNA MI200/MI300. MI100 is not listed.",
+   "evidence": "https://github.com/triton-lang/triton (Compatibility section); https://github.com/Dao-AILab/flash-attention README",
+   "confidence": "verified"
+  },
+  {
+   "topic": "QuACK installability",
+   "claim": "quack-kernels 0.6.5 is pure Python, requires Python>=3.10 and depends on nvidia-cutlass-dsl>=4.7. nvidia-cutlass-dsl-libs-base 4.8.1 has cp310 manylinux aarch64 wheels, so QuACK should be installable on Grace in a separate venv. Not tested; it may pull a different torch.",
+   "evidence": "https://pypi.org/pypi/quack-kernels/json ; https://pypi.org/pypi/nvidia-cutlass-dsl/json ; https://pypi.org/pypi/nvidia-cutlass-dsl-libs-base/json ; https://raw.githubusercontent.com/Dao-AILab/quack/main/pyproject.toml",
+   "confidence": "likely"
+  },
+  {
+   "topic": "Motivation/data movement",
+   "claim": "Data Movement Is All You Need (Ivanov et al., MLSys 2021), PyTorch BERT: tensor contractions are 99.80% of FLOPs but 61.0% of runtime; statistical normalization is 0.17% / 25.5%; element-wise is 0.03% / 13.5%. Fusion and layout optimization gave 1.30x on a BERT encoder layer and 1.19x on full BERT.",
+   "evidence": "https://arxiv.org/abs/2007.00072 Table 1; text at /work/nvme/bffp/tmahmood1/cisc662/scratch/prior-art/pdfs/data_movement.txt lines 90-104, 228-240",
+   "confidence": "verified"
+  },
+  {
+   "topic": "Algorithms",
+   "claim": "Online softmax (Milakov & Gimelshein, arXiv 1805.02867) needs fewer memory accesses: softmax up to 1.3x faster, softmax+TopK up to 5x. RMSNorm (Zhang & Sennrich, NeurIPS 2019, arXiv 1910.07467) cuts running time 7-64% vs LayerNorm.",
+   "evidence": "https://arxiv.org/abs/1805.02867 ; https://arxiv.org/abs/1910.07467",
+   "confidence": "verified"
+  },
+  {
+   "topic": "Roofline references",
+   "claim": "Williams, Waterman, Patterson, 'Roofline: An Insightful Visual Performance Model for Multicore Architectures', CACM 2009, doi 10.1145/1498765.1498785. Ding & Williams, 'An Instruction Roofline Model for GPUs', PMBS@SC19. Yang, Kurth, Williams, 'Hierarchical Roofline analysis for GPUs: Accelerating performance optimization for the NERSC-9 Perlmutter system', CCPE 32(20) 2020, doi 10.1002/cpe.5547. Wang et al., 'Time-Based Roofline for Deep Learning Performance Analysis', arXiv 2009.04598. Yang/Wang et al., 'Hierarchical Roofline Performance Analysis for Deep Learning Applications', arXiv 2009.05257. Leinhauser et al., 'Metrics and Design of an Instruction Roofline Model for AMD GPUs', arXiv 2110.08221 (V100/MI60/MI100 via rocProf; co-author Sunita Chandrasekaran, UDel). Empirical Roofline Toolkit: bitbucket.org/berkeleylab/cs-roofline-toolkit.",
+   "evidence": "https://doi.org/10.1145/1498765.1498785 (Zenodo record 1236156 metadata); https://www.dcs.warwick.ac.uk/pmbs/pmbs19/PMBS/abstracts/paper2.html ; https://www.nersc.gov/assets/Uploads/Paper-CCPE5547.pdf ; https://arxiv.org/abs/2009.04598 ; https://arxiv.org/abs/2009.05257 ; https://arxiv.org/abs/2110.08221 ; https://crd.lbl.gov/divisions/amcr/computer-science-amcr/par/research/roofline/software/ert",
+   "confidence": "verified"
+  },
+  {
+   "topic": "Nsight Compute on DeltaAI",
+   "claim": "The installed ncu (2025.2.0, HPC SDK 25.5) defaults to --clock-control base (GPU clocks locked to base) and --pipeline-boost-state stable. The current online docs list boost as the default (newer ncu). `ncu --list-sets` includes a 'roofline' set (SpeedOfLight_RooflineChart plus hierarchical Single/Double/Half/Tensor roofline charts); 'full' also includes them. Nsight Compute roofline: x = work/memory traffic (FLOP/B); hierarchical overlays separate L1/L2/DRAM ceilings.",
+   "evidence": "`ncu --version`, `ncu --help`, `ncu --list-sets` on gh-login01; https://docs.nvidia.com/nsight-compute/NsightComputeCli/index.html ; https://docs.nvidia.com/nsight-compute/ProfilingGuide/index.html (Roofline Charts)",
+   "confidence": "verified"
+  }
+ ],
+ "recommendations": [
+  "Calibrate goal (ii) per baseline in Presentation 1. Expected ranges vs EAGER: RoPE 3-9x, softcap+CE 2-3x, RMSNorm 1.0-1.5x (best for QK-norm rows of 128 and n_embd 768). Expected ranges vs TORCH.COMPILE (2.9.1), isolated: CE+softcap 1.2-1.8x; RMSNorm/RoPE 1.0-1.3x unless the kernel fuses more than Inductor (e.g. RoPE+QK-norm+1.2 scale+layout). Expected vs cuBLAS / FA3: aim to match and explain, not 1.3x. Present GEMM and attention as planned instruction-level studies whose likely negative result is informative.",
+  "Pin and report the torch version (2.9.1+cu128, Triton 3.5.1, cuDNN 9.10.2, cuBLAS 12.8.4) next to every speedup. Note that torch.compile 2.11 reportedly reaches QuACK parity on norms; optionally rerun one sensitivity check with a newer torch in a separate venv late in the semester.",
+  "First GPU job (short, 1 GPU, ghx4-interactive or backfill-sized): (a) dump Inductor output (TORCH_LOGS=output_code or TORCH_COMPILE_DEBUG=1) for a 1-2 layer reduced model to see which ops Inductor already fuses (is RMSNorm decomposed? are RoPE+QK-norm+scale one kernel? are fp32 logits materialized for CE?); (b) take an nsys kernel table for 10-20 compiled training steps to get each kernel class's share of step time (Amdahl budget); (c) record nvidia-smi power/clock limits.",
+  "Measure empirical ceilings on the GH200 before claiming % of peak: device copy bandwidth (expect ~3.4-3.8 TB/s per the Alps GH200 data) and cuBLAS BF16 TFLOPS at nanochat shapes (M=B*T, K=n_embd, N in {n_embd, 4*n_embd, 32768}). Plot both the datasheet roofline (990 TFLOPS / 4 TB/s, ridge ~248 FLOP/B) and the measured roofline.",
+  "Profiling hygiene: on DeltaAI's ncu 2025.2 pass --clock-control none when comparing with nsys or wall clock (default is base). Use `--set roofline` or individual SpeedOfLight_Hierarchical*RooflineChart sections. Time kernels with CUDA events or triton.testing.do_bench with an L2 flush. Report dram bytes read+written per kernel and achieved GB/s alongside time.",
+  "RMSNorm/QK-norm kernel design: use 16-byte vector loads (8 bf16 per thread; PyTorch eager uses 8-byte loads) and several rows per CTA for N=128 and N=768 (eager uses one 128-thread CTA per row). Keep each row in registers, reduce with warp shuffles, accumulate in fp32, store rstd for backward. Exploit the weightless norm: backward is row-local with no dW reduction. Fuse RoPE+QK-norm+1.2 scale in one pass using the rotation/norm commuting identity, and validate numerics.",
+  "Softcap+CE kernel design (the most promising 'beats compile' target): one fused forward+backward kernel that reads bf16 logits once. It should compute 15*tanh(x/15), online log-sum-exp and the target logit, and write grad=(softmax-onehot)*(1-tanh^2)/n_valid in the forward pass (Liger and modded-nanogpt #251 style), handling ignore_index=-1. Optionally add row chunking (Liger FLCE) or vocab tiling with on-the-fly logits (CCE) for memory. Compare against Liger CE and CCE (both support softcap) as external baselines.",
+  "GEMM: build a Hopper GEMM ladder (mma.sync -> wgmma+TMA -> warp specialization -> clusters/multicast) as the instruction-level study, reporting % of cuBLAS and SASS evidence (HMMA vs HGMMA, registers, stalls). Look for wins only where cuBLAS is weak: small-K forward GEMMs (K=n_embd) via persistent scheduling, and the c_fc+relu^2 epilogue that cuBLASLt cannot fuse.",
+  "Attention: keep FA3 (varunneal kernels-hub build, aarch64 torch29 variant exists) as the reference. Implement or adapt the Triton FA2-style kernel for comparison and expect ~0.5-0.85x of FA3. Explain the gap with wgmma/TMA/warp-specialization/setmaxnreg evidence. Use SDPA only with window_pattern=L for fair comparisons.",
+  "Muon: profile the share of the Polar-Express NS step in the reduced config first (FLOP overhead <= T*m/B, ~6% at B=65,536). Attempt a symmetric XX^T / A@A kernel only if NS is more than ~5% of step time, and expect at most ~1.3x on NS at dims 768-1280 (flash-muon is slower than torch at dim 1024 on H800).",
+  "Decode metric: report separate baseline variants. Use eager as-is (fp32->bf16 weight cast per Linear call and per-op launches), pre-cast bf16 weights, and torch.compile reduce-overhead with CUDA graphs, so custom-kernel gains are not hidden by launch and cast overhead. Report MBU with the bytes actually moved.",
+  "Install external comparison libraries (Liger: pure Triton; QuACK: CuTe-DSL, cp310 aarch64 wheels exist) in a separate venv under /work/nvme/bffp/tmahmood1/cisc662/, never in the shared project venv. Use QuACK as the Hopper speed-of-light reference for norm/softmax/CE.",
+  "Register every custom kernel with torch.library (custom_op/triton_op with fake/meta kernels) so torch.compile(fullgraph) still works. Benchmark end-to-end both with the kernel in the compiled graph and with it excluded, since a custom op can block Inductor fusions and make end-to-end time worse.",
+  "For Presentation 1 slides, cite: Williams 2009 roofline, Yang/Kurth/Williams 2020 hierarchical roofline, Ding & Williams 2019 instruction roofline, Leinhauser et al. 2021 (AMD instruction roofline, UDel co-author), Data Movement Is All You Need (norm+elementwise = 39% of eager BERT runtime), the PyTorch 2 ASPLOS'24 paper, FA2/FA3, Liger, QuACK, CCE, Muon/Polar Express and modded-nanogpt. Show a table of 'published speedup vs eager / vs compile' per kernel class with confidence labels.",
+  "Add GH200 entries to the project's own MFU/MBU computation (in cisc662/ analysis code, not by editing upstream nanochat files): 990e12 BF16 dense FLOPS and 4.0e12 B/s HBM3. Better, also report against the measured ceilings."
+ ],
+ "risks": [
+  "Beating torch.compile by 1.3x on memory-bound ops at nanochat sizes may be impossible for RMSNorm and RoPE. Inductor already fuses them with neighbors and uses persistent reductions for N<=1024, and newer torch (2.11) reaches QuACK parity. CE+softcap is the only class with strong published headroom vs compile (QuACK 1.78x at N=32K, torch 2.7.1).",
+  "Per-kernel wins translate to small end-to-end gains: modded-nanogpt kernels ~1-2% each, nanochat FA3 +9%, FP8 lm_head +1%. Goal (i)/(ii) messaging must separate kernel-level from end-to-end speedups.",
+  "Custom kernels inserted into a compiled model can break Inductor fusion or cause graph breaks and make end-to-end time slower, even when the isolated kernel is faster.",
+  "Popular Triton kernels can lose to PyTorch's native fused kernels at small hidden sizes: Liger RMSNorm backward is 4x slower than torch.nn.RMSNorm at H=1024 on H100. Small problems are launch- and reduction-overhead dominated, so benchmark at the real nanochat shapes.",
+  "GH200 module power is configurable from 450 to 1000 W and DeltaAI's setting is unknown. Achievable TFLOPS and bandwidth may differ from H100-SXM literature. Most published numbers are A100 or H100-SXM (3.35 TB/s), not GH200 (4.0 TB/s HBM3), so scale bandwidth-bound numbers and do not copy them.",
+  "ncu on DeltaAI locks clocks to base by default, so ncu kernel times will not match nsys or wall clock unless --clock-control none is used. GPU performance-counter access for non-admin users on compute nodes is unverified (possible ERR_NVGPUCTRPERM).",
+  "Platform mismatch with the proposal: Triton officially needs CC>=8.0 (V100 unsupported), FA2/FA3 do not run on V100, nanochat falls back to FP32 on V100, MI100 is absent from the FlashAttention ROCm support list, and DeltaAI has no ROCm or AMD GPUs. Cross-generation and AMD results may need descoping or compile-only AMDGCN inspection.",
+  "Numerics: fused kernels change reduction order and precision (bf16 vs fp32 softcap/CE, commuting RoPE/norm, folding the 1.44 scale). Without predefined tolerances and loss-curve checks, timing results could be invalid per the proposal's correctness rule.",
+  "Some cited numbers are approximate or context-limited: the QuACK values are digitized from an SVG chart; the Triton tutorial GPU is unnamed; Liger paper baselines are unnamed HF-style eager; the Alps GH200 bandwidth may not exactly match DeltaAI's configuration.",
+  "FA3 from the HF kernels hub requires a download, so compute nodes may lack network access and need a pre-seeded HF cache. The aarch64 torch29 build exists but has not been loaded or tested; the fallback to SDPA with an explicit sliding-window mask would distort attention baselines.",
+  "Small-batch reduced configs inflate Muon/optimizer and launch-overhead shares relative to the paper-scale regime, so speedup percentages may not generalize to the full nanochat speedrun configuration."
+ ],
+ "open_questions": [
+  "Does torch 2.9.1 Inductor actually decompose and fuse F.rms_norm in nanochat's compiled graph, or does it hit the aten._fused_rms_norm fallback? Are RoPE, QK-norm and the x1.2 scale emitted as a single Triton kernel? (Check TORCH_LOGS=output_code on a compute node.)",
+  "In the compiled training step, are fp32 softcapped logits (B*T x 32768) materialized and/or saved for backward, and what is the loss region's share of step time and peak memory at the chosen reduced config?",
+  "What exact reduced configuration (depth/n_embd, device batch, sequence length, steps) will be used? It decides the persistent-reduction regime (n_embd<=1024), the GEMM K dimension, and Muon's share of step time.",
+  "What are the GH200 power limit and sustained clocks on DeltaAI compute nodes, and what copy bandwidth and cuBLAS BF16 TFLOPS do we actually measure there?",
+  "Are NVIDIA GPU performance counters (ncu) available to regular users on DeltaAI compute nodes?",
+  "Which SDPA backend (cuDNN vs flash vs efficient) actually executes on GH200 for window_pattern=L? Does the varunneal FA3 aarch64 build load offline from a pre-seeded HF cache?",
+  "Will the team get any AMD (MI100/MI250X) or V100 access during the semester? If not, should the HIP/AMDGCN part be limited to hipify plus compile-only AMDGCN inspection (llvm-objdump) with roofline estimates from published peaks?",
+  "Should the project report results against both torch 2.9.1 (pinned by nanochat's uv.lock) and a newer torch (2.11+) where Inductor's norm kernels improved, to show how version-dependent 'beating torch.compile' is?"
+ ]
+}

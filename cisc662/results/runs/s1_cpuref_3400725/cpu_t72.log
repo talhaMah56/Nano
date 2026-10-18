@@ -1,0 +1,56 @@
+2026-10-17 16:29:54,418 - nanochat.common - [32m[1mINFO[0m - Distributed world size: 1
+2026-10-17 16:30:10,693 - nanochat.checkpoint_manager - [32m[1mINFO[0m - Saved model parameters to: /tmp/nanochat_3400725/base_checkpoints/c_cpu72/model_000006.pt
+2026-10-17 16:30:10,694 - nanochat.checkpoint_manager - [32m[1mINFO[0m - Saved metadata to: /tmp/nanochat_3400725/base_checkpoints/c_cpu72/meta_000006.json
+2026-10-17 16:30:11,357 - nanochat.checkpoint_manager - [32m[1mINFO[0m - Saved optimizer state to: /tmp/nanochat_3400725/base_checkpoints/c_cpu72/optim_000006_rank0.pt
+
+                                                       █████                █████
+                                                      ░░███                ░░███
+     ████████    ██████   ████████    ██████   ██████  ░███████    ██████  ███████
+    ░░███░░███  ░░░░░███ ░░███░░███  ███░░███ ███░░███ ░███░░███  ░░░░░███░░░███░
+     ░███ ░███   ███████  ░███ ░███ ░███ ░███░███ ░░░  ░███ ░███   ███████  ░███
+     ░███ ░███  ███░░███  ░███ ░███ ░███ ░███░███  ███ ░███ ░███  ███░░███  ░███ ███
+     ████ █████░░████████ ████ █████░░██████ ░░██████  ████ █████░░███████  ░░█████
+    ░░░░ ░░░░░  ░░░░░░░░ ░░░░ ░░░░░  ░░░░░░   ░░░░░░  ░░░░ ░░░░░  ░░░░░░░░   ░░░░░
+    
+COMPUTE_DTYPE: torch.float32 (set via NANOCHAT_DTYPE=float32)
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+WARNING: Flash Attention 3 not available, using PyTorch SDPA fallback
+WARNING: Training will be less efficient without FA3
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Vocab size: 32,768
+Model config:
+{
+  "sequence_len": 2048,
+  "vocab_size": 32768,
+  "n_layer": 12,
+  "n_head": 6,
+  "n_kv_head": 6,
+  "n_embd": 768,
+  "window_pattern": "L"
+}
+Parameter counts:
+wte                     : 25,165,824
+value_embeds            : 150,994,944
+lm_head                 : 25,165,824
+transformer_matrices    : 84,935,088
+scalars                 : 50
+total                   : 286,261,730
+Estimated FLOPs per token: 8.870980e+08
+Scaling LRs by 0.0625 for batch size 2,048 (reference: 524,288)
+Scaling weight decay from 0.280000 to 0.017500 for depth 12
+Scaling the LR for the AdamW parameters ∝1/√(768/768) = 1.000000
+Using user-provided number of iterations: 6
+Total number of training tokens: 12,288
+Tokens : Scaling params ratio: 0.00
+Total training FLOPs estimate: 1.090066e+13
+Tokens / micro-batch / rank: 1 x 2048 = 2,048
+Tokens / micro-batch: 2,048
+Total batch size 2,048 => gradient accumulation steps: 1
+step 00000/00006 (0.00%) | loss: 10.397958 | lrm: 0.03 | dt: 2572.27ms | tok/sec: 796 | bf16_mfu: 0.00 | epoch: 1 pq: 0 rg: 0 | total time: 0.00m
+step 00001/00006 (16.67%) | loss: 10.397725 | lrm: 0.05 | dt: 2363.06ms | tok/sec: 866 | bf16_mfu: 0.00 | epoch: 1 pq: 0 rg: 0 | total time: 0.00m
+step 00002/00006 (33.33%) | loss: 10.396610 | lrm: 0.07 | dt: 2253.64ms | tok/sec: 908 | bf16_mfu: 0.00 | epoch: 1 pq: 0 rg: 0 | total time: 0.00m
+step 00003/00006 (50.00%) | loss: 10.395916 | lrm: 0.10 | dt: 2362.25ms | tok/sec: 866 | bf16_mfu: 0.00 | epoch: 1 pq: 0 rg: 0 | total time: 0.00m
+step 00004/00006 (66.67%) | loss: 10.395043 | lrm: 0.12 | dt: 2260.05ms | tok/sec: 906 | bf16_mfu: 0.00 | epoch: 1 pq: 0 rg: 0 | total time: 0.00m
+step 00005/00006 (83.33%) | loss: 10.393439 | lrm: 0.15 | dt: 2269.27ms | tok/sec: 902 | bf16_mfu: 0.00 | epoch: 1 pq: 0 rg: 0 | total time: 0.00m
+Peak memory usage: 0.00MiB
+Total training time: 0.00m

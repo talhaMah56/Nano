@@ -1,0 +1,86 @@
+2026-10-17 16:17:29,144 - nanochat.common - [32m[1mINFO[0m - Distributed world size: 1
+Capture range started in the application.
+Capture range ended in the application.
+Generating '/tmp/nsys-report-fd50.qdstrm'
+[1/1] [0%                          ] eager_fa3_ops.nsys-repProcessing events...
+[1/1] [0%                          ] eager_fa3_ops.nsys-rep[1/1] [12%                         ] eager_fa3_ops.nsys-rep[1/1] [10%                         ] eager_fa3_ops.nsys-rep[1/1] [8%                          ] eager_fa3_ops.nsys-rep[1/1] [7%                          ] eager_fa3_ops.nsys-rep[1/1] [13%                         ] eager_fa3_ops.nsys-rep[1/1] [12%                         ] eager_fa3_ops.nsys-rep[1/1] [10%                         ] eager_fa3_ops.nsys-rep[1/1] [9%                          ] eager_fa3_ops.nsys-rep[1/1] [14%                         ] eager_fa3_ops.nsys-rep[1/1] [==18%                       ] eager_fa3_ops.nsys-rep[1/1] [===23%                      ] eager_fa3_ops.nsys-rep[1/1] [====28%                     ] eager_fa3_ops.nsys-rep[1/1] [=====29%                    ] eager_fa3_ops.nsys-rep[1/1] [=====31%                    ] eager_fa3_ops.nsys-rep[1/1] [=======36%                  ] eager_fa3_ops.nsys-rep[1/1] [=======37%                  ] eager_fa3_ops.nsys-rep[1/1] [========42%                 ] eager_fa3_ops.nsys-rep[1/1] [===========50%              ] eager_fa3_ops.nsys-rep[1/1] [=============58%            ] eager_fa3_ops.nsys-rep[1/1] [==================76%       ] eager_fa3_ops.nsys-rep[1/1] [==================77%       ] eager_fa3_ops.nsys-rep[1/1] [========================100%] eager_fa3_ops.nsys-rep[1/1] [========================100%] eager_fa3_ops.nsys-rep
+2026-10-17 16:17:39,992 - nanochat.checkpoint_manager - [32m[1mINFO[0m - Saved model parameters to: /tmp/nanochat_3400686/base_checkpoints/p_eager_fa3_ops/model_000030.pt
+2026-10-17 16:17:39,992 - nanochat.checkpoint_manager - [32m[1mINFO[0m - Saved metadata to: /tmp/nanochat_3400686/base_checkpoints/p_eager_fa3_ops/meta_000030.json
+2026-10-17 16:17:40,459 - nanochat.checkpoint_manager - [32m[1mINFO[0m - Saved optimizer state to: /tmp/nanochat_3400686/base_checkpoints/p_eager_fa3_ops/optim_000030_rank0.pt
+
+                                                       █████                █████
+                                                      ░░███                ░░███
+     ████████    ██████   ████████    ██████   ██████  ░███████    ██████  ███████
+    ░░███░░███  ░░░░░███ ░░███░░███  ███░░███ ███░░███ ░███░░███  ░░░░░███░░░███░
+     ░███ ░███   ███████  ░███ ░███ ░███ ░███░███ ░░░  ░███ ░███   ███████  ░███
+     ░███ ░███  ███░░███  ░███ ░███ ░███ ░███░███  ███ ░███ ░███  ███░░███  ░███ ███
+     ████ █████░░████████ ████ █████░░██████ ░░██████  ████ █████░░███████  ░░█████
+    ░░░░ ░░░░░  ░░░░░░░░ ░░░░ ░░░░░  ░░░░░░   ░░░░░░  ░░░░ ░░░░░  ░░░░░░░░   ░░░░░
+    
+Autodetected device type: cuda
+GPU: NVIDIA GH200 120GB | Peak FLOPS (BF16): 9.89e+14
+COMPUTE_DTYPE: torch.bfloat16 (auto-detected: CUDA SM 90 (bf16 supported))
+✓ Using Flash Attention 3: efficient, new and awesome.
+Vocab size: 32,768
+Model config:
+{
+  "sequence_len": 2048,
+  "vocab_size": 32768,
+  "n_layer": 12,
+  "n_head": 6,
+  "n_kv_head": 6,
+  "n_embd": 768,
+  "window_pattern": "L"
+}
+Parameter counts:
+wte                     : 25,165,824
+value_embeds            : 150,994,944
+lm_head                 : 25,165,824
+transformer_matrices    : 84,935,088
+scalars                 : 50
+total                   : 286,261,730
+Estimated FLOPs per token: 8.870980e+08
+Scaling LRs by 0.2500 for batch size 32,768 (reference: 524,288)
+Scaling weight decay from 0.280000 to 0.070000 for depth 12
+Scaling the LR for the AdamW parameters ∝1/√(768/768) = 1.000000
+Using user-provided number of iterations: 30
+Total number of training tokens: 983,040
+Tokens : Scaling params ratio: 0.01
+Total training FLOPs estimate: 8.720528e+14
+Tokens / micro-batch / rank: 16 x 2048 = 32,768
+Tokens / micro-batch: 32,768
+Total batch size 32,768 => gradient accumulation steps: 1
+step 00000/00030 (0.00%) | loss: 10.397539 | lrm: 0.03 | dt: 295.40ms | tok/sec: 110,926 | bf16_mfu: 9.95 | epoch: 1 pq: 0 rg: 1 | total time: 0.00m
+step 00001/00030 (3.33%) | loss: 10.395277 | lrm: 0.05 | dt: 147.70ms | tok/sec: 221,861 | bf16_mfu: 19.90 | epoch: 1 pq: 0 rg: 1 | total time: 0.00m
+step 00002/00030 (6.67%) | loss: 10.391083 | lrm: 0.07 | dt: 149.36ms | tok/sec: 219,391 | bf16_mfu: 19.68 | epoch: 1 pq: 0 rg: 1 | total time: 0.00m
+step 00003/00030 (10.00%) | loss: 10.385543 | lrm: 0.10 | dt: 152.32ms | tok/sec: 215,124 | bf16_mfu: 19.30 | epoch: 1 pq: 0 rg: 1 | total time: 0.00m
+step 00004/00030 (13.33%) | loss: 10.377976 | lrm: 0.12 | dt: 152.50ms | tok/sec: 214,874 | bf16_mfu: 19.27 | epoch: 1 pq: 0 rg: 1 | total time: 0.00m
+step 00005/00030 (16.67%) | loss: 10.367980 | lrm: 0.15 | dt: 152.07ms | tok/sec: 215,486 | bf16_mfu: 19.33 | epoch: 1 pq: 0 rg: 1 | total time: 0.00m
+step 00006/00030 (20.00%) | loss: 10.354065 | lrm: 0.17 | dt: 153.38ms | tok/sec: 213,645 | bf16_mfu: 19.16 | epoch: 1 pq: 0 rg: 1 | total time: 0.00m
+step 00007/00030 (23.33%) | loss: 10.337561 | lrm: 0.20 | dt: 151.34ms | tok/sec: 216,517 | bf16_mfu: 19.42 | epoch: 1 pq: 0 rg: 1 | total time: 0.00m
+step 00008/00030 (26.67%) | loss: 10.317291 | lrm: 0.23 | dt: 153.15ms | tok/sec: 213,966 | bf16_mfu: 19.19 | epoch: 1 pq: 0 rg: 1 | total time: 0.00m
+step 00009/00030 (30.00%) | loss: 10.290427 | lrm: 0.25 | dt: 150.55ms | tok/sec: 217,658 | bf16_mfu: 19.52 | epoch: 1 pq: 0 rg: 1 | total time: 0.00m
+step 00010/00030 (33.33%) | loss: 10.256474 | lrm: 0.28 | dt: 147.48ms | tok/sec: 222,188 | bf16_mfu: 19.93 | epoch: 1 pq: 0 rg: 1 | total time: 0.00m
+step 00011/00030 (36.67%) | loss: 10.214204 | lrm: 0.30 | dt: 148.90ms | tok/sec: 220,067 | bf16_mfu: 19.74 | epoch: 1 pq: 0 rg: 1 | total time: 0.00m | eta: 0.0m
+step 00012/00030 (40.00%) | loss: 10.155276 | lrm: 0.33 | dt: 152.42ms | tok/sec: 214,978 | bf16_mfu: 19.28 | epoch: 1 pq: 0 rg: 1 | total time: 0.01m | eta: 0.0m
+step 00013/00030 (43.33%) | loss: 10.078962 | lrm: 0.35 | dt: 151.87ms | tok/sec: 215,764 | bf16_mfu: 19.35 | epoch: 1 pq: 0 rg: 1 | total time: 0.01m | eta: 0.0m
+step 00014/00030 (46.67%) | loss: 9.978033 | lrm: 0.38 | dt: 149.02ms | tok/sec: 219,893 | bf16_mfu: 19.72 | epoch: 1 pq: 0 rg: 1 | total time: 0.01m | eta: 0.0m
+step 00015/00030 (50.00%) | loss: 9.841461 | lrm: 0.40 | dt: 153.23ms | tok/sec: 213,855 | bf16_mfu: 19.18 | epoch: 1 pq: 0 rg: 1 | total time: 0.01m | eta: 0.0m
+step 00016/00030 (53.33%) | loss: 9.668426 | lrm: 0.42 | dt: 154.56ms | tok/sec: 212,009 | bf16_mfu: 19.02 | epoch: 1 pq: 0 rg: 1 | total time: 0.02m | eta: 0.0m
+step 00017/00030 (56.67%) | loss: 9.463877 | lrm: 0.45 | dt: 153.50ms | tok/sec: 213,465 | bf16_mfu: 19.15 | epoch: 1 pq: 0 rg: 1 | total time: 0.02m | eta: 0.0m
+step 00018/00030 (60.00%) | loss: 9.280941 | lrm: 0.47 | dt: 153.94ms | tok/sec: 212,867 | bf16_mfu: 19.09 | epoch: 1 pq: 0 rg: 1 | total time: 0.02m | eta: 0.0m
+step 00019/00030 (63.33%) | loss: 9.126686 | lrm: 0.50 | dt: 151.93ms | tok/sec: 215,675 | bf16_mfu: 19.35 | epoch: 1 pq: 0 rg: 1 | total time: 0.02m | eta: 0.0m
+step 00020/00030 (66.67%) | loss: 8.961338 | lrm: 0.53 | dt: 163.83ms | tok/sec: 200,010 | bf16_mfu: 17.94 | epoch: 1 pq: 0 rg: 2 | total time: 0.03m | eta: 0.0m
+step 00021/00030 (70.00%) | loss: 8.841056 | lrm: 0.55 | dt: 163.79ms | tok/sec: 200,064 | bf16_mfu: 17.95 | epoch: 1 pq: 0 rg: 2 | total time: 0.03m | eta: 0.0m
+step 00022/00030 (73.33%) | loss: 8.702088 | lrm: 0.57 | dt: 164.32ms | tok/sec: 199,420 | bf16_mfu: 17.89 | epoch: 1 pq: 0 rg: 2 | total time: 0.03m | eta: 0.0m
+step 00023/00030 (76.67%) | loss: 8.576352 | lrm: 0.60 | dt: 164.79ms | tok/sec: 198,851 | bf16_mfu: 17.84 | epoch: 1 pq: 0 rg: 2 | total time: 0.03m | eta: 0.0m
+step 00024/00030 (80.00%) | loss: 8.448507 | lrm: 0.62 | dt: 161.84ms | tok/sec: 202,467 | bf16_mfu: 18.16 | epoch: 1 pq: 0 rg: 2 | total time: 0.04m | eta: 0.0m
+step 00025/00030 (83.33%) | loss: 8.338524 | lrm: 0.65 | dt: 146.57ms | tok/sec: 223,572 | bf16_mfu: 20.05 | epoch: 1 pq: 0 rg: 2 | total time: 0.04m | eta: 0.0m
+step 00026/00030 (86.67%) | loss: 8.236737 | lrm: 0.68 | dt: 154.17ms | tok/sec: 212,543 | bf16_mfu: 19.06 | epoch: 1 pq: 0 rg: 2 | total time: 0.04m | eta: 0.0m
+step 00027/00030 (90.00%) | loss: 8.135886 | lrm: 0.70 | dt: 151.86ms | tok/sec: 215,773 | bf16_mfu: 19.35 | epoch: 1 pq: 0 rg: 2 | total time: 0.04m | eta: 0.0m
+step 00028/00030 (93.33%) | loss: 8.031063 | lrm: 0.72 | dt: 151.13ms | tok/sec: 216,823 | bf16_mfu: 19.45 | epoch: 1 pq: 0 rg: 2 | total time: 0.05m | eta: 0.0m
+step 00029/00030 (96.67%) | loss: 7.921556 | lrm: 0.75 | dt: 152.59ms | tok/sec: 214,745 | bf16_mfu: 19.26 | epoch: 1 pq: 0 rg: 2 | total time: 0.05m | eta: 0.0m
+Peak memory usage: 30092.32MiB
+Total training time: 0.05m
+Generated:
+	/work/nvme/bffp/tmahmood1/cisc662/profiles/s1_nsys_3400686/eager_fa3_ops.nsys-rep

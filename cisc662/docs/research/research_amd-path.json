@@ -1,0 +1,248 @@
+{
+ "summary": "AMD (ROCm/HIP/AMDGCN) half of CISC662: research and plan, with no AMD GPU available (checked on 2026-10-17 from the DeltaAI login node; zero Slurm jobs, zero GPU-hours used).\n\nBOTTOM LINE: Plan the AMD half in two tiers.\n- Tier A is guaranteed. It is a static, cross-target code-generation study, and it is already proven to work on DeltaAI with no ROCm installed:\n  - The same Triton 3.5.1 source lowers to NVPTX/SASS (sm_90) and to AMDGCN plus a real HSACO for gfx908, gfx90a and gfx942.\n  - Hand-written CUDA kernels go through hipify-perl, then device-only compiles to AMDGCN with the Cray CCE 20 clang. That clang has the amdgcn target and ships the ROCm device bitcode. The real HIP 6.2 headers that come bundled with the Triton wheel can be used.\n  - Results are read from the register, LDS, scratch and occupancy metadata plus instruction histograms.\n- Tier B is opportunistic: measured runs on real AMD hardware.\n\nHARDWARE ROUTES (requests should go out this week):\n1. NCSA Delta GPU. This is the only ACCESS resource in production with AMD GPUs: one node with 8x MI100 (gfx908) and 1x MI210 (gfx90a). Batch partition gpuMI100x8 has charge factor 0.25; the interactive partition has factor 0.5 and a 1-hour limit. Getting it takes the class-allocation PI doing an exchange, or a student Explore project. This route matches the proposal (\"ACCESS, AMD CDNA\").\n2. Chameleon CHI@TACC. It has 8 bare-metal nodes with 2x MI100 each, a ROCm image, and root access. A faculty PI is needed; PI approval takes about 1 business day.\n3. DARWIN at UD. It has a gpu-mi100 partition (1x MI100) plus 1x MI50, which is gfx906 and not useful here. DARWIN left ACCESS on 2025-10-01. A faculty PI must request an Education or Research allocation; processing takes at least 2 weeks.\n4. AMD Developer Cloud. It offers MI300X (gfx942) through DigitalOcean at $1.99 per GPU-hour, with about $100 of free credit on approval, normally within 3 business days. Credit expiry is stated as 30 days on one AMD page and 10 days on another.\n5. SDSC Cosmos (MI300A). It is a testbed reached by emailing consult@sdsc.edu; access for a class project is uncertain.\n6. AMD University Program cluster. Its earliest start is 2027-01-01, which is too late for this semester.\n\nKEY STATIC FINDINGS (verified today):\n- Bf16 GEMM tile 128x128x64:\n  - sm_90: HGMMA m64n128k16, 120 registers.\n  - gfx90a: 48x v_mfma_f32_32x32x8bf16_1k, 143 VGPRs, so 3 waves per SIMD.\n  - gfx942: same MFMA count under the renamed mnemonic v_mfma_f32_32x32x8_bf16. Its 16-bit LDS operand reads disappear because of a transpose step that Triton enables only for gfx942.\n  - gfx908: 96x v_mfma_f32_32x32x4bf16, plus 144 moves between accumulator and ordinary registers, so 2 waves per SIMD.\n  - Setting waves_per_eu=4 buys 4 waves but causes register spills.\n  - num_stages=3 uses 64 KB of LDS, which halves occupancy, yet the compiler's printed Occupancy line does not show it.\n- RMSNorm:\n  - Wave64 halves the vector width per lane compared with NVIDIA at the same num_warps.\n  - Without a divisibility hint, loads are scalar on both vendors.\n  - Converting fp32 to bf16 takes a multi-instruction software routine on gfx908, gfx90a and gfx942; NVIDIA uses one packed instruction.\n  - Reductions use DPP on gfx90a/gfx942, ds_swizzle on gfx908, and warp shuffles on sm_90.\n\nOTHER FACTS PINNED DOWN:\n- Exact waves-per-SIMD tables from LLVM 20.1.6 for gfx908 and gfx90a/gfx942.\n- MFMA cycle and throughput figures; these reproduce the datasheet peaks exactly.\n- Commands for rocprofv3 and rocprof-compute.\n- PyTorch ROCm wheels are x86_64 only. torch 2.9.1 is built for rocm6.3/6.4 and covers gfx908, gfx90a and gfx942; the wheel is 4.47 GB.\n- nanochat on ROCm: the check for FA3 support is fooled, because AMD GPUs report capability 9.x, the same major number as Hopper. It then falls back to SDPA. The peak-FLOP/s and bandwidth tables lack MI100 and MI210, and the MI250X entry counts both dies even though PyTorch sees each die as a separate device.\n\nEvidence files are in /work/nvme/bffp/tmahmood1/cisc662/scratch/amd-rocm-planning/:\n- triton_out*/summary.json and the per-stage files\n- hip_static/ and hipify_test/\n- scripts/\n- web/ (saved primary sources)",
+ "facts": [
+  {
+   "topic": "1. AMD access - ACCESS catalog",
+   "claim": "I scanned all 41 ACCESS-allocated resources on 2026-10-17. Only two list AMD GPUs: 'NCSA Delta GPU' (production; status end date 2027-08-31) and 'SDSC Cosmos' (AMD MI300A; pre-production since 2025-07-01). No ACCESS resource offers MI250X; Frontier is a DOE system, not part of ACCESS.",
+   "evidence": "https://operations-api.access-ci.org/wh2/cider/v1/access-allocated/ (saved: /work/nvme/bffp/tmahmood1/cisc662/scratch/amd-rocm-planning/web/cider_all.json). Delta GPU description: '1 node employs AMD MI100 GPUs (8 total MI100 GPUs)'; 'covers the use of all Delta GPU node types'.",
+   "confidence": "verified"
+  },
+  {
+   "topic": "1. AMD access - NCSA Delta AMD node",
+   "claim": "Delta has one AMD node with 8x MI100 (32 GB HBM2, gfx908) plus 1x MI210 (gfx90a), 2x AMD Milan 64-core CPUs and 2 TB RAM. Jobs must request the GPU type explicitly, e.g. --gpus=mi100:1, --gpus=mi210:1 or --gpus=mi210:1,mi100:2. On the compute node ROCm is in /opt/rocm/bin. hipcc runs on the login nodes with --offload-arch=gfx908. AMD Infinity Hub Apptainer images are pre-staged in /sw/external/MI100, including pytorch-2.10.0-amdgpu.sif. Login host: login.delta.ncsa.illinois.edu.",
+   "evidence": "https://docs.ncsa.illinois.edu/systems/delta/en/latest/user_guide/architecture.html ; .../prog_env.html ; .../containers.html ; .../login.html (saved under web/delta_*.html)",
+   "confidence": "verified"
+  },
+  {
+   "topic": "1. AMD access - Delta partitions and charging",
+   "claim": "Partition gpuMI100x8 allows 48 h with charge factor 0.25. gpuMI100x8-interactive allows 1 h with factor 0.5, and a user may have only one job in any interactive partition. One Delta GPU SU equals one GPU (A100-equivalent) hour. The 8-way MI100 node charges 1 GPU per 16 cores or 250 GB of host memory, whichever is larger. So 1 MI100 GPU-hour in batch costs 0.25 SU.",
+   "evidence": "https://docs.ncsa.illinois.edu/systems/delta/en/latest/user_guide/running_jobs.html ; https://docs.ncsa.illinois.edu/systems/delta/en/latest/user_guide/job_accounting.html",
+   "confidence": "verified"
+  },
+  {
+   "topic": "1. AMD access - ACCESS exchange process",
+   "claim": "A PI, co-PI or Allocation Manager can move units between resources inside one project: open the 'Credits + Resources' tab, lower the source resource's Balance (e.g. DeltaAI), add the destination ('Add a resource to your exchange', e.g. NCSA Delta GPU), then 'Submit for Approval'. Resource providers approve, modify or decline. ACCESS states no turnaround time for exchanges. Users must also be ticked for the new resource under 'Users + Roles'.",
+   "evidence": "https://allocations.access-ci.org/how-to ; https://allocations.access-ci.org/allocations-policy ('Resource Providers approve, modify, or decline these exchanges')",
+   "confidence": "verified"
+  },
+  {
+   "topic": "1. AMD access - Explore projects and timing",
+   "claim": "Graduate students may lead Explore projects if their advisor is listed as co-PI and supplies a letter. The how-to page says 'Most Explore and Discover requests are approved within 2 business days'; the policy page says 'typically reviewed and processed within two weeks'. Supplements are decided within about 2 weeks. The exchange calculator page shows no rates until you interact with it, so the DeltaAI-to-Delta GPU rate is unknown.",
+   "evidence": "https://allocations.access-ci.org/allocations-policy ; https://allocations.access-ci.org/how-to ; https://allocations.access-ci.org/exchange_calculator",
+   "confidence": "verified"
+  },
+  {
+   "topic": "1. AMD access - SDSC Cosmos (MI300A)",
+   "claim": "Cosmos has 42 HPE Cray EX2500 nodes with 4x MI300A APUs each (CDNA3/gfx942 according to AMD's spec table). The user guide says 'Current Status: Testbed Phase': three years for selected projects, then two years of general allocations. Access is requested by email to consult@sdsc.edu. Early-user limits: partition 'cluster', suggested at most 24 h and 4 nodes, Singularity run with --rocm. Whether a class project would be accepted is unknown.",
+   "evidence": "https://www.sdsc.edu/systems/cosmos/user_guide.html ; ACCESS catalog entry cosmos.sdsc.access-ci.org (status pre-production)",
+   "confidence": "verified"
+  },
+  {
+   "topic": "1. AMD access - DARWIN (UD)",
+   "claim": "DARWIN has these GPU partitions: gpu-t4 (9 nodes x1 T4), gpu-v100 (3 nodes x4 V100 32GB), gpu-mi50 (1 node x1 MI50, gfx906), and gpu-mi100 (1 node r2m01 x1 MI100, gfx908). GPUs are requested with --gpus, not --gres. Jobs in the 'idle' partition are not charged, e.g. --gpus=amd_mi50:N. UD took DARWIN out of ACCESS on 2025-10-01. UD allocations come as Startup, Education (tied to a UD class) or Research. The PI must be UD faculty or staff, processing takes at least 2 weeks, and the PI adds students through an HPC help request.",
+   "evidence": "https://docs.hpc.udel.edu/abstract/darwin/runjobs/queues ; https://docs.hpc.udel.edu/abstract/darwin/darwin ; https://docs.hpc.udel.edu/abstract/darwin/account/account",
+   "confidence": "verified"
+  },
+  {
+   "topic": "1. AMD access - ROCm support of the DARWIN/Delta GPUs",
+   "claim": "The current ROCm system-requirements page (ROCm 7.14 docs) marks MI100 (gfx908, CDNA), MI210/MI250/MI250X (gfx90a), MI300A/MI300X (gfx942) and MI350X/MI355X (gfx950) as supported. MI50 (gfx906, GCN5.1) is marked not supported, and it has no MFMA matrix instructions, so DARWIN's MI50 does not count as CDNA.",
+   "evidence": "https://rocm.docs.amd.com/projects/install-on-linux/en/latest/reference/system-requirements.html (saved web/rocm_sysreq.html)",
+   "confidence": "verified"
+  },
+  {
+   "topic": "1. AMD access - Chameleon Cloud",
+   "claim": "CHI@TACC has 8 bare-metal 'gpu_mi100' nodes with 2x MI100 each, and these are the only AMD GPUs on Chameleon. A CC-Ubuntu24.04-ROCm image is provided. Only faculty or research staff can be PIs; students are added by their advisor. PI requests are 'typically reviewed and approved within one business day'. Default project: 20,000 SUs for 6 months. Bare-metal means root access, so profiler counters should be available. The pages do not state that it is free; it is likely free for academic research.",
+   "evidence": "https://blog.chameleoncloud.org/posts/chameleon-newsletter-changelog-november-2025/ ; https://chameleoncloud.readthedocs.io/en/latest/user/pi_eligibility.html ; https://chameleoncloud.readthedocs.io/en/latest/user/project.html",
+   "confidence": "verified"
+  },
+  {
+   "topic": "1. AMD access - AMD University Program AI & HPC Cluster",
+   "claim": "Proposals are reviewed quarterly and the program is competitive; AUP enrollment itself takes 2-4 days. Applications received Aug 16 to Nov 15 get decisions on Dec 15, with node-hours starting Jan 1. Even an application sent today could not deliver hardware before Presentation 2 (~2026-12-17).",
+   "evidence": "https://www.amd.com/en/corporate/university-program/ai-hpc-cluster.html (saved web/amd_aup_cluster.html)",
+   "confidence": "verified"
+  },
+  {
+   "topic": "1. AMD access - AMD Developer Cloud",
+   "claim": "It offers MI300X (gfx942) VMs through partner clouds DigitalOcean and Vultr; the small configuration is 1 GPU with 192 GB, 20 vCPUs and 240 GB RAM. One AMD page says AMD AI Developer Program members get a complimentary $100 credit, delivered within 3 business days and expiring after 30 days. The older FAQ says 25 hours (about $50) expiring after 10 days. The VM is destroyed when credit runs out and no payment method is on file, and a card is probably required. DigitalOcean lists 1x MI300X at $1.99 per GPU-hour on-demand.",
+   "evidence": "https://www.amd.com/en/developer/resources/cloud-access/amd-developer-cloud.html ; https://www.amd.com/en/developer/resources/cloud-access.html ; https://www.digitalocean.com/pricing/gpu-droplets",
+   "confidence": "likely"
+  },
+  {
+   "topic": "1. AMD access - routes that do not work",
+   "claim": "I found no AMD GPUs in the NRP/Nautilus GPU documentation (NVIDIA only) and no AMD resources in the NAIRR Pilot material I found. Other ACCESS GPU resources are NVIDIA, or Intel on ACES.",
+   "evidence": "https://nrp.ai/documentation/userdocs/running/gpu-pods/ ; ACCESS catalog scan (web/cider_all.json)",
+   "confidence": "likely"
+  },
+  {
+   "topic": "2. Offline toolchain - CCE LLVM on DeltaAI",
+   "claim": "The Cray CCE 20.0.0 clang (Cray LLVM 20.0.0, based on LLVM 20.1.6) registers the 'amdgcn' target. It ships ld.lld, llvm-objdump, llvm-readelf, llvm-mc, llvm-mca and clang-offload-bundler. Its resource directory contains ROCm device bitcode (ocml.bc, ockl.bc, oclc_isa_version_908/90a/942/950.bc, oclc_wavefrontsize64_on.bc and others), which clang finds automatically. So HIP and OpenCL device code can be compiled on the aarch64 login node with no ROCm install.",
+   "evidence": "/opt/cray/pe/cce/20.0.0/cce-clang/aarch64/bin/llc --version ; ls /opt/cray/pe/cce/20.0.0/cce-clang/aarch64/lib/clang/20/lib/amdgcn/bitcode/",
+   "confidence": "verified"
+  },
+  {
+   "topic": "2. Offline toolchain - HIP device-only compile",
+   "claim": "Two working recipes, both run today for gfx908/gfx90a/gfx942/gfx950: (a) clang++ -x hip --cuda-device-only -nogpuinc --offload-arch=gfxXXX -O3 -S with a roughly 30-line shim header built from __builtin_amdgcn_* intrinsics; (b) the real HIP 6.2 headers bundled in the Triton wheel (triton/backends/amd/include/hip, including amd_detail) via a fake --rocm-path. The fake path needs include/ symlinked to those headers and a share/hip/version file, otherwise clang does not inject __clang_hip_runtime_wrapper.h. Dropping -S and adding --no-gpu-bundle-output gives a real AMDGPU code-object ELF (.hsaco). You must run 'env -u CPATH', because NVHPC's CPATH injects CUDA include directories into clang.",
+   "evidence": "/work/nvme/bffp/tmahmood1/cisc662/scratch/amd-rocm-planning/hip_static/ and .../hipify_test/ (fake_rocm/, rmsnorm.gfx*.s, rmsnorm.gfx90a.hsaco, llvm-readelf --notes output)",
+   "confidence": "verified"
+  },
+  {
+   "topic": "2. Offline toolchain - hipify",
+   "claim": "hipify-perl (ROCm/HIPIFY, amd-staging branch) runs on DeltaAI with system perl and translated a CUDA bf16 RMSNorm correctly (cuda_bf16 to hip_bf16, __nv_bfloat16 to __hip_bfloat16). It left __shfl_xor_sync(0xffffffff, ...) unchanged. The HIP 6.2 headers then reject that call with static_assert 'The mask must be a 64-bit integer', and the warp-sync builtins need -DHIP_ENABLE_WARP_SYNC_BUILTINS. Wave64 porting bugs therefore show up at compile time and need a manual fix (mask 0xffffffffffffffffull).",
+   "evidence": ".../amd-rocm-planning/hipify_test/rmsnorm.cu, rmsnorm.hip, cc.gfx90a.err, rmsnorm_fixed.hip; hipify-perl kept in .../dl_hipify/",
+   "confidence": "verified"
+  },
+  {
+   "topic": "2. Offline toolchain - Triton cross-compilation",
+   "claim": "Triton 3.5.1 in the project venv compiles for hip gfx908/gfx90a/gfx942 on aarch64 with no ROCm: triton.compile(ASTSource(...), target=GPUTarget('hip','gfx942',64), options={...}). Stages: ttir, ttgir, llir, amdgcn, hsaco. The HSACO is linked inside libtriton with LLD (lld::lldMain with lld::elf::link), and ocml/ockl bitcode ships in triton/backends/amd/lib. The ahead-of-time tool accepts --target hip:gfx942:64. On CDNA, num_warps counts 64-lane wavefronts (warp_size is 64 when the gfx major version is below 10).",
+   "evidence": "Runs: /work/nvme/bffp/tmahmood1/cisc662/scratch/amd-rocm-planning/triton_out*/summary.json; source: triton v3.5.1 third_party/amd/python/triton_amd.cc (link_hsaco), third_party/amd/backend/compiler.py, python/triton/tools/compile.py (saved in web/)",
+   "confidence": "verified"
+  },
+  {
+   "topic": "2. Offline toolchain - Triton AMD settings",
+   "claim": "Triton's AMD options: waves_per_eu, num_stages (default 2), matrix_instr_nonkdim, kpack, schedule_hint. Environment settings: AMDGCN_ENABLE_DUMP; AMDGCN_USE_BUFFER_OPS (default False in 3.5.1); TRITON_HIP_USE_BLOCK_PINGPONG (on by default only for gfx942); TRITON_HIP_USE_IN_THREAD_TRANSPOSE (on by default only for gfx942); TRITON_HIP_USE_ASYNC_COPY; TRITON_HIP_GLOBAL_PREFETCH and TRITON_HIP_LOCAL_PREFETCH. Wavefront reductions are lowered with DPP (row_shr / row_bcast), and with permlane16/32 swaps on gfx950.",
+   "evidence": "web/triton351_amd_compiler.py lines 21-73 and 204-260; web/triton351_knobs.py class amd_knobs; web/triton351_TargetInfo.cpp warpReduce",
+   "confidence": "verified"
+  },
+  {
+   "topic": "2. Reading AMDGCN - where the resource numbers are",
+   "claim": "The '; Kernel info' comments in the .s/amdgcn file give NumVgprs, NumAgprs, TotalNumVgprs, AccumOffset (gfx90a and later), TotalNumSgprs, ScratchSize (above 0 means spills or private stack), LDSByteSize (compile-time LDS only) and Occupancy. The code-object metadata (llvm-readelf --notes x.hsaco) gives .vgpr_count, .agpr_count, .sgpr_count, .vgpr_spill_count, .sgpr_spill_count, .group_segment_fixed_size, .private_segment_fixed_size, .max_flat_workgroup_size and .wavefront_size: 64. Triton allocates LDS dynamically: metadata['shared'] is 32768 for the GEMM while the LDS fields read 0. The printed Occupancy therefore ignores Triton's LDS and must be recomputed.",
+   "evidence": "llvm-readelf --notes on .../triton_out/hip_gfx90a/matmul_128x128x64.hsaco (vgpr_count 143, agpr_count 0, sgpr_count 28, group_segment_fixed_size 0, max_flat_workgroup_size 512); summary.json shared_bytes=32768",
+   "confidence": "verified"
+  },
+  {
+   "topic": "2. Occupancy rules (LLVM 20.1.6)",
+   "claim": "Max waves per SIMD (EU): 10 on gfx908 and 8 on the gfx90a class (gfx90a, gfx940/941/942, gfx950). VGPR allocation granule: 4 on gfx908, 8 on gfx90a and later. Registers per SIMD lane: gfx908 has 256 ordinary (ArchVGPR) plus a separate file of 256 accumulator registers (AGPRs), and occupancy uses max(VGPR, AGPR). gfx90a and later have one unified 512-register file, counted as alignTo(VGPR,4)+AGPR. Formula: waves = min(Total / alignTo(n, granule), max). SGPR limit on gfx8/9: up to 80 gives 10 waves, up to 88 gives 9, up to 100 gives 8, otherwise 7 (102 addressable). LDS is 64 KiB per CU on gfx908/90a/942 and 160 KiB on gfx950. A CU has 4 SIMDs and holds at most 16 multi-wave workgroups (barrier limit). AMD's own lab notes confirm the MI200 maximum of 8 waves per EU.",
+   "evidence": "web/AMDGPUBaseInfo.cpp (getMaxWavesPerEU, getVGPRAllocGranule, getTotalNumVGPRs, getNumWavesPerEUWithNumVGPRs, getOccupancyWithNumSGPRs, getMaxWorkGroupsPerCU, getTotalNumVGPRs(has90AInsts,...)); web/GCNRegPressure.h getVGPRNum; web/AMDGPU.td FeatureAddressableLocalMemorySize65536/163840; https://gpuopen.com/learn/amd-lab-notes/amd-lab-notes-register-pressure-readme/",
+   "confidence": "verified"
+  },
+  {
+   "topic": "2. Occupancy tables",
+   "claim": "gfx908 (MI100), waves per SIMD by max(VGPR, AGPR) count: 1-24: 10; 25-28: 9; 29-32: 8; 33-36: 7; 37-40: 6; 41-48: 5; 49-64: 4; 65-84: 3; 85-128: 2; 129-256: 1. gfx90a and gfx942 (MI210/MI250X/MI300), by unified count alignTo(VGPR,4)+AGPR: 1-64: 8; 65-72: 7; 73-80: 6; 81-96: 5; 97-128: 4; 129-168: 3; 169-256: 2; 257-512: 1. Multiply by 4 for waves per CU, then take the minimum with the LDS limit (64 KiB divided by LDS per workgroup) and the workgroup-size limit.",
+   "evidence": "Computed from the LLVM formula above; matches the AMD lab notes example (102 VGPRs need to drop to 96 or fewer for 5 waves) and the compiler's 'Occupancy:' lines (143 VGPRs gives 3; 117 VGPRs on gfx908 gives 2)",
+   "confidence": "verified"
+  },
+  {
+   "topic": "2. MFMA facts",
+   "claim": "I ran the AMD Matrix Instruction Calculator offline. CDNA1: v_mfma_f32_32x32x4bf16 = 8192 FLOPs in 64 cycles = 512 FLOPs per CU per cycle, so bf16 runs at half rate on MI100; v_mfma_f32_32x32x8f16 = 1024. CDNA2: v_mfma_f32_32x32x8bf16_1k = 16384 FLOPs in 64 cycles = 1024; 16x16x16bf16_1k takes 32 cycles. CDNA3: v_mfma_f32_32x32x8_bf16 takes 32 cycles = 2048 FLOPs per CU per cycle; 16x16x16_bf16 takes 16 cycles. FLOPs per CU per cycle times CU count times clock reproduces the datasheet peaks exactly (MI100 92.3, MI210 181, MI250X 383, MI300A 980.6, MI300X 1307.4 TF). Mnemonics: gfx90a uses '_1k' names, gfx942 uses renamed ones such as v_mfma_f32_32x32x8_bf16. On gfx908 the MFMA result must sit in AGPRs, so v_accvgpr_read/write traffic appears.",
+   "evidence": "/work/nvme/bffp/tmahmood1/cisc662/scratch/amd-rocm-planning/scripts/run_mic.py, wrapping https://github.com/ROCm/amd_matrix_instruction_calculator (dl_mic/); compiled .s files in hip_static/ and triton_out/",
+   "confidence": "verified"
+  },
+  {
+   "topic": "2. Static preliminary results - GEMM (Triton 128x128x64 bf16, 8 warps)",
+   "claim": "sm_90: 4x wgmma m64n128k16 (HGMMA), cp.async loads, 120 registers, 96 KB shared memory (3 stages). gfx90a: 48x v_mfma_f32_32x32x8bf16_1k, 143 VGPRs, 0 AGPRs, occupancy 3, 32 KB LDS, 96x ds_read_u16. gfx942: 48x v_mfma_f32_32x32x8_bf16, 142 VGPRs, and ds_read_b64 instead of ds_read_u16, due to the in-thread-transpose step Triton enables only for gfx942. gfx908: 96x v_mfma_f32_32x32x4bf16, 117 VGPRs plus 32 AGPRs, 64 v_accvgpr_read plus 80 v_accvgpr_write, occupancy 2. A sibling agent's run in .../scratch/toolchain-feasibility/triton_xcompile matches.",
+   "evidence": "/work/nvme/bffp/tmahmood1/cisc662/scratch/amd-rocm-planning/triton_out/summary.json and stage files; cuobjdump --dump-resource-usage REG:120",
+   "confidence": "verified"
+  },
+  {
+   "topic": "2. Static preliminary results - option sweep",
+   "claim": "On gfx90a and gfx942, waves_per_eu=4 caps VGPRs at 128 (occupancy 4) but adds scratch spills (64 B on gfx90a, 52 B on gfx942). This is an occupancy-versus-spill trade-off that only hardware can settle. matrix_instr_nonkdim=16 switches to 96x 16x16x16 MFMAs (same FLOPs). num_stages=3 uses 64 KB of LDS, i.e. the whole CU, so one workgroup per CU, i.e. 2 waves per SIMD, while the asm still prints 'Occupancy: 3'.",
+   "evidence": "/work/nvme/bffp/tmahmood1/cisc662/scratch/amd-rocm-planning/triton_out_sweep/summary.json (script scripts/xcompile_sweep.py)",
+   "confidence": "verified"
+  },
+  {
+   "topic": "2. Static preliminary results - RMSNorm (Triton, D=768, BLOCK=1024, bf16)",
+   "claim": "Without a divisibility hint on D, loads are scalar on both vendors (sm_90 8x ld.global.b16 per thread; AMD global_load_ushort). With D marked divisible by 16, sm_90 uses ld.global.v4.b32 (16 B per thread) and 4x cvt.rn.bf16x2.f32. AMD with num_warps=4 has 256 lanes, so only 4 elements per lane and global_load_dwordx2 (8 B per lane): wave64 halves per-lane work at equal num_warps. fp32-to-bf16 conversion is emulated with v_bfe_u32 plus v_add3_u32 on gfx908/90a/942; only gfx950 has v_cvt_pk_bf16_f32. Reductions: gfx90a/942 use 5x v_add_f32_dpp and 3x v_mov_b32_dpp; gfx908 uses 7x ds_swizzle_b32 and ds_bpermute; sm_90 uses 7x shfl.sync.bfly. Register use is 12-13 VGPRs, occupancy 10 (gfx908) or 8. With AMDGCN_USE_BUFFER_OPS=1 and a tt.pointer_range=32 hint, gfx942 emits buffer_load/store_dwordx2.",
+   "evidence": "/work/nvme/bffp/tmahmood1/cisc662/scratch/amd-rocm-planning/triton_out/, triton_out_div16/, triton_out_bufops/ (summary.json, *.ptx, *.amdgcn); clang gfx950 compile in hip_static/rmsnorm.gfx950.s",
+   "confidence": "verified"
+  },
+  {
+   "topic": "2. Static preliminary results - hand-written CUDA vs HIP RMSNorm",
+   "claim": "nvcc 12.9 for sm_90: 30 registers, 128 B shared memory, LDG.E.128.CONSTANT, 5x SHFL.BFLY, 4x F2FP.BF16.F32.PACK_AB, MUFU.RSQ. The hipified version for gfx90a (CCE clang with HIP 6.2 headers): 14 VGPRs and 16 SGPRs, 128 B LDS, occupancy 8, global_load_dwordx4, and 6x ds_bpermute_b32: HIP's __shfl_xor lowers to an LDS-crossbar permute, not DPP. Its bf16 conversion is integer-emulated, even for gfx950, because the HIP 6.2 header implements __float2bfloat16 in software. The resulting code depends on which header version is used.",
+   "evidence": ".../amd-rocm-planning/hipify_test/ (ptxas.txt, rmsnorm.sm_90.sass, rmsnorm.gfx9*.s)",
+   "confidence": "verified"
+  },
+  {
+   "topic": "2. Static analysis - llvm-mca",
+   "claim": "llvm-mca accepts AMDGCN (-mtriple=amdgcn-amd-amdhsa -mcpu=gfx90a) but its model is coarse: global_load latency 80, and v_mfma_f32_32x32x8bf16_1k with latency 20 and reciprocal throughput 16. Use it only as a rough indication; use the AMD calculator for MFMA cycles.",
+   "evidence": ".../amd-rocm-planning/hip_static/loop90a.s and the llvm-mca output",
+   "confidence": "verified"
+  },
+  {
+   "topic": "2. What static analysis can and cannot show",
+   "claim": "Static analysis can show: register, AGPR, SGPR, spill, LDS and code-size figures; the theoretical occupancy limit; which MFMA variant and how many per tile; load and store widths (dwordx4 vs ushort), global vs buffer addressing; LDS access width; which reduction primitive is used; conversion and division expansions; software-pipelining depth (s_waitcnt vmcnt(N)); and FLOPs per instruction or tile, giving static bounds. It cannot show: time, achieved bandwidth or FLOP/s, cache, TLB or Infinity-Cache hit rates, LDS bank conflicts (depends on addresses), achieved occupancy (grid size vs CU count, tail effects), clock or power throttling, launch overhead (which matters for decode tokens/s), the configurations Inductor or the autotuner would pick on ROCm, the behaviour of vendor libraries (rocBLAS, hipBLASLt, AOTriton), or numerical agreement on AMD hardware.",
+   "evidence": "Follows from the metadata and asm features demonstrated above; standard limitations",
+   "confidence": "likely"
+  },
+  {
+   "topic": "3. Profilers - rocprofv3",
+   "claim": "Per ROCprofiler-SDK 1.4.1 docs: 'rocprofv3 --kernel-trace --stats --output-format csv -- <app>' writes kernel_trace.csv per dispatch with start/end timestamps, LDS, scratch and VGPR counts, plus statistics. '--pmc SQ_WAVES GRBM_GUI_ACTIVE ...' collects counters, one pass per pmc row. Also --hip-trace, --runtime-trace and --sys-trace. The default output is the rocpd SQLite database; direct CSV and Perfetto output is deprecated, and 'rocpd convert' turns rocpd into CSV. Counter definitions cover gfx908, gfx90a and gfx942.",
+   "evidence": "https://rocm.docs.amd.com/projects/rocprofiler-sdk/en/latest/how-to/using-rocprofv3.html (saved web/rpv3.html)",
+   "confidence": "verified"
+  },
+  {
+   "topic": "3. Profilers - rocprof-compute",
+   "claim": "ROCm Compute Profiler 3.9.0 (rocprof-compute, formerly Omniperf; its repo has moved into ROCm/rocm-systems): 'rocprof-compute profile -n NAME [-k kernel] [-d dispatch] [-b block | --set S] -- python ...'. Roofline data is collected on every profile unless --no-roof, or alone with --roof-only. 'rocprof-compute analyze -p workloads/NAME/<SoC>' (SoC directories MI100, MI200, MI300A/X) gives CLI, GUI or TUI output. Experimental options --torch-trace and --triton-trace map counters to PyTorch operators and Triton/Inductor kernels, which suits nanochat. Docs say roofline matrix benchmarks cover gfx9 CDNA1-4 MFMA, but whether roofline works on MI100 still needs a test.",
+   "evidence": "https://rocm.docs.amd.com/projects/rocprofiler-compute/en/latest/how-to/use.html and .../how-to/profile/mode.html (saved web/rpc_*.html); GitHub API: ROCm/rocprofiler-compute archived, 'Moved to ROCm/rocm-systems'",
+   "confidence": "likely"
+  },
+  {
+   "topic": "3. PyTorch on ROCm",
+   "claim": "download.pytorch.org has no aarch64 ROCm wheels. Versions: torch 2.9.1 for rocm6.3 and rocm6.4; 2.10.0 for rocm7.0/7.1; 2.11 for rocm7.1/7.2; 2.12.x for rocm7.1/7.2. The 2.9.1 ROCm wheels are built for gfx900, 906, 908, 90a, 942, 1030, 1100-1102, 1200 and 1201; gfx950 arrives in 2.10.0. torch-2.9.1+rocm6.4-cp310 is 4.47 GB compressed. So the AMD side needs its own x86_64 environment: the aarch64 venv on /work/nvme cannot run there.",
+   "evidence": "https://download.pytorch.org/whl/torch/ ; pytorch v2.9.1 and v2.10.0 .ci/docker/manywheel/build.sh (PYTORCH_ROCM_ARCH); HTTP HEAD content-length 4473104445",
+   "confidence": "verified"
+  },
+  {
+   "topic": "3. PyTorch ROCm attention",
+   "claim": "In PyTorch 2.9.1 on ROCm, flash and memory-efficient SDPA come from AOTriton. Availability is checked at run time (aotriton check_gpu). If the chip is not built in, it warns and falls back; some chips need TORCH_ROCM_AOTRITON_ENABLE_EXPERIMENTAL=1. The CK library can be chosen as the flash-attention backend instead. Whether gfx908 (MI100) has AOTriton flash kernels is unverified.",
+   "evidence": "web/pt291_sdp_utils.cpp check_flash_attention_hardware_support (lines ~262-300)",
+   "confidence": "likely"
+  },
+  {
+   "topic": "3. nanochat behaviour on ROCm",
+   "claim": "nanochat/flash_attention.py loads FA3 when torch.cuda.get_device_capability()[0]==9. ROCm reports the chip's GFX version (9.0 for gfx908/gfx90a, 9.4 for gfx942, per AMD's spec table), so it calls get_kernel('varunneal/flash-attention-3'). That kernel has no ROCm build, so the import raises, the exception is caught, and SDPA is used; an HF Hub network attempt happens at import time. NANOCHAT_ATTN_IMPL=sdpa only affects the later choice. common.py picks bf16 whenever capability is at least (8,0), so MI100 runs bf16 at half its fp16 MFMA rate. get_peak_flops and get_peak_bandwidth have no entries for MI100 or MI210, so MFU and MBU print 0%. The MI250X entries (383e12 and 3.28e12) are for the 2-GCD module, while PyTorch exposes each GCD as a separate device, so per-device peaks are 191.5e12 and 1.64e12.",
+   "evidence": "/u/tmahmood1/project/nanochat/nanochat/flash_attention.py lines 23-50; nanochat/common.py lines 17-31, 228-300; https://rocm.docs.amd.com/en/latest/reference/gpu-arch-specs.html (GFXIP major/minor columns)",
+   "confidence": "likely"
+  },
+  {
+   "topic": "Peaks and roofline (datasheet)",
+   "claim": "Datasheet peaks: MI100 has 120 CUs at 1502 MHz, bf16 92.3 / fp16 184.6 / FP32 23.1 TF, 1.2 TB/s, 32 GB, 64 KiB LDS, 8 MiB L2. MI210 has 104 CUs at 1700 MHz, bf16 181 TF, 1.6 TB/s, 64 GB. MI250X has 220 CUs (110 per GCD), 383 TF and 3.2 TB/s for the module. MI300A has 228 CUs at 2100 MHz, 980.6 TF, 5.3 TB/s, 128 GB unified, 256 MiB Infinity Cache. MI300X has 304 CUs, 1307.4 TF, 5.3 TB/s, 192 GB. Ridge points (bf16 FLOP/byte): MI100 75, MI210 110, MI250X per GCD 117, MI300A 185, MI300X 247, GH200/H100 247. RMSNorm has arithmetic intensity of about 0.75 FLOP/B (memory-bound everywhere). An MLP GEMM of 16384x768x3072 has about 592 FLOP/B (compute-bound everywhere).",
+   "evidence": "amd.com MI100/MI210/MI250X/MI300A/MI300X product pages (saved web/amd_mi*.html); https://rocm.docs.amd.com/en/latest/reference/gpu-arch-specs.html",
+   "confidence": "verified"
+  },
+  {
+   "topic": "Environment - login-node impact",
+   "claim": "All compiles today were tiny (under 8 s of CPU each, run with nice). The login node had load around 72 on 144 cores and about 45 GB of free memory. My scratch area uses 15 MB. No files were written into the shared venv (newer files there are matplotlib .pyc from another process). No Slurm jobs were submitted.",
+   "evidence": "uptime/free output; du -sh .../scratch/amd-rocm-planning; find venv -newer check",
+   "confidence": "verified"
+  }
+ ],
+ "recommendations": [
+  "Session 1 (now) or early Session 2, a human action this week, Oct 19-23: send all requests at once.\n(a) Ask the PI or Allocation Manager of the bffp class allocation to move a small amount of units from DeltaAI to 'NCSA Delta GPU' and tick both students for that resource. About 10 Delta GPU SUs buys about 40 MI100/MI210 GPU-hours in the batch partition at factor 0.25. This route keeps to the proposal's 'ACCESS AMD CDNA' wording, covering both gfx908 (MI100) and gfx90a (MI210).\n(b) Ask the advisor or instructor to request Chameleon PI status (about 1 business day) for bare-metal MI100 with root access.\n(c) Ask the instructor for a DARWIN Education allocation (at least 2 weeks). It covers gpu-mi100 and also the V100s the proposal names.\n(d) Join the AMD AI Developer Program now, but start the MI300X credit only once the gfx942 smoke pack is ready, because credits expire.\n(e) Optionally email consult@sdsc.edu about the Cosmos MI300A testbed.\nSkip the AMD University Program cluster: its earliest start is Jan 1, 2027.",
+  "Write down the two-tier AMD plan and a proposal-deviation note now. Tier A is guaranteed and needs no hardware: a static cross-target codegen study, every number labelled 'static/predicted'. Tier B is opportunistic: measured runs on whichever AMD system arrives first. Never report AMD speedups that come from static data.",
+  "Session 2 (Oct 20-24): build cisc662/analysis/amdgcn_static.py, starting from /work/nvme/bffp/tmahmood1/cisc662/scratch/amd-rocm-planning/scripts/xcompile_*.py.\nInputs:\n- a kernel registry: each Triton kernel's signature, compile-time constants, hints, and per-target options;\n- the target set: sm_90, gfx908, gfx90a, gfx942.\nExtraction:\n- AMD: '; Kernel info' comments plus llvm-readelf --notes, and an instruction histogram by class (MFMA, VALU, SALU, VMEM by width, buffer vs global, LDS by width, DPP/swizzle/bpermute, s_waitcnt, s_barrier, conversions);\n- NVIDIA: cuobjdump --dump-resource-usage plus a SASS histogram.\nDerived metrics:\n- occupancy recomputed with Triton's dynamic LDS (metadata['shared']) and workgroup size, using the tables in facts;\n- static MFMA cycles per K-step from the AMD calculator.\nOutput: results/static_codegen.csv. Keep each batch to about 100 compiles or fewer, run with nice -n 19 inside tmux, set TRITON_CACHE_DIR and TRITON_HOME under /work/nvme, and run clang with 'env -u CPATH'.",
+  "Sessions 2-3: for each hand-written CUDA kernel (RMSNorm fwd/bwd, RoPE, fused softmax-CE, GEMM epilogue), run hipify-perl into kernels/hip/, then apply the wave64 fixes:\n- 64-bit masks;\n- warpSize=64 assumptions;\n- __launch_bounds__ and amdgpu_waves_per_eu;\n- LDS of at most 64 KiB;\n- for hot reductions, use DPP builtins (__builtin_amdgcn_update_dpp / mov_dpp) instead of __shfl_xor, which lowers to ds_bpermute.\nCompile device-only with CCE clang for gfx908/gfx90a/gfx942, using the fake ROCm path recipe in .../hipify_test/fake_rocm. Keep the .s and .hsaco files next to the sm_90 SASS for side-by-side tables.",
+  "Presentation 1 (~Nov 17): AMD gets 2-3 slides.\n(1) The method: one Triton source compiled through two backends; CUDA to HIP via hipify; the tools (rocprofv3, rocprof-compute, llvm-objdump).\n(2) Hardware access status and timeline.\n(3) Preliminary static table from today's runs: GEMM MFMA/HGMMA instructions, register counts and occupancy across sm_90/gfx908/gfx90a/gfx942; RMSNorm vector width, bf16 conversion and reduction primitive.\n(4) One case study: waves_per_eu=4 gives occupancy 4 but spills, or the 64 KB LDS hiding behind 'Occupancy: 3'.\nLabel everything as static.",
+  "Sessions 3-4: build and test a 1-2 GPU-hour 'AMD smoke pack' so the first hardware window produces data immediately:\n- env check: rocminfo, torch.version.hip, torch.cuda.get_device_properties(0).gcnArchName, device name;\n- correctness: torch.testing.assert_close against eager on the AMD device for every kernel;\n- microbenchmarks timed by rocprofv3 --kernel-trace per-kernel times, not Python wall clock;\n- rocprof-compute on 2 hot kernels with roofline;\n- nanochat reduced config for 100 steps plus scripts/infer_bench.py, with NANOCHAT_ATTN_IMPL=sdpa and HF_HUB_OFFLINE=1;\n- results written to results/amd_<arch>.json, using the same seeds and configs as the GH200 baseline.",
+  "AMD budget caps (no DeltaAI GPU-hours used):\n- Delta: at most about 40 GPU-hours in total, in the batch partition gpuMI100x8 (factor 0.25). Use gpuMI100x8-interactive (1 h, factor 0.5, one job per user) only for debugging. Request no more than 16 cores and 250 GB per GPU so you are charged for exactly 1 GPU.\n- MI300X: at most about 30 GPU-hours, roughly $60, within the credit.\n- DARWIN: prefer the uncharged 'idle' partition.\n- Chameleon: book short leases and copy results off before each lease ends.\n- Storage: the ROCm torch wheel is 4.47 GB. On Delta prefer /sw/external/MI100/pytorch-2.10.0-amdgpu.sif and record the version gap from the GH200's 2.9.1, or install per job in node-local /tmp. Never write to /projects/bffp or /work/hdd/bffp (both over quota).",
+  "Long runs: on Delta use sbatch (batch jobs survive logout) and keep monitoring in tmux on the same login node. On Chameleon or the AMD Developer Cloud VM, run inside tmux on the machine and rsync results back after every run, because leases end and VMs are destroyed when credit expires.",
+  "For the lead to change in nanochat. On ROCm, branch on torch.version.hip and gcnArchName instead of capability==9, and skip the HF FA3 probe. Add per-device peak entries:\n- MI100: 92.3e12 FLOP/s, 1.2288e12 B/s;\n- MI210: 181e12, 1.6384e12;\n- MI250X per GCD: 191.5e12, 1.6384e12;\n- keep MI300A at 980.6e12 and 5.3e12.\nMatch on the device-name strings seen on the real system.",
+  "Measurement parity on AMD: report the same metrics as on NVIDIA.\n- Seconds per 100 steps, tokens/s and decode tokens/s.\n- Per-kernel time from rocprofv3.\n- Achieved HBM bandwidth and MFMA/VALU FLOP/s and roofline from rocprof-compute.\n- Achieved vs static occupancy (rocprofv3 kernel_trace reports VGPR, LDS and scratch per dispatch, which validates the static numbers).\n- LDS bank conflicts (SQ_LDS_BANK_CONFLICT), MFMA busy time, and L2 hit rate.\n- Correctness before any timing: kernel tolerances and loss-curve overlay against the GH200 run.",
+  "Make the static method credible: on GH200 (Session 3, with the NVIDIA work), compare the statically extracted registers, shared memory and theoretical occupancy against Nsight Compute's 'Registers Per Thread' and 'Theoretical Occupancy'. Once any AMD GPU is available, compare the static VGPR/LDS figures against rocprofv3 kernel_trace.",
+  "Session schedule for the AMD track, about 20-25% of total effort:\n- S1 Oct 17: feasibility done, requests drafted.\n- S2 Oct 20-24: static pipeline plus HIP path.\n- S3 Oct 27-31: all 5 kernel families statically; GH200 validation; smoke pack.\n- S4 Nov 3-7: first AMD hardware run if access arrived.\n- S5 Nov 10-14: P1 slides.\n- S6-S7 Nov 17-Dec 5: HIP tuning, measured AMD runs or a deeper static sweep, MI300X window.\n- S8 Dec 7-12: analysis and figures.\n- S9 Dec 14-17: P2.\nGate at S4: if no AMD access by Nov 7, commit to static-only plus the MI300X cloud credit as the single measured point."
+ ],
+ "risks": [
+  "No AMD hardware arrives before Dec 17. Then the AMD half is static only. Mitigation: Tier A deliverable, an explicit deviation note, parallel requests on 4-5 routes, and the MI300X cloud credit as a fallback.",
+  "The Delta exchange needs the instructor to act on a class allocation shared by about 50 users. They may decline or be slow, the exchange rate is unknown, and ACCESS states no exchange turnaround time.",
+  "Delta's AMD node is a single shared node with only one MI210. It may be contended, and the interactive partition allows one job per user and 1-hour jobs.",
+  "MI100 (gfx908) is not representative of MI250X/MI300: separate AGPR file with accumulator moves, half-rate bf16 (92.3 TF), up to 10 waves per SIMD, no packed FP32. ROCm library coverage there is thinner: AOTriton flash attention and hipBLASLt support on gfx908 are unverified, so SDPA and GEMM may take slower fallback paths. Do not over-generalise MI100 results.",
+  "The compiler's 'Occupancy:' line and .group_segment_fixed_size ignore Triton's dynamic LDS. Occupancy must be recomputed or it will be wrong, as with num_stages=3 GEMMs.",
+  "Static codegen depends on toolchain and header versions: CCE LLVM 20.1.6 and HIP 6.2 headers, not ROCm's amdclang. For example, the HIP 6.2 __float2bfloat16 is emulated even on gfx950. Results may differ from code built on a real ROCm system, so record the versions.",
+  "NVIDIA-tuned Triton or Inductor configurations retargeted to AMD are not what Inductor or the autotuner would pick on ROCm, since tuning needs the device. Label such comparisons 'same config, different backend'.",
+  "AMD Developer Cloud: credit terms are inconsistent ($100 for 30 days vs 25 h for 10 days), a credit card is probably required, and the VM is destroyed on expiry, so results can be lost. Hardware counter access inside a VM is unverified.",
+  "Version and platform mismatch: Delta's pre-built container is PyTorch 2.10 versus 2.9.1 on GH200, and ROCm wheels are x86_64 only, so a separate environment costs about 4.5 GB or more of /work/nvme quota, which the whole allocation shares (235.5 of 500 GB used).",
+  "The login node is heavily loaded (load about 72, about 45 GB free). Large static compile sweeps there could breach good-citizenship rules. Keep batches small and niced. DeltaAI has no CPU-only partition, so compiling inside a job would burn GPU-hours.",
+  "hipify-perl translates text only. Wave64 bugs (32-bit masks, warpSize assumptions, shared-memory layout) and inline PTX need manual porting; some fail at compile time, some silently produce wrong results. Correctness tests on AMD hardware are the only full check."
+ ],
+ "open_questions": [
+  "Who is the PI or Allocation Manager of the bffp class allocation? Will they move a small amount of DeltaAI units to NCSA Delta GPU, at what rate, and how fast? Or should the students file their own Explore project (advisor as co-PI)?",
+  "Does the team's advisor or the instructor already have a DARWIN workgroup or a Chameleon project the students could join today? That would skip the 1-day to 2-week waits.",
+  "Can the students already log in to Delta (login.delta.ncsa.illinois.edu) with their NCSA identity once a Delta GPU allocation exists, and can they write to /work/nvme/bffp from Delta?",
+  "Which ROCm version runs on Delta's MI100/MI210 node? Are rocprofv3 and rocprof-compute installed or usable there, including inside pytorch-2.10.0-amdgpu.sif? Can users read hardware counters?",
+  "Is rocprof-compute's roofline supported on MI100 (gfx908) in version 3.x, or only on MI200 and newer?",
+  "Do the PyTorch 2.9.1/2.10 AOTriton builds include flash-attention kernels for gfx908? Does hipBLASLt support gfx908, or does PyTorch fall back to rocBLAS?",
+  "What exact strings does torch.cuda.get_device_name() return on Delta's MI100 and MI210 (and on MI300X)? The peak-FLOP/s and bandwidth tables match on them.",
+  "Will the instructor accept a static-only AMD half, clearly labelled, if no hardware arrives? Can that be confirmed before Presentation 1?",
+  "Do the AMD Developer Cloud complimentary credits apply to student accounts, which terms are current ($100 for 30 days or 25 h for 10 days), and is a credit card mandatory?",
+  "Would SDSC accept a short class-project early-user request for the Cosmos MI300A testbed?"
+ ]
+}

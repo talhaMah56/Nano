@@ -50,7 +50,9 @@ _fa3 = _load_flash_attention_3()
 HAS_FA3 = _fa3 is not None
 
 # Override for testing: set to 'fa3', 'sdpa', or None (auto)
-_override_impl = None
+# cisc662: also settable from the environment (NANOCHAT_ATTN_IMPL=fa3|sdpa) for A/B baselines
+import os
+_override_impl = os.environ.get("NANOCHAT_ATTN_IMPL") or None
 
 
 def _resolve_use_fa3():
@@ -74,10 +76,11 @@ USE_FA3 = _resolve_use_fa3()
 # =============================================================================
 # SDPA helpers
 # =============================================================================
-def _sdpa_attention(q, k, v, window_size, enable_gqa):
+def _sdpa_attention(q, k, v, window_size, enable_gqa, scale=None):
     """
     SDPA attention with sliding window support.
     q, k, v are (B, H, T, D) format.
+    cisc662: `scale` (default None = 1/sqrt(D), upstream behaviour) mirrors FA3's softmax_scale.
     """
     Tq = q.size(2)
     Tk = k.size(2)
@@ -85,7 +88,7 @@ def _sdpa_attention(q, k, v, window_size, enable_gqa):
 
     # Full context, same length
     if (window < 0 or window >= Tq) and Tq == Tk:
-        return F.scaled_dot_product_attention(q, k, v, is_causal=True, enable_gqa=enable_gqa)
+        return F.scaled_dot_product_attention(q, k, v, is_causal=True, enable_gqa=enable_gqa, scale=scale)
 
     # Single token generation
     if Tq == 1:
@@ -94,7 +97,7 @@ def _sdpa_attention(q, k, v, window_size, enable_gqa):
             start = max(0, Tk - (window + 1))
             k = k[:, :, start:, :]
             v = v[:, :, start:, :]
-        return F.scaled_dot_product_attention(q, k, v, is_causal=False, enable_gqa=enable_gqa)
+        return F.scaled_dot_product_attention(q, k, v, is_causal=False, enable_gqa=enable_gqa, scale=scale)
 
     # Need explicit mask for sliding window/chunk inference
     device = q.device
@@ -107,12 +110,12 @@ def _sdpa_attention(q, k, v, window_size, enable_gqa):
     if window >= 0 and window < Tk:
         mask = mask & ((row_idx - col_idx) <= window)
 
-    return F.scaled_dot_product_attention(q, k, v, attn_mask=mask, enable_gqa=enable_gqa)
+    return F.scaled_dot_product_attention(q, k, v, attn_mask=mask, enable_gqa=enable_gqa, scale=scale)
 
 # =============================================================================
 # Public API: Same interface as FA3
 # =============================================================================
-def flash_attn_func(q, k, v, causal=False, window_size=(-1, -1)):
+def flash_attn_func(q, k, v, causal=False, window_size=(-1, -1), softmax_scale=None):
     """
     Flash Attention for training (no KV cache).
 
@@ -120,19 +123,23 @@ def flash_attn_func(q, k, v, causal=False, window_size=(-1, -1)):
         q, k, v: Tensors of shape (B, T, H, D)
         causal: Whether to use causal masking
         window_size: (left, right) sliding window. -1 means unlimited.
+        softmax_scale: cisc662 addition; None (default) keeps FA3/SDPA's 1/sqrt(D). Lets a fused
+            QK-norm+RoPE kernel fold the q/k scaling into the softmax scale (1.2*1.2/sqrt(D)).
 
     Returns:
         Output tensor of shape (B, T, H, D)
     """
     if USE_FA3:
-        return _fa3.flash_attn_func(q, k, v, causal=causal, window_size=window_size)
+        if softmax_scale is None:
+            return _fa3.flash_attn_func(q, k, v, causal=causal, window_size=window_size)
+        return _fa3.flash_attn_func(q, k, v, softmax_scale=softmax_scale, causal=causal, window_size=window_size)
 
     # SDPA fallback: transpose (B, T, H, D) -> (B, H, T, D)
     q = q.transpose(1, 2)
     k = k.transpose(1, 2)
     v = v.transpose(1, 2)
     enable_gqa = q.size(1) != k.size(1)
-    y = _sdpa_attention(q, k, v, window_size, enable_gqa)
+    y = _sdpa_attention(q, k, v, window_size, enable_gqa, scale=softmax_scale)
     return y.transpose(1, 2)  # back to (B, T, H, D)
 
 

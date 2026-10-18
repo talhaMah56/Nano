@@ -1,0 +1,1865 @@
+{
+ "sqlite": "/work/nvme/bffp/tmahmood1/cisc662/profiles/s1_nsys_3400686/eager_fa3_ops.sqlite",
+ "steps": 5,
+ "total_ms_per_step": 145.31995519999998,
+ "by_phase": {
+  "forward": 47.4100672,
+  "backward": 78.5588928,
+  "optimizer": 19.3509952
+ },
+ "by_class": {
+  "embedding": {
+   "ms_per_step": 2.642592,
+   "share": 0.018184646398789972
+  },
+  "rmsnorm": {
+   "ms_per_step": 9.3724608,
+   "share": 0.06449534605967178
+  },
+  "residual_elementwise": {
+   "ms_per_step": 17.1199104,
+   "share": 0.11780839304855498
+  },
+  "weight_cast": {
+   "ms_per_step": 0.9368064,
+   "share": 0.0064465090063556526
+  },
+  "gemm": {
+   "ms_per_step": 34.245830399999996,
+   "share": 0.2356581403625426
+  },
+  "rope": {
+   "ms_per_step": 13.9806592,
+   "share": 0.09620605222977663
+  },
+  "attention": {
+   "ms_per_step": 10.1168384,
+   "share": 0.06961768179790906
+  },
+  "relu2_mlp": {
+   "ms_per_step": 7.9416064,
+   "share": 0.05464911125984162
+  },
+  "softmax_ce": {
+   "ms_per_step": 29.603264,
+   "share": 0.2037109353581744
+  },
+  "other": {
+   "ms_per_step": 0.008992,
+   "share": 6.187725551955028e-05
+  },
+  "optimizer": {
+   "ms_per_step": 19.3509952,
+   "share": 0.13316130722286376
+  }
+ },
+ "by_phase_class": {
+  "forward|embedding": 0.15723520000000002,
+  "forward|rmsnorm": 4.3155904000000005,
+  "forward|residual_elementwise": 5.7307904,
+  "forward|weight_cast": 0.31845759999999995,
+  "forward|gemm": 11.253132800000001,
+  "forward|rope": 6.7989952,
+  "forward|attention": 2.33904,
+  "forward|relu2_mlp": 2.661344,
+  "forward|softmax_ce": 13.8354816,
+  "backward|residual_elementwise": 11.38912,
+  "backward|softmax_ce": 15.7677824,
+  "backward|gemm": 22.992697600000003,
+  "backward|weight_cast": 0.6183488,
+  "backward|rmsnorm": 5.0568704,
+  "backward|relu2_mlp": 5.280262400000001,
+  "backward|attention": 7.7777984,
+  "backward|rope": 7.181664,
+  "backward|other": 0.008992,
+  "backward|embedding": 2.4853568,
+  "optimizer|optimizer": 19.3509952
+ },
+ "top": {
+  "embedding": [
+   [
+    "aten::embedding_dense_backward [(16, 2048, 768), (16, 2048), (), (), ()]",
+    1.9269568000000001
+   ],
+   [
+    "cub::DeviceRadixSort []",
+    0.48615040000000004
+   ],
+   [
+    "aten::gather [(32768, 768), (), (32768, 768), (), (32768, 768)]",
+    0.15723520000000002
+   ],
+   [
+    "cub::DeviceSelect::UniqueByKey []",
+    0.0416448
+   ],
+   [
+    "cub::DeviceScan::ExclusiveScan []",
+    0.030604799999999998
+   ]
+  ],
+  "rmsnorm": [
+   [
+    "aten::_fused_rms_norm_backward [(16, 2048, 6, 128), (16, 2048, 6, 128), (), (16, 2048, 6, 1), (), ()]",
+    3.6036927999999997
+   ],
+   [
+    "aten::_fused_rms_norm [(16, 2048, 6, 128), (), (), ()]",
+    3.199008
+   ],
+   [
+    "aten::_fused_rms_norm_backward [(16, 2048, 768), (16, 2048, 768), (), (16, 2048, 1), (), ()]",
+    1.4531776
+   ],
+   [
+    "aten::_fused_rms_norm [(16, 2048, 768), (), (), ()]",
+    1.1165824
+   ]
+  ],
+  "residual_elementwise": [
+   [
+    "aten::mul [(16, 2048, 768), ()]",
+    2.5414847999999997
+   ],
+   [
+    "aten::add_ [(16, 2048, 768), (16, 2048, 768), ()]",
+    2.5226303999999997
+   ],
+   [
+    "aten::mul [(), (16, 2048, 768)]",
+    2.4902848
+   ],
+   [
+    "aten::add [(16, 2048, 768), (16, 2048, 768), ()]",
+    1.7031424
+   ],
+   [
+    "aten::mul [(16, 2048, 6, 128), ()]",
+    1.3715392
+   ],
+   [
+    "aten::mul [(16, 2048, 768), (16, 2048, 768)]",
+    1.0291776
+   ],
+   [
+    "aten::add_ [(16, 2048, 6, 128), (16, 2048, 6, 128), ()]",
+    0.964416
+   ],
+   [
+    "aten::fill_ [(16, 2048, 6, 128), ()]",
+    0.7640064
+   ],
+   [
+    "aten::sum [(16, 2048, 768), (), (), ()]",
+    0.6808
+   ],
+   [
+    "aten::mul [(16, 2048, 6, 128), (16, 2048, 6, 1)]",
+    0.4328128
+   ],
+   [
+    "aten::mul [(16, 2048, 6, 1), (16, 2048, 6, 128)]",
+    0.4126336
+   ],
+   [
+    "aten::sum [(16, 2048, 6, 128), (), (), ()]",
+    0.35607679999999997
+   ],
+   [
+    "aten::mul [(16, 2048, 6, 128), (16, 2048, 6, 128)]",
+    0.25089279999999997
+   ],
+   [
+    "aten::add [(16, 2048, 6, 128), (16, 2048, 6, 128), ()]",
+    0.24986239999999998
+   ],
+   [
+    "aten::copy_ [(16, 2047, 768), (16, 2047, 768), ()]",
+    0.2079424
+   ],
+   [
+    "aten::fill_ [(16, 2048, 768), ()]",
+    0.160448
+   ],
+   [
+    "aten::cat [(16, 1, 768), (16, 2047, 768), ()]",
+    0.1382976
+   ],
+   [
+    "aten::fill_ [(32768, 768), ()]",
+    0.113184
+   ],
+   [
+    "aten::mul [(16, 2047, 768), (16, 2047, 1)]",
+    0.0836672
+   ],
+   [
+    "aten::add [(16, 2047, 768), (16, 2047, 768), ()]",
+    0.080736
+   ],
+   [
+    "aten::mul [(16, 2047, 768), (16, 2047, 768)]",
+    0.07884160000000001
+   ],
+   [
+    "aten::mul [(16, 2047, 1), (16, 2047, 768)]",
+    0.078784
+   ],
+   [
+    "aten::mul [(16, 2048, 768), (1,)]",
+    0.064864
+   ],
+   [
+    "aten::mul [(1,), (16, 2048, 768)]",
+    0.0646144
+   ],
+   [
+    "aten::sub [(16, 2048, 768), (16, 2048, 768), ()]",
+    0.0415104
+   ],
+   [
+    "aten::add_ [(12,), (12,), ()]",
+    0.0284096
+   ],
+   [
+    "aten::copy_ [(16, 2048, 12), (16, 2048, 12), ()]",
+    0.028390400000000003
+   ],
+   [
+    "aten::sum [(16, 2047, 768), (), (), ()]",
+    0.0280384
+   ],
+   [
+    "aten::neg [(16, 2048, 768)]",
+    0.0256064
+   ],
+   [
+    "aten::fill_ [(12,), ()]",
+    0.021254400000000003
+   ]
+  ],
+  "weight_cast": [
+   [
+    "aten::copy_ [(768, 768), (768, 768), ()]",
+    0.3557248
+   ],
+   [
+    "aten::copy_ [(768, 3072), (768, 3072), ()]",
+    0.20891520000000002
+   ],
+   [
+    "aten::copy_ [(3072, 768), (3072, 768), ()]",
+    0.1897536
+   ],
+   [
+    "aten::copy_ [(32768, 768), (32768, 768), ()]",
+    0.1200128
+   ],
+   [
+    "aten::copy_ [(), (), ()]",
+    0.0423744
+   ],
+   [
+    "aten::copy_ [(6, 12), (6, 12), ()]",
+    0.0172864
+   ],
+   [
+    "aten::copy_ [(1, 24), (1, 24), ()]",
+    0.0027392
+   ]
+  ],
+  "gemm": [
+   [
+    "aten::mm [(32768, 768), (768, 768)]",
+    6.4019968
+   ],
+   [
+    "aten::mm [(32768, 768), (768, 3072)]",
+    6.335328
+   ],
+   [
+    "aten::mm [(32768, 3072), (3072, 768)]",
+    5.4771968
+   ],
+   [
+    "aten::mm [(32768, 32768), (32768, 768)]",
+    4.3927168
+   ],
+   [
+    "aten::mm [(768, 32768), (32768, 768)]",
+    3.3148032
+   ],
+   [
+    "aten::mm [(768, 32768), (32768, 3072)]",
+    2.9074112000000003
+   ],
+   [
+    "aten::mm [(3072, 32768), (32768, 768)]",
+    2.7926784
+   ],
+   [
+    "aten::mm [(32768, 768), (768, 32768)]",
+    2.4709312000000003
+   ],
+   [
+    "aten::mm [(6, 32768), (32768, 12)]",
+    0.0770048
+   ],
+   [
+    "aten::mm [(32768, 12), (12, 6)]",
+    0.029696
+   ],
+   [
+    "aten::mm [(32768, 6), (6, 12)]",
+    0.0265536
+   ],
+   [
+    "aten::mm [(1, 32752), (32752, 24)]",
+    0.0089088
+   ],
+   [
+    "aten::mm [(32752, 1), (1, 24)]",
+    0.006553600000000001
+   ],
+   [
+    "aten::mm [(32752, 24), (24, 1)]",
+    0.0040512
+   ]
+  ],
+  "rope": [
+   [
+    "aten::mul [(16, 2048, 6, 64), (1, 2048, 1, 64)]",
+    8.8117824
+   ],
+   [
+    "aten::copy_ [(16, 2048, 6, 64), (16, 2048, 6, 64), ()]",
+    1.7553408000000001
+   ],
+   [
+    "aten::cat [(16, 2048, 6, 64), (16, 2048, 6, 64), ()]",
+    1.5079232
+   ],
+   [
+    "aten::add [(16, 2048, 6, 64), (16, 2048, 6, 64), ()]",
+    0.9417984
+   ],
+   [
+    "aten::add_ [(16, 2048, 6, 64), (16, 2048, 6, 64), ()]",
+    0.9232576
+   ],
+   [
+    "aten::neg [(1, 2048, 1, 64)]",
+    0.040556800000000004
+   ]
+  ],
+  "attention": [
+   [
+    "flash_attn_3::bwd [(16, 2048, 6, 128), (16, 2048, 6, 128), (16, 2048, 6, 128), (16, 2048, 6, 128), (16, 2048, 6, 128), (16, 6, 2048), (), (), (), (), (), (), (), (), (), (), (), (), (), (), (), ()]",
+    7.7777984
+   ],
+   [
+    "flash_attn_3::fwd [(16, 2048, 6, 128), (16, 2048, 6, 128), (16, 2048, 6, 128), (), (), (), (), (), (), (), (), (), (), (), (), (), (), (), (), (), (), (), (), (), (), (), (), (), (), (), (), (), (), ()]",
+    2.33904
+   ]
+  ],
+  "relu2_mlp": [
+   [
+    "aten::mul [(16, 2048, 3072), (16, 2048, 3072)]",
+    1.9788544
+   ],
+   [
+    "aten::threshold_backward [(16, 2048, 3072), (16, 2048, 3072), ()]",
+    1.9612032
+   ],
+   [
+    "aten::mul [(16, 2048, 3072), ()]",
+    1.3402048
+   ],
+   [
+    "aten::pow [(16, 2048, 3072), ()]",
+    1.3364352
+   ],
+   [
+    "aten::clamp_min [(16, 2048, 3072), ()]",
+    1.3249088
+   ]
+  ],
+  "softmax_ce": [
+   [
+    "aten::copy_ [(16, 2048, 32768), (16, 2048, 32768), ()]",
+    4.9866752000000005
+   ],
+   [
+    "aten::_log_softmax_backward_data [(32768, 32768), (32768, 32768), (), ()]",
+    4.7658752
+   ],
+   [
+    "aten::div [(16, 2048, 32768), ()]",
+    4.696339200000001
+   ],
+   [
+    "aten::mul [(16, 2048, 32768), ()]",
+    4.695968
+   ],
+   [
+    "aten::_log_softmax [(32768, 32768), (), ()]",
+    3.492832
+   ],
+   [
+    "aten::tanh_backward [(16, 2048, 32768), (16, 2048, 32768)]",
+    3.4565312
+   ],
+   [
+    "aten::tanh [(16, 2048, 32768)]",
+    2.3499008
+   ],
+   [
+    "aten::fill_ [(32768, 32768), ()]",
+    1.0830271999999999
+   ],
+   [
+    "aten::nll_loss_backward [(), (32768, 32768), (32768,), (), (), (), ()]",
+    0.0381888
+   ],
+   [
+    "aten::nll_loss_forward [(32768, 32768), (32768,), (), (), ()]",
+    0.0379264
+   ]
+  ],
+  "other": [
+   [
+    "aten::arange [(), (), (), (0,)]",
+    0.008992
+   ]
+  ],
+  "optimizer": [
+   [
+    "aten::copy_ [(32768, 768), (32768, 768), ()]",
+    3.271392
+   ],
+   [
+    "aten::lerp_ [(32768, 768), (32768, 768), ()]",
+    1.3415872
+   ],
+   [
+    "aten::bmm [(48, 768, 768), (48, 768, 768)]",
+    1.2452672
+   ],
+   [
+    "aten::bmm [(12, 768, 3072), (12, 3072, 768)]",
+    0.8362752
+   ],
+   [
+    "aten::div [(32768, 768), (32768, 768)]",
+    0.6827392
+   ],
+   [
+    "aten::add_ [(32768, 768), (32768, 768), ()]",
+    0.6597375999999999
+   ],
+   [
+    "aten::add [(48, 768, 768), (48, 768, 768), ()]",
+    0.5648512
+   ],
+   [
+    "aten::mul [(48, 768, 768), ()]",
+    0.469632
+   ],
+   [
+    "aten::sqrt [(32768, 768)]",
+    0.460416
+   ],
+   [
+    "aten::add [(32768, 768), (), ()]",
+    0.4584448
+   ],
+   [
+    "aten::pow [(32768, 768), ()]",
+    0.4552192
+   ],
+   [
+    "aten::div [(32768, 768), ()]",
+    0.4542528
+   ],
+   [
+    "aten::mul_ [(32768, 768), ()]",
+    0.45326720000000004
+   ],
+   [
+    "aten::bmm [(12, 3072, 768), (12, 768, 768)]",
+    0.4046976
+   ],
+   [
+    "aten::bmm [(12, 768, 768), (12, 768, 3072)]",
+    0.4035456
+   ],
+   [
+    "aten::copy_ [(12, 768, 3072), (12, 768, 3072), ()]",
+    0.33301759999999997
+   ],
+   [
+    "aten::copy_ [(48, 768, 768), (48, 768, 768), ()]",
+    0.33258879999999996
+   ],
+   [
+    "aten::copy_ [(12, 3072, 768), (12, 3072, 768), ()]",
+    0.3295808
+   ],
+   [
+    "aten::add [(12, 3072, 768), (12, 3072, 768), ()]",
+    0.32541440000000005
+   ],
+   [
+    "aten::add [(12, 768, 3072), (12, 768, 3072), ()]",
+    0.32506240000000003
+   ],
+   [
+    "aten::bmm [(12, 768, 768), (12, 768, 768)]",
+    0.249504
+   ],
+   [
+    "aten::mul [(48, 768, 768), (48, 768, 768)]",
+    0.2094848
+   ],
+   [
+    "aten::mul [(12, 768, 3072), (12, 768, 3072)]",
+    0.2090112
+   ],
+   [
+    "aten::mul [(12, 3072, 768), (12, 3072, 768)]",
+    0.2077248
+   ],
+   [
+    "aten::lerp_ [(12, 3072, 768), (12, 3072, 768), ()]",
+    0.1870528
+   ],
+   [
+    "aten::lerp_ [(12, 768, 3072), (12, 768, 3072), ()]",
+    0.1866304
+   ],
+   [
+    "aten::lerp_ [(48, 768, 768), (48, 768, 768), ()]",
+    0.186048
+   ],
+   [
+    "aten::mul [(48, 768, 768), (48, 768, 1)]",
+    0.1761408
+   ],
+   [
+    "aten::mul [(12, 3072, 768), (12, 3072, 1)]",
+    0.1734912
+   ],
+   [
+    "aten::mul [(12, 768, 3072), ()]",
+    0.159552
+   ]
+  ]
+ },
+ "kernel_resources": {
+  "void at::native::vectorized_gather_kernel<(int)16, long>(char *, char *, T2 *, int, long, long, long, long, bool)": {
+   "regs_per_thread": 24,
+   "grid": [
+    32768,
+    1,
+    1
+   ],
+   "block": [
+    96,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 0
+  },
+  "void at::native::<unnamed>::vectorized_layer_norm_kernel<c10::BFloat16, float, (bool)1>(int, T2, const T1 *, const T1 *,": {
+   "regs_per_thread": 27,
+   "grid": [
+    32768,
+    1,
+    1
+   ],
+   "block": [
+    32,
+    4,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 24
+  },
+  "void at::native::vectorized_elementwise_kernel<(int)8, at::native::bfloat16_copy_kernel_cuda(at::TensorIteratorBase &)::": {
+   "regs_per_thread": 32,
+   "grid": [
+    1,
+    1,
+    1
+   ],
+   "block": [
+    128,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 0
+  },
+  "void at::native::elementwise_kernel<(int)128, (int)4, void at::native::gpu_kernel_impl_nocast<at::native::direct_copy_ke": {
+   "regs_per_thread": 18,
+   "grid": [
+    1536,
+    1,
+    1
+   ],
+   "block": [
+    128,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 0
+  },
+  "nvjet_tst_256x8_64x6_2x1_v_bz_TNT": {
+   "regs_per_thread": 168,
+   "grid": [
+    2,
+    64,
+    1
+   ],
+   "block": [
+    384,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 219364
+  },
+  "void at::native::vectorized_elementwise_kernel<(int)8, at::native::sigmoid_kernel_cuda(at::TensorIteratorBase &)::[lambd": {
+   "regs_per_thread": 32,
+   "grid": [
+    32,
+    1,
+    1
+   ],
+   "block": [
+    128,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 0
+  },
+  "void at::native::elementwise_kernel<(int)128, (int)4, void at::native::gpu_kernel_impl_nocast<at::native::BinaryFunctor<": {
+   "regs_per_thread": 18,
+   "grid": [
+    64,
+    1,
+    1
+   ],
+   "block": [
+    128,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 0
+  },
+  "void at::native::elementwise_kernel<(int)128, (int)4, void at::native::gpu_kernel_impl_nocast<at::native::CUDAFunctor_ad": {
+   "regs_per_thread": 18,
+   "grid": [
+    49128,
+    1,
+    1
+   ],
+   "block": [
+    128,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 0
+  },
+  "void at::native::<unnamed>::CatArrayBatchedCopy<at::native::<unnamed>::OpaqueType<(unsigned int)2>, unsigned int, (int)3": {
+   "regs_per_thread": 29,
+   "grid": [
+    264,
+    2,
+    1
+   ],
+   "block": [
+    512,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 0
+  },
+  "void at::native::elementwise_kernel<(int)128, (int)4, void at::native::gpu_kernel_impl<at::native::BinaryFunctor<c10::BF": {
+   "regs_per_thread": 26,
+   "grid": [
+    49152,
+    1,
+    1
+   ],
+   "block": [
+    128,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 0
+  },
+  "void at::native::vectorized_elementwise_kernel<(int)8, at::native::CUDAFunctor_add<c10::BFloat16>, std::array<char *, (u": {
+   "regs_per_thread": 34,
+   "grid": [
+    24576,
+    1,
+    1
+   ],
+   "block": [
+    128,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 0
+  },
+  "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_TNN": {
+   "regs_per_thread": 168,
+   "grid": [
+    2,
+    66,
+    1
+   ],
+   "block": [
+    384,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 213188
+  },
+  "void at::native::vectorized_elementwise_kernel<(int)8, at::native::neg_kernel_cuda(at::TensorIteratorBase &)::[lambda() ": {
+   "regs_per_thread": 32,
+   "grid": [
+    128,
+    1,
+    1
+   ],
+   "block": [
+    128,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 0
+  },
+  "void at::native::<unnamed>::CatArrayBatchedCopy_alignedK_contig<at::native::<unnamed>::OpaqueType<(unsigned int)2>, unsi": {
+   "regs_per_thread": 32,
+   "grid": [
+    4224,
+    2,
+    1
+   ],
+   "block": [
+    128,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 0
+  },
+  "void at::native::vectorized_elementwise_kernel<(int)8, at::native::AUnaryFunctor<c10::BFloat16, c10::BFloat16, c10::BFlo": {
+   "regs_per_thread": 32,
+   "grid": [
+    24576,
+    1,
+    1
+   ],
+   "block": [
+    128,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 0
+  },
+  "void at::native::vectorized_elementwise_kernel<(int)4, at::native::FillFunctor<int>, std::array<char *, (unsigned long)1": {
+   "regs_per_thread": 16,
+   "grid": [
+    1,
+    1,
+    1
+   ],
+   "block": [
+    128,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 0
+  },
+  "void cutlass::device_kernel<flash::enable_sm90_or_later<flash::FlashAttnFwdSm90<flash::CollectiveMainloopFwdSm90<(int)2,": {
+   "regs_per_thread": 168,
+   "grid": [
+    132,
+    1,
+    1
+   ],
+   "block": [
+    384,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 166912
+  },
+  "nvjet_tst_192x192_64x4_2x1_v_bz_coopB_TNN": {
+   "regs_per_thread": 168,
+   "grid": [
+    2,
+    66,
+    1
+   ],
+   "block": [
+    384,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 213204
+  },
+  "void at::native::vectorized_elementwise_kernel<(int)8, at::native::<unnamed>::launch_clamp_scalar(at::TensorIteratorBase": {
+   "regs_per_thread": 32,
+   "grid": [
+    98304,
+    1,
+    1
+   ],
+   "block": [
+    128,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 0
+  },
+  "void at::native::vectorized_elementwise_kernel<(int)8, void at::native::<unnamed>::pow_tensor_scalar_kernel_impl<c10::BF": {
+   "regs_per_thread": 32,
+   "grid": [
+    98304,
+    1,
+    1
+   ],
+   "block": [
+    128,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 0
+  },
+  "void cutlass::Kernel2<cutlass_80_wmma_tensorop_bf16_s161616gemm_bf16_32x32_32x1_tn_align2>(T1::Params)": {
+   "regs_per_thread": 40,
+   "grid": [
+    1024,
+    1,
+    1
+   ],
+   "block": [
+    128,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 5120
+  },
+  "nvjet_tst_192x192_64x4_1x1_v_bz_coopB_TNN": {
+   "regs_per_thread": 168,
+   "grid": [
+    1,
+    132,
+    1
+   ],
+   "block": [
+    384,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 213204
+  },
+  "void at::native::unrolled_elementwise_kernel<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase &)::[lambda() (i": {
+   "regs_per_thread": 30,
+   "grid": [
+    1048576,
+    1,
+    1
+   ],
+   "block": [
+    128,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 0
+  },
+  "void at::native::vectorized_elementwise_kernel<(int)4, at::native::BUnaryFunctor<float, float, float, at::native::binary": {
+   "regs_per_thread": 32,
+   "grid": [
+    524288,
+    1,
+    1
+   ],
+   "block": [
+    128,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 0
+  },
+  "void at::native::vectorized_elementwise_kernel<(int)4, at::native::tanh_kernel_cuda(at::TensorIteratorBase &)::[lambda()": {
+   "regs_per_thread": 32,
+   "grid": [
+    524288,
+    1,
+    1
+   ],
+   "block": [
+    128,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 0
+  },
+  "void at::native::vectorized_elementwise_kernel<(int)4, at::native::AUnaryFunctor<float, float, float, at::native::binary": {
+   "regs_per_thread": 32,
+   "grid": [
+    524288,
+    1,
+    1
+   ],
+   "block": [
+    128,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 0
+  },
+  "void at::native::<unnamed>::cunn_SoftMaxForward<(int)4, float, float, float, at::native::<unnamed>::LogSoftMaxForwardEpi": {
+   "regs_per_thread": 27,
+   "grid": [
+    32768,
+    1,
+    1
+   ],
+   "block": [
+    1024,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 128
+  },
+  "void at::native::<unnamed>::nll_loss_forward_reduce_cuda_kernel_2d<float, float, long>(T1 *, T1 *, const T1 *, const T3 ": {
+   "regs_per_thread": 28,
+   "grid": [
+    1,
+    1,
+    1
+   ],
+   "block": [
+    1024,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 8192
+  },
+  "void at::native::vectorized_elementwise_kernel<(int)4, at::native::FillFunctor<float>, std::array<char *, (unsigned long": {
+   "regs_per_thread": 16,
+   "grid": [
+    1,
+    1,
+    1
+   ],
+   "block": [
+    128,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 0
+  },
+  "void at::native::<unnamed>::nll_loss_backward_reduce_cuda_kernel_2d<float, long>(T1 *, const T1 *, const T2 *, const T1 ": {
+   "regs_per_thread": 24,
+   "grid": [
+    1,
+    1,
+    1
+   ],
+   "block": [
+    1024,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 0
+  },
+  "void at::native::<unnamed>::cunn_SoftMaxBackward<(int)4, float, float, float, at::native::<unnamed>::LogSoftMaxBackwardE": {
+   "regs_per_thread": 56,
+   "grid": [
+    32768,
+    1,
+    1
+   ],
+   "block": [
+    512,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 2048
+  },
+  "void at::native::vectorized_elementwise_kernel<(int)4, at::native::tanh_backward_kernel_cuda(at::TensorIteratorBase &)::": {
+   "regs_per_thread": 32,
+   "grid": [
+    524288,
+    1,
+    1
+   ],
+   "block": [
+    128,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 0
+  },
+  "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_NTN": {
+   "regs_per_thread": 168,
+   "grid": [
+    2,
+    66,
+    1
+   ],
+   "block": [
+    384,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 213188
+  },
+  "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_NNN": {
+   "regs_per_thread": 168,
+   "grid": [
+    2,
+    66,
+    1
+   ],
+   "block": [
+    384,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 213188
+  },
+  "void at::native::<unnamed>::layer_norm_grad_input_kernel_vectorized<c10::BFloat16, float, (bool)1>(const T1 *, const T1 ": {
+   "regs_per_thread": 32,
+   "grid": [
+    32768,
+    1,
+    1
+   ],
+   "block": [
+    128,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 16
+  },
+  "void at::native::vectorized_elementwise_kernel<(int)8, at::native::BinaryFunctor<c10::BFloat16, c10::BFloat16, c10::BFlo": {
+   "regs_per_thread": 40,
+   "grid": [
+    24576,
+    1,
+    1
+   ],
+   "block": [
+    128,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 0
+  },
+  "void at::native::reduce_kernel<(int)512, (int)1, at::native::ReduceOp<c10::BFloat16, at::native::func_wrapper_t<c10::BFl": {
+   "regs_per_thread": 32,
+   "grid": [
+    1,
+    528,
+    1
+   ],
+   "block": [
+    512,
+    1,
+    1
+   ],
+   "smem_static": 16,
+   "smem_dynamic": 2048
+  },
+  "nvjet_tst_192x192_64x3_1x2_h_bz_coopB_splitK_NTN": {
+   "regs_per_thread": 168,
+   "grid": [
+    2,
+    64,
+    1
+   ],
+   "block": [
+    384,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 188556
+  },
+  "void cublasLt::splitKreduce_kernel<(int)32, (int)16, int, float, __nv_bfloat16, float, __nv_bfloat16, (bool)0, float, __": {
+   "regs_per_thread": 32,
+   "grid": [
+    96,
+    6,
+    1
+   ],
+   "block": [
+    32,
+    16,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 0
+  },
+  "nvjet_tst_192x192_64x3_2x1_v_bz_coopB_NNN": {
+   "regs_per_thread": 168,
+   "grid": [
+    2,
+    66,
+    1
+   ],
+   "block": [
+    384,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 188604
+  },
+  "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_splitK_NTN": {
+   "regs_per_thread": 168,
+   "grid": [
+    2,
+    63,
+    1
+   ],
+   "block": [
+    384,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 213156
+  },
+  "void cutlass::device_kernel<flash::FlashAttnBwdPreprocess<cute::tuple<cute::C<(int)64>, cute::C<(int)128>>, cutlass::bfl": {
+   "regs_per_thread": 64,
+   "grid": [
+    32,
+    6,
+    16
+   ],
+   "block": [
+    256,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 0
+  },
+  "void cutlass::device_kernel<flash::enable_sm90_or_later<flash::FlashAttnBwdSm90<flash::CollectiveMainloopBwdSm90<(int)2,": {
+   "regs_per_thread": 168,
+   "grid": [
+    1536,
+    1,
+    1
+   ],
+   "block": [
+    384,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 199680
+  },
+  "void cutlass::device_kernel<flash::FlashAttnBwdPostprocessConvertdQ<cute::tuple<cute::C<(int)64>, cute::C<(int)128>>, cu": {
+   "regs_per_thread": 56,
+   "grid": [
+    32,
+    6,
+    16
+   ],
+   "block": [
+    256,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 49280
+  },
+  "void at::native::vectorized_elementwise_kernel<(int)8, at::native::FillFunctor<c10::BFloat16>, std::array<char *, (unsig": {
+   "regs_per_thread": 16,
+   "grid": [
+    24576,
+    1,
+    1
+   ],
+   "block": [
+    128,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 0
+  },
+  "void at::native::vectorized_elementwise_kernel<(int)8, at::native::sigmoid_backward_kernel_cuda(at::TensorIteratorBase &": {
+   "regs_per_thread": 32,
+   "grid": [
+    192,
+    1,
+    1
+   ],
+   "block": [
+    128,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 0
+  },
+  "void cutlass::Kernel2<cutlass_80_wmma_tensorop_bf16_s161616gemm_bf16_32x32_128x2_nt_align2>(T1::Params)": {
+   "regs_per_thread": 80,
+   "grid": [
+    1,
+    1,
+    88
+   ],
+   "block": [
+    128,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 40960
+  },
+  "void cublasLt::splitKreduce_kernel<(int)32, (int)16, int, __nv_bfloat16, __nv_bfloat16, float, __nv_bfloat16, (bool)0, _": {
+   "regs_per_thread": 32,
+   "grid": [
+    1,
+    1,
+    1
+   ],
+   "block": [
+    32,
+    16,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 0
+  },
+  "void cutlass::Kernel2<cutlass_80_wmma_tensorop_bf16_s161616gemm_bf16_32x32_32x1_nn_align2>(T1::Params)": {
+   "regs_per_thread": 42,
+   "grid": [
+    1024,
+    1,
+    1
+   ],
+   "block": [
+    128,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 5120
+  },
+  "void <unnamed>::elementwise_kernel_with_index<int, at::native::arange_cuda_out(const c10::Scalar &, const c10::Scalar &,": {
+   "regs_per_thread": 16,
+   "grid": [
+    512,
+    1,
+    1
+   ],
+   "block": [
+    64,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 0
+  },
+  "void at_cuda_detail::cub::DeviceRadixSortHistogramKernel<at_cuda_detail::cub::DeviceRadixSortPolicy<long, at::cuda::cub:": {
+   "regs_per_thread": 70,
+   "grid": [
+    924,
+    1,
+    1
+   ],
+   "block": [
+    128,
+    1,
+    1
+   ],
+   "smem_static": 8192,
+   "smem_dynamic": 0
+  },
+  "void at_cuda_detail::cub::DeviceRadixSortExclusiveSumKernel<at_cuda_detail::cub::DeviceRadixSortPolicy<long, at::cuda::c": {
+   "regs_per_thread": 32,
+   "grid": [
+    8,
+    1,
+    1
+   ],
+   "block": [
+    256,
+    1,
+    1
+   ],
+   "smem_static": 2336,
+   "smem_dynamic": 0
+  },
+  "void at_cuda_detail::cub::DeviceRadixSortOnesweepKernel<at_cuda_detail::cub::DeviceRadixSortPolicy<long, at::cuda::cub::": {
+   "regs_per_thread": 149,
+   "grid": [
+    8,
+    1,
+    1
+   ],
+   "block": [
+    384,
+    1,
+    1
+   ],
+   "smem_static": 38912,
+   "smem_dynamic": 0
+  },
+  "void at_cuda_detail::cub::DeviceCompactInitKernel<at_cuda_detail::cub::ScanTileState<unsigned long long, (bool)1>, long ": {
+   "regs_per_thread": 16,
+   "grid": [
+    1,
+    1,
+    1
+   ],
+   "block": [
+    128,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 0
+  },
+  "void at_cuda_detail::cub::DeviceUniqueByKeySweepKernel<at_cuda_detail::cub::DeviceUniqueByKeyPolicy<const long *, thrust": {
+   "regs_per_thread": 48,
+   "grid": [
+    8,
+    1,
+    1
+   ],
+   "block": [
+    640,
+    1,
+    1
+   ],
+   "smem_static": 35840,
+   "smem_dynamic": 0
+  },
+  "void at::native::<unnamed>::krn_partials_per_segment<long>(T1 *, const T1 *, const long *, long)": {
+   "regs_per_thread": 16,
+   "grid": [
+    1024,
+    1,
+    1
+   ],
+   "block": [
+    32,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 0
+  },
+  "void at_cuda_detail::cub::DeviceScanInitKernel<at_cuda_detail::cub::ScanTileState<long, (bool)1>>(T1, int)": {
+   "regs_per_thread": 16,
+   "grid": [
+    1,
+    1,
+    1
+   ],
+   "block": [
+    128,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 0
+  },
+  "void at_cuda_detail::cub::DeviceScanKernel<at_cuda_detail::cub::DeviceScanPolicy<long, at::cuda::cub::<unnamed>::SumOp<l": {
+   "regs_per_thread": 47,
+   "grid": [
+    37,
+    1,
+    1
+   ],
+   "block": [
+    128,
+    1,
+    1
+   ],
+   "smem_static": 7184,
+   "smem_dynamic": 0
+  },
+  "void at::native::<unnamed>::compute_num_of_partial_segments<long>(const T1 *, const T1 *, const long *, long *)": {
+   "regs_per_thread": 16,
+   "grid": [
+    1,
+    1,
+    1
+   ],
+   "block": [
+    1,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 0
+  },
+  "void at::native::<unnamed>::krn_partial_segment_offset<long>(T1 *, const T1 *, const T1 *, const T1 *, const long *)": {
+   "regs_per_thread": 26,
+   "grid": [
+    1024,
+    1,
+    1
+   ],
+   "block": [
+    32,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 0
+  },
+  "void at::native::<unnamed>::compute_grad_weight<c10::BFloat16, long>(const T2 *, const T1 *, const T2 *, long, long, con": {
+   "regs_per_thread": 32,
+   "grid": [
+    36044,
+    1,
+    1
+   ],
+   "block": [
+    768,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 0
+  },
+  "void at::native::<unnamed>::sum_and_scatter<c10::BFloat16, long>(const T2 *, T1 *, long, const T2 *, const long *, const": {
+   "regs_per_thread": 26,
+   "grid": [
+    32768,
+    1,
+    1
+   ],
+   "block": [
+    768,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 0
+  },
+  "void at::native::vectorized_elementwise_kernel<(int)4, at::native::CUDAFunctor_add<float>, std::array<char *, (unsigned ": {
+   "regs_per_thread": 32,
+   "grid": [
+    1,
+    1,
+    1
+   ],
+   "block": [
+    128,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 0
+  },
+  "nvjet_tst_64x8_64x16_1x1_v_bz_splitK_NNT": {
+   "regs_per_thread": 168,
+   "grid": [
+    1,
+    25,
+    1
+   ],
+   "block": [
+    384,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 164292
+  },
+  "void cutlass::Kernel2<cutlass_75_tensorop_bf16_s1688gemm_bf16_64x64_nn_align1>(T1::Params)": {
+   "regs_per_thread": 96,
+   "grid": [
+    512,
+    1,
+    1
+   ],
+   "block": [
+    128,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 16384
+  },
+  "void at::native::<unnamed>::CatArrayBatchedCopy_alignedK_contig<at::native::<unnamed>::OpaqueType<(unsigned int)4>, unsi": {
+   "regs_per_thread": 32,
+   "grid": [
+    1,
+    6,
+    1
+   ],
+   "block": [
+    128,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 0
+  },
+  "void at::native::vectorized_elementwise_kernel<(int)4, at::native::<unnamed>::lerp_scalar_kernel(at::TensorIteratorBase ": {
+   "regs_per_thread": 40,
+   "grid": [
+    24576,
+    1,
+    1
+   ],
+   "block": [
+    128,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 0
+  },
+  "void at::native::vectorized_elementwise_kernel<(int)4, void at::native::<unnamed>::pow_tensor_scalar_kernel_impl<float, ": {
+   "regs_per_thread": 32,
+   "grid": [
+    24576,
+    1,
+    1
+   ],
+   "block": [
+    128,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 0
+  },
+  "void at::native::vectorized_elementwise_kernel<(int)4, at::native::sqrt_kernel_cuda(at::TensorIteratorBase &)::[lambda()": {
+   "regs_per_thread": 32,
+   "grid": [
+    24576,
+    1,
+    1
+   ],
+   "block": [
+    128,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 0
+  },
+  "void at::native::vectorized_elementwise_kernel<(int)4, at::native::CUDAFunctorOnSelf_add<float>, std::array<char *, (uns": {
+   "regs_per_thread": 32,
+   "grid": [
+    24576,
+    1,
+    1
+   ],
+   "block": [
+    128,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 0
+  },
+  "void at::native::vectorized_elementwise_kernel<(int)4, at::native::BinaryFunctor<float, float, float, at::native::binary": {
+   "regs_per_thread": 40,
+   "grid": [
+    24576,
+    1,
+    1
+   ],
+   "block": [
+    128,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 0
+  },
+  "void at::native::reduce_kernel<(int)512, (int)1, at::native::ReduceOp<float, at::native::NormTwoOps<float, float, float>": {
+   "regs_per_thread": 32,
+   "grid": [
+    2,
+    1,
+    1
+   ],
+   "block": [
+    64,
+    4,
+    1
+   ],
+   "smem_static": 16,
+   "smem_dynamic": 1024
+  },
+  "void at::native::vectorized_elementwise_kernel<(int)4, at::native::<unnamed>::launch_clamp_scalar(at::TensorIteratorBase": {
+   "regs_per_thread": 28,
+   "grid": [
+    1,
+    1,
+    1
+   ],
+   "block": [
+    128,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 0
+  },
+  "void at::native::elementwise_kernel<(int)128, (int)2, void at::native::gpu_kernel_impl_nocast<at::native::BinaryFunctor<": {
+   "regs_per_thread": 19,
+   "grid": [
+    1,
+    1,
+    1
+   ],
+   "block": [
+    128,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 0
+  },
+  "void at::native::reduce_kernel<(int)512, (int)1, at::native::ReduceOp<c10::BFloat16, at::native::NormTwoOps<c10::BFloat1": {
+   "regs_per_thread": 32,
+   "grid": [
+    2,
+    1,
+    1
+   ],
+   "block": [
+    64,
+    4,
+    1
+   ],
+   "smem_static": 16,
+   "smem_dynamic": 1024
+  },
+  "void at::native::vectorized_elementwise_kernel<(int)8, at::native::CUDAFunctorOnSelf_add<c10::BFloat16>, std::array<char": {
+   "regs_per_thread": 32,
+   "grid": [
+    1,
+    1,
+    1
+   ],
+   "block": [
+    128,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 0
+  },
+  "void cutlass::Kernel2<cutlass_80_wmma_tensorop_bf16_s161616gemm_bf16_16x16_32x1_tn_align2>(T1::Params)": {
+   "regs_per_thread": 56,
+   "grid": [
+    1,
+    1,
+    6
+   ],
+   "block": [
+    32,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 2560
+  },
+  "void cutlass::Kernel2<cutlass_80_wmma_tensorop_bf16_s161616gemm_bf16_16x16_32x1_nn_align2>(T1::Params)": {
+   "regs_per_thread": 64,
+   "grid": [
+    1,
+    1,
+    6
+   ],
+   "block": [
+    32,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 2816
+  },
+  "void at::native::vectorized_elementwise_kernel<(int)4, at::native::reciprocal_kernel_cuda(at::TensorIteratorBase &)::[la": {
+   "regs_per_thread": 32,
+   "grid": [
+    1,
+    1,
+    1
+   ],
+   "block": [
+    128,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 0
+  },
+  "void at::native::reduce_kernel<(int)128, (int)4, at::native::ReduceOp<float, at::native::MeanOps<float, float, float, fl": {
+   "regs_per_thread": 54,
+   "grid": [
+    1,
+    1,
+    1
+   ],
+   "block": [
+    16,
+    4,
+    1
+   ],
+   "smem_static": 16,
+   "smem_dynamic": 0
+  },
+  "void at::native::reduce_kernel<(int)512, (int)1, at::native::ReduceOp<float, at::native::func_wrapper_t<float, at::nativ": {
+   "regs_per_thread": 32,
+   "grid": [
+    2,
+    1,
+    1
+   ],
+   "block": [
+    8,
+    4,
+    1
+   ],
+   "smem_static": 16,
+   "smem_dynamic": 0
+  },
+  "void at::native::vectorized_elementwise_kernel<(int)4, at::native::rsqrt_kernel_cuda(at::TensorIteratorBase &)::[lambda(": {
+   "regs_per_thread": 32,
+   "grid": [
+    1,
+    1,
+    1
+   ],
+   "block": [
+    128,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 0
+  },
+  "void at::native::vectorized_elementwise_kernel<(int)4, void at::native::compare_scalar_kernel<float>(at::TensorIteratorB": {
+   "regs_per_thread": 32,
+   "grid": [
+    1,
+    1,
+    1
+   ],
+   "block": [
+    128,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 0
+  },
+  "void at::native::unrolled_elementwise_kernel<at::native::BinaryFunctor<float, float, float, at::native::binary_internal:": {
+   "regs_per_thread": 32,
+   "grid": [
+    1,
+    1,
+    1
+   ],
+   "block": [
+    128,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 0
+  },
+  "nvjet_tst_192x192_64x4_1x2_h_bz_coopB_TNN": {
+   "regs_per_thread": 168,
+   "grid": [
+    2,
+    66,
+    1
+   ],
+   "block": [
+    384,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 213204
+  },
+  "void at::native::reduce_kernel<(int)512, (int)1, at::native::ReduceOp<float, at::native::MeanOps<float, float, float, fl": {
+   "regs_per_thread": 32,
+   "grid": [
+    2304,
+    1,
+    1
+   ],
+   "block": [
+    32,
+    16,
+    1
+   ],
+   "smem_static": 16,
+   "smem_dynamic": 0
+  },
+  "void at::native::<unnamed>::multi_tensor_apply_kernel<at::native::<unnamed>::TensorListMetadata<(int)2>, at::native::<un": {
+   "regs_per_thread": 32,
+   "grid": [
+    6,
+    1,
+    1
+   ],
+   "block": [
+    512,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 0
+  }
+ }
+}

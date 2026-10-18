@@ -1,0 +1,257 @@
+{
+ "summary": "DeltaAI policy research, checked against the live Slurm, cgroup, Lustre and prolog configuration on gh-login01 and against completed job records on 2026-10-17.\n\n**1. Charging.** One SU is one GH200-hour. Billing uses PriorityFlags=MAX_TRES, so each node is billed at the largest of three numbers: 1000 per GPU, 13.888888 per core, or 9.01726 per GiB of memory. That is the ghx4 rate. Every weight is doubled on ghx4-interactive. Charge = billing \u00d7 elapsed seconds / 3.6e6; you pay for elapsed time, not the time limit.\n- A 1-GPU job with up to 72 cores and up to ~110 GiB costs exactly 1 SU/h.\n- Going over that costs more. For example, 1 GPU with 120G of memory bills 1082, i.e. 1.08 SU/h.\n- CPU-only jobs are allowed on ghx4 and billed fractionally. For example, 4 cores with 32G bills 288, about 0.29 SU/h.\n- `--exclusive`, `--gpus=4`, `--constraint=perf` and `--constraint=xpmem` each cost a whole node: 4 SU/h on ghx4, 8 SU/h on ghx4-interactive.\n\n**2. Partitions.** Only two are open to bffp-dtai-gh:\n- **ghx4:** the default, 2-day maximum, 30-minute default time, no per-user limits.\n- **ghx4-interactive:** 2-hour maximum, at most 2 nodes, exactly one job per user (queued plus running), costs twice as much, gets a higher priority factor.\n- The 'test' and 'full' partitions accept only the NCSA staff account (bbka-dtai-gh), so the lead's assumption that 'test' is usable is wrong.\n- Nothing is preempted, and jobs are not requeued automatically.\n- The class pool has 6,605 of 7,225 SU left. It is shared by 23 users, not ~50, and one user spent 509 SU in the last 30 days.\n\n**3. Per-GPU request.** One GPU's share is 72 cores and 113,560 MiB. Grace cores 0-71 belong to GPU0, 72-143 to GPU1, and so on. Inside a job, only the allocated GPU is visible, as device 0.\n\n**4. Login nodes.** Every user gets the same per-node cgroup limits: 16 cores, memory throttled at 16G and OOM-killed at 20G, and at most 1000 tasks (threads count). tmux 3.3a and screen are installed, and the docs recommend tmux. Sessions survive logout (KillUserProcesses=false) but exist only on the node that started them, so always ssh to gh-login01 directly. No automatic process-killer is visible. The sibling Delta system documents one, so it may exist here too.\n\n**5. Storage.** These are Lustre project quotas with a 1-week grace period. /projects/bffp (508.8G of 500G) and /work/hdd/bffp (1005G of 1000G) are over their soft quotas and both grace periods show 'expired', so new writes there should fail. I did not test this, because writes there are outside my allowed scratch area. /work/nvme/bffp is fine at 243.6G of 500G soft, but it is shared by the whole class.\n\n**6. Internet.** Compute nodes can reach the internet: the lead's smoke job on gh047 got HTTP 200 from huggingface.co.\n\n**7. Profiling.** The docs say to add `--constraint=nvperf` for GPU counters (node-shared) and `--constraint=perf` for CPU counters (whole node). In practice GPU counters are already open to us: ncu ran with no constraint on gh015, gh060 and gh047. The compute-node default perf_event_paranoid is 2, which is enough for nsys CPU sampling of your own processes. ncu locks the GPU to base clocks by default.\n\n**8. Containers and Python.** Apptainer 1.4.2 is installed, with arm64 NGC PyTorch images up to 26.07 in /sw/user/NGC_containers. The docs recommend the miniforge3_pytorch modules with a venv on /work/nvme layered on top. There is no ROCm anywhere on DeltaAI.\n\n**9. GH200.** The nvidia-smi product name is 'NVIDIA GH200 120GB'. Each GPU has 97,871 MiB of HBM3, 132 SMs, a 1980 MHz maximum SM clock and a 900 W power limit. Datasheet peaks are 4 TB/s and 990 TFLOPS dense BF16. The lead's smoke job measured 3.65 TB/s copy and 723 TFLOPS BF16. Each CPU has 120 GB of LPDDR5X at up to 512 GB/s, and NVLink-C2C is 900 GB/s. Slurm offers no MIG or MPS.\n\nRaw evidence (slurm.conf, partitions, QOS, quota and grace, login limits, prolog scripts, billing examples, and text copies of every docs page) is in /work/nvme/bffp/tmahmood1/cisc662/scratch/deltaai-policy-research/{evidence,txt,delta_txt}/.",
+ "facts": [
+  {
+   "topic": "1-charging",
+   "claim": "One SU equals one GH200-hour. You are charged for the resources you reserve, not for what you actually use.",
+   "evidence": "https://docs.ncsa.illinois.edu/systems/deltaai/en/latest/user-guide/job-accounting.html",
+   "confidence": "verified"
+  },
+  {
+   "topic": "1-charging",
+   "claim": "How billing is computed:\n- ghx4 weights: CPU=13.888888, Mem=9.01726G (per GiB, 1024-based), GRES/gpu=1000.\n- ghx4-interactive weights: CPU=27.777776, Mem=18.03452G, GPU=2000 (a 2x charge factor).\n- PriorityFlags=MAX_TRES, so each node bills max(cores\u00d7w_cpu, GiB\u00d7w_mem, GPUs\u00d7w_gpu), summed over nodes, truncated to an integer.\n- 1000 billing corresponds to 1 SU/h.\n- On ghx4, 72 cores = 113,560 MiB (110.9 GiB) = 1 GPU = 1000.",
+   "evidence": "Sources: scontrol show partition; /var/spool/slurmd/conf-cache/slurm.conf (PriorityFlags=MAX_TRES). Copies are in scratch/deltaai-policy-research/evidence/.",
+   "confidence": "verified"
+  },
+  {
+   "topic": "1-charging",
+   "claim": "Charge per job = billing \u00d7 ElapsedRaw / 3.6e6 SU. It uses elapsed time, not the requested time limit.\n- Lead's job 3400653 (1 GPU, 32 cores, 96G, 146 s on ghx4): 0.04 SU.\n- Job 3114438 (ghx4-interactive, 1 GPU, 1821 s): billing 2000, 1.01 SU.",
+   "evidence": "/sw/user/scripts/jobcharge -u tmahmood1 -d 60 --detail",
+   "confidence": "verified"
+  },
+  {
+   "topic": "1-charging",
+   "claim": "Partial-node and CPU-only jobs are billed fractionally; they are not rounded up to whole GH200s.\n- ghx4, 4 cores + 32G: 288 (0.288 SU/h).\n- ghx4, 72 cores + 96G: 999.\n- ghx4, 144 cores + 300G: 2705.\n- ghx4-interactive, 2 cores + 8G: 144.\n- ghx4, 1 GPU + 16 cores + 120G: 1082 (memory above about 111 GiB per GPU costs extra).\n- 1 GPU with 8\u201372 cores and up to 110G: exactly 1000.",
+   "evidence": "sacct -a -X AllocTRES aggregates for 2026-10-15..17, saved in evidence/billing_examples_cluster_2026-10-15_17.txt",
+   "confidence": "verified"
+  },
+  {
+   "topic": "1-charging",
+   "claim": "Whole-node jobs:\n- Any job that holds all 288 cores (`--exclusive`, `--gpus=4`, or all cores) bills 4000 on ghx4 (4 SU/h) and 8000 on ghx4-interactive (8 SU/h).\n- The docs say `--exclusive --mem=0` gives a node-exclusive job.\n- `--constraint=xpmem` silently turns the job node-exclusive and bills the whole node (there is a submit-time warning).\n- The docs say `--constraint=perf` makes the job node-exclusive.",
+   "evidence": "sacct examples (ghx4 billing=4000 cpu=288 gpu=4; ghx4-interactive billing=8000); running-jobs.html (Job and Node Policies; Constraint: xpmem); debug-perf.html",
+   "confidence": "verified"
+  },
+  {
+   "topic": "1-charging",
+   "claim": "Default memory:\n- Every partition sets DefMemPerGPU=113560 MiB. A GPU job without `--mem` gets exactly one GPU's share at no extra charge (the hw2 jobs show mem=113560M).\n- For CPU-only jobs without `--mem`, the docs say 1000 MB per core, but slurm.conf has no DefMemPerCPU (DefMemPerNode=UNLIMITED). job_submit.lua is not readable from the login node, so the real behaviour is unknown.",
+   "evidence": "slurm.conf partition lines; sacct -j 3367929; running-jobs.html Default Partition Values",
+   "confidence": "uncertain"
+  },
+  {
+   "topic": "1-charging",
+   "claim": "Class allocation bffp-dtai-gh ('vertically integrated project', org delta.explore):\n- QOS GrpTRESMins billing limit 433,530,500 (7,225.5 SU), used 37,162,792 (619 SU), leaving 6,605 SU.\n- 23 user associations.\n- Last 30 days: 552 SU used by 6 users, 509 of it by one user.\n- tmahmood1: 1.33 SU in the last 60 days.\n- The account QOS has NoDecay, UsageFactor 1.0, MaxSubmitPA=20000.",
+   "evidence": "scontrol show assoc_mgr qos=bffp-dtai-gh flags=qos; accounts; jobcharge -a bffp-dtai-gh -d 30; sacctmgr show assoc/qos",
+   "confidence": "verified"
+  },
+  {
+   "topic": "1-charging",
+   "claim": "Tools for checking usage:\n- `accounts`: balance and deposit, read from the QOS GrpTRESMins.\n- `/sw/user/scripts/jobcharge [-u USER|-a ACCOUNT] [-d DAYS|-m MONTH -y YEAR] [--detail] [--all]`: per-job charges.\n- `sacct`: windows must be shorter than 90 days, otherwise it fails with 'Too wide of a date range'.\n- `seff`.\n- `/sw/user/scripts/jobstatus`.\n- `sshare -A bffp-dtai-gh -u $USER`: tmahmood1 FairShare is 0.15.\n\nIf the pool runs short, jobs pend with reason QOSGrpBillingMinutes. Because AccountingStorageEnforce includes 'safe', a job starts only if billing \u00d7 time limit fits in the remaining balance.",
+   "evidence": "Commands run read-only on gh-login01; job-accounting.html; slurm.conf AccountingStorageEnforce=associations,limits,qos,safe",
+   "confidence": "verified"
+  },
+  {
+   "topic": "1-charging",
+   "claim": "There are no job-by-job refunds. Hardware failures do not qualify; the docs say to checkpoint.",
+   "evidence": "job-accounting.html (Refunds)",
+   "confidence": "verified"
+  },
+  {
+   "topic": "2-partitions",
+   "claim": "ghx4:\n- Default partition, nodes gh[001-150].\n- MaxTime 2-00:00:00, DefaultTime 00:30:00.\n- qos_ghx4 sets no per-user job or TRES limits.\n- PriorityJobFactor 100, charge factor 1.0.",
+   "evidence": "scontrol show partition; sacctmgr show qos (qos_ghx4 empty limits)",
+   "confidence": "verified"
+  },
+  {
+   "topic": "2-partitions",
+   "claim": "ghx4-interactive:\n- MaxTime 02:00:00, MaxNodes=2, nodes gh[001-152].\n- QOS qos_ghx4int has MaxJobsPU=1 and MaxSubmitPU=1, so one job in total (queued plus running) per user.\n- PriorityJobFactor 10000 (higher priority than ghx4) and a 2x charge.\n- The docs table still says 4 nodes and 8 node-hours, but the live config allows 2 nodes and 2 h.\n- The docs say interactive srun/salloc jobs can run in any partition, so ghx4 at 1x works.",
+   "evidence": "scontrol show partition; sacctmgr qos qos_ghx4int; running-jobs.html Partitions and Interactive Jobs note",
+   "confidence": "verified"
+  },
+  {
+   "topic": "2-partitions",
+   "claim": "The 'test' partition (gh[001-002], 2 h, qos_test) and the 'full' partition (1 day) both have AllowAccounts=bbka-dtai-gh, the NCSA staff account. gh001-002 also sit in staff reservation ncsa_test until 2027-04-29. The class cannot use either partition.",
+   "evidence": "scontrol show partition; scontrol show reservation",
+   "confidence": "verified"
+  },
+  {
+   "topic": "2-partitions",
+   "claim": "Preemption and requeue:\n- Nothing is preempted: every partition has PreemptMode=OFF, and the docs say a preempt queue is planned but not implemented.\n- No automatic requeue (JobRequeue=0); opt in with `--requeue`.\n- At the time limit a job gets SIGTERM, then SIGKILL 30 s later (KillWait=30, OverTimeLimit=0).\n\nScheduling:\n- Backfill with bf_continue, bf_max_job_test=2000, bf_max_job_user=100.\n- Priority weights: fairshare 10000, age 1000 (max 2 days), partition 1000. Fairshare half-life is 1 day.",
+   "evidence": "slurm.conf; running-jobs.html (Job and Node Policies; Preempt Queue)",
+   "confidence": "verified"
+  },
+  {
+   "topic": "2-partitions",
+   "claim": "Queue snapshot at about 16:10 on 2026-10-17. Pending ghx4 jobs: about 1004 held by their users, 690 waiting on Priority, 266 on Dependency. Nodes: 118 allocated, 32 idle. The lead's 1-GPU 30-minute job started 14 s after submission.",
+   "evidence": "squeue -p ghx4 -t PD -o %r; sinfo -p ghx4 -o '%A %C'; jobcharge detail for job 3400653",
+   "confidence": "verified"
+  },
+  {
+   "topic": "3-per-GPU",
+   "claim": "Node memory and GPU-CPU affinity:\n- Memory: RealMemory 488,000 MiB minus MemSpecLimit 33,760 MiB for the OS leaves 454,240 MiB = 4 \u00d7 113,560 MiB. 288 cores (4 \u00d7 72, SMT off); Gres gpu:nvidia_gh200_120gb:4, one GPU per socket (S:0-3).\n- Docs: 1 GPU \u2248 72 cores \u2248 110 GB.\n- Affinity: GPU0 \u2194 cores 0-71, NUMA 0 (HBM NUMA 4), hsn0. GPU1 \u2194 72-143, NUMA 1 (12). GPU2 \u2194 144-215, NUMA 2 (20). GPU3 \u2194 216-287, NUMA 3 (28). Every GPU pair is linked by NV6.\n- The docs' sample scripts use `--gpu-bind=verbose,closest`, `--ntasks-per-socket=1` and `--mem-bind=verbose,local`. The single-GPU PyTorch example uses 16 cores.",
+   "evidence": "scontrol show node gh015; slurm.conf NodeName line; architecture.html (mapping table); running-jobs.html and python/pytorch.html sample scripts",
+   "confidence": "verified"
+  },
+  {
+   "topic": "3-per-GPU",
+   "claim": "Job isolation:\n- cgroup.conf sets ConstrainCores, ConstrainDevices and ConstrainRAMSpace to yes, with AllowedRAMSpace=100 and AllowedSwapSpace=0.\n- Only the allocated GPU is visible; the smoke log shows CUDA_VISIBLE_DEVICES=0.\n- Going over `--mem` gets the job OOM-killed, with no swap.\n- You can ssh into nodes that are running your jobs; nvitop is available as a module.",
+   "evidence": "/var/spool/slurmd/conf-cache/cgroup.conf; /work/nvme/bffp/tmahmood1/cisc662/logs/c662-smoke-tok-3400653.out; running-jobs.html Monitoring a Node",
+   "confidence": "verified"
+  },
+  {
+   "topic": "4-login-node",
+   "claim": "Login-node limits on gh-login01, set per user per node and summed over all of that user's processes:\n- CPUQuota=1600% (16 cores).\n- MemoryHigh=16G (throttling), MemoryMax=20G (OOM kill), MemorySwapMax=16G.\n- TasksMax=1000 (threads count).\n- AllowedCPUs=0-143.\n- Current use: 274 tasks and 2.7 GiB; the user slice has already been CPU-throttled 4 times.\n- ulimits: CPU time unlimited, nofile 16384, stack 300 MB. PropagateResourceLimits=ALL passes these rlimits into jobs.",
+   "evidence": "/etc/systemd/system/user-.slice.d/{40-cpu,50-memory,60-cpuset,70-pids}.conf (50-memory.conf changed 2026-10-15); /sys/fs/cgroup/user.slice/user-97171.slice/*; ulimit -a; slurm.conf",
+   "confidence": "verified"
+  },
+  {
+   "topic": "4-login-node",
+   "claim": "Login-node policy in the DeltaAI docs:\n- Login nodes are for compiling, submitting jobs and running interactive salloc/srun. They have no GPUs.\n- No production jobs on login nodes; very short debug tests are fine.\n- Do not run Jupyter on login nodes.\n- Use scp/rsync only for small or modest transfers and Globus for large ones.\n- SSH key pairs are disabled, so every login needs a password plus Duo.",
+   "evidence": "citizenship.html; architecture.html (Login Nodes); software.html (Jupyter); data-mgmt.html; login.html (SSH Key Pairs)",
+   "confidence": "verified"
+  },
+  {
+   "topic": "4-login-node",
+   "claim": "tmux:\n- tmux 3.3a and screen are installed.\n- The docs recommend tmux to keep shells alive 'for days', reattaching through the specific node and avoiding the round-robin alias dtai-login.delta.ncsa.illinois.edu.\n- logind KillUserProcesses=false, so processes survive logout.\n- Sessions exist only on the node that started them (session 'cisc662' is on gh-login01) and are lost if that node reboots. gh-login01 uptime is currently 27 days.\n- There are 4 login nodes, gh-login01 to gh-login04.",
+   "evidence": "login.html (Maintaining Persistent Login Sessions: tmux); busctl get-property ... KillUserProcesses -> false; tmux ls; uptime",
+   "confidence": "verified"
+  },
+  {
+   "topic": "4-login-node",
+   "claim": "No automatic killer for long-running processes is visible on gh-login01: no arbiter-style daemon and no cron.d jobs, and the DeltaAI docs say nothing about one. The sibling Delta docs do describe 'automatic safeguard scripts that stop codes that appear to be applications running on the login nodes', which email the user.",
+   "evidence": "ps of root daemons; /etc/cron.d empty; https://docs.ncsa.illinois.edu/systems/delta/en/latest/user_guide/citizenship.html",
+   "confidence": "uncertain"
+  },
+  {
+   "topic": "5-filesystems",
+   "claim": "Filesystems:\n- /u (VAST): 100 GB and 750k files, 30-day daily snapshots in ~/.snapshot; not meant for job I/O.\n- /projects (Taiga Lustre): 500 GB default.\n- /work/hdd and /work/nvme: Lustre, shared with Delta; NVMe suits many small files.\n- /tmp: node-local 3.9 TB, purged after each job.\n- Nothing on /u, /projects or /work is purged, and nothing except /u snapshots is backed up.\n- DeltaAI has no /scratch.\n- Do not symlink $HOME to /projects or /work.",
+   "evidence": "data-mgmt.html; architecture.html Storage warning",
+   "confidence": "verified"
+  },
+  {
+   "topic": "5-filesystems",
+   "claim": "Quota state:\n- Quotas are Lustre project quotas (project 19999; pools ddn_ssd for /work/nvme and ddn_hdd for /work/hdd) with a 1-week block and inode grace period.\n- /projects/bffp: 508.8G against a 500G soft limit (550G hard), grace 'expired'.\n- /work/hdd/bffp: 1005G against 1000G soft (1.074T hard), grace 'expired'.\n- /work/nvme/bffp: 243.6G of 500G soft (550G hard), fine.\n- The /work inode quota (2.55M soft) is shared by hdd and nvme.\n- This project currently uses about 8 GB in /work/nvme.\n- Under Lustre rules, an expired grace makes the soft limit hard, so new writes to /projects/bffp and /work/hdd/bffp should fail with 'Disk quota exceeded'. I did not test a write.",
+   "evidence": "lfs quota -hp 19999 <path> [--pool ...]; lfs quota -t -p; /sw/user/scripts/quota; du; saved in evidence/lustre_project_quota_grace.txt",
+   "confidence": "likely"
+  },
+  {
+   "topic": "5-filesystems",
+   "claim": "Per-job local storage:\n- job_container/tmpfs with BasePath=/local/slurmjobs gives each job a private /tmp, deleted when the job ends; per the docs it is fast local SSD.\n- Nodes advertise TmpDisk=0, so `--tmp` requests are not meaningful.\n- NCSA asks jobs to declare filesystem dependencies with `--constraint` (projects, taiga; the workhdd/worknvme labels are 'not yet implemented'). All nodes carry the features work, projects, taiga, perf, nvperf and xpmem.",
+   "evidence": "conf-cache/job_container.conf; slurm.conf (TmpFS=/tmp); sinfo -o %f; running-jobs.html File System Dependency",
+   "confidence": "verified"
+  },
+  {
+   "topic": "6-internet",
+   "claim": "Compute nodes have outbound internet: the lead's batch job on gh047 got HTTP 200 from https://huggingface.co. The login node can reach GitHub and the NCSA docs. The DeltaAI docs state no policy on compute-node network access. Only one compute node was tested.",
+   "evidence": "/work/nvme/bffp/tmahmood1/cisc662/logs/c662-smoke-tok-3400653.out ('huggingface.co HTTP 200'), script cisc662/slurm/s1_smoke_tok.sbatch",
+   "confidence": "verified"
+  },
+  {
+   "topic": "7-profiling",
+   "claim": "What the docs and prolog say:\n- Docs: GPU counter tools need `--constraint=nvperf`, which can work node-shared. CPU counters need `--constraint=perf`, which makes the job node-exclusive.\n- Prolog 30_enable_perf.sh reacts only to 'perf': it checks that perf_event_paranoid is 2, sets it to 0, and the epilog resets it to 2.\n- No prolog handles nvperf.",
+   "evidence": "debug-perf.html; /opt/slurm/prolog.d/30_enable_perf.sh; /opt/slurm/epilog.d/69_disable_perf.sh (copies in evidence/)",
+   "confidence": "verified"
+  },
+  {
+   "topic": "7-profiling",
+   "claim": "In practice, regular users can already read GPU counters without any constraint, with no ERR_NVGPUCTRPERM:\n- `ncu --set full` (39 passes per kernel) ran in node-shared ghx4-interactive jobs 3367929 (gh015) and 3368195 (gh060) on 2026-10-12.\n- ncu dram__bytes and sm__throughput metrics ran in job 3400653 (gh047) on 2026-10-17.\n- None of these jobs used a constraint.",
+   "evidence": "sacct Constraints empty; /u/tmahmood1/hw2/solution_kit/nvidia/logs/ncu_3368195.out; c662-smoke-tok-3400653.out",
+   "confidence": "verified"
+  },
+  {
+   "topic": "7-profiling",
+   "claim": "Nsight tools:\n- nsys 2025.3.1 and ncu 2025.2.0 come with NVHPC 25.5 and are on PATH.\n- nsys CPU IP sampling (default 'process-tree') needs perf_event_paranoid \u2264 2, so the compute-node default of 2 is enough. 'system-wide' sampling needs \u2264 0, which means `--constraint=perf` and a whole node.\n- ncu defaults to `--clock-control base`, locking clocks to base while profiling.\n- The DeltaAI docs do not mention DCGM, and no DCGM conflict was seen.\n- Slurm records per-step gres/gpuutil and gres/gpumem (30 s sampling), readable with `sacct --format=JobID,TRESUsageInAve%150`.",
+   "evidence": "NVIDIA Nsight Systems Installation Guide ('perf_event_paranoid level must be 2 or less'); nsys profile --help; ncu --help; sacct -j 3400653 TRESUsageInAve; slurm.conf JobAcctGatherFrequency=task=30",
+   "confidence": "verified"
+  },
+  {
+   "topic": "8-containers-python",
+   "claim": "Containers:\n- Apptainer 1.4.2 is at /usr/bin/apptainer (with a singularity alias).\n- arm64 NGC images are in /sw/user/NGC_containers: PyTorch 24.07 through 26.07. pytorch_26.07-py3.sif is a symlink to builds/pytorch_26.07-py3-libfabric-2.3.1-build-ofi-v3.sif.\n- Run them with `apptainer run --nv --bind /projects ...`.\n- The docs say to move APPTAINER_CACHEDIR off $HOME. x86 images fail with 'Exec format error'.",
+   "evidence": "apptainer --version; ls /sw/user/NGC_containers; containers.html; python/pytorch.html; faq.html",
+   "confidence": "verified"
+  },
+  {
+   "topic": "8-containers-python",
+   "claim": "Python guidance in the docs:\n- Modules python/miniforge3_pytorch 2.5.0, 2.7.0, 2.10.0 (default, CUDA 12.9), 2.11.0 and 2.12.0 (CUDA 13.0). Always run `conda activate base` after loading.\n- Recommended pattern: a venv overlay with `--system-site-packages` on /work/nvme/<acct>/$USER. uv works for this: `uv venv --python $(which python) --system-site-packages`.\n- Modules set PYTHONNOUSERSITE=1.\n- Not every package has aarch64 wheels. For your own torch, use `pip install --index-url https://download.pytorch.org/whl/cu130`.\n- Custom CUDA extensions build against CUDA_HOME: cudatoolkit/25.5_12.9 by default, cuda/13.1.1 under 2.11/2.12.\n- The default modules include craype-accel-nvidia90 and nccl-ofi-plugin.\n- There is no ROCm or HIP; only craype-accel-amd-gfx* target modules exist.",
+   "evidence": "software.html; python/pytorch.html; prog-env.html; module -t avail",
+   "confidence": "verified"
+  },
+  {
+   "topic": "8-containers-python",
+   "claim": "The login node's driver libraries (libcuda and libnvidia-ml) are version 595.71.05. Compute nodes are presumably on the same driver; torch 2.9.1+cu128 ran correctly on gh047.",
+   "evidence": "ls -la /usr/lib64/libcuda.so*; smoke log",
+   "confidence": "likely"
+  },
+  {
+   "topic": "9-GH200",
+   "claim": "Measured on gh047:\n- 'NVIDIA GH200 120GB'; nvidia-smi reports 97,871 MiB of HBM, torch reports 95.08 GiB total.\n- 132 SMs, compute capability 9.0, 60 MiB L2.\n- Max SM clock 1980 MHz, max memory clock 2619 MHz, idle SM clock 345 MHz.\n- nvidia-smi power.limit 900 W.\n- Bandwidth: copy 3,650 GB/s, read 3,397 GB/s (4 GiB buffer).\n- GEMM: BF16 723, FP16 694, TF32 382, FP32 48.6 TFLOP/s.",
+   "evidence": "c662-smoke-tok-3400653.out (cisc662/results/smoke_gh200.json)",
+   "confidence": "verified"
+  },
+  {
+   "topic": "9-GH200",
+   "claim": "NVIDIA GH200 datasheet (3773000, MAR25):\n- 96GB HBM3 at up to 4 TB/s (the 144GB HBM3e version reaches 4.9 TB/s).\n- LPDDR5X: the 480GB configuration reaches up to 384 GB/s; the 120/240GB configurations reach up to 512 GB/s.\n- NVLink-C2C 900 GB/s CPU-to-GPU.\n- Dense peaks (TFLOPS): FP64 34, FP64 Tensor Core 67, FP32 67, TF32 TC 494, BF16/FP16 TC 990, FP8 1,979. Sparse figures are 2x.\n- Module power configurable from 450 to 1000 W.\n- Grace: 72 Neoverse V2 cores, 114 MB L3, 3.1 GHz base.\n\nDeltaAI docs: 96 GB HBM3 per GPU, 120 GB LPDDR5 per CPU (480 GB per node), one NUMA domain per superchip plus GPU HBM NUMA nodes, about 3.35 GHz CPU clock.",
+   "evidence": "NVIDIA datasheet PDF (dam-cdn.nvd.orangelogic.com/AssetLink/tkno03fa645gb7f33w60rf200d330420.pdf), p.4 table; architecture.html",
+   "confidence": "likely"
+  },
+  {
+   "topic": "9-GH200",
+   "claim": "No MIG and no Slurm-managed MPS: Slurm shows 4 whole GPUs per node, GresTypes=gpu only, with no MIG or 'mps' GRES. slurm.conf sets GpuFreqDef=high,memory=high. Whether users can fix GPU clocks with `srun --gpu-freq` is untested.",
+   "evidence": "slurm.conf; scontrol show node gh015 (Gres=gpu:nvidia_gh200_120gb:4)",
+   "confidence": "verified"
+  },
+  {
+   "topic": "docs-consistency",
+   "claim": "The DeltaAI docs contradict themselves or the live config in several places, so trust the live config:\n- The quantum section says '120 GB of HBM3 (about 97 GB usable)'; the architecture page says 96 GB HBM3.\n- The software page calls /projects 'backed up'; the architecture page says no backups.\n- The condarc template calls /work/nvme 'purgeable'; the filesystem table says nothing is purged.\n- Several pages refer to /scratch, which does not exist.\n- Accounting says '1 GB = 1e9 bytes', but the Slurm weights are per GiB.\n- The interactive partition limits are listed as 4 nodes / 8 node-hours, but the config has MaxNodes=2.",
+   "evidence": "software.html; architecture.html; data-mgmt.html; job-accounting.html vs slurm.conf",
+   "confidence": "verified"
+  },
+  {
+   "topic": "AMD-access",
+   "claim": "DeltaAI has no AMD GPUs. The sibling Delta system (x86) has one gpuMI100x8 node: 8\u00d7 MI100 32GB plus 1\u00d7 MI210, ROCm in /opt/rocm, hipcc with `--offload-arch=gfx908`. It also has A100, A40 and 8-way H200 nodes. These need a separate Delta GPU allocation; bffp only has the DeltaAI account. /work is shared between Delta and DeltaAI.",
+   "evidence": "https://docs.ncsa.illinois.edu/systems/delta/en/latest/user_guide/architecture.html, running_jobs.html, prog_env.html",
+   "confidence": "verified"
+  }
+ ],
+ "recommendations": [
+  "Run all GPU work with sbatch on ghx4, which costs 1x. Use this job shape: `--gpus-per-node=1 --cpus-per-task=16-32 --mem=64-96G --time=` with a tight limit (10\u201330 min) so the job backfills. That costs exactly 1 SU/h. Do not ask for more than 72 cores or 110G per GPU.",
+  "Avoid ghx4-interactive except for a few minutes of debugging: it costs 2x and allows only one job. For interactive work inside tmux, use `srun -A bffp-dtai-gh -p ghx4 --gpus=1 --cpus-per-task=16 --mem=64G --time=00:30:00 --pty bash` (1x) and exit as soon as you are done.",
+  "Set a project budget well below a fair share. For example, at most 75 SU total: 20 SU or less before Presentation 1 and 50 SU or less before Presentation 2. The remaining pool works out to about 287 SU per user. Check `accounts` and `jobcharge -u tmahmood1 -d 30 --detail` at the start of each session, and keep the job ledger.",
+  "Never use `--exclusive`, `--gpus=4`, `--constraint=perf` or `--constraint=xpmem`; each one bills a whole node (4 SU/h). Always pass `--mem` explicitly, because the default for CPU-only jobs is unclear.",
+  "Run the serial CPU reference as a CPU-only ghx4 job: `--cpus-per-task=2 --mem=16G`, about 0.14 SU/h, with no GPU. Pin to one core with `taskset` or `numactl --physcpubind=0 --membind=0` and set OMP_NUM_THREADS=1 and torch.set_num_threads(1). Run tokenizer, data preparation and analysis steps as CPU-only jobs too, or on the login node if they are light.",
+  "For profiling jobs, add `--constraint=nvperf`, or `--constraint=work&nvperf` to also declare the filesystem. It costs nothing because every node has the feature, and it follows the documented policy even though counters already work without it.",
+  "For CPU-side profiling, use nsys's default process-tree sampling, which works at the compute default perf_event_paranoid=2. Do not ask for `--constraint=perf`.",
+  "Keep ncu runs tightly scoped with `--kernel-name`, `--launch-skip` and `--launch-count`; `--set full` replays each kernel about 39 times. Use `--clock-control none` for any timing you will compare with nsys or wall-clock numbers. Otherwise, note that ncu durations were measured at base clocks.",
+  "Keep all project data, venvs, caches, checkpoints and profiles on /work/nvme/bffp/tmahmood1/cisc662, with code and results in git under /u. Never write to /projects/bffp or /work/hdd/bffp: both are over soft quota with the grace period expired.",
+  "Keep the project's /work/nvme footprint under about 50 GB (the pool is shared by 23 users, 550G hard limit) and run `quota` each session. Point TRITON_CACHE_DIR, TORCHINDUCTOR_CACHE_DIR and HF_HOME at /work/nvme. Use the per-job /tmp for transient output with many small files, and copy back what you need before the job ends.",
+  "Download everything networked ahead of time: HF datasets, the kernels-hub FA3 build, and wheels. Do it on the login node, which is lightweight, or in a cheap CPU-only job. Set HF_HUB_OFFLINE=1 (and HF_HOME) in timed GPU jobs so a network stall cannot burn GPU minutes, even though compute nodes have internet.",
+  "For tmux, always ssh to gh-login01.delta.ncsa.illinois.edu, not dtai-login, and reattach with `tmux attach -t cisc662`. Treat tmux as a convenience only: batch jobs survive logout and login-node reboots, while tmux sessions die on reboot. Keep the handoff state (plan, ledger, notes) in git.",
+  "Stay inside the login-node limits: 16 cores, 16 GiB before throttling, 20 GiB before the OOM killer, 1000 tasks. Cap build parallelism (MAX_JOBS=8\u201316, UV_CONCURRENT_BUILDS/UV_CONCURRENT_DOWNLOADS, TORCHINDUCTOR_COMPILE_THREADS\u22648). Do not run torch.compile or benchmarks on login nodes. Remember that parallel agents, VS Code and tmux all count against the 1000-task limit; 274 are in use now.",
+  "For training runs longer than a few minutes, add `#SBATCH --signal=B:USR1@120` and checkpoint on that signal; jobs are not requeued automatically and hardware failures are not refunded.",
+  "Check that the GPU is actually busy by recording `nvidia-smi --query-gpu=clocks.sm,clocks.mem,power.draw,temperature.gpu,utilization.gpu --format=csv` at the start and end of each benchmark. Afterwards, check `sacct -j <id> --format=JobID,TRESUsageInAve%150` (gres/gpuutil) and `seff <id>`. Never leave an allocated interactive GPU sitting idle.",
+  "Before submitting a new script, run `sbatch --test-only` to check it against partition and account limits without using SUs (it does not submit a job).",
+  "Once, in a cheap 2-minute job, test whether `srun --gpu-freq=<MHz>` can fix GPU clocks for reproducible kernel timing.",
+  "For the AMD half: ask the instructor or PI whether a Delta GPU allocation can be added (for example by exchanging Explore credits) to reach Delta's gpuMI100x8 node. The alternative is another ACCESS AMD resource or DARWIN. DeltaAI cannot run HIP."
+ ],
+ "risks": [
+  "/projects/bffp (508.8G of 500G) and /work/hdd/bffp (1005G of 1000G) are past the 1-week soft-quota grace period, so new writes there should fail with 'Disk quota exceeded'. Any default path pointing there will break.",
+  "/work/nvme/bffp has a 500G soft and 550G hard limit shared by the whole class. If another user fills it, checkpoint, profile and venv writes fail for everyone: immediately at the hard limit, or one week after crossing the soft limit.",
+  "The SU pool is shared. One user spent 509 SU in 30 days. Because Slurm enforces 'safe' accounting, jobs pend with QOSGrpBillingMinutes once billing \u00d7 time limit no longer fits the remaining balance, which is a risk near the November and December deadlines.",
+  "Some choices quietly multiply cost:\n- ghx4-interactive: 2x.\n- `--exclusive`, `--gpus=4`, `--constraint=perf` or `--constraint=xpmem`: 4 SU/h.\n- More than about 111 GiB or 72 cores per GPU: billed above 1 SU/h (for example 1.082 SU/h with 120G).\n- An idle interactive allocation: still billed.",
+  "Login nodes are shared and heavily loaded (238 GB RAM with about 41 GB available, load average around 87). The per-user cgroup throttles at 16 GiB, kills at 20 GiB, caps CPU at 16 cores and tasks at 1000. Parallel builds or many agents can hit these limits. Delta documents auto-kill scripts for login nodes, and DeltaAI may have them too.",
+  "tmux sessions live only on gh-login01 and are lost if it reboots. Logging in through the round-robin alias lands on another node, where the session is not visible. Every SSH login needs password plus Duo, because key pairs are disabled.",
+  "Profiling pitfalls: ncu locks clocks to base by default and full sets replay each kernel about 39 times, so ncu kernel times differ from nsys or torch timings. GPU-counter access is currently open, but the documented requirement for `--constraint=nvperf` could start being enforced.",
+  "Compute-node internet works today (tested on one node). Relying on it at job time (HF Hub kernels, datasets) can still waste GPU minutes if the network or Hub stalls.",
+  "Docs and live config disagree in several places (interactive node limit, memory units, HBM size, backup and purge statements, /scratch). Planning from the docs alone could lead to wrong job shapes or storage choices.",
+  "No AMD GPUs and no ROCm exist on DeltaAI, and the class allocation covers DeltaAI only. The proposal's ROCm/HIP and AMDGCN half needs another resource, such as Delta's MI100 node with a separate allocation, ACCESS, or DARWIN."
+ ],
+ "open_questions": [
+  "When does the bffp-dtai-gh allocation (ACCESS 'delta.explore') end, and does the instructor expect a per-student SU cap?",
+  "Does Hamza Mahmood have a DeltaAI username in bffp-dtai-gh? The 23 associations include tmahmood1, but I cannot map names to the other usernames.",
+  "Are writes to /projects/bffp and /work/hdd/bffp actually being refused now that their grace periods show 'expired'? I did not test, per the write restrictions.",
+  "When a CPU-only job omits `--mem`, what memory does it get? The docs say 1000 MB per core, but slurm.conf has no DefMemPerCPU and job_submit.lua is not readable from the login node.",
+  "Does DeltaAI run login-node safeguard scripts that kill processes, as documented for Delta?",
+  "Does `--constraint=nvperf` change anything, given that ncu counters already work without it? Is enforcement planned?",
+  "Can users fix GPU clocks with `srun --gpu-freq` (Slurm gpu/nvml) for reproducible timing?",
+  "Can the team get Delta GPU SUs for the gpuMI100x8 node (MI100 gfx908 plus MI210), or DARWIN/other ACCESS AMD time, for the HIP/AMDGCN part? Can DARWIN V100 access still be confirmed?"
+ ]
+}

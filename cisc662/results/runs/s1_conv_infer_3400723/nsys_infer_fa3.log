@@ -1,0 +1,24 @@
+2026-10-17 16:28:32,146 - nanochat.common - [32m[1mINFO[0m - Distributed world size: 1
+2026-10-17 16:28:32,147 - nanochat.checkpoint_manager - [32m[1mINFO[0m - Loading model from /work/nvme/bffp/tmahmood1/cisc662/nanochat_base/base_checkpoints/r12_conv with step 2000
+2026-10-17 16:28:32,390 - nanochat.checkpoint_manager - [32m[1mINFO[0m - Building model with config: {'sequence_len': 2048, 'vocab_size': 32768, 'n_layer': 12, 'n_head': 6, 'n_kv_head': 6, 'n_embd': 768, 'window_pattern': 'L'}
+Autodetected device type: cuda
+====================================================================================================
+Model: base  (step 2000) | depth 12, dim 768, heads 6, kv heads 6 (GQA)
+GPU: NVIDIA GH200 120GB | peak bandwidth 4.00 TB/s | peak compute 989 TFLOPS | VRAM 95 GiB
+----------------------------------------------------------------------------------------------------
+Parameters: 286,261,730 (176,160,768 bfloat16, 110,100,962 float32) | weight bytes as stored: 756 MiB
+KV cache: 36,864 bytes/token stored | 20,054,016 bytes read/step at context 544 (window pattern L)
+Theoretical decode ceiling at batch 1: 4,921 tok/s | max ~1,341 full-context rows in VRAM
+====================================================================================================
+Prefill (batch 1, 512 tokens): 19,873 tok/s | MFU 0.5%
+ batch   TTFT ms   TPOT ms      tok/s   MBU %   MFU %  VRAM GiB  steps
+----------------------------------------------------------------------
+     1      24.7     23.34         43     0.9    0.00      0.98     63
+   128      28.2     23.72      5,249     3.5    0.13      3.42     63
+----------------------------------------------------------------------
+{"source": "base", "step": 2000, "model_config": {"sequence_len": 2048, "vocab_size": 32768, "n_layer": 12, "n_head": 6, "n_kv_head": 6, "n_embd": 768, "window_pattern": "L"}, "gpu": "NVIDIA GH200 120GB", "peak_bandwidth_bytes_per_sec": 4000000000000.0, "total_vram_bytes": 102087458816, "num_params": 286261730, "param_dtypes": {"float32": 110100962, "bfloat16": 176160768}, "weight_bytes": 792725384, "kv_bytes_per_token": 36864, "kv_read_bytes_per_step": 20054016, "context_mid": 544, "peak_flops_per_sec": 989000000000000.0, "decode_flops_per_token": 240255888, "ceiling_bs1_tok_per_sec": 4921.4, "max_full_context_rows": 1341, "prompt_tokens": 512, "decode_tokens": 64, "temperature": 0.0, "sweep": [{"batch_size": 1, "ttft_sec": 0.024678, "tpot_sec": 0.023338, "tok_per_sec": 42.9, "mbu_percent": 0.87, "mfu_percent": 0.001, "peak_vram_bytes": 1055665152, "decode_steps": 63}, {"batch_size": 128, "ttft_sec": 0.028184, "tpot_sec": 0.023719, "tok_per_sec": 5249.2, "mbu_percent": 3.54, "mfu_percent": 0.1311, "peak_vram_bytes": 3676447232, "decode_steps": 63}], "prefill": {"tok_per_sec": 19873.4, "mfu_percent": 0.46, "time_sec": 0.025763}}
+Collecting data...
+Generating '/tmp/nsys-report-221b.qdstrm'
+[1/1] [0%                          ] s1_infer_fa3.nsys-rep[1/1] [0%                          ] s1_infer_fa3.nsys-rep[1/1] [10%                         ] s1_infer_fa3.nsys-rep[1/1] [8%                          ] s1_infer_fa3.nsys-rep[1/1] [7%                          ] s1_infer_fa3.nsys-rep[1/1] [6%                          ] s1_infer_fa3.nsys-rep[1/1] [5%                          ] s1_infer_fa3.nsys-rep[1/1] [11%                         ] s1_infer_fa3.nsys-rep[1/1] [10%                         ] s1_infer_fa3.nsys-rep[1/1] [9%                          ] s1_infer_fa3.nsys-rep[1/1] [13%                         ] s1_infer_fa3.nsys-rep[1/1] [14%                         ] s1_infer_fa3.nsys-rep[1/1] [=15%                        ] s1_infer_fa3.nsys-rep[1/1] [==20%                       ] s1_infer_fa3.nsys-rep[1/1] [==21%                       ] s1_infer_fa3.nsys-rep[1/1] [====27%                     ] s1_infer_fa3.nsys-rep[1/1] [=====32%                    ] s1_infer_fa3.nsys-rep[1/1] [=======37%                  ] s1_infer_fa3.nsys-rep[1/1] [=========43%                ] s1_infer_fa3.nsys-rep[1/1] [==========48%               ] s1_infer_fa3.nsys-rep[1/1] [===========53%              ] s1_infer_fa3.nsys-rep[1/1] [=============59%            ] s1_infer_fa3.nsys-rep[1/1] [==============64%           ] s1_infer_fa3.nsys-rep[1/1] [================69%         ] s1_infer_fa3.nsys-rep[1/1] [==================75%       ] s1_infer_fa3.nsys-rep[1/1] [==================78%       ] s1_infer_fa3.nsys-rep[1/1] [===================79%      ] s1_infer_fa3.nsys-rep[1/1] [===================80%      ] s1_infer_fa3.nsys-rep[1/1] [===================81%      ] s1_infer_fa3.nsys-rep[1/1] [========================100%] s1_infer_fa3.nsys-rep[1/1] [========================100%] s1_infer_fa3.nsys-rep
+Generated:
+	/work/nvme/bffp/tmahmood1/cisc662/profiles/s1_infer_fa3.nsys-rep

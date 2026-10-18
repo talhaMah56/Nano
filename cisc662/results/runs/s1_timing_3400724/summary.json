@@ -1,0 +1,167 @@
+{
+ "run_dir": "cisc662/results/runs/s1_timing_3400724",
+ "train": {
+  "compile_fa3": {
+   "reps": 3,
+   "s_per_100_mean": 8.04624,
+   "s_per_100_std": 0.03136730303994983,
+   "median_step_ms": 80.46666666666667,
+   "tok_per_sec": 407257.2730516291,
+   "mfu_pct": 36.52953333333333,
+   "peak_mem_MiB": 15174.5,
+   "per_rep": [
+    {
+     "s_per_100_steps": 8.026509999999998,
+     "median_step_ms": 80.285,
+     "p10_step_ms": 79.73,
+     "p90_step_ms": 80.69,
+     "mean_tok_per_sec": 408255.96198914154,
+     "mean_mfu_pct": 36.6189,
+     "peak_mem_MiB": 15174.5
+    },
+    {
+     "s_per_100_steps": 8.08241,
+     "median_step_ms": 80.83500000000001,
+     "p10_step_ms": 80.44,
+     "p90_step_ms": 81.22,
+     "mean_tok_per_sec": 405429.923230733,
+     "mean_mfu_pct": 36.3656,
+     "peak_mem_MiB": 15174.5
+    },
+    {
+     "s_per_100_steps": 8.029799999999998,
+     "median_step_ms": 80.28,
+     "p10_step_ms": 79.91,
+     "p90_step_ms": 80.72,
+     "mean_tok_per_sec": 408085.93393501267,
+     "mean_mfu_pct": 36.6041,
+     "peak_mem_MiB": 15174.5
+    }
+   ]
+  },
+  "compile_sdpa": {
+   "reps": 3,
+   "s_per_100_mean": 9.114093333333333,
+   "s_per_100_std": 0.015314941506036085,
+   "median_step_ms": 91.185,
+   "tok_per_sec": 359544.5549941436,
+   "mfu_pct": 32.24966666666666,
+   "peak_mem_MiB": 15174.51,
+   "per_rep": [
+    {
+     "s_per_100_steps": 9.116160000000002,
+     "median_step_ms": 91.195,
+     "p10_step_ms": 90.6,
+     "p90_step_ms": 91.89,
+     "mean_tok_per_sec": 359462.3424688564,
+     "mean_mfu_pct": 32.2423,
+     "peak_mem_MiB": 15174.51
+    },
+    {
+     "s_per_100_steps": 9.128269999999997,
+     "median_step_ms": 91.39,
+     "p10_step_ms": 90.61,
+     "p90_step_ms": 91.9,
+     "mean_tok_per_sec": 358984.2574825457,
+     "mean_mfu_pct": 32.1994,
+     "peak_mem_MiB": 15174.51
+    },
+    {
+     "s_per_100_steps": 9.09785,
+     "median_step_ms": 90.97,
+     "p10_step_ms": 90.26,
+     "p90_step_ms": 91.67,
+     "mean_tok_per_sec": 360187.0650310287,
+     "mean_mfu_pct": 32.3073,
+     "peak_mem_MiB": 15174.51
+    }
+   ]
+  },
+  "eager_fa3": {
+   "reps": 3,
+   "s_per_100_mean": 15.080416666666665,
+   "s_per_100_std": 0.0183015309013566,
+   "median_step_ms": 150.82,
+   "tok_per_sec": 217305.04372317236,
+   "mfu_pct": 19.4914,
+   "peak_mem_MiB": 30092.32,
+   "per_rep": [
+    {
+     "s_per_100_steps": 15.072319999999996,
+     "median_step_ms": 150.775,
+     "p10_step_ms": 149.01,
+     "p90_step_ms": 152.26,
+     "mean_tok_per_sec": 217422.21603839117,
+     "mean_mfu_pct": 19.5018,
+     "peak_mem_MiB": 30092.32
+    },
+    {
+     "s_per_100_steps": 15.06756,
+     "median_step_ms": 150.66,
+     "p10_step_ms": 149.17,
+     "p90_step_ms": 152.35,
+     "mean_tok_per_sec": 217488.21454936083,
+     "mean_mfu_pct": 19.5077,
+     "peak_mem_MiB": 30092.32
+    },
+    {
+     "s_per_100_steps": 15.101369999999998,
+     "median_step_ms": 151.025,
+     "p10_step_ms": 149.14,
+     "p90_step_ms": 153.0,
+     "mean_tok_per_sec": 217004.7005817651,
+     "mean_mfu_pct": 19.4647,
+     "peak_mem_MiB": 30092.32
+    }
+   ]
+  },
+  "eager_sdpa": {
+   "reps": 3,
+   "s_per_100_mean": 15.983399999999998,
+   "s_per_100_std": 0.008255767680838562,
+   "median_step_ms": 159.925,
+   "tok_per_sec": 205021.63160857747,
+   "mfu_pct": 18.389733333333336,
+   "peak_mem_MiB": 30092.33,
+   "per_rep": [
+    {
+     "s_per_100_steps": 15.977529999999998,
+     "median_step_ms": 159.93,
+     "p10_step_ms": 158.51,
+     "p90_step_ms": 161.13,
+     "mean_tok_per_sec": 205096.81538240824,
+     "mean_mfu_pct": 18.3961,
+     "peak_mem_MiB": 30092.33
+    },
+    {
+     "s_per_100_steps": 15.992839999999996,
+     "median_step_ms": 160.055,
+     "p10_step_ms": 158.57,
+     "p90_step_ms": 161.16,
+     "mean_tok_per_sec": 204898.88148919033,
+     "mean_mfu_pct": 18.379,
+     "peak_mem_MiB": 30092.33
+    },
+    {
+     "s_per_100_steps": 15.979829999999998,
+     "median_step_ms": 159.79000000000002,
+     "p10_step_ms": 158.21,
+     "p90_step_ms": 161.38,
+     "mean_tok_per_sec": 205069.19795413385,
+     "mean_mfu_pct": 18.3941,
+     "peak_mem_MiB": 30092.33
+    }
+   ]
+  }
+ },
+ "conv": null,
+ "infer": {},
+ "decode": {},
+ "gpu_monitor": {
+  "samples": 639,
+  "sm_clock_MHz_median_when_busy": 1665.0,
+  "power_W_median_when_busy": 524.45,
+  "frac_samples_util_ge_50": 0.5054773082942097
+ },
+ "cpu": {}
+}

@@ -1,0 +1,2759 @@
+{
+ "sqlite": "/work/nvme/bffp/tmahmood1/cisc662/profiles/s1_nsys_3400686/compile_fa3.sqlite",
+ "steps": 5,
+ "total_ms_per_step": 74.2549084,
+ "by_phase": {
+  "forward": 22.6374152,
+  "backward": 43.9756116,
+  "optimizer": 7.6418816
+ },
+ "by_class": {
+  "embedding+rmsnorm": {
+   "ms_per_step": 0.0504768,
+   "share": 0.000679777284594967
+  },
+  "weight_cast": {
+   "ms_per_step": 0.5737215999999999,
+   "share": 0.007726379472579081
+  },
+  "residual_elementwise": {
+   "ms_per_step": 0.8210305999999999,
+   "share": 0.011056920245288458
+  },
+  "gemm": {
+   "ms_per_step": 37.1936782,
+   "share": 0.500891846767129
+  },
+  "rmsnorm+rope": {
+   "ms_per_step": 2.79728,
+   "share": 0.037671314398928006
+  },
+  "attention": {
+   "ms_per_step": 10.7741762,
+   "share": 0.14509715831795436
+  },
+  "rmsnorm": {
+   "ms_per_step": 5.3178506,
+   "share": 0.07161614921606987
+  },
+  "relu2_mlp": {
+   "ms_per_step": 3.279456,
+   "share": 0.04416483799742994
+  },
+  "embedding": {
+   "ms_per_step": 0.5871232,
+   "share": 0.007906860470923429
+  },
+  "softmax_ce": {
+   "ms_per_step": 4.4529664,
+   "share": 0.059968647136597907
+  },
+  "embedding+softmax_ce": {
+   "ms_per_step": 0.6418048000000001,
+   "share": 0.008643264315170847
+  },
+  "embedding+rmsnorm+softmax_ce": {
+   "ms_per_step": 0.1234624,
+   "share": 0.0016626833519870047
+  },
+  "optimizer": {
+   "ms_per_step": 7.6418816,
+   "share": 0.10291416102534712
+  }
+ },
+ "by_phase_class": {
+  "forward|embedding+rmsnorm": 0.0504768,
+  "forward|weight_cast": 0.3200128,
+  "forward|residual_elementwise": 0.016928,
+  "forward|gemm": 12.5717248,
+  "forward|rmsnorm+rope": 1.4651904,
+  "forward|attention": 2.582816,
+  "forward|rmsnorm": 1.7505928,
+  "forward|relu2_mlp": 1.320384,
+  "forward|embedding": 0.284,
+  "forward|softmax_ce": 2.2752896000000002,
+  "backward|residual_elementwise": 0.8041026,
+  "backward|softmax_ce": 2.1776768,
+  "backward|gemm": 24.6219534,
+  "backward|weight_cast": 0.2537088,
+  "backward|rmsnorm+rope": 1.3320896,
+  "backward|relu2_mlp": 1.959072,
+  "backward|rmsnorm": 3.5672577999999997,
+  "backward|attention": 8.1913602,
+  "backward|embedding+softmax_ce": 0.6418048000000001,
+  "backward|embedding": 0.30312320000000004,
+  "backward|embedding+rmsnorm+softmax_ce": 0.1234624,
+  "optimizer|optimizer": 7.6418816
+ },
+ "top": {
+  "embedding+rmsnorm": [
+   [
+    "triton_per_fused__to_copy_add_embedding_mean_pow_rsqrt_0",
+    0.0504768
+   ]
+  ],
+  "weight_cast": [
+   [
+    "triton_poi_fused__to_copy_t_8",
+    0.14072320000000002
+   ],
+   [
+    "triton_poi_fused__to_copy_t_5",
+    0.12816639999999999
+   ],
+   [
+    "triton_poi_fused__to_copy_4",
+    0.1074176
+   ],
+   [
+    "triton_poi_fused__to_copy_7",
+    0.096864
+   ],
+   [
+    "triton_poi_fused__to_copy_t_35",
+    0.0423872
+   ],
+   [
+    "triton_poi_fused__to_copy_1",
+    0.04112
+   ],
+   [
+    "triton_poi_fused__to_copy_t_11",
+    0.007481600000000001
+   ],
+   [
+    "triton_poi_fused__to_copy_12",
+    0.007232
+   ],
+   [
+    "triton_poi_fused__to_copy_t_1",
+    0.0012544000000000001
+   ],
+   [
+    "triton_poi_fused__to_copy_44",
+    0.0010752000000000001
+   ]
+  ],
+  "residual_elementwise": [
+   [
+    "triton_poi_fused_add_slice_backward_13",
+    0.6755584
+   ],
+   [
+    "triton_red_fused_mul_sum_18",
+    0.0791042
+   ],
+   [
+    "triton_red_fused__to_copy_mul_slice_sum_40",
+    0.032768
+   ],
+   [
+    "void at::native::vectorized_elementwise_kernel<(int)4, at::native::FillFunctor<int>, std::array<char *, (unsigned long)1",
+    0.0107136
+   ],
+   [
+    "triton_red_fused__to_copy__unsafe_view_mul_sigmoid_sigmoid_backward_sum_41",
+    0.0088448
+   ],
+   [
+    "triton_poi_fused__to_copy_add_select_backward_39",
+    0.0030976
+   ],
+   [
+    "triton_poi_fused__to_copy_clone_mul_slice_2",
+    0.00304
+   ],
+   [
+    "void at::native::vectorized_elementwise_kernel<(int)4, at::native::BUnaryFunctor<float, float, float, at::native::binary",
+    0.002592
+   ],
+   [
+    "triton_poi_fused__to_copy__unsafe_view_clone_mul_slice_3",
+    0.001824
+   ],
+   [
+    "triton_poi_fused__to_copy__unsafe_view_mul_sigmoid_sigmoid_backward_view_43",
+    0.001504
+   ],
+   [
+    "triton_per_fused__to_copy__unsafe_view_mul_sigmoid_sum_view_42",
+    0.0011007999999999999
+   ],
+   [
+    "void at::native::vectorized_elementwise_kernel<(int)4, at::native::FillFunctor<float>, std::array<char *, (unsigned long",
+    0.0008832
+   ]
+  ],
+  "gemm": [
+   [
+    "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_NNN",
+    9.0204042
+   ],
+   [
+    "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_TNN",
+    6.4713984
+   ],
+   [
+    "nvjet_tst_192x192_64x3_1x2_h_bz_coopB_splitK_NTN",
+    5.7278338
+   ],
+   [
+    "nvjet_tst_192x192_64x3_2x1_v_bz_coopB_NNN",
+    3.4420354
+   ],
+   [
+    "nvjet_tst_192x192_64x4_2x1_v_bz_coopB_TNN",
+    3.3179392
+   ],
+   [
+    "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_splitK_NTN",
+    3.2201664
+   ],
+   [
+    "nvjet_tst_192x192_64x4_1x1_v_bz_coopB_TNN",
+    2.7421312
+   ],
+   [
+    "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_NTN",
+    2.476192
+   ],
+   [
+    "void cublasLt::splitKreduce_kernel<(int)32, (int)16, int, float, __nv_bfloat16, float, __nv_bfloat16, (bool)0, float, __",
+    0.604064
+   ],
+   [
+    "void cutlass::Kernel2<cutlass_80_wmma_tensorop_bf16_s161616gemm_bf16_32x32_128x2_nt_align2>(T1::Params)",
+    0.060576
+   ],
+   [
+    "void cutlass::Kernel2<cutlass_80_wmma_tensorop_bf16_s161616gemm_bf16_32x32_32x1_tn_align2>(T1::Params)",
+    0.035603199999999995
+   ],
+   [
+    "void cutlass::Kernel2<cutlass_80_wmma_tensorop_bf16_s161616gemm_bf16_32x32_32x1_nn_align2>(T1::Params)",
+    0.030169599999999998
+   ],
+   [
+    "void cublasLt::splitKreduce_kernel<(int)32, (int)16, int, __nv_bfloat16, __nv_bfloat16, float, __nv_bfloat16, (bool)0, _",
+    0.026009599999999997
+   ],
+   [
+    "nvjet_tst_64x8_64x16_1x1_v_bz_splitK_NNT",
+    0.007430399999999999
+   ],
+   [
+    "void cutlass::Kernel2<cutlass_75_tensorop_bf16_s1688gemm_bf16_64x64_nn_align1>(T1::Params)",
+    0.007072
+   ],
+   [
+    "nvjet_tst_256x8_64x6_2x1_v_bz_TNT",
+    0.0046528
+   ]
+  ],
+  "rmsnorm+rope": [
+   [
+    "triton_per_fused__to_copy__unsafe_view_add_cat_mean_mul_neg_pow_rsqrt_slice_view_6",
+    1.3343936
+   ],
+   [
+    "triton_poi_fused__fused_rms_norm_backward__to_copy_add_mul_neg_slice_9",
+    0.9624128000000001
+   ],
+   [
+    "triton_red_fused__fused_rms_norm_backward__to_copy_add_mul_neg_select_slice_backward_view_24",
+    0.287072
+   ],
+   [
+    "triton_per_fused__to_copy__unsafe_view_add_cat_mean_mul_pow_rsqrt_select_sigmoid_slice_4",
+    0.1307968
+   ],
+   [
+    "triton_per_fused__fused_rms_norm_backward__to_copy_mul_neg_sum_view_2",
+    0.07936639999999999
+   ],
+   [
+    "triton_red_fused__fused_rms_norm_backward__to_copy_mul_neg_sum_view_3",
+    0.0032384000000000002
+   ]
+  ],
+  "attention": [
+   [
+    "void cutlass::device_kernel<flash::enable_sm90_or_later<flash::FlashAttnBwdSm90<flash::CollectiveMainloopBwdSm90<(int)2,",
+    7.0032898
+   ],
+   [
+    "void cutlass::device_kernel<flash::enable_sm90_or_later<flash::FlashAttnFwdSm90<flash::CollectiveMainloopFwdSm90<(int)2,",
+    2.582816
+   ],
+   [
+    "void cutlass::device_kernel<flash::FlashAttnBwdPreprocess<cute::tuple<cute::C<(int)64>, cute::C<(int)128>>, cutlass::bfl",
+    0.6888576
+   ],
+   [
+    "void cutlass::device_kernel<flash::FlashAttnBwdPostprocessConvertdQ<cute::tuple<cute::C<(int)64>, cute::C<(int)128>>, cu",
+    0.4992128
+   ]
+  ],
+  "rmsnorm": [
+   [
+    "triton_per_fused__fused_rms_norm_backward__to_copy_mul_8",
+    0.7773696
+   ],
+   [
+    "triton_red_fused__fused_rms_norm_backward__to_copy_add_mul_select_slice_backward_view_32",
+    0.2534528
+   ],
+   [
+    "triton_red_fused__fused_rms_norm_backward__to_copy_add_mul_select_slice_backward_view_14",
+    0.1879168
+   ],
+   [
+    "triton_red_fused__fused_rms_norm_backward__to_copy_add_mul_select_slice_backward_view_20",
+    0.18759679999999998
+   ],
+   [
+    "triton_red_fused__fused_rms_norm_backward__to_copy_add_mul_select_slice_backward_view_28",
+    0.187008
+   ],
+   [
+    "triton_per_fused__fused_rms_norm_backward_add_mul_select_sum_view_34",
+    0.175968
+   ],
+   [
+    "triton_per_fused__fused_rms_norm_backward_add_mul_select_sum_view_22",
+    0.17499520000000002
+   ],
+   [
+    "triton_per_fused__fused_rms_norm_backward_add_mul_select_sum_view_30",
+    0.17457920000000002
+   ],
+   [
+    "triton_per_fused__fused_rms_norm_backward_add_mul_select_sum_view_26",
+    0.17400960000000001
+   ],
+   [
+    "triton_per_fused__fused_rms_norm_backward_add_mul_select_sum_view_17",
+    0.1733762
+   ],
+   [
+    "triton_per_fused__fused_rms_norm_backward__to_copy_add_mul_select_sum_view_38",
+    0.15564160000000002
+   ],
+   [
+    "triton_red_fused__fused_rms_norm_backward__to_copy_add_mul_select_slice_backward_view_36",
+    0.1530816
+   ],
+   [
+    "triton_per_fused__to_copy__unsafe_view_add_mean_mul_pow_rsqrt_select_13",
+    0.07571839999999999
+   ],
+   [
+    "triton_per_fused__to_copy__unsafe_view_add_mean_mul_pow_rsqrt_select_15",
+    0.0756416
+   ],
+   [
+    "triton_per_fused__to_copy__unsafe_view_add_mean_mul_pow_rsqrt_select_19",
+    0.07530880000000001
+   ],
+   [
+    "triton_per_fused__to_copy__unsafe_view_add_mean_mul_pow_rsqrt_select_17",
+    0.07512339999999999
+   ],
+   [
+    "triton_per_fused__to_copy__unsafe_view_add_mean_mul_pow_rsqrt_select_21",
+    0.075008
+   ],
+   [
+    "triton_per_fused__to_copy__unsafe_view_add_mean_mul_pow_rsqrt_select_25",
+    0.07498239999999999
+   ],
+   [
+    "triton_per_fused__to_copy__unsafe_view_add_mean_mul_pow_rsqrt_select_23",
+    0.07456
+   ],
+   [
+    "triton_per_fused__to_copy__unsafe_view_add_mean_mul_pow_rsqrt_select_29",
+    0.07424
+   ],
+   [
+    "triton_per_fused__to_copy__unsafe_view_add_mean_mul_pow_rsqrt_select_31",
+    0.07423360000000001
+   ],
+   [
+    "triton_per_fused__to_copy__unsafe_view_add_mean_mul_pow_rsqrt_select_27",
+    0.0742272
+   ],
+   [
+    "triton_per_fused__to_copy__unsafe_view_add_mean_mul_pow_rsqrt_select_33",
+    0.07390719999999999
+   ],
+   [
+    "triton_per_fused__to_copy__unsafe_view_add_mean_mul_pow_rsqrt_select_10",
+    0.0735424
+   ],
+   [
+    "triton_per_fused__to_copy__unsafe_view_add_mean_mul_pow_rsqrt_select_14",
+    0.07307519999999999
+   ],
+   [
+    "triton_per_fused__to_copy__unsafe_view_add_mean_mul_pow_rsqrt_select_18",
+    0.072365
+   ],
+   [
+    "triton_per_fused__to_copy__unsafe_view_add_mean_mul_pow_rsqrt_select_16",
+    0.07192960000000001
+   ],
+   [
+    "triton_per_fused__to_copy__unsafe_view_add_mean_mul_pow_rsqrt_select_20",
+    0.07176980000000001
+   ],
+   [
+    "triton_per_fused__to_copy__unsafe_view_add_mean_mul_pow_rsqrt_select_22",
+    0.0716418
+   ],
+   [
+    "triton_per_fused__to_copy__unsafe_view_add_mean_mul_pow_rsqrt_select_24",
+    0.07162239999999999
+   ]
+  ],
+  "relu2_mlp": [
+   [
+    "triton_poi_fused__unsafe_view_mul_pow_relu_threshold_backward_view_5",
+    1.959072
+   ],
+   [
+    "triton_poi_fused__unsafe_view_pow_relu_9",
+    1.320384
+   ]
+  ],
+  "embedding": [
+   [
+    "triton_poi_fused_embedding_dense_backward_15",
+    0.30312320000000004
+   ],
+   [
+    "triton_poi_fused__unsafe_view_add_embedding_mul_sigmoid_unsqueeze_view_12",
+    0.284
+   ]
+  ],
+  "softmax_ce": [
+   [
+    "triton_red_fused__log_softmax__to_copy__unsafe_view_div_mul_prepare_softmax_online_tanh_view_36",
+    2.2598656
+   ],
+   [
+    "triton_red_fused__log_softmax__log_softmax_backward_data__to_copy__unsafe_view_div_mul_nll_loss_backward_nll_loss_forwar",
+    2.1776768
+   ],
+   [
+    "triton_red_fused__log_softmax__to_copy__unsafe_view_div_mul_nll_loss_forward_sub_tanh_view_37",
+    0.014208
+   ],
+   [
+    "triton_per_fused__log_softmax__to_copy__unsafe_view_div_mul_nll_loss_forward_sub_tanh_view_38",
+    0.001216
+   ]
+  ],
+  "embedding+softmax_ce": [
+   [
+    "triton_per_fused__unsafe_view_embedding_dense_backward_mul_nll_loss_forward_sigmoid_sigmoid_backward_squeeze_sum_unsquee",
+    0.457472
+   ],
+   [
+    "triton_poi_fused__unsafe_view_embedding_dense_backward_mul_nll_loss_forward_sigmoid_unsqueeze_view_10",
+    0.1843328
+   ]
+  ],
+  "embedding+rmsnorm+softmax_ce": [
+   [
+    "triton_per_fused__fused_rms_norm_backward__to_copy__unsafe_view_add_embedding_dense_backward_mul_nll_loss_forward_sigmoi",
+    0.1234624
+   ]
+  ],
+  "optimizer": [
+   [
+    "nvjet_tst_192x192_64x3_2x1_v_bz_coopB_NNN",
+    1.838208
+   ],
+   [
+    "triton_poi_fused__to_copy_add_copy_copy__div_lerp_mul_neg_pow_rsub_sqrt_0",
+    0.6965376
+   ],
+   [
+    "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_TNN",
+    0.4676288
+   ],
+   [
+    "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_NTN",
+    0.46353279999999997
+   ],
+   [
+    "nvjet_tst_192x192_64x4_1x2_h_bz_coopB_TNN",
+    0.4583296
+   ],
+   [
+    "void at::native::<unnamed>::CatArrayBatchedCopy_alignedK_contig<at::native::<unnamed>::OpaqueType<(unsigned int)4>, unsi",
+    0.3986752
+   ],
+   [
+    "triton_poi_fused__to_copy_add_clamp_min_copy__div_ge_lerp_linalg_vector_norm_mean_mul_pow_reciprocal_rsqrt_rsub_sqrt_sub",
+    0.3095168
+   ],
+   [
+    "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_NNN",
+    0.2868352
+   ],
+   [
+    "triton_per_fused__to_copy_clamp_min_copy__div_lerp_linalg_vector_norm_mul_rsub_2",
+    0.2837248
+   ],
+   [
+    "triton_red_fused__to_copy_lerp_linalg_vector_norm_rsub_0",
+    0.2412224
+   ],
+   [
+    "void at::native::<unnamed>::multi_tensor_apply_kernel<at::native::<unnamed>::TensorListMetadata<(int)2>, at::native::<un",
+    0.24112
+   ],
+   [
+    "triton_poi_fused_add_div_linalg_vector_norm_mul_10",
+    0.235488
+   ],
+   [
+    "triton_poi_fused_add_copy__div_lerp_mul_neg_pow_rsub_sqrt_0",
+    0.21294079999999999
+   ],
+   [
+    "triton_poi_fused_add_div_linalg_vector_norm_mul_8",
+    0.18896
+   ],
+   [
+    "triton_red_fused__to_copy_add_linalg_vector_norm_mul_14",
+    0.1701504
+   ],
+   [
+    "triton_red_fused__to_copy_clamp_min_copy__div_lerp_linalg_vector_norm_mul_rsub_2",
+    0.1408448
+   ],
+   [
+    "triton_poi_fused_add_div_linalg_vector_norm_mul_6",
+    0.1406336
+   ],
+   [
+    "triton_poi_fused_add_mul_12",
+    0.13928320000000002
+   ],
+   [
+    "triton_per_fused__to_copy_add_clamp_min_linalg_vector_norm_mean_mul_pow_reciprocal_15",
+    0.13180160000000002
+   ],
+   [
+    "triton_poi_fused_add_div_linalg_vector_norm_mul_4",
+    0.098624
+   ],
+   [
+    "triton_poi_fused_add_mul_5",
+    0.0635648
+   ],
+   [
+    "triton_poi_fused_add_mul_9",
+    0.0634816
+   ],
+   [
+    "triton_poi_fused_add_mul_7",
+    0.063424
+   ],
+   [
+    "triton_poi_fused_add_mul_11",
+    0.0629888
+   ],
+   [
+    "triton_poi_fused_add_mul_13",
+    0.061952
+   ],
+   [
+    "triton_red_fused_linalg_vector_norm_3",
+    0.0613184
+   ],
+   [
+    "triton_red_fused__to_copy_add_clamp_min_linalg_vector_norm_mean_mul_pow_reciprocal_15",
+    0.0544896
+   ],
+   [
+    "void cutlass::Kernel2<cutlass_80_wmma_tensorop_bf16_s161616gemm_bf16_16x16_32x1_nn_align2>(T1::Params)",
+    0.024569599999999997
+   ],
+   [
+    "void cutlass::Kernel2<cutlass_80_wmma_tensorop_bf16_s161616gemm_bf16_16x16_32x1_tn_align2>(T1::Params)",
+    0.012531200000000001
+   ],
+   [
+    "triton_per_fused__to_copy_lerp_linalg_vector_norm_rsub_1",
+    0.010464
+   ]
+  ],
+  "other": []
+ },
+ "kernel_resources": {
+  "triton_per_fused__to_copy_add_embedding_mean_pow_rsqrt_0": {
+   "regs_per_thread": 24,
+   "grid": [
+    32768,
+    1,
+    1
+   ],
+   "block": [
+    256,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 32
+  },
+  "triton_poi_fused__to_copy_t_1": {
+   "regs_per_thread": 16,
+   "grid": [
+    1,
+    1,
+    1
+   ],
+   "block": [
+    32,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 0
+  },
+  "triton_poi_fused__to_copy_clone_mul_slice_2": {
+   "regs_per_thread": 24,
+   "grid": [
+    768,
+    1,
+    1
+   ],
+   "block": [
+    128,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 0
+  },
+  "triton_poi_fused__to_copy__unsafe_view_clone_mul_slice_3": {
+   "regs_per_thread": 16,
+   "grid": [
+    768,
+    1,
+    1
+   ],
+   "block": [
+    128,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 0
+  },
+  "nvjet_tst_256x8_64x6_2x1_v_bz_TNT": {
+   "regs_per_thread": 168,
+   "grid": [
+    2,
+    64,
+    1
+   ],
+   "block": [
+    384,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 219364
+  },
+  "triton_per_fused__to_copy__unsafe_view_add_cat_mean_mul_pow_rsqrt_select_sigmoid_slice_4": {
+   "regs_per_thread": 32,
+   "grid": [
+    32768,
+    1,
+    1
+   ],
+   "block": [
+    256,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 2048
+  },
+  "triton_poi_fused__to_copy_t_5": {
+   "regs_per_thread": 18,
+   "grid": [
+    576,
+    1,
+    1
+   ],
+   "block": [
+    128,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 0
+  },
+  "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_TNN": {
+   "regs_per_thread": 168,
+   "grid": [
+    2,
+    66,
+    1
+   ],
+   "block": [
+    384,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 213188
+  },
+  "triton_per_fused__to_copy__unsafe_view_add_cat_mean_mul_neg_pow_rsqrt_slice_view_6": {
+   "regs_per_thread": 40,
+   "grid": [
+    24576,
+    1,
+    1
+   ],
+   "block": [
+    256,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 32
+  },
+  "void at::native::vectorized_elementwise_kernel<(int)4, at::native::FillFunctor<int>, std::array<char *, (unsigned long)1": {
+   "regs_per_thread": 16,
+   "grid": [
+    1,
+    1,
+    1
+   ],
+   "block": [
+    128,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 0
+  },
+  "void cutlass::device_kernel<flash::enable_sm90_or_later<flash::FlashAttnFwdSm90<flash::CollectiveMainloopFwdSm90<(int)2,": {
+   "regs_per_thread": 168,
+   "grid": [
+    132,
+    1,
+    1
+   ],
+   "block": [
+    384,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 166912
+  },
+  "triton_per_fused__to_copy__unsafe_view_add_mean_mul_pow_rsqrt_select_7": {
+   "regs_per_thread": 25,
+   "grid": [
+    32768,
+    1,
+    1
+   ],
+   "block": [
+    256,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 32
+  },
+  "triton_poi_fused__to_copy_t_8": {
+   "regs_per_thread": 18,
+   "grid": [
+    2304,
+    1,
+    1
+   ],
+   "block": [
+    128,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 0
+  },
+  "nvjet_tst_192x192_64x4_2x1_v_bz_coopB_TNN": {
+   "regs_per_thread": 168,
+   "grid": [
+    2,
+    66,
+    1
+   ],
+   "block": [
+    384,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 213204
+  },
+  "triton_poi_fused__unsafe_view_pow_relu_9": {
+   "regs_per_thread": 16,
+   "grid": [
+    98304,
+    1,
+    1
+   ],
+   "block": [
+    128,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 0
+  },
+  "triton_per_fused__to_copy__unsafe_view_add_mean_mul_pow_rsqrt_select_10": {
+   "regs_per_thread": 28,
+   "grid": [
+    32768,
+    1,
+    1
+   ],
+   "block": [
+    256,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 32
+  },
+  "triton_poi_fused__to_copy_t_11": {
+   "regs_per_thread": 16,
+   "grid": [
+    1,
+    1,
+    1
+   ],
+   "block": [
+    128,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 0
+  },
+  "void cutlass::Kernel2<cutlass_80_wmma_tensorop_bf16_s161616gemm_bf16_32x32_32x1_tn_align2>(T1::Params)": {
+   "regs_per_thread": 40,
+   "grid": [
+    1024,
+    1,
+    1
+   ],
+   "block": [
+    128,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 5120
+  },
+  "triton_poi_fused__unsafe_view_add_embedding_mul_sigmoid_unsqueeze_view_12": {
+   "regs_per_thread": 28,
+   "grid": [
+    24576,
+    1,
+    1
+   ],
+   "block": [
+    128,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 0
+  },
+  "triton_per_fused__to_copy__unsafe_view_add_mean_mul_pow_rsqrt_select_13": {
+   "regs_per_thread": 26,
+   "grid": [
+    32768,
+    1,
+    1
+   ],
+   "block": [
+    256,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 32
+  },
+  "triton_per_fused__to_copy__unsafe_view_add_mean_mul_pow_rsqrt_select_14": {
+   "regs_per_thread": 28,
+   "grid": [
+    32768,
+    1,
+    1
+   ],
+   "block": [
+    256,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 32
+  },
+  "triton_per_fused__to_copy__unsafe_view_add_mean_mul_pow_rsqrt_select_15": {
+   "regs_per_thread": 26,
+   "grid": [
+    32768,
+    1,
+    1
+   ],
+   "block": [
+    256,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 32
+  },
+  "triton_per_fused__to_copy__unsafe_view_add_mean_mul_pow_rsqrt_select_16": {
+   "regs_per_thread": 28,
+   "grid": [
+    32768,
+    1,
+    1
+   ],
+   "block": [
+    256,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 32
+  },
+  "triton_per_fused__to_copy__unsafe_view_add_mean_mul_pow_rsqrt_select_17": {
+   "regs_per_thread": 26,
+   "grid": [
+    32768,
+    1,
+    1
+   ],
+   "block": [
+    256,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 32
+  },
+  "triton_per_fused__to_copy__unsafe_view_add_mean_mul_pow_rsqrt_select_18": {
+   "regs_per_thread": 28,
+   "grid": [
+    32768,
+    1,
+    1
+   ],
+   "block": [
+    256,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 32
+  },
+  "triton_per_fused__to_copy__unsafe_view_add_mean_mul_pow_rsqrt_select_19": {
+   "regs_per_thread": 26,
+   "grid": [
+    32768,
+    1,
+    1
+   ],
+   "block": [
+    256,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 32
+  },
+  "triton_per_fused__to_copy__unsafe_view_add_mean_mul_pow_rsqrt_select_20": {
+   "regs_per_thread": 28,
+   "grid": [
+    32768,
+    1,
+    1
+   ],
+   "block": [
+    256,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 32
+  },
+  "triton_per_fused__to_copy__unsafe_view_add_mean_mul_pow_rsqrt_select_21": {
+   "regs_per_thread": 26,
+   "grid": [
+    32768,
+    1,
+    1
+   ],
+   "block": [
+    256,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 32
+  },
+  "triton_per_fused__to_copy__unsafe_view_add_mean_mul_pow_rsqrt_select_22": {
+   "regs_per_thread": 28,
+   "grid": [
+    32768,
+    1,
+    1
+   ],
+   "block": [
+    256,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 32
+  },
+  "triton_per_fused__to_copy__unsafe_view_add_mean_mul_pow_rsqrt_select_23": {
+   "regs_per_thread": 26,
+   "grid": [
+    32768,
+    1,
+    1
+   ],
+   "block": [
+    256,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 32
+  },
+  "triton_per_fused__to_copy__unsafe_view_add_mean_mul_pow_rsqrt_select_24": {
+   "regs_per_thread": 28,
+   "grid": [
+    32768,
+    1,
+    1
+   ],
+   "block": [
+    256,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 32
+  },
+  "triton_per_fused__to_copy__unsafe_view_add_mean_mul_pow_rsqrt_select_25": {
+   "regs_per_thread": 26,
+   "grid": [
+    32768,
+    1,
+    1
+   ],
+   "block": [
+    256,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 32
+  },
+  "triton_per_fused__to_copy__unsafe_view_add_mean_mul_pow_rsqrt_select_26": {
+   "regs_per_thread": 28,
+   "grid": [
+    32768,
+    1,
+    1
+   ],
+   "block": [
+    256,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 32
+  },
+  "triton_per_fused__to_copy__unsafe_view_add_mean_mul_pow_rsqrt_select_27": {
+   "regs_per_thread": 26,
+   "grid": [
+    32768,
+    1,
+    1
+   ],
+   "block": [
+    256,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 32
+  },
+  "triton_per_fused__to_copy__unsafe_view_add_mean_mul_pow_rsqrt_select_28": {
+   "regs_per_thread": 28,
+   "grid": [
+    32768,
+    1,
+    1
+   ],
+   "block": [
+    256,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 32
+  },
+  "triton_per_fused__to_copy__unsafe_view_add_mean_mul_pow_rsqrt_select_29": {
+   "regs_per_thread": 26,
+   "grid": [
+    32768,
+    1,
+    1
+   ],
+   "block": [
+    256,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 32
+  },
+  "triton_per_fused__to_copy__unsafe_view_add_mean_mul_pow_rsqrt_select_30": {
+   "regs_per_thread": 28,
+   "grid": [
+    32768,
+    1,
+    1
+   ],
+   "block": [
+    256,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 32
+  },
+  "triton_per_fused__to_copy__unsafe_view_add_mean_mul_pow_rsqrt_select_31": {
+   "regs_per_thread": 26,
+   "grid": [
+    32768,
+    1,
+    1
+   ],
+   "block": [
+    256,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 32
+  },
+  "triton_per_fused__to_copy__unsafe_view_add_mean_mul_pow_rsqrt_select_32": {
+   "regs_per_thread": 28,
+   "grid": [
+    32768,
+    1,
+    1
+   ],
+   "block": [
+    256,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 32
+  },
+  "triton_per_fused__to_copy__unsafe_view_add_mean_mul_pow_rsqrt_select_33": {
+   "regs_per_thread": 26,
+   "grid": [
+    32768,
+    1,
+    1
+   ],
+   "block": [
+    256,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 32
+  },
+  "triton_per_fused__to_copy__unsafe_view_add_mean_mul_pow_rsqrt_sub_34": {
+   "regs_per_thread": 26,
+   "grid": [
+    32768,
+    1,
+    1
+   ],
+   "block": [
+    256,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 32
+  },
+  "triton_poi_fused__to_copy_t_35": {
+   "regs_per_thread": 18,
+   "grid": [
+    24576,
+    1,
+    1
+   ],
+   "block": [
+    128,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 0
+  },
+  "nvjet_tst_192x192_64x4_1x1_v_bz_coopB_TNN": {
+   "regs_per_thread": 168,
+   "grid": [
+    1,
+    132,
+    1
+   ],
+   "block": [
+    384,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 213204
+  },
+  "triton_red_fused__log_softmax__to_copy__unsafe_view_div_mul_prepare_softmax_online_tanh_view_36": {
+   "regs_per_thread": 32,
+   "grid": [
+    32768,
+    1,
+    1
+   ],
+   "block": [
+    512,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 64
+  },
+  "triton_red_fused__log_softmax__to_copy__unsafe_view_div_mul_nll_loss_forward_sub_tanh_view_37": {
+   "regs_per_thread": 63,
+   "grid": [
+    4,
+    1,
+    1
+   ],
+   "block": [
+    512,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 16384
+  },
+  "triton_per_fused__log_softmax__to_copy__unsafe_view_div_mul_nll_loss_forward_sub_tanh_view_38": {
+   "regs_per_thread": 16,
+   "grid": [
+    1,
+    1,
+    1
+   ],
+   "block": [
+    64,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 0
+  },
+  "void at::native::vectorized_elementwise_kernel<(int)4, at::native::BUnaryFunctor<float, float, float, at::native::binary": {
+   "regs_per_thread": 32,
+   "grid": [
+    1,
+    1,
+    1
+   ],
+   "block": [
+    128,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 0
+  },
+  "void at::native::vectorized_elementwise_kernel<(int)4, at::native::FillFunctor<float>, std::array<char *, (unsigned long": {
+   "regs_per_thread": 16,
+   "grid": [
+    1,
+    1,
+    1
+   ],
+   "block": [
+    128,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 0
+  },
+  "triton_red_fused__log_softmax__log_softmax_backward_data__to_copy__unsafe_view_div_mul_nll_loss_backward_nll_loss_forwar": {
+   "regs_per_thread": 34,
+   "grid": [
+    32768,
+    1,
+    1
+   ],
+   "block": [
+    512,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 64
+  },
+  "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_NTN": {
+   "regs_per_thread": 168,
+   "grid": [
+    2,
+    66,
+    1
+   ],
+   "block": [
+    384,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 213188
+  },
+  "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_NNN": {
+   "regs_per_thread": 168,
+   "grid": [
+    2,
+    66,
+    1
+   ],
+   "block": [
+    384,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 213188
+  },
+  "triton_poi_fused__to_copy_1": {
+   "regs_per_thread": 18,
+   "grid": [
+    24576,
+    1,
+    1
+   ],
+   "block": [
+    128,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 2048
+  },
+  "triton_per_fused__fused_rms_norm_backward__to_copy_mul_neg_sum_view_2": {
+   "regs_per_thread": 29,
+   "grid": [
+    32768,
+    1,
+    1
+   ],
+   "block": [
+    256,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 32
+  },
+  "triton_red_fused__fused_rms_norm_backward__to_copy_mul_neg_sum_view_3": {
+   "regs_per_thread": 32,
+   "grid": [
+    1,
+    1,
+    1
+   ],
+   "block": [
+    512,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 64
+  },
+  "nvjet_tst_192x192_64x3_1x2_h_bz_coopB_splitK_NTN": {
+   "regs_per_thread": 168,
+   "grid": [
+    2,
+    64,
+    1
+   ],
+   "block": [
+    384,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 188556
+  },
+  "void cublasLt::splitKreduce_kernel<(int)32, (int)16, int, float, __nv_bfloat16, float, __nv_bfloat16, (bool)0, float, __": {
+   "regs_per_thread": 32,
+   "grid": [
+    96,
+    6,
+    1
+   ],
+   "block": [
+    32,
+    16,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 0
+  },
+  "nvjet_tst_192x192_64x3_2x1_v_bz_coopB_NNN": {
+   "regs_per_thread": 168,
+   "grid": [
+    2,
+    66,
+    1
+   ],
+   "block": [
+    384,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 188604
+  },
+  "triton_poi_fused__to_copy_4": {
+   "regs_per_thread": 18,
+   "grid": [
+    2304,
+    1,
+    1
+   ],
+   "block": [
+    128,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 2048
+  },
+  "triton_poi_fused__unsafe_view_mul_pow_relu_threshold_backward_view_5": {
+   "regs_per_thread": 23,
+   "grid": [
+    98304,
+    1,
+    1
+   ],
+   "block": [
+    128,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 0
+  },
+  "triton_per_fused__fused_rms_norm_backward__to_copy_add_mul_view_6": {
+   "regs_per_thread": 25,
+   "grid": [
+    32768,
+    1,
+    1
+   ],
+   "block": [
+    256,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 32
+  },
+  "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_splitK_NTN": {
+   "regs_per_thread": 168,
+   "grid": [
+    2,
+    63,
+    1
+   ],
+   "block": [
+    384,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 213156
+  },
+  "triton_poi_fused__to_copy_7": {
+   "regs_per_thread": 18,
+   "grid": [
+    576,
+    1,
+    1
+   ],
+   "block": [
+    128,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 2048
+  },
+  "void cutlass::device_kernel<flash::FlashAttnBwdPreprocess<cute::tuple<cute::C<(int)64>, cute::C<(int)128>>, cutlass::bfl": {
+   "regs_per_thread": 64,
+   "grid": [
+    32,
+    6,
+    16
+   ],
+   "block": [
+    256,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 0
+  },
+  "void cutlass::device_kernel<flash::enable_sm90_or_later<flash::FlashAttnBwdSm90<flash::CollectiveMainloopBwdSm90<(int)2,": {
+   "regs_per_thread": 168,
+   "grid": [
+    1536,
+    1,
+    1
+   ],
+   "block": [
+    384,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 199680
+  },
+  "void cutlass::device_kernel<flash::FlashAttnBwdPostprocessConvertdQ<cute::tuple<cute::C<(int)64>, cute::C<(int)128>>, cu": {
+   "regs_per_thread": 56,
+   "grid": [
+    32,
+    6,
+    16
+   ],
+   "block": [
+    256,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 49280
+  },
+  "triton_per_fused__fused_rms_norm_backward__to_copy_mul_8": {
+   "regs_per_thread": 32,
+   "grid": [
+    6144,
+    1,
+    1
+   ],
+   "block": [
+    256,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 128
+  },
+  "triton_poi_fused__fused_rms_norm_backward__to_copy_add_mul_neg_slice_9": {
+   "regs_per_thread": 64,
+   "grid": [
+    1,
+    12288,
+    1
+   ],
+   "block": [
+    128,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 0
+  },
+  "triton_poi_fused__unsafe_view_embedding_dense_backward_mul_nll_loss_forward_sigmoid_unsqueeze_view_10": {
+   "regs_per_thread": 16,
+   "grid": [
+    24576,
+    1,
+    1
+   ],
+   "block": [
+    128,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 0
+  },
+  "triton_per_fused__unsafe_view_embedding_dense_backward_mul_nll_loss_forward_sigmoid_sigmoid_backward_squeeze_sum_unsquee": {
+   "regs_per_thread": 32,
+   "grid": [
+    24576,
+    1,
+    1
+   ],
+   "block": [
+    256,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 32
+  },
+  "void cutlass::Kernel2<cutlass_80_wmma_tensorop_bf16_s161616gemm_bf16_32x32_128x2_nt_align2>(T1::Params)": {
+   "regs_per_thread": 80,
+   "grid": [
+    1,
+    1,
+    88
+   ],
+   "block": [
+    128,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 40960
+  },
+  "void cublasLt::splitKreduce_kernel<(int)32, (int)16, int, __nv_bfloat16, __nv_bfloat16, float, __nv_bfloat16, (bool)0, _": {
+   "regs_per_thread": 32,
+   "grid": [
+    1,
+    1,
+    1
+   ],
+   "block": [
+    32,
+    16,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 0
+  },
+  "void cutlass::Kernel2<cutlass_80_wmma_tensorop_bf16_s161616gemm_bf16_32x32_32x1_nn_align2>(T1::Params)": {
+   "regs_per_thread": 42,
+   "grid": [
+    1024,
+    1,
+    1
+   ],
+   "block": [
+    128,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 5120
+  },
+  "triton_poi_fused__to_copy_12": {
+   "regs_per_thread": 16,
+   "grid": [
+    1,
+    1,
+    1
+   ],
+   "block": [
+    128,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 0
+  },
+  "triton_poi_fused_add_slice_backward_13": {
+   "regs_per_thread": 22,
+   "grid": [
+    24576,
+    1,
+    1
+   ],
+   "block": [
+    128,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 0
+  },
+  "triton_red_fused__fused_rms_norm_backward__to_copy_add_mul_select_slice_backward_view_14": {
+   "regs_per_thread": 40,
+   "grid": [
+    32768,
+    1,
+    1
+   ],
+   "block": [
+    256,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 32
+  },
+  "triton_poi_fused_embedding_dense_backward_15": {
+   "regs_per_thread": 18,
+   "grid": [
+    24576,
+    1,
+    1
+   ],
+   "block": [
+    128,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 0
+  },
+  "triton_per_fused__fused_rms_norm_backward__to_copy_add_mul_select_view_16": {
+   "regs_per_thread": 29,
+   "grid": [
+    32768,
+    1,
+    1
+   ],
+   "block": [
+    256,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 32
+  },
+  "triton_per_fused__fused_rms_norm_backward_add_mul_select_sum_view_17": {
+   "regs_per_thread": 40,
+   "grid": [
+    32768,
+    1,
+    1
+   ],
+   "block": [
+    256,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 32
+  },
+  "triton_red_fused_mul_sum_18": {
+   "regs_per_thread": 32,
+   "grid": [
+    1,
+    1,
+    1
+   ],
+   "block": [
+    512,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 64
+  },
+  "triton_per_fused__fused_rms_norm_backward__to_copy_add_mul_select_view_19": {
+   "regs_per_thread": 29,
+   "grid": [
+    32768,
+    1,
+    1
+   ],
+   "block": [
+    256,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 32
+  },
+  "triton_red_fused__fused_rms_norm_backward__to_copy_add_mul_select_slice_backward_view_20": {
+   "regs_per_thread": 40,
+   "grid": [
+    32768,
+    1,
+    1
+   ],
+   "block": [
+    256,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 32
+  },
+  "triton_per_fused__fused_rms_norm_backward__to_copy_add_mul_select_view_21": {
+   "regs_per_thread": 29,
+   "grid": [
+    32768,
+    1,
+    1
+   ],
+   "block": [
+    256,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 32
+  },
+  "triton_per_fused__fused_rms_norm_backward_add_mul_select_sum_view_22": {
+   "regs_per_thread": 40,
+   "grid": [
+    32768,
+    1,
+    1
+   ],
+   "block": [
+    256,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 32
+  },
+  "triton_per_fused__fused_rms_norm_backward__to_copy_add_mul_select_view_23": {
+   "regs_per_thread": 29,
+   "grid": [
+    32768,
+    1,
+    1
+   ],
+   "block": [
+    256,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 32
+  },
+  "triton_red_fused__fused_rms_norm_backward__to_copy_add_mul_neg_select_slice_backward_view_24": {
+   "regs_per_thread": 40,
+   "grid": [
+    32768,
+    1,
+    1
+   ],
+   "block": [
+    256,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 32
+  },
+  "triton_per_fused__fused_rms_norm_backward__to_copy_add_mul_view_25": {
+   "regs_per_thread": 27,
+   "grid": [
+    32768,
+    1,
+    1
+   ],
+   "block": [
+    256,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 32
+  },
+  "triton_per_fused__fused_rms_norm_backward_add_mul_select_sum_view_26": {
+   "regs_per_thread": 40,
+   "grid": [
+    32768,
+    1,
+    1
+   ],
+   "block": [
+    256,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 32
+  },
+  "triton_per_fused__fused_rms_norm_backward__to_copy_add_mul_select_view_27": {
+   "regs_per_thread": 29,
+   "grid": [
+    32768,
+    1,
+    1
+   ],
+   "block": [
+    256,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 32
+  },
+  "triton_red_fused__fused_rms_norm_backward__to_copy_add_mul_select_slice_backward_view_28": {
+   "regs_per_thread": 40,
+   "grid": [
+    32768,
+    1,
+    1
+   ],
+   "block": [
+    256,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 32
+  },
+  "triton_per_fused__fused_rms_norm_backward__to_copy_add_mul_select_view_29": {
+   "regs_per_thread": 29,
+   "grid": [
+    32768,
+    1,
+    1
+   ],
+   "block": [
+    256,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 32
+  },
+  "triton_per_fused__fused_rms_norm_backward_add_mul_select_sum_view_30": {
+   "regs_per_thread": 40,
+   "grid": [
+    32768,
+    1,
+    1
+   ],
+   "block": [
+    256,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 32
+  },
+  "triton_per_fused__fused_rms_norm_backward__to_copy_add_mul_select_view_31": {
+   "regs_per_thread": 29,
+   "grid": [
+    32768,
+    1,
+    1
+   ],
+   "block": [
+    256,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 32
+  },
+  "triton_red_fused__fused_rms_norm_backward__to_copy_add_mul_select_slice_backward_view_32": {
+   "regs_per_thread": 40,
+   "grid": [
+    32768,
+    1,
+    1
+   ],
+   "block": [
+    256,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 32
+  },
+  "triton_per_fused__fused_rms_norm_backward__to_copy_add_mul_select_view_33": {
+   "regs_per_thread": 29,
+   "grid": [
+    32768,
+    1,
+    1
+   ],
+   "block": [
+    256,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 32
+  },
+  "triton_per_fused__fused_rms_norm_backward_add_mul_select_sum_view_34": {
+   "regs_per_thread": 40,
+   "grid": [
+    32768,
+    1,
+    1
+   ],
+   "block": [
+    256,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 32
+  },
+  "triton_per_fused__fused_rms_norm_backward__to_copy_add_mul_select_view_35": {
+   "regs_per_thread": 29,
+   "grid": [
+    32768,
+    1,
+    1
+   ],
+   "block": [
+    256,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 32
+  },
+  "triton_red_fused__fused_rms_norm_backward__to_copy_add_mul_select_slice_backward_view_36": {
+   "regs_per_thread": 32,
+   "grid": [
+    32768,
+    1,
+    1
+   ],
+   "block": [
+    256,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 32
+  },
+  "triton_per_fused__fused_rms_norm_backward__to_copy_add_mul_select_view_37": {
+   "regs_per_thread": 29,
+   "grid": [
+    32768,
+    1,
+    1
+   ],
+   "block": [
+    256,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 32
+  },
+  "triton_per_fused__fused_rms_norm_backward__to_copy_add_mul_select_sum_view_38": {
+   "regs_per_thread": 40,
+   "grid": [
+    32768,
+    1,
+    1
+   ],
+   "block": [
+    256,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 32
+  },
+  "triton_poi_fused__to_copy_add_select_backward_39": {
+   "regs_per_thread": 27,
+   "grid": [
+    1,
+    1,
+    1
+   ],
+   "block": [
+    32,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 0
+  },
+  "triton_red_fused__to_copy_mul_slice_sum_40": {
+   "regs_per_thread": 32,
+   "grid": [
+    4094,
+    1,
+    1
+   ],
+   "block": [
+    512,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 64
+  },
+  "triton_red_fused__to_copy__unsafe_view_mul_sigmoid_sigmoid_backward_sum_41": {
+   "regs_per_thread": 40,
+   "grid": [
+    4,
+    1,
+    1
+   ],
+   "block": [
+    512,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 4096
+  },
+  "triton_per_fused__to_copy__unsafe_view_mul_sigmoid_sum_view_42": {
+   "regs_per_thread": 16,
+   "grid": [
+    1,
+    1,
+    1
+   ],
+   "block": [
+    64,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 0
+  },
+  "triton_poi_fused__to_copy__unsafe_view_mul_sigmoid_sigmoid_backward_view_43": {
+   "regs_per_thread": 16,
+   "grid": [
+    256,
+    1,
+    1
+   ],
+   "block": [
+    128,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 0
+  },
+  "nvjet_tst_64x8_64x16_1x1_v_bz_splitK_NNT": {
+   "regs_per_thread": 168,
+   "grid": [
+    1,
+    25,
+    1
+   ],
+   "block": [
+    384,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 164292
+  },
+  "void cutlass::Kernel2<cutlass_75_tensorop_bf16_s1688gemm_bf16_64x64_nn_align1>(T1::Params)": {
+   "regs_per_thread": 96,
+   "grid": [
+    512,
+    1,
+    1
+   ],
+   "block": [
+    128,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 16384
+  },
+  "triton_poi_fused__to_copy_44": {
+   "regs_per_thread": 16,
+   "grid": [
+    1,
+    1,
+    1
+   ],
+   "block": [
+    32,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 0
+  },
+  "triton_per_fused__fused_rms_norm_backward__to_copy__unsafe_view_add_embedding_dense_backward_mul_nll_loss_forward_sigmoi": {
+   "regs_per_thread": 31,
+   "grid": [
+    32768,
+    1,
+    1
+   ],
+   "block": [
+    256,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 2048
+  },
+  "void at::native::<unnamed>::CatArrayBatchedCopy_alignedK_contig<at::native::<unnamed>::OpaqueType<(unsigned int)4>, unsi": {
+   "regs_per_thread": 32,
+   "grid": [
+    1,
+    6,
+    1
+   ],
+   "block": [
+    128,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 0
+  },
+  "triton_poi_fused_add_copy__div_lerp_mul_neg_pow_rsub_sqrt_0": {
+   "regs_per_thread": 32,
+   "grid": [
+    49152,
+    1,
+    1
+   ],
+   "block": [
+    256,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 0
+  },
+  "triton_poi_fused__to_copy_add_copy_copy__div_lerp_mul_neg_pow_rsub_sqrt_0": {
+   "regs_per_thread": 48,
+   "grid": [
+    24576,
+    1,
+    1
+   ],
+   "block": [
+    128,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 0
+  },
+  "triton_per_fused__to_copy_lerp_linalg_vector_norm_rsub_0": {
+   "regs_per_thread": 22,
+   "grid": [
+    1,
+    1,
+    1
+   ],
+   "block": [
+    256,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 32
+  },
+  "triton_per_fused__to_copy_clamp_min_copy__div_lerp_linalg_vector_norm_mul_rsub_1": {
+   "regs_per_thread": 18,
+   "grid": [
+    5,
+    1,
+    1
+   ],
+   "block": [
+    64,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 0
+  },
+  "triton_per_fused_add_div_linalg_vector_norm_mul_2": {
+   "regs_per_thread": 18,
+   "grid": [
+    6,
+    1,
+    1
+   ],
+   "block": [
+    64,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 8
+  },
+  "void cutlass::Kernel2<cutlass_80_wmma_tensorop_bf16_s161616gemm_bf16_16x16_32x1_tn_align2>(T1::Params)": {
+   "regs_per_thread": 56,
+   "grid": [
+    1,
+    1,
+    6
+   ],
+   "block": [
+    32,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 2560
+  },
+  "void cutlass::Kernel2<cutlass_80_wmma_tensorop_bf16_s161616gemm_bf16_16x16_32x1_nn_align2>(T1::Params)": {
+   "regs_per_thread": 64,
+   "grid": [
+    1,
+    1,
+    6
+   ],
+   "block": [
+    32,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 2816
+  },
+  "triton_poi_fused_add_mul_3": {
+   "regs_per_thread": 16,
+   "grid": [
+    1,
+    1,
+    1
+   ],
+   "block": [
+    128,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 0
+  },
+  "triton_poi_fused_add_div_linalg_vector_norm_mul_4": {
+   "regs_per_thread": 16,
+   "grid": [
+    4,
+    1,
+    1
+   ],
+   "block": [
+    128,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 0
+  },
+  "triton_poi_fused_add_mul_5": {
+   "regs_per_thread": 16,
+   "grid": [
+    1,
+    1,
+    1
+   ],
+   "block": [
+    128,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 0
+  },
+  "triton_poi_fused_add_div_linalg_vector_norm_mul_6": {
+   "regs_per_thread": 17,
+   "grid": [
+    2,
+    1,
+    1
+   ],
+   "block": [
+    128,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 0
+  },
+  "triton_poi_fused_add_mul_7": {
+   "regs_per_thread": 16,
+   "grid": [
+    1,
+    1,
+    1
+   ],
+   "block": [
+    128,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 0
+  },
+  "triton_poi_fused_add_div_linalg_vector_norm_mul_8": {
+   "regs_per_thread": 18,
+   "grid": [
+    4,
+    1,
+    1
+   ],
+   "block": [
+    128,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 0
+  },
+  "triton_poi_fused_add_mul_9": {
+   "regs_per_thread": 16,
+   "grid": [
+    1,
+    1,
+    1
+   ],
+   "block": [
+    128,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 0
+  },
+  "triton_poi_fused_add_mul_10": {
+   "regs_per_thread": 16,
+   "grid": [
+    2,
+    1,
+    1
+   ],
+   "block": [
+    128,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 0
+  },
+  "triton_poi_fused_add_mul_11": {
+   "regs_per_thread": 16,
+   "grid": [
+    2,
+    1,
+    1
+   ],
+   "block": [
+    128,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 0
+  },
+  "triton_per_fused__to_copy_add_linalg_vector_norm_mul_12": {
+   "regs_per_thread": 22,
+   "grid": [
+    1,
+    1,
+    1
+   ],
+   "block": [
+    256,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 32
+  },
+  "triton_per_fused__to_copy_add_clamp_min_copy__div_lerp_linalg_vector_norm_mean_mul_pow_reciprocal_rsqrt_rsub_sqrt_sum_13": {
+   "regs_per_thread": 32,
+   "grid": [
+    6,
+    1,
+    1
+   ],
+   "block": [
+    64,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 0
+  },
+  "triton_poi_fused__to_copy_add_clamp_min_copy__div_ge_lerp_linalg_vector_norm_mul_reciprocal_rsqrt_rsub_sqrt_sub_14": {
+   "regs_per_thread": 19,
+   "grid": [
+    4,
+    1,
+    1
+   ],
+   "block": [
+    128,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 0
+  },
+  "triton_red_fused__to_copy_lerp_linalg_vector_norm_rsub_0": {
+   "regs_per_thread": 30,
+   "grid": [
+    576,
+    1,
+    1
+   ],
+   "block": [
+    512,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 64
+  },
+  "triton_per_fused__to_copy_lerp_linalg_vector_norm_rsub_1": {
+   "regs_per_thread": 16,
+   "grid": [
+    6,
+    1,
+    1
+   ],
+   "block": [
+    64,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 32
+  },
+  "triton_per_fused__to_copy_clamp_min_copy__div_lerp_linalg_vector_norm_mul_rsub_2": {
+   "regs_per_thread": 25,
+   "grid": [
+    36864,
+    1,
+    1
+   ],
+   "block": [
+    256,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 32
+  },
+  "triton_red_fused_linalg_vector_norm_3": {
+   "regs_per_thread": 31,
+   "grid": [
+    576,
+    1,
+    1
+   ],
+   "block": [
+    512,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 64
+  },
+  "nvjet_tst_192x192_64x4_1x2_h_bz_coopB_TNN": {
+   "regs_per_thread": 168,
+   "grid": [
+    2,
+    66,
+    1
+   ],
+   "block": [
+    384,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 213204
+  },
+  "triton_poi_fused_add_div_linalg_vector_norm_mul_10": {
+   "regs_per_thread": 31,
+   "grid": [
+    27648,
+    1,
+    1
+   ],
+   "block": [
+    128,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 0
+  },
+  "triton_poi_fused_add_mul_12": {
+   "regs_per_thread": 23,
+   "grid": [
+    27648,
+    1,
+    1
+   ],
+   "block": [
+    128,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 0
+  },
+  "triton_poi_fused_add_mul_13": {
+   "regs_per_thread": 23,
+   "grid": [
+    27648,
+    1,
+    1
+   ],
+   "block": [
+    128,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 0
+  },
+  "triton_red_fused__to_copy_add_linalg_vector_norm_mul_14": {
+   "regs_per_thread": 28,
+   "grid": [
+    576,
+    1,
+    1
+   ],
+   "block": [
+    512,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 64
+  },
+  "triton_per_fused__to_copy_add_clamp_min_linalg_vector_norm_mean_mul_pow_reciprocal_15": {
+   "regs_per_thread": 22,
+   "grid": [
+    36864,
+    1,
+    1
+   ],
+   "block": [
+    256,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 32
+  },
+  "triton_per_fused__to_copy_add_clamp_min_copy__div_lerp_linalg_vector_norm_mean_mul_pow_reciprocal_rsqrt_rsub_sqrt_sum_16": {
+   "regs_per_thread": 25,
+   "grid": [
+    48,
+    1,
+    1
+   ],
+   "block": [
+    256,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 32
+  },
+  "triton_poi_fused__to_copy_add_clamp_min_copy__div_ge_lerp_linalg_vector_norm_mean_mul_pow_reciprocal_rsqrt_rsub_sqrt_sub": {
+   "regs_per_thread": 32,
+   "grid": [
+    27648,
+    1,
+    1
+   ],
+   "block": [
+    128,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 4096
+  },
+  "triton_red_fused__to_copy_clamp_min_copy__div_lerp_linalg_vector_norm_mul_rsub_2": {
+   "regs_per_thread": 32,
+   "grid": [
+    9216,
+    1,
+    1
+   ],
+   "block": [
+    512,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 64
+  },
+  "triton_red_fused__to_copy_add_clamp_min_linalg_vector_norm_mean_mul_pow_reciprocal_15": {
+   "regs_per_thread": 36,
+   "grid": [
+    576,
+    1,
+    1
+   ],
+   "block": [
+    512,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 4096
+  },
+  "triton_red_fused__to_copy_add_clamp_min_copy__div_lerp_linalg_vector_norm_mean_mul_pow_reciprocal_rsqrt_rsub_sqrt_sum_16": {
+   "regs_per_thread": 39,
+   "grid": [
+    12,
+    1,
+    1
+   ],
+   "block": [
+    512,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 64
+  },
+  "void at::native::<unnamed>::multi_tensor_apply_kernel<at::native::<unnamed>::TensorListMetadata<(int)2>, at::native::<un": {
+   "regs_per_thread": 32,
+   "grid": [
+    6,
+    1,
+    1
+   ],
+   "block": [
+    512,
+    1,
+    1
+   ],
+   "smem_static": 0,
+   "smem_dynamic": 0
+  }
+ }
+}

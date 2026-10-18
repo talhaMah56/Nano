@@ -1,0 +1,21 @@
+2026-10-17 16:27:28,856 - nanochat.common - [32m[1mINFO[0m - Distributed world size: 1
+2026-10-17 16:27:28,857 - nanochat.checkpoint_manager - [32m[1mINFO[0m - Loading model from /work/nvme/bffp/tmahmood1/cisc662/nanochat_base/base_checkpoints/r12_conv with step 2000
+2026-10-17 16:27:29,088 - nanochat.checkpoint_manager - [32m[1mINFO[0m - Building model with config: {'sequence_len': 2048, 'vocab_size': 32768, 'n_layer': 12, 'n_head': 6, 'n_kv_head': 6, 'n_embd': 768, 'window_pattern': 'L'}
+Autodetected device type: cuda
+====================================================================================================
+Model: base  (step 2000) | depth 12, dim 768, heads 6, kv heads 6 (GQA)
+GPU: NVIDIA GH200 120GB | peak bandwidth 4.00 TB/s | peak compute 989 TFLOPS | VRAM 95 GiB
+----------------------------------------------------------------------------------------------------
+Parameters: 286,261,730 (176,160,768 bfloat16, 110,100,962 float32) | weight bytes as stored: 756 MiB
+KV cache: 36,864 bytes/token stored | 23,592,960 bytes read/step at context 640 (window pattern L)
+Theoretical decode ceiling at batch 1: 4,900 tok/s | max ~1,341 full-context rows in VRAM
+====================================================================================================
+Prefill (batch 1, 512 tokens): 43,752 tok/s | MFU 1.0%
+ batch   TTFT ms   TPOT ms      tok/s   MBU %   MFU %  VRAM GiB  steps
+----------------------------------------------------------------------
+     1      11.1     10.15         98     2.0    0.00      0.98    255
+     8      11.4     10.41        732     2.4    0.02      1.10    255
+    32      13.0     11.27      2,805     3.4    0.07      1.73    255
+   128      16.6     12.49     10,091     7.6    0.25      4.27    255
+----------------------------------------------------------------------
+{"source": "base", "step": 2000, "model_config": {"sequence_len": 2048, "vocab_size": 32768, "n_layer": 12, "n_head": 6, "n_kv_head": 6, "n_embd": 768, "window_pattern": "L"}, "gpu": "NVIDIA GH200 120GB", "peak_bandwidth_bytes_per_sec": 4000000000000.0, "total_vram_bytes": 102087458816, "num_params": 286261730, "param_dtypes": {"float32": 110100962, "bfloat16": 176160768}, "weight_bytes": 792725384, "kv_bytes_per_token": 36864, "kv_read_bytes_per_step": 23592960, "context_mid": 640, "peak_flops_per_sec": 989000000000000.0, "decode_flops_per_token": 243794832, "ceiling_bs1_tok_per_sec": 4900.0, "max_full_context_rows": 1341, "prompt_tokens": 512, "decode_tokens": 256, "temperature": 0.0, "sweep": [{"batch_size": 1, "ttft_sec": 0.011076, "tpot_sec": 0.010147, "tok_per_sec": 98.0, "mbu_percent": 2.01, "mfu_percent": 0.0024, "peak_vram_bytes": 1055665152, "decode_steps": 255}, {"batch_size": 8, "ttft_sec": 0.011375, "tpot_sec": 0.010413, "tok_per_sec": 731.9, "mbu_percent": 2.36, "mfu_percent": 0.0189, "peak_vram_bytes": 1176059392, "decode_steps": 255}, {"batch_size": 32, "ttft_sec": 0.012955, "tpot_sec": 0.01127, "tok_per_sec": 2805.1, "mbu_percent": 3.43, "mfu_percent": 0.07, "peak_vram_bytes": 1857330688, "decode_steps": 255}, {"batch_size": 128, "ttft_sec": 0.016588, "tpot_sec": 0.012493, "tok_per_sec": 10091.4, "mbu_percent": 7.63, "mfu_percent": 0.2526, "peak_vram_bytes": 4582416896, "decode_steps": 255}], "prefill": {"tok_per_sec": 43752.1, "mfu_percent": 1.02, "time_sec": 0.011702}}

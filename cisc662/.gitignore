@@ -1,0 +1,7 @@
+# Large, regenerable profiler exports (sources: .nsys-rep/.sqlite on /work/nvme/bffp/tmahmood1/cisc662/profiles)
+results/runs/*/*_cuda_gpu_trace.csv
+results/runs/*/*_nvtx_kern_sum.csv
+results/runs/*/*_nvtx_sum.csv
+results/runs/*/*_phase_cuda_gpu_kern_sum_nvtx-name.csv
+__pycache__/
+*.pyc

@@ -1,0 +1,118 @@
+{
+ "run_dir": "cisc662/results/runs/s1_cpuref_3400725",
+ "train": {
+  "b1-compile_fa3": {
+   "reps": 1,
+   "s_per_100_mean": 3.0186100000000007,
+   "s_per_100_std": 0.0,
+   "median_step_ms": 29.479999999999997,
+   "tok_per_sec": 68289.65096777062,
+   "mfu_pct": 6.1252,
+   "peak_mem_MiB": 3743.6,
+   "per_rep": [
+    {
+     "s_per_100_steps": 3.0186100000000007,
+     "median_step_ms": 29.479999999999997,
+     "p10_step_ms": 29.01,
+     "p90_step_ms": 30.69,
+     "mean_tok_per_sec": 68289.65096777062,
+     "mean_mfu_pct": 6.1252,
+     "peak_mem_MiB": 3743.6
+    }
+   ]
+  },
+  "b1-eager_fa3": {
+   "reps": 1,
+   "s_per_100_mean": 5.573790000000001,
+   "s_per_100_std": 0.0,
+   "median_step_ms": 54.93,
+   "tok_per_sec": 36822.78533532727,
+   "mfu_pct": 3.3031,
+   "peak_mem_MiB": 4000.65,
+   "per_rep": [
+    {
+     "s_per_100_steps": 5.573790000000001,
+     "median_step_ms": 54.93,
+     "p10_step_ms": 54.45,
+     "p90_step_ms": 58.99,
+     "mean_tok_per_sec": 36822.78533532727,
+     "mean_mfu_pct": 3.3031,
+     "peak_mem_MiB": 4000.65
+    }
+   ]
+  }
+ },
+ "conv": null,
+ "infer": {},
+ "decode": {
+  "decode_cpu_t1": {
+   "device": "cpu",
+   "threads": 1,
+   "dtype": "torch.float32",
+   "model_tag": "r12_conv",
+   "step": 2000,
+   "prompt_tokens": 512,
+   "decode_tokens": 16,
+   "sweep": [
+    {
+     "batch_size": 1,
+     "ttft_sec": 1.5648783510550857,
+     "tpot_sec": 0.030597347766160965,
+     "decode_steps": 15,
+     "tok_per_sec": 32.75161846030275
+    }
+   ]
+  },
+  "decode_cpu_t72": {
+   "device": "cpu",
+   "threads": 72,
+   "dtype": "torch.float32",
+   "model_tag": "r12_conv",
+   "step": 2000,
+   "prompt_tokens": 512,
+   "decode_tokens": 32,
+   "sweep": [
+    {
+     "batch_size": 1,
+     "ttft_sec": 0.06733371689915657,
+     "tpot_sec": 0.010819461196660995,
+     "decode_steps": 31,
+     "tok_per_sec": 89.21082240972125
+    }
+   ]
+  },
+  "decode_gpu": {
+   "device": "cuda",
+   "threads": 1,
+   "dtype": "torch.float32",
+   "model_tag": "r12_conv",
+   "step": 2000,
+   "prompt_tokens": 512,
+   "decode_tokens": 32,
+   "sweep": [
+    {
+     "batch_size": 1,
+     "ttft_sec": 0.01013960875570774,
+     "tpot_sec": 0.009340046904981136,
+     "decode_steps": 31,
+     "tok_per_sec": 107.15181921650675
+    }
+   ]
+  }
+ },
+ "gpu_monitor": null,
+ "cpu": {
+  "cpu_t1": {
+   "timed_steps": 3,
+   "median_step_ms": 39858.6,
+   "s_per_100_extrapolated": 3985.86,
+   "tok_per_sec": 51.381634076460294
+  },
+  "cpu_t72": {
+   "timed_steps": 5,
+   "median_step_ms": 2269.27,
+   "s_per_100_extrapolated": 226.927,
+   "tok_per_sec": 902.4928721571254
+  }
+ }
+}

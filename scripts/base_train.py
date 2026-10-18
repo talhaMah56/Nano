@@ -412,6 +412,15 @@ print0(f"Tokens / micro-batch / rank: {args.device_batch_size} x {args.max_seq_l
 print0(f"Tokens / micro-batch: {world_tokens_per_fwdbwd:,}")
 print0(f"Total batch size {total_batch_size:,} => gradient accumulation steps: {grad_accum_steps}")
 
+# cisc662: optional profiler capture window, NANOCHAT_PROFILE_STEPS="start:stop" (stop exclusive).
+# Pairs with `nsys profile --capture-range=cudaProfilerApi`; NVTX ranges mark each step and its phases.
+# NANOCHAT_EMIT_NVTX=1 additionally emits one NVTX range per autograd op inside the window (eager attribution).
+_prof_window = os.environ.get("NANOCHAT_PROFILE_STEPS")
+prof_start, prof_stop = (int(s) for s in _prof_window.split(":")) if _prof_window else (-1, -1)
+emit_nvtx_ctx = torch.autograd.profiler.emit_nvtx(record_shapes=True) if os.environ.get("NANOCHAT_EMIT_NVTX") == "1" else None
+nvtx_push = torch.cuda.nvtx.range_push if device_type == "cuda" else (lambda name: None)
+nvtx_pop = torch.cuda.nvtx.range_pop if device_type == "cuda" else (lambda: None)
+
 # Go!
 while True:
     last_step = step == num_iterations # loop runs num_iterations+1 times so that we can eval/save at the end
@@ -505,17 +514,37 @@ while True:
     # -------------------------------------------------------------------------
     # single training step
     # evaluate the gradient
+    in_prof_window = prof_start <= step < prof_stop
+    if step == prof_start:
+        synchronize()
+        if emit_nvtx_ctx is not None:
+            emit_nvtx_ctx.__enter__()
+        torch.cuda.cudart().cudaProfilerStart()
+    if in_prof_window:
+        nvtx_push(f"step_{step}")
     synchronize()
     t0 = time.time()
     for micro_step in range(grad_accum_steps):
+        if in_prof_window:
+            nvtx_push("forward")
         loss = model(x, y)
         train_loss = loss.detach() # for logging
         loss = loss / grad_accum_steps # each .backward() is a grad sum => normalize loss here
+        if in_prof_window:
+            nvtx_pop()
+            nvtx_push("backward")
         if scaler is not None:
             scaler.scale(loss).backward()
         else:
             loss.backward()
+        if in_prof_window:
+            nvtx_pop()
+            nvtx_push("dataloader")
         x, y, dataloader_state_dict = next(train_loader) # prefetch the next batch while the GPU is busy with forward/backward
+        if in_prof_window:
+            nvtx_pop()
+    if in_prof_window:
+        nvtx_push("optimizer")
     # step the optimizer
     lrm = get_lr_multiplier(step)
     muon_momentum = get_muon_momentum(step)
@@ -542,6 +571,13 @@ while True:
     synchronize()
     t1 = time.time()
     dt = t1 - t0
+    if in_prof_window:
+        nvtx_pop() # optimizer
+        nvtx_pop() # step
+    if step == prof_stop - 1:
+        torch.cuda.cudart().cudaProfilerStop()
+        if emit_nvtx_ctx is not None:
+            emit_nvtx_ctx.__exit__(None, None, None)
     # -------------------------------------------------------------------------
 
     # logging (CPU action only)

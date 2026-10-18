@@ -1,0 +1,4 @@
+2026-10-17 16:28:24,738 - nanochat.checkpoint_manager - [32m[1mINFO[0m - Loading model from /work/nvme/bffp/tmahmood1/cisc662/nanochat_base/base_checkpoints/r12_conv with step 2000
+2026-10-17 16:28:24,976 - nanochat.checkpoint_manager - [32m[1mINFO[0m - Building model with config: {'sequence_len': 2048, 'vocab_size': 32768, 'n_layer': 12, 'n_head': 6, 'n_kv_head': 6, 'n_embd': 768, 'window_pattern': 'L'}
+{'batch_size': 1, 'ttft_sec': 0.015930558554828167, 'tpot_sec': 0.014703905209898949, 'decode_steps': 31, 'tok_per_sec': 68.1633964059153}
+{"device": "cuda", "threads": 1, "dtype": "torch.float32", "model_tag": "r12_conv", "step": 2000, "prompt_tokens": 512, "decode_tokens": 32, "sweep": [{"batch_size": 1, "ttft_sec": 0.015930558554828167, "tpot_sec": 0.014703905209898949, "decode_steps": 31, "tok_per_sec": 68.1633964059153}]}
