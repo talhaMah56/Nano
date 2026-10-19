@@ -8,4 +8,5 @@ __pycache__/
 # Regenerable Inductor debug dumps (full copies: /work/nvme/bffp/tmahmood1/cisc662/profiles/s2_inductor_*/compile_debug)
 results/runs/*/output_code/*_ir_post_fusion.txt
 results/runs/*/output_code/*_fx_graph_runnable.py
-results/runs/*/ops_dryrun/        # cache-warming dry runs (s2_harness), not results
+# cache-warming dry runs (s2_harness), not results
+results/runs/*/ops_dryrun/
