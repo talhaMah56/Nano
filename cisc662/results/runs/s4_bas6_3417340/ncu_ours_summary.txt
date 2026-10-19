@@ -1,0 +1,7 @@
+c662_ce_gif                                                      x6    last   2469.3 us   2333 GB/s | all   14791.4 us   2048 GB/s occ 50.0/47.9 regs=61.0 stalls=[['not_selected', 2.814], ['wait', 1.86]]
+c662_ce_bwd                                                      x3    last   1263.9 us   3381 GB/s | all    3787.9 us   3385 GB/s occ 62.5/58.1 regs=48.0 stalls=[['long_scoreboard', 4.383], ['not_selected', 2.373]]
+c662_ce_fwd                                                      x3    last   1144.7 us   1879 GB/s | all    3430.5 us   1881 GB/s occ 50.0/49.3 regs=60.0 stalls=[['not_selected', 2.367], ['wait', 2.07]]
+c662_qkrope_bwd                                                  x3    last     79.7 us   3586 GB/s | all     238.5 us   3593 GB/s occ 50.0/43.1 regs=62.0 stalls=[['long_scoreboard', 11.003], ['not_selected', 1.307]]
+c662_qkrope_fwd                                                  x3    last     54.7 us   3273 GB/s | all     162.9 us   3295 GB/s occ 100.0/93.1 regs=32.0 stalls=[['long_scoreboard', 19.847], ['barrier', 4.513]]
+c662_rmsnorm_bwd                                                 x3    last     37.7 us   3466 GB/s | all     113.1 us   3468 GB/s occ 56.25/48.1 regs=56.0 stalls=[['long_scoreboard', 25.334], ['short_scoreboard', 3.263]]
+c662_rmsnorm_fwd_v2                                              x3    last     25.1 us   3006 GB/s | all      75.7 us   2993 GB/s occ 50.0/44.2 regs=64.0 stalls=[['long_scoreboard', 18.597], ['short_scoreboard', 6.01]]

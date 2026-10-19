@@ -1,0 +1,7 @@
+.ssssssssssssssssssssssssssssssssssssssss....................ssssssssssssssssssssssssssssssssssssssss....................sssss.....s.s...per-row loss max rel err: rec_approx 8.272e-06, rec (precise tanh) 2.347e-07
+.s
+- generated xml file: /u/tmahmood1/project/nanochat/cisc662/results/runs/s4_ce_gates_3417374/gates_junit.xml -
+=========================== short test summary info ============================
+SKIPPED [87] cisc662/tests/test_ce.py:60: CPU runs of the Triton kernel need TRITON_INTERPRET=1 (see test_interpreter_subprocess)
+SKIPPED [1] cisc662/tests/test_ce.py:277: GPU node: the cuda variants test the real kernels
+51 passed, 88 skipped in 62.69s (0:01:02)

@@ -25,9 +25,9 @@ Dear Professor `<name>`,
 
 Our project ("Optimizing nanochat down to the assembly level: NVPTX and AMDGCN") is under way on NCSA DeltaAI. Four points need your input:
 
-1. **Platform change.** The proposal named DARWIN V100 as the primary GPU; we cannot reach DARWIN from our current allocation, so the primary platform is DeltaAI's GH200 (H100-class). Baselines are measured (e.g. 8.05 s per 100 training steps with torch.compile + FlashAttention-3; eager 15.08 s).
+1. **Platform change.** The proposal named DARWIN V100 as the primary GPU; we will instead work entirely on NCSA (DeltaAI GH200, H100-class, plus NCSA Delta for AMD), and we are not asking for DARWIN. Baselines are measured (e.g. 8.05 s per 100 training steps with torch.compile + FlashAttention-3; eager 15.08 s).
 2. **AMD half.** DeltaAI has no AMD GPUs and ROCm cannot be installed on its aarch64 nodes. We can already compile our kernels to AMDGCN (gfx908/gfx90a/gfx942) and analyse the ISA statically, and we are requesting AMD hardware (below). **Would a static-only AMD comparison, clearly labelled as such, be acceptable if no AMD hardware arrives by early November?**
-3. **DARWIN.** Could you (as faculty PI) request a DARWIN Education allocation that covers `gpu-v100` and `gpu-mi100` for the two of us? UD IT says processing takes about two weeks.
+3. **DARWIN.** Not needed; we are dropping it.
 4. **Allocation manager.** Who is the PI or allocation manager of the class allocation `bffp-dtai-gh`? NCSA Delta (the non-AI system) has 8 MI100 + 1 MI210 GPUs (partition `gpuMI100x8`, charge factor 0.25); a PI or allocation manager can exchange a small amount of DeltaAI units to "NCSA Delta GPU" on the ACCESS portal. We would need about 20–40 Delta GPU SU. Also, Hamza does not have his own DeltaAI account in `bffp-dtai-gh` yet — could he be added?
 
 So far we have used 0.6 of the GH200 hours for this project and plan at most 25 over the semester.

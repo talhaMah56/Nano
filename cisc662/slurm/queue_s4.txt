@@ -1,0 +1,5 @@
+# S4 queue (started 2026-10-19 by Claude for Talha; S4 cap 1.9 SU). Processed in order by slurm/queue.sh, <= 2 in flight.
+cisc662/slurm/s4_ce.sbatch KT-3
+cisc662/slurm/s4_ncu_baseline.sbatch BAS-6
+cisc662/slurm/s4_ce_gates.sbatch KT-3
+cisc662/slurm/s4_ops_autotune.sbatch BAS-4

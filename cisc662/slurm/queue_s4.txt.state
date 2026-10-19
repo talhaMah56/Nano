@@ -1,0 +1,4 @@
+2 3417307 /u/tmahmood1/project/nanochat/cisc662/slurm/s4_ce.sbatch
+3 3417340 /u/tmahmood1/project/nanochat/cisc662/slurm/s4_ncu_baseline.sbatch
+4 3417374 /u/tmahmood1/project/nanochat/cisc662/slurm/s4_ce_gates.sbatch
+5 3417398 /u/tmahmood1/project/nanochat/cisc662/slurm/s4_ops_autotune.sbatch

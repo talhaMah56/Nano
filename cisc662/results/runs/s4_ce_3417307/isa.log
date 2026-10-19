@@ -1,0 +1,10 @@
+rec        c662_ce_fwd  regs=60 spills=0 LDG.E.128=2 STG.E.128=0 MUFU=53 (EX2 33, RCP 20, TANH 0) STL=0 -> /u/tmahmood1/project/nanochat/cisc662/results/isa/ce/triton_rec/sm_90a/c662_ce_fwd.meta.json
+rec        c662_ce_bwd  regs=45 spills=0 LDG.E.128=2 STG.E.128=2 MUFU=49 (EX2 32, RCP 17, TANH 0) STL=0 -> /u/tmahmood1/project/nanochat/cisc662/results/isa/ce/triton_rec/sm_90a/c662_ce_bwd.meta.json
+rec_2k     c662_ce_fwd  regs=60 spills=0 LDG.E.128=2 STG.E.128=0 MUFU=53 (EX2 33, RCP 20, TANH 0) STL=0 -> /u/tmahmood1/project/nanochat/cisc662/results/isa/ce/triton_rec_2k/sm_90a/c662_ce_fwd.meta.json
+rec_2k     c662_ce_bwd  regs=45 spills=0 LDG.E.128=2 STG.E.128=2 MUFU=49 (EX2 32, RCP 17, TANH 0) STL=0 -> /u/tmahmood1/project/nanochat/cisc662/results/isa/ce/triton_rec_2k/sm_90a/c662_ce_bwd.meta.json
+rec_8k     c662_ce_fwd  regs=60 spills=0 LDG.E.128=2 STG.E.128=0 MUFU=53 (EX2 33, RCP 20, TANH 0) STL=0 -> /u/tmahmood1/project/nanochat/cisc662/results/isa/ce/triton_rec_8k/sm_90a/c662_ce_fwd.meta.json
+rec_8k     c662_ce_bwd  regs=45 spills=0 LDG.E.128=2 STG.E.128=2 MUFU=49 (EX2 32, RCP 17, TANH 0) STL=0 -> /u/tmahmood1/project/nanochat/cisc662/results/isa/ce/triton_rec_8k/sm_90a/c662_ce_bwd.meta.json
+gif_tile   c662_ce_gif  regs=64 spills=12 LDG.E.128=4 STG.E.128=4 MUFU=99 (EX2 64, RCP 35, TANH 0) STL=13 -> /u/tmahmood1/project/nanochat/cisc662/results/isa/ce/triton_gif_tile/sm_90a/c662_ce_gif.meta.json
+gif_2pass  c662_ce_gif  regs=61 spills=0 LDG.E.128=4 STG.E.128=2 MUFU=103 (EX2 65, RCP 38, TANH 0) STL=0 -> /u/tmahmood1/project/nanochat/cisc662/results/isa/ce/triton_gif_2pass/sm_90a/c662_ce_gif.meta.json
+rec_approx c662_ce_fwd  regs=40 spills=0 LDG.E.128=2 STG.E.128=0 MUFU=35 (EX2 16, RCP 2, TANH 17) STL=0 -> /u/tmahmood1/project/nanochat/cisc662/results/isa/ce/triton_rec_approx/sm_90a/c662_ce_fwd.meta.json
+rec_approx c662_ce_bwd  regs=32 spills=0 LDG.E.128=2 STG.E.128=2 MUFU=33 (EX2 16, RCP 1, TANH 16) STL=0 -> /u/tmahmood1/project/nanochat/cisc662/results/isa/ce/triton_rec_approx/sm_90a/c662_ce_bwd.meta.json

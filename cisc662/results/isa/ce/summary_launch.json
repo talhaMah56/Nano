@@ -1,0 +1,15 @@
+{
+ "written": [
+  "/u/tmahmood1/project/nanochat/cisc662/results/isa/ce/triton_rec/sm_90a/c662_ce_fwd.meta.json",
+  "/u/tmahmood1/project/nanochat/cisc662/results/isa/ce/triton_rec/sm_90a/c662_ce_bwd.meta.json",
+  "/u/tmahmood1/project/nanochat/cisc662/results/isa/ce/triton_rec_2k/sm_90a/c662_ce_fwd.meta.json",
+  "/u/tmahmood1/project/nanochat/cisc662/results/isa/ce/triton_rec_2k/sm_90a/c662_ce_bwd.meta.json",
+  "/u/tmahmood1/project/nanochat/cisc662/results/isa/ce/triton_rec_8k/sm_90a/c662_ce_fwd.meta.json",
+  "/u/tmahmood1/project/nanochat/cisc662/results/isa/ce/triton_rec_8k/sm_90a/c662_ce_bwd.meta.json",
+  "/u/tmahmood1/project/nanochat/cisc662/results/isa/ce/triton_gif_tile/sm_90a/c662_ce_gif.meta.json",
+  "/u/tmahmood1/project/nanochat/cisc662/results/isa/ce/triton_gif_2pass/sm_90a/c662_ce_gif.meta.json",
+  "/u/tmahmood1/project/nanochat/cisc662/results/isa/ce/triton_rec_approx/sm_90a/c662_ce_fwd.meta.json",
+  "/u/tmahmood1/project/nanochat/cisc662/results/isa/ce/triton_rec_approx/sm_90a/c662_ce_bwd.meta.json"
+ ],
+ "triton": "3.5.1"
+}

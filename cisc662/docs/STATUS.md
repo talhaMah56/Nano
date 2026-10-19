@@ -45,6 +45,14 @@ Facts that set vs-compile targets (from traces + the Inductor-generated code in 
 - **AMD-1** `analysis/{kernel_registry,xcompile,isa_report}.py` → `results/static_isa.csv` (358 STATIC rows: 16 kernels × 4 targets + 294 tuning pairs, 0 failures), dumps `results/isa/<kid>/triton_<v>/<target>/xc-<config>/`, `findings.md#static-isa`. Rerun after any kernel change: `python -m cisc662.analysis.xcompile --set all --kernels rmsnorm,qkrope --force` then `python -m cisc662.analysis.isa_report` (≈ 30 CPU-s).
 - **ANA-1 roofline v0** (`analysis/roofline.py`, `results/figures/roofline_v0.png`, `results/roofline_points_v0.csv`; acceptance met; `findings.md#roofline-v0`).
 
+## Done in S4 (2026-10-19; jobs 3417307 KT-3, 3417340 BAS-6, 3417374 gates re-run, 3417398 BAS-4; 0.186 SU)
+- **KT-3 done** (`kernels/triton/ce.py`, `tests/test_ce.py`): rec fwd 1178 us = 1.62x vs compile; fwd+bwd 2450 us = 1.56x vs compile, 12.1x vs eager; peak memory 2.15 GB (eager 17.2 GB). G1/G2 recorded on 11 ours rows (job 3417374). The kernel is MUFU-bound (about 3.3 MUFU/logit), see `findings.md#ce`.
+- **BAS-6**: ncu summaries in `results/db/ncu/`; our norm/rope kernels run at 3.0-3.6 TB/s, ce_fwd at 1.9 TB/s (MUFU-bound).
+- **BAS-4**: max-autotune GEMMs are within about 3% of eager cuBLAS for all 9 shapes, so eager cuBLAS stays the GEMM baseline.
+- Written, not yet run: `bench/cpu_ref.py` (BAS-5); it still needs `slurm/s4_cpu_ref.sbatch`.
+- Decision 2026-10-19: DARWIN dropped; platform = NCSA only (DeltaAI + Delta MI100/MI210).
+- Still to do from S4: BAS-5 job, roofline v1 (ANA-1).
+
 ## Gates status
 No optimized kernels yet. Harness ready: G1/G2 machinery (`tests/tolerances.py`, `gates.py`), G4 machinery (`analysis/losscurve.py` + envelope). Tolerances final under amendment A1 (Decisions).
 
@@ -63,7 +71,7 @@ No optimized kernels yet. Harness ready: G1/G2 machinery (`tests/tolerances.py`,
 |---|---|
 | **All six routes** | drafts ready to send in [access_requests.md](access_requests.md) (2026-10-18); **not sent** — needs Talha / a faculty PI |
 | NCSA Delta GPU (gpuMI100x8: MI100 + MI210; gpuA100x4) via ACCESS exchange | not yet requested (ADM-1) |
-| DARWIN (gpu-v100, gpu-mi100) Education allocation | not yet requested |
+| DARWIN (gpu-v100, gpu-mi100) | **dropped** (user decision 2026-10-19): platform = NCSA only (DeltaAI + Delta MI100/MI210) |
 | Chameleon CHI@TACC gpu_mi100 | not yet requested |
 | AMD Developer Cloud MI300X credit | not yet requested |
 | Hamza's DeltaAI account | **none** in `bffp-dtai-gh` (checked 2026-10-18: 23 users, only `tmahmood1`); asked in the instructor draft |
@@ -74,6 +82,7 @@ No optimized kernels yet. Harness ready: G1/G2 machinery (`tests/tolerances.py`,
 - **GH200 power cap:** sustained tensor-core work runs at ≈ 1365 MHz / 545 W (`sw_power_cap`), bursts at 1980 MHz; always log clocks, interleave variants.
 - `--constraint=nvperf` is a no-op on DeltaAI (counters always on; sbatch prints a warning mentioning perf/xpmem — harmless, billing stays 1000 = 1 SU/h).
 - ncu with `--nvtx --target-processes application-only` inside the profiler window profiles one whole compiled step (915 launches) in ≈ 25 s; steps under ncu run at ≈ 138 ms instead of 80 ms (interception), irrelevant for counters.
+- **Login-node 7-day wall-clock limit (NCSA emails 2026-10-19):** idle `gvfsd` daemons (0 CPU, started 10-12) were killed on gh-login02 and gh-login03. Fixed: `gvfs-daemon`/`gvfs-metadata` masked for this user; the stale gh-login01 tmux (from 10-17, running the old *unbounded* monitor.sh) killed. Rule: close tmux at session end, sweep all four login nodes at session start (AGENT_GUIDE §1). Watch `systemd --user` on gh-login03 (7 d, 26 CPU-min on 10-19) — it ends when the VS Code Remote connection there closes.
 - **Login-node auto-killer (verified 2026-10-17 by an NCSA policy email):** any process outside Slurm that exceeds 30 CPU-minutes is killed. The victim was a filesystem-wide `bfs … / -name claude_skills` search spawned by the Claude Code harness (36 CPU-min). The tmux server was gone by 01:00 on 10-18. Rules now in AGENT_GUIDE.md §1: no searches from `/`/`$HOME`, split login-node batches, no perpetual loops, restart long Claude sessions. Check the VS Code Claude extension / skills settings for a bare `claude_skills` path that triggers a root search.
 - S1 jobs (≤ 45 min) started 8–29 s after becoming eligible; the one 1-h job was cancelled after 8 min pending with a start estimate 8 h out. Keep ≤ 30 min and submit a session's jobs together.
 - ncu ignores the `NANOCHAT_PROFILE_STEPS` window unless run with `--profile-from-start off`; a compiled R12 step has ≈ 915 kernel launches.

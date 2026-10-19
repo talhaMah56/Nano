@@ -1,0 +1,7 @@
+PEAKMEM eager            17.18 GB
+PEAKMEM compile          2.15 GB
+PEAKMEM ours_rec         2.15 GB
+PEAKMEM ours_rec_2k      2.15 GB
+PEAKMEM ours_rec_8k      2.15 GB
+PEAKMEM ours_gif_tile    2.15 GB
+PEAKMEM ours_gif_2pass   2.15 GB

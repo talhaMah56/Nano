@@ -1,0 +1,406 @@
+==WARNING== Note: Running with unmodified GPU clocks. If not controlled otherwise, profiling results may be inconsistent.
+==PROF== Connected to process 279343 (/work/nvme/bffp/tmahmood1/cisc662/cache/uv-python/cpython-3.10.22-linux-aarch64-gnu/bin/python3.10)
+2026-10-19 17:53:14,918 - nanochat.common - [32m[1mINFO[0m - Distributed world size: 1
+==PROF== Profiling "nvjet_tst_256x8_64x6_2x1_v_bz_TNT": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_256x8_64x6_2x1_v_bz_TNT": 0%....50%....100% - 17 passes
+==PROF== Profiling "triton_per_fused__to_copy__unsafe_view_add_cat_mean_mul_pow_rsqrt_select_sigmoid_slice_4": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_TNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_TNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_TNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "void cutlass::device_kernel<flash::enable_sm90_or_later<flash::FlashAttnFwdSm90<flash::CollectiveMainloopFwdSm90<(int)2, cute::tuple<cute::C<(int)1>, cute::C<(int)1>, cute::C<(int)1>>, cute::tuple<cute::C<(int)128>, cute::C<(int)128>, cute::C<(int)128>>, (int)128, cutlass::bfloat16_t, float, cutlass::arch::Sm90, (bool)1, (bool)0, (bool)0, (bool)0, (bool)0, (bool)0, (bool)0, (bool)1, (bool)1, (bool)0, (bool)0, (bool)0>, flash::CollectiveEpilogueFwd<cute::tuple<cute::C<(int)128>, cute::C<(int)128>, cute::C<(int)128>>, cute::tuple<cute::C<(int)1>, cute::C<(int)1>, cute::C<(int)1>>, cutlass::bfloat16_t, cutlass::arch::Sm90, (int)256, (bool)0, (bool)0, (bool)0, (bool)0>, flash::DynamicPersistentTileScheduler<(int)256, (int)32, (bool)0, (bool)0, (bool)1>>>>(T1::Params)": 0%....50%....100% - 17 passes
+==PROF== Profiling "_ZN7cutlass13device_kernelIN5flash20enable_sm90_or_laterINS1_16FlashAttnFwdSm90INS1_25CollectiveMainloopFwdSm90ILi2EN4cute5tupleIJNS5_1CILi1EEES8_S8_EEENS6_IJNS7_ILi128EEESA_SA_EEELi128ENS_10bfloat16_tEfNS_4arch4Sm90ELb1ELb0ELb0ELb0ELb0ELb0ELb0ELb1ELb1ELb0ELb0ELb0EEENS1_21CollectiveEpilogueFwdISB_S9_SC_SE_Li256ELb0ELb0ELb0ELb0EEENS1_30DynamicPersistentTileSchedulerILi256ELi32ELb0ELb0ELb1EEEEEEEEEvNT_6ParamsE": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_TNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_192x192_64x4_2x1_v_bz_coopB_TNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "triton_poi_fused__unsafe_view_pow_relu_9": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_TNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_TNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_TNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_TNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "void cutlass::device_kernel<flash::enable_sm90_or_later<flash::FlashAttnFwdSm90<flash::CollectiveMainloopFwdSm90<(int)2, cute::tuple<cute::C<(int)1>, cute::C<(int)1>, cute::C<(int)1>>, cute::tuple<cute::C<(int)128>, cute::C<(int)128>, cute::C<(int)128>>, (int)128, cutlass::bfloat16_t, float, cutlass::arch::Sm90, (bool)1, (bool)0, (bool)0, (bool)0, (bool)0, (bool)0, (bool)0, (bool)1, (bool)1, (bool)0, (bool)0, (bool)0>, flash::CollectiveEpilogueFwd<cute::tuple<cute::C<(int)128>, cute::C<(int)128>, cute::C<(int)128>>, cute::tuple<cute::C<(int)1>, cute::C<(int)1>, cute::C<(int)1>>, cutlass::bfloat16_t, cutlass::arch::Sm90, (int)256, (bool)0, (bool)0, (bool)0, (bool)0>, flash::DynamicPersistentTileScheduler<(int)256, (int)32, (bool)0, (bool)0, (bool)1>>>>(T1::Params)": 0%....50%....100% - 17 passes
+==PROF== Profiling "_ZN7cutlass13device_kernelIN5flash20enable_sm90_or_laterINS1_16FlashAttnFwdSm90INS1_25CollectiveMainloopFwdSm90ILi2EN4cute5tupleIJNS5_1CILi1EEES8_S8_EEENS6_IJNS7_ILi128EEESA_SA_EEELi128ENS_10bfloat16_tEfNS_4arch4Sm90ELb1ELb0ELb0ELb0ELb0ELb0ELb0ELb1ELb1ELb0ELb0ELb0EEENS1_21CollectiveEpilogueFwdISB_S9_SC_SE_Li256ELb0ELb0ELb0ELb0EEENS1_30DynamicPersistentTileSchedulerILi256ELi32ELb0ELb0ELb1EEEEEEEEEvNT_6ParamsE": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_TNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_192x192_64x4_2x1_v_bz_coopB_TNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "triton_poi_fused__unsafe_view_pow_relu_9": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_TNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_TNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_TNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_TNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "void cutlass::device_kernel<flash::enable_sm90_or_later<flash::FlashAttnFwdSm90<flash::CollectiveMainloopFwdSm90<(int)2, cute::tuple<cute::C<(int)1>, cute::C<(int)1>, cute::C<(int)1>>, cute::tuple<cute::C<(int)128>, cute::C<(int)128>, cute::C<(int)128>>, (int)128, cutlass::bfloat16_t, float, cutlass::arch::Sm90, (bool)1, (bool)0, (bool)0, (bool)0, (bool)0, (bool)0, (bool)0, (bool)1, (bool)1, (bool)0, (bool)0, (bool)0>, flash::CollectiveEpilogueFwd<cute::tuple<cute::C<(int)128>, cute::C<(int)128>, cute::C<(int)128>>, cute::tuple<cute::C<(int)1>, cute::C<(int)1>, cute::C<(int)1>>, cutlass::bfloat16_t, cutlass::arch::Sm90, (int)256, (bool)0, (bool)0, (bool)0, (bool)0>, flash::DynamicPersistentTileScheduler<(int)256, (int)32, (bool)0, (bool)0, (bool)1>>>>(T1::Params)": 0%....50%....100% - 17 passes
+==PROF== Profiling "_ZN7cutlass13device_kernelIN5flash20enable_sm90_or_laterINS1_16FlashAttnFwdSm90INS1_25CollectiveMainloopFwdSm90ILi2EN4cute5tupleIJNS5_1CILi1EEES8_S8_EEENS6_IJNS7_ILi128EEESA_SA_EEELi128ENS_10bfloat16_tEfNS_4arch4Sm90ELb1ELb0ELb0ELb0ELb0ELb0ELb0ELb1ELb1ELb0ELb0ELb0EEENS1_21CollectiveEpilogueFwdISB_S9_SC_SE_Li256ELb0ELb0ELb0ELb0EEENS1_30DynamicPersistentTileSchedulerILi256ELi32ELb0ELb0ELb1EEEEEEEEEvNT_6ParamsE": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_TNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_192x192_64x4_2x1_v_bz_coopB_TNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "triton_poi_fused__unsafe_view_pow_relu_9": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_TNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_TNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_TNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_TNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "void cutlass::device_kernel<flash::enable_sm90_or_later<flash::FlashAttnFwdSm90<flash::CollectiveMainloopFwdSm90<(int)2, cute::tuple<cute::C<(int)1>, cute::C<(int)1>, cute::C<(int)1>>, cute::tuple<cute::C<(int)128>, cute::C<(int)128>, cute::C<(int)128>>, (int)128, cutlass::bfloat16_t, float, cutlass::arch::Sm90, (bool)1, (bool)0, (bool)0, (bool)0, (bool)0, (bool)0, (bool)0, (bool)1, (bool)1, (bool)0, (bool)0, (bool)0>, flash::CollectiveEpilogueFwd<cute::tuple<cute::C<(int)128>, cute::C<(int)128>, cute::C<(int)128>>, cute::tuple<cute::C<(int)1>, cute::C<(int)1>, cute::C<(int)1>>, cutlass::bfloat16_t, cutlass::arch::Sm90, (int)256, (bool)0, (bool)0, (bool)0, (bool)0>, flash::DynamicPersistentTileScheduler<(int)256, (int)32, (bool)0, (bool)0, (bool)1>>>>(T1::Params)": 0%....50%....100% - 17 passes
+==PROF== Profiling "_ZN7cutlass13device_kernelIN5flash20enable_sm90_or_laterINS1_16FlashAttnFwdSm90INS1_25CollectiveMainloopFwdSm90ILi2EN4cute5tupleIJNS5_1CILi1EEES8_S8_EEENS6_IJNS7_ILi128EEESA_SA_EEELi128ENS_10bfloat16_tEfNS_4arch4Sm90ELb1ELb0ELb0ELb0ELb0ELb0ELb0ELb1ELb1ELb0ELb0ELb0EEENS1_21CollectiveEpilogueFwdISB_S9_SC_SE_Li256ELb0ELb0ELb0ELb0EEENS1_30DynamicPersistentTileSchedulerILi256ELi32ELb0ELb0ELb1EEEEEEEEEvNT_6ParamsE": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_TNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_192x192_64x4_2x1_v_bz_coopB_TNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "triton_poi_fused__unsafe_view_pow_relu_9": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_TNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_TNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_TNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_TNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "void cutlass::device_kernel<flash::enable_sm90_or_later<flash::FlashAttnFwdSm90<flash::CollectiveMainloopFwdSm90<(int)2, cute::tuple<cute::C<(int)1>, cute::C<(int)1>, cute::C<(int)1>>, cute::tuple<cute::C<(int)128>, cute::C<(int)128>, cute::C<(int)128>>, (int)128, cutlass::bfloat16_t, float, cutlass::arch::Sm90, (bool)1, (bool)0, (bool)0, (bool)0, (bool)0, (bool)0, (bool)0, (bool)1, (bool)1, (bool)0, (bool)0, (bool)0>, flash::CollectiveEpilogueFwd<cute::tuple<cute::C<(int)128>, cute::C<(int)128>, cute::C<(int)128>>, cute::tuple<cute::C<(int)1>, cute::C<(int)1>, cute::C<(int)1>>, cutlass::bfloat16_t, cutlass::arch::Sm90, (int)256, (bool)0, (bool)0, (bool)0, (bool)0>, flash::DynamicPersistentTileScheduler<(int)256, (int)32, (bool)0, (bool)0, (bool)1>>>>(T1::Params)": 0%....50%....100% - 17 passes
+==PROF== Profiling "_ZN7cutlass13device_kernelIN5flash20enable_sm90_or_laterINS1_16FlashAttnFwdSm90INS1_25CollectiveMainloopFwdSm90ILi2EN4cute5tupleIJNS5_1CILi1EEES8_S8_EEENS6_IJNS7_ILi128EEESA_SA_EEELi128ENS_10bfloat16_tEfNS_4arch4Sm90ELb1ELb0ELb0ELb0ELb0ELb0ELb0ELb1ELb1ELb0ELb0ELb0EEENS1_21CollectiveEpilogueFwdISB_S9_SC_SE_Li256ELb0ELb0ELb0ELb0EEENS1_30DynamicPersistentTileSchedulerILi256ELi32ELb0ELb0ELb1EEEEEEEEEvNT_6ParamsE": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_TNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_192x192_64x4_2x1_v_bz_coopB_TNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "triton_poi_fused__unsafe_view_pow_relu_9": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_TNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_TNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_TNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_TNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "void cutlass::device_kernel<flash::enable_sm90_or_later<flash::FlashAttnFwdSm90<flash::CollectiveMainloopFwdSm90<(int)2, cute::tuple<cute::C<(int)1>, cute::C<(int)1>, cute::C<(int)1>>, cute::tuple<cute::C<(int)128>, cute::C<(int)128>, cute::C<(int)128>>, (int)128, cutlass::bfloat16_t, float, cutlass::arch::Sm90, (bool)1, (bool)0, (bool)0, (bool)0, (bool)0, (bool)0, (bool)0, (bool)1, (bool)1, (bool)0, (bool)0, (bool)0>, flash::CollectiveEpilogueFwd<cute::tuple<cute::C<(int)128>, cute::C<(int)128>, cute::C<(int)128>>, cute::tuple<cute::C<(int)1>, cute::C<(int)1>, cute::C<(int)1>>, cutlass::bfloat16_t, cutlass::arch::Sm90, (int)256, (bool)0, (bool)0, (bool)0, (bool)0>, flash::DynamicPersistentTileScheduler<(int)256, (int)32, (bool)0, (bool)0, (bool)1>>>>(T1::Params)": 0%....50%....100% - 17 passes
+==PROF== Profiling "_ZN7cutlass13device_kernelIN5flash20enable_sm90_or_laterINS1_16FlashAttnFwdSm90INS1_25CollectiveMainloopFwdSm90ILi2EN4cute5tupleIJNS5_1CILi1EEES8_S8_EEENS6_IJNS7_ILi128EEESA_SA_EEELi128ENS_10bfloat16_tEfNS_4arch4Sm90ELb1ELb0ELb0ELb0ELb0ELb0ELb0ELb1ELb1ELb0ELb0ELb0EEENS1_21CollectiveEpilogueFwdISB_S9_SC_SE_Li256ELb0ELb0ELb0ELb0EEENS1_30DynamicPersistentTileSchedulerILi256ELi32ELb0ELb0ELb1EEEEEEEEEvNT_6ParamsE": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_TNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_192x192_64x4_2x1_v_bz_coopB_TNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "triton_poi_fused__unsafe_view_pow_relu_9": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_TNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_TNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_TNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_TNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "void cutlass::device_kernel<flash::enable_sm90_or_later<flash::FlashAttnFwdSm90<flash::CollectiveMainloopFwdSm90<(int)2, cute::tuple<cute::C<(int)1>, cute::C<(int)1>, cute::C<(int)1>>, cute::tuple<cute::C<(int)128>, cute::C<(int)128>, cute::C<(int)128>>, (int)128, cutlass::bfloat16_t, float, cutlass::arch::Sm90, (bool)1, (bool)0, (bool)0, (bool)0, (bool)0, (bool)0, (bool)0, (bool)1, (bool)1, (bool)0, (bool)0, (bool)0>, flash::CollectiveEpilogueFwd<cute::tuple<cute::C<(int)128>, cute::C<(int)128>, cute::C<(int)128>>, cute::tuple<cute::C<(int)1>, cute::C<(int)1>, cute::C<(int)1>>, cutlass::bfloat16_t, cutlass::arch::Sm90, (int)256, (bool)0, (bool)0, (bool)0, (bool)0>, flash::DynamicPersistentTileScheduler<(int)256, (int)32, (bool)0, (bool)0, (bool)1>>>>(T1::Params)": 0%....50%....100% - 17 passes
+==PROF== Profiling "_ZN7cutlass13device_kernelIN5flash20enable_sm90_or_laterINS1_16FlashAttnFwdSm90INS1_25CollectiveMainloopFwdSm90ILi2EN4cute5tupleIJNS5_1CILi1EEES8_S8_EEENS6_IJNS7_ILi128EEESA_SA_EEELi128ENS_10bfloat16_tEfNS_4arch4Sm90ELb1ELb0ELb0ELb0ELb0ELb0ELb0ELb1ELb1ELb0ELb0ELb0EEENS1_21CollectiveEpilogueFwdISB_S9_SC_SE_Li256ELb0ELb0ELb0ELb0EEENS1_30DynamicPersistentTileSchedulerILi256ELi32ELb0ELb0ELb1EEEEEEEEEvNT_6ParamsE": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_TNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_192x192_64x4_2x1_v_bz_coopB_TNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "triton_poi_fused__unsafe_view_pow_relu_9": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_TNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_TNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_TNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_TNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "void cutlass::device_kernel<flash::enable_sm90_or_later<flash::FlashAttnFwdSm90<flash::CollectiveMainloopFwdSm90<(int)2, cute::tuple<cute::C<(int)1>, cute::C<(int)1>, cute::C<(int)1>>, cute::tuple<cute::C<(int)128>, cute::C<(int)128>, cute::C<(int)128>>, (int)128, cutlass::bfloat16_t, float, cutlass::arch::Sm90, (bool)1, (bool)0, (bool)0, (bool)0, (bool)0, (bool)0, (bool)0, (bool)1, (bool)1, (bool)0, (bool)0, (bool)0>, flash::CollectiveEpilogueFwd<cute::tuple<cute::C<(int)128>, cute::C<(int)128>, cute::C<(int)128>>, cute::tuple<cute::C<(int)1>, cute::C<(int)1>, cute::C<(int)1>>, cutlass::bfloat16_t, cutlass::arch::Sm90, (int)256, (bool)0, (bool)0, (bool)0, (bool)0>, flash::DynamicPersistentTileScheduler<(int)256, (int)32, (bool)0, (bool)0, (bool)1>>>>(T1::Params)": 0%....50%....100% - 17 passes
+==PROF== Profiling "_ZN7cutlass13device_kernelIN5flash20enable_sm90_or_laterINS1_16FlashAttnFwdSm90INS1_25CollectiveMainloopFwdSm90ILi2EN4cute5tupleIJNS5_1CILi1EEES8_S8_EEENS6_IJNS7_ILi128EEESA_SA_EEELi128ENS_10bfloat16_tEfNS_4arch4Sm90ELb1ELb0ELb0ELb0ELb0ELb0ELb0ELb1ELb1ELb0ELb0ELb0EEENS1_21CollectiveEpilogueFwdISB_S9_SC_SE_Li256ELb0ELb0ELb0ELb0EEENS1_30DynamicPersistentTileSchedulerILi256ELi32ELb0ELb0ELb1EEEEEEEEEvNT_6ParamsE": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_TNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_192x192_64x4_2x1_v_bz_coopB_TNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "triton_poi_fused__unsafe_view_pow_relu_9": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_TNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_TNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_TNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_TNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "void cutlass::device_kernel<flash::enable_sm90_or_later<flash::FlashAttnFwdSm90<flash::CollectiveMainloopFwdSm90<(int)2, cute::tuple<cute::C<(int)1>, cute::C<(int)1>, cute::C<(int)1>>, cute::tuple<cute::C<(int)128>, cute::C<(int)128>, cute::C<(int)128>>, (int)128, cutlass::bfloat16_t, float, cutlass::arch::Sm90, (bool)1, (bool)0, (bool)0, (bool)0, (bool)0, (bool)0, (bool)0, (bool)1, (bool)1, (bool)0, (bool)0, (bool)0>, flash::CollectiveEpilogueFwd<cute::tuple<cute::C<(int)128>, cute::C<(int)128>, cute::C<(int)128>>, cute::tuple<cute::C<(int)1>, cute::C<(int)1>, cute::C<(int)1>>, cutlass::bfloat16_t, cutlass::arch::Sm90, (int)256, (bool)0, (bool)0, (bool)0, (bool)0>, flash::DynamicPersistentTileScheduler<(int)256, (int)32, (bool)0, (bool)0, (bool)1>>>>(T1::Params)": 0%....50%....100% - 17 passes
+==PROF== Profiling "_ZN7cutlass13device_kernelIN5flash20enable_sm90_or_laterINS1_16FlashAttnFwdSm90INS1_25CollectiveMainloopFwdSm90ILi2EN4cute5tupleIJNS5_1CILi1EEES8_S8_EEENS6_IJNS7_ILi128EEESA_SA_EEELi128ENS_10bfloat16_tEfNS_4arch4Sm90ELb1ELb0ELb0ELb0ELb0ELb0ELb0ELb1ELb1ELb0ELb0ELb0EEENS1_21CollectiveEpilogueFwdISB_S9_SC_SE_Li256ELb0ELb0ELb0ELb0EEENS1_30DynamicPersistentTileSchedulerILi256ELi32ELb0ELb0ELb1EEEEEEEEEvNT_6ParamsE": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_TNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_192x192_64x4_2x1_v_bz_coopB_TNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "triton_poi_fused__unsafe_view_pow_relu_9": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_TNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_TNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_TNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_TNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "void cutlass::device_kernel<flash::enable_sm90_or_later<flash::FlashAttnFwdSm90<flash::CollectiveMainloopFwdSm90<(int)2, cute::tuple<cute::C<(int)1>, cute::C<(int)1>, cute::C<(int)1>>, cute::tuple<cute::C<(int)128>, cute::C<(int)128>, cute::C<(int)128>>, (int)128, cutlass::bfloat16_t, float, cutlass::arch::Sm90, (bool)1, (bool)0, (bool)0, (bool)0, (bool)0, (bool)0, (bool)0, (bool)1, (bool)1, (bool)0, (bool)0, (bool)0>, flash::CollectiveEpilogueFwd<cute::tuple<cute::C<(int)128>, cute::C<(int)128>, cute::C<(int)128>>, cute::tuple<cute::C<(int)1>, cute::C<(int)1>, cute::C<(int)1>>, cutlass::bfloat16_t, cutlass::arch::Sm90, (int)256, (bool)0, (bool)0, (bool)0, (bool)0>, flash::DynamicPersistentTileScheduler<(int)256, (int)32, (bool)0, (bool)0, (bool)1>>>>(T1::Params)": 0%....50%....100% - 17 passes
+==PROF== Profiling "_ZN7cutlass13device_kernelIN5flash20enable_sm90_or_laterINS1_16FlashAttnFwdSm90INS1_25CollectiveMainloopFwdSm90ILi2EN4cute5tupleIJNS5_1CILi1EEES8_S8_EEENS6_IJNS7_ILi128EEESA_SA_EEELi128ENS_10bfloat16_tEfNS_4arch4Sm90ELb1ELb0ELb0ELb0ELb0ELb0ELb0ELb1ELb1ELb0ELb0ELb0EEENS1_21CollectiveEpilogueFwdISB_S9_SC_SE_Li256ELb0ELb0ELb0ELb0EEENS1_30DynamicPersistentTileSchedulerILi256ELi32ELb0ELb0ELb1EEEEEEEEEvNT_6ParamsE": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_TNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_192x192_64x4_2x1_v_bz_coopB_TNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "triton_poi_fused__unsafe_view_pow_relu_9": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_TNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_TNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_TNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_TNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "void cutlass::device_kernel<flash::enable_sm90_or_later<flash::FlashAttnFwdSm90<flash::CollectiveMainloopFwdSm90<(int)2, cute::tuple<cute::C<(int)1>, cute::C<(int)1>, cute::C<(int)1>>, cute::tuple<cute::C<(int)128>, cute::C<(int)128>, cute::C<(int)128>>, (int)128, cutlass::bfloat16_t, float, cutlass::arch::Sm90, (bool)1, (bool)0, (bool)0, (bool)0, (bool)0, (bool)0, (bool)0, (bool)1, (bool)1, (bool)0, (bool)0, (bool)0>, flash::CollectiveEpilogueFwd<cute::tuple<cute::C<(int)128>, cute::C<(int)128>, cute::C<(int)128>>, cute::tuple<cute::C<(int)1>, cute::C<(int)1>, cute::C<(int)1>>, cutlass::bfloat16_t, cutlass::arch::Sm90, (int)256, (bool)0, (bool)0, (bool)0, (bool)0>, flash::DynamicPersistentTileScheduler<(int)256, (int)32, (bool)0, (bool)0, (bool)1>>>>(T1::Params)": 0%....50%....100% - 17 passes
+==PROF== Profiling "_ZN7cutlass13device_kernelIN5flash20enable_sm90_or_laterINS1_16FlashAttnFwdSm90INS1_25CollectiveMainloopFwdSm90ILi2EN4cute5tupleIJNS5_1CILi1EEES8_S8_EEENS6_IJNS7_ILi128EEESA_SA_EEELi128ENS_10bfloat16_tEfNS_4arch4Sm90ELb1ELb0ELb0ELb0ELb0ELb0ELb0ELb1ELb1ELb0ELb0ELb0EEENS1_21CollectiveEpilogueFwdISB_S9_SC_SE_Li256ELb0ELb0ELb0ELb0EEENS1_30DynamicPersistentTileSchedulerILi256ELi32ELb0ELb0ELb1EEEEEEEEEvNT_6ParamsE": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_TNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_192x192_64x4_2x1_v_bz_coopB_TNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "triton_poi_fused__unsafe_view_pow_relu_9": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_TNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_TNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_TNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_TNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "void cutlass::device_kernel<flash::enable_sm90_or_later<flash::FlashAttnFwdSm90<flash::CollectiveMainloopFwdSm90<(int)2, cute::tuple<cute::C<(int)1>, cute::C<(int)1>, cute::C<(int)1>>, cute::tuple<cute::C<(int)128>, cute::C<(int)128>, cute::C<(int)128>>, (int)128, cutlass::bfloat16_t, float, cutlass::arch::Sm90, (bool)1, (bool)0, (bool)0, (bool)0, (bool)0, (bool)0, (bool)0, (bool)1, (bool)1, (bool)0, (bool)0, (bool)0>, flash::CollectiveEpilogueFwd<cute::tuple<cute::C<(int)128>, cute::C<(int)128>, cute::C<(int)128>>, cute::tuple<cute::C<(int)1>, cute::C<(int)1>, cute::C<(int)1>>, cutlass::bfloat16_t, cutlass::arch::Sm90, (int)256, (bool)0, (bool)0, (bool)0, (bool)0>, flash::DynamicPersistentTileScheduler<(int)256, (int)32, (bool)0, (bool)0, (bool)1>>>>(T1::Params)": 0%....50%....100% - 17 passes
+==PROF== Profiling "_ZN7cutlass13device_kernelIN5flash20enable_sm90_or_laterINS1_16FlashAttnFwdSm90INS1_25CollectiveMainloopFwdSm90ILi2EN4cute5tupleIJNS5_1CILi1EEES8_S8_EEENS6_IJNS7_ILi128EEESA_SA_EEELi128ENS_10bfloat16_tEfNS_4arch4Sm90ELb1ELb0ELb0ELb0ELb0ELb0ELb0ELb1ELb1ELb0ELb0ELb0EEENS1_21CollectiveEpilogueFwdISB_S9_SC_SE_Li256ELb0ELb0ELb0ELb0EEENS1_30DynamicPersistentTileSchedulerILi256ELi32ELb0ELb0ELb1EEEEEEEEEvNT_6ParamsE": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_TNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_192x192_64x4_2x1_v_bz_coopB_TNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "triton_poi_fused__unsafe_view_pow_relu_9": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_TNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_192x192_64x4_1x1_v_bz_coopB_TNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "triton_red_fused__log_softmax__to_copy__unsafe_view_div_mul_prepare_softmax_online_tanh_view_36": 0%....50%....100% - 17 passes
+==PROF== Profiling "triton_red_fused__log_softmax__to_copy__unsafe_view_div_mul_nll_loss_forward_sub_tanh_view_37": 0%....50%....100% - 17 passes
+==PROF== Profiling "triton_red_fused__log_softmax__log_softmax_backward_data__to_copy__unsafe_view_div_mul_nll_loss_backward_nll_loss_forward_tanh_tanh_backward_view_0": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_NTN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_NNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_192x192_64x3_1x2_h_bz_coopB_splitK_NTN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_192x192_64x3_2x1_v_bz_coopB_NNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "triton_poi_fused__unsafe_view_mul_pow_relu_threshold_backward_view_5": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_192x192_64x3_1x2_h_bz_coopB_splitK_NTN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_NNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_splitK_NTN": 0%....50%....100% - 17 passes
+==PROF== Profiling "void cutlass::device_kernel<flash::enable_sm90_or_later<flash::FlashAttnBwdSm90<flash::CollectiveMainloopBwdSm90<(int)2, (int)2, (int)2, cute::tuple<cute::C<(int)1>, cute::C<(int)1>, cute::C<(int)1>>, cute::tuple<cute::C<(int)64>, cute::C<(int)128>, cute::C<(int)128>>, cutlass::bfloat16_t, float, cutlass::arch::Sm90, (bool)1, (bool)0, (bool)0, (bool)0, (bool)0, (bool)1, (bool)0, (bool)0, (int)2, (int)1, (int)2, (int)1, (bool)0>, flash::CollectiveEpilogueBwd<cute::tuple<cute::C<(int)64>, cute::C<(int)128>, cute::C<(int)128>>, cutlass::bfloat16_t, cutlass::arch::Sm90, (int)256, (bool)0, (bool)0, (int)1>, flash::SingleTileBwdLPTScheduler<(bool)0, (int)128, (bool)0>>>>(T1::Params)": 0%....50%....100% - 17 passes
+==PROF== Profiling "_ZN7cutlass13device_kernelIN5flash20enable_sm90_or_laterINS1_16FlashAttnBwdSm90INS1_25CollectiveMainloopBwdSm90ILi2ELi2ELi2EN4cute5tupleIJNS5_1CILi1EEES8_S8_EEENS6_IJNS7_ILi64EEENS7_ILi128EEESB_EEENS_10bfloat16_tEfNS_4arch4Sm90ELb1ELb0ELb0ELb0ELb0ELb1ELb0ELb0ELi2ELi1ELi2ELi1ELb0EEENS1_21CollectiveEpilogueBwdISC_SD_SF_Li256ELb0ELb0ELi1EEENS1_25SingleTileBwdLPTSchedulerILb0ELi128ELb0EEEEEEEEEvNT_6ParamsE": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_splitK_NTN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_NNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_splitK_NTN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_NNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_splitK_NTN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_NNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_192x192_64x3_2x1_v_bz_coopB_NNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "triton_poi_fused__unsafe_view_mul_pow_relu_threshold_backward_view_5": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_NNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "void cutlass::device_kernel<flash::enable_sm90_or_later<flash::FlashAttnBwdSm90<flash::CollectiveMainloopBwdSm90<(int)2, (int)2, (int)2, cute::tuple<cute::C<(int)1>, cute::C<(int)1>, cute::C<(int)1>>, cute::tuple<cute::C<(int)64>, cute::C<(int)128>, cute::C<(int)128>>, cutlass::bfloat16_t, float, cutlass::arch::Sm90, (bool)1, (bool)0, (bool)0, (bool)0, (bool)0, (bool)1, (bool)0, (bool)0, (int)2, (int)1, (int)2, (int)1, (bool)0>, flash::CollectiveEpilogueBwd<cute::tuple<cute::C<(int)64>, cute::C<(int)128>, cute::C<(int)128>>, cutlass::bfloat16_t, cutlass::arch::Sm90, (int)256, (bool)0, (bool)0, (int)1>, flash::SingleTileBwdLPTScheduler<(bool)0, (int)128, (bool)0>>>>(T1::Params)": 0%....50%....100% - 17 passes
+==PROF== Profiling "_ZN7cutlass13device_kernelIN5flash20enable_sm90_or_laterINS1_16FlashAttnBwdSm90INS1_25CollectiveMainloopBwdSm90ILi2ELi2ELi2EN4cute5tupleIJNS5_1CILi1EEES8_S8_EEENS6_IJNS7_ILi64EEENS7_ILi128EEESB_EEENS_10bfloat16_tEfNS_4arch4Sm90ELb1ELb0ELb0ELb0ELb0ELb1ELb0ELb0ELi2ELi1ELi2ELi1ELb0EEENS1_21CollectiveEpilogueBwdISC_SD_SF_Li256ELb0ELb0ELi1EEENS1_25SingleTileBwdLPTSchedulerILb0ELi128ELb0EEEEEEEEEvNT_6ParamsE": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_NNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_NNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_NNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_192x192_64x3_1x2_h_bz_coopB_splitK_NTN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_192x192_64x3_1x2_h_bz_coopB_splitK_NTN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_splitK_NTN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_splitK_NTN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_splitK_NTN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_splitK_NTN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_192x192_64x3_1x2_h_bz_coopB_splitK_NTN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_192x192_64x3_2x1_v_bz_coopB_NNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "triton_poi_fused__unsafe_view_mul_pow_relu_threshold_backward_view_5": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_192x192_64x3_1x2_h_bz_coopB_splitK_NTN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_NNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_splitK_NTN": 0%....50%....100% - 17 passes
+==PROF== Profiling "void cutlass::device_kernel<flash::enable_sm90_or_later<flash::FlashAttnBwdSm90<flash::CollectiveMainloopBwdSm90<(int)2, (int)2, (int)2, cute::tuple<cute::C<(int)1>, cute::C<(int)1>, cute::C<(int)1>>, cute::tuple<cute::C<(int)64>, cute::C<(int)128>, cute::C<(int)128>>, cutlass::bfloat16_t, float, cutlass::arch::Sm90, (bool)1, (bool)0, (bool)0, (bool)0, (bool)0, (bool)1, (bool)0, (bool)0, (int)2, (int)1, (int)2, (int)1, (bool)0>, flash::CollectiveEpilogueBwd<cute::tuple<cute::C<(int)64>, cute::C<(int)128>, cute::C<(int)128>>, cutlass::bfloat16_t, cutlass::arch::Sm90, (int)256, (bool)0, (bool)0, (int)1>, flash::SingleTileBwdLPTScheduler<(bool)0, (int)128, (bool)0>>>>(T1::Params)": 0%....50%....100% - 17 passes
+==PROF== Profiling "_ZN7cutlass13device_kernelIN5flash20enable_sm90_or_laterINS1_16FlashAttnBwdSm90INS1_25CollectiveMainloopBwdSm90ILi2ELi2ELi2EN4cute5tupleIJNS5_1CILi1EEES8_S8_EEENS6_IJNS7_ILi64EEENS7_ILi128EEESB_EEENS_10bfloat16_tEfNS_4arch4Sm90ELb1ELb0ELb0ELb0ELb0ELb1ELb0ELb0ELi2ELi1ELi2ELi1ELb0EEENS1_21CollectiveEpilogueBwdISC_SD_SF_Li256ELb0ELb0ELi1EEENS1_25SingleTileBwdLPTSchedulerILb0ELi128ELb0EEEEEEEEEvNT_6ParamsE": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_splitK_NTN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_NNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_splitK_NTN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_NNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_splitK_NTN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_NNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_192x192_64x3_2x1_v_bz_coopB_NNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "triton_poi_fused__unsafe_view_mul_pow_relu_threshold_backward_view_5": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_NNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "void cutlass::device_kernel<flash::enable_sm90_or_later<flash::FlashAttnBwdSm90<flash::CollectiveMainloopBwdSm90<(int)2, (int)2, (int)2, cute::tuple<cute::C<(int)1>, cute::C<(int)1>, cute::C<(int)1>>, cute::tuple<cute::C<(int)64>, cute::C<(int)128>, cute::C<(int)128>>, cutlass::bfloat16_t, float, cutlass::arch::Sm90, (bool)1, (bool)0, (bool)0, (bool)0, (bool)0, (bool)1, (bool)0, (bool)0, (int)2, (int)1, (int)2, (int)1, (bool)0>, flash::CollectiveEpilogueBwd<cute::tuple<cute::C<(int)64>, cute::C<(int)128>, cute::C<(int)128>>, cutlass::bfloat16_t, cutlass::arch::Sm90, (int)256, (bool)0, (bool)0, (int)1>, flash::SingleTileBwdLPTScheduler<(bool)0, (int)128, (bool)0>>>>(T1::Params)": 0%....50%....100% - 17 passes
+==PROF== Profiling "_ZN7cutlass13device_kernelIN5flash20enable_sm90_or_laterINS1_16FlashAttnBwdSm90INS1_25CollectiveMainloopBwdSm90ILi2ELi2ELi2EN4cute5tupleIJNS5_1CILi1EEES8_S8_EEENS6_IJNS7_ILi64EEENS7_ILi128EEESB_EEENS_10bfloat16_tEfNS_4arch4Sm90ELb1ELb0ELb0ELb0ELb0ELb1ELb0ELb0ELi2ELi1ELi2ELi1ELb0EEENS1_21CollectiveEpilogueBwdISC_SD_SF_Li256ELb0ELb0ELi1EEENS1_25SingleTileBwdLPTSchedulerILb0ELi128ELb0EEEEEEEEEvNT_6ParamsE": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_NNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_NNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_NNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_192x192_64x3_1x2_h_bz_coopB_splitK_NTN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_192x192_64x3_1x2_h_bz_coopB_splitK_NTN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_splitK_NTN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_splitK_NTN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_splitK_NTN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_splitK_NTN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_192x192_64x3_1x2_h_bz_coopB_splitK_NTN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_192x192_64x3_2x1_v_bz_coopB_NNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "triton_poi_fused__unsafe_view_mul_pow_relu_threshold_backward_view_5": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_192x192_64x3_1x2_h_bz_coopB_splitK_NTN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_NNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_splitK_NTN": 0%....50%....100% - 17 passes
+==PROF== Profiling "void cutlass::device_kernel<flash::enable_sm90_or_later<flash::FlashAttnBwdSm90<flash::CollectiveMainloopBwdSm90<(int)2, (int)2, (int)2, cute::tuple<cute::C<(int)1>, cute::C<(int)1>, cute::C<(int)1>>, cute::tuple<cute::C<(int)64>, cute::C<(int)128>, cute::C<(int)128>>, cutlass::bfloat16_t, float, cutlass::arch::Sm90, (bool)1, (bool)0, (bool)0, (bool)0, (bool)0, (bool)1, (bool)0, (bool)0, (int)2, (int)1, (int)2, (int)1, (bool)0>, flash::CollectiveEpilogueBwd<cute::tuple<cute::C<(int)64>, cute::C<(int)128>, cute::C<(int)128>>, cutlass::bfloat16_t, cutlass::arch::Sm90, (int)256, (bool)0, (bool)0, (int)1>, flash::SingleTileBwdLPTScheduler<(bool)0, (int)128, (bool)0>>>>(T1::Params)": 0%....50%....100% - 17 passes
+==PROF== Profiling "_ZN7cutlass13device_kernelIN5flash20enable_sm90_or_laterINS1_16FlashAttnBwdSm90INS1_25CollectiveMainloopBwdSm90ILi2ELi2ELi2EN4cute5tupleIJNS5_1CILi1EEES8_S8_EEENS6_IJNS7_ILi64EEENS7_ILi128EEESB_EEENS_10bfloat16_tEfNS_4arch4Sm90ELb1ELb0ELb0ELb0ELb0ELb1ELb0ELb0ELi2ELi1ELi2ELi1ELb0EEENS1_21CollectiveEpilogueBwdISC_SD_SF_Li256ELb0ELb0ELi1EEENS1_25SingleTileBwdLPTSchedulerILb0ELi128ELb0EEEEEEEEEvNT_6ParamsE": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_splitK_NTN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_NNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_splitK_NTN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_NNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_splitK_NTN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_NNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_192x192_64x3_2x1_v_bz_coopB_NNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "triton_poi_fused__unsafe_view_mul_pow_relu_threshold_backward_view_5": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_NNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "void cutlass::device_kernel<flash::enable_sm90_or_later<flash::FlashAttnBwdSm90<flash::CollectiveMainloopBwdSm90<(int)2, (int)2, (int)2, cute::tuple<cute::C<(int)1>, cute::C<(int)1>, cute::C<(int)1>>, cute::tuple<cute::C<(int)64>, cute::C<(int)128>, cute::C<(int)128>>, cutlass::bfloat16_t, float, cutlass::arch::Sm90, (bool)1, (bool)0, (bool)0, (bool)0, (bool)0, (bool)1, (bool)0, (bool)0, (int)2, (int)1, (int)2, (int)1, (bool)0>, flash::CollectiveEpilogueBwd<cute::tuple<cute::C<(int)64>, cute::C<(int)128>, cute::C<(int)128>>, cutlass::bfloat16_t, cutlass::arch::Sm90, (int)256, (bool)0, (bool)0, (int)1>, flash::SingleTileBwdLPTScheduler<(bool)0, (int)128, (bool)0>>>>(T1::Params)": 0%....50%....100% - 17 passes
+==PROF== Profiling "_ZN7cutlass13device_kernelIN5flash20enable_sm90_or_laterINS1_16FlashAttnBwdSm90INS1_25CollectiveMainloopBwdSm90ILi2ELi2ELi2EN4cute5tupleIJNS5_1CILi1EEES8_S8_EEENS6_IJNS7_ILi64EEENS7_ILi128EEESB_EEENS_10bfloat16_tEfNS_4arch4Sm90ELb1ELb0ELb0ELb0ELb0ELb1ELb0ELb0ELi2ELi1ELi2ELi1ELb0EEENS1_21CollectiveEpilogueBwdISC_SD_SF_Li256ELb0ELb0ELi1EEENS1_25SingleTileBwdLPTSchedulerILb0ELi128ELb0EEEEEEEEEvNT_6ParamsE": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_NNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_NNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_NNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_192x192_64x3_1x2_h_bz_coopB_splitK_NTN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_192x192_64x3_1x2_h_bz_coopB_splitK_NTN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_splitK_NTN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_splitK_NTN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_splitK_NTN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_splitK_NTN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_192x192_64x3_1x2_h_bz_coopB_splitK_NTN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_192x192_64x3_2x1_v_bz_coopB_NNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "triton_poi_fused__unsafe_view_mul_pow_relu_threshold_backward_view_5": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_192x192_64x3_1x2_h_bz_coopB_splitK_NTN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_NNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_splitK_NTN": 0%....50%....100% - 17 passes
+==PROF== Profiling "void cutlass::device_kernel<flash::enable_sm90_or_later<flash::FlashAttnBwdSm90<flash::CollectiveMainloopBwdSm90<(int)2, (int)2, (int)2, cute::tuple<cute::C<(int)1>, cute::C<(int)1>, cute::C<(int)1>>, cute::tuple<cute::C<(int)64>, cute::C<(int)128>, cute::C<(int)128>>, cutlass::bfloat16_t, float, cutlass::arch::Sm90, (bool)1, (bool)0, (bool)0, (bool)0, (bool)0, (bool)1, (bool)0, (bool)0, (int)2, (int)1, (int)2, (int)1, (bool)0>, flash::CollectiveEpilogueBwd<cute::tuple<cute::C<(int)64>, cute::C<(int)128>, cute::C<(int)128>>, cutlass::bfloat16_t, cutlass::arch::Sm90, (int)256, (bool)0, (bool)0, (int)1>, flash::SingleTileBwdLPTScheduler<(bool)0, (int)128, (bool)0>>>>(T1::Params)": 0%....50%....100% - 17 passes
+==PROF== Profiling "_ZN7cutlass13device_kernelIN5flash20enable_sm90_or_laterINS1_16FlashAttnBwdSm90INS1_25CollectiveMainloopBwdSm90ILi2ELi2ELi2EN4cute5tupleIJNS5_1CILi1EEES8_S8_EEENS6_IJNS7_ILi64EEENS7_ILi128EEESB_EEENS_10bfloat16_tEfNS_4arch4Sm90ELb1ELb0ELb0ELb0ELb0ELb1ELb0ELb0ELi2ELi1ELi2ELi1ELb0EEENS1_21CollectiveEpilogueBwdISC_SD_SF_Li256ELb0ELb0ELi1EEENS1_25SingleTileBwdLPTSchedulerILb0ELi128ELb0EEEEEEEEEvNT_6ParamsE": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_splitK_NTN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_NNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_splitK_NTN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_NNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_splitK_NTN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_NNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_192x192_64x3_2x1_v_bz_coopB_NNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "triton_poi_fused__unsafe_view_mul_pow_relu_threshold_backward_view_5": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_NNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "void cutlass::device_kernel<flash::enable_sm90_or_later<flash::FlashAttnBwdSm90<flash::CollectiveMainloopBwdSm90<(int)2, (int)2, (int)2, cute::tuple<cute::C<(int)1>, cute::C<(int)1>, cute::C<(int)1>>, cute::tuple<cute::C<(int)64>, cute::C<(int)128>, cute::C<(int)128>>, cutlass::bfloat16_t, float, cutlass::arch::Sm90, (bool)1, (bool)0, (bool)0, (bool)0, (bool)0, (bool)1, (bool)0, (bool)0, (int)2, (int)1, (int)2, (int)1, (bool)0>, flash::CollectiveEpilogueBwd<cute::tuple<cute::C<(int)64>, cute::C<(int)128>, cute::C<(int)128>>, cutlass::bfloat16_t, cutlass::arch::Sm90, (int)256, (bool)0, (bool)0, (int)1>, flash::SingleTileBwdLPTScheduler<(bool)0, (int)128, (bool)0>>>>(T1::Params)": 0%....50%....100% - 17 passes
+==PROF== Profiling "_ZN7cutlass13device_kernelIN5flash20enable_sm90_or_laterINS1_16FlashAttnBwdSm90INS1_25CollectiveMainloopBwdSm90ILi2ELi2ELi2EN4cute5tupleIJNS5_1CILi1EEES8_S8_EEENS6_IJNS7_ILi64EEENS7_ILi128EEESB_EEENS_10bfloat16_tEfNS_4arch4Sm90ELb1ELb0ELb0ELb0ELb0ELb1ELb0ELb0ELi2ELi1ELi2ELi1ELb0EEENS1_21CollectiveEpilogueBwdISC_SD_SF_Li256ELb0ELb0ELi1EEENS1_25SingleTileBwdLPTSchedulerILb0ELi128ELb0EEEEEEEEEvNT_6ParamsE": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_NNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_NNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_NNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_192x192_64x3_1x2_h_bz_coopB_splitK_NTN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_192x192_64x3_1x2_h_bz_coopB_splitK_NTN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_splitK_NTN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_splitK_NTN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_splitK_NTN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_splitK_NTN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_192x192_64x3_1x2_h_bz_coopB_splitK_NTN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_192x192_64x3_2x1_v_bz_coopB_NNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "triton_poi_fused__unsafe_view_mul_pow_relu_threshold_backward_view_5": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_192x192_64x3_1x2_h_bz_coopB_splitK_NTN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_NNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_splitK_NTN": 0%....50%....100% - 17 passes
+==PROF== Profiling "void cutlass::device_kernel<flash::enable_sm90_or_later<flash::FlashAttnBwdSm90<flash::CollectiveMainloopBwdSm90<(int)2, (int)2, (int)2, cute::tuple<cute::C<(int)1>, cute::C<(int)1>, cute::C<(int)1>>, cute::tuple<cute::C<(int)64>, cute::C<(int)128>, cute::C<(int)128>>, cutlass::bfloat16_t, float, cutlass::arch::Sm90, (bool)1, (bool)0, (bool)0, (bool)0, (bool)0, (bool)1, (bool)0, (bool)0, (int)2, (int)1, (int)2, (int)1, (bool)0>, flash::CollectiveEpilogueBwd<cute::tuple<cute::C<(int)64>, cute::C<(int)128>, cute::C<(int)128>>, cutlass::bfloat16_t, cutlass::arch::Sm90, (int)256, (bool)0, (bool)0, (int)1>, flash::SingleTileBwdLPTScheduler<(bool)0, (int)128, (bool)0>>>>(T1::Params)": 0%....50%....100% - 17 passes
+==PROF== Profiling "_ZN7cutlass13device_kernelIN5flash20enable_sm90_or_laterINS1_16FlashAttnBwdSm90INS1_25CollectiveMainloopBwdSm90ILi2ELi2ELi2EN4cute5tupleIJNS5_1CILi1EEES8_S8_EEENS6_IJNS7_ILi64EEENS7_ILi128EEESB_EEENS_10bfloat16_tEfNS_4arch4Sm90ELb1ELb0ELb0ELb0ELb0ELb1ELb0ELb0ELi2ELi1ELi2ELi1ELb0EEENS1_21CollectiveEpilogueBwdISC_SD_SF_Li256ELb0ELb0ELi1EEENS1_25SingleTileBwdLPTSchedulerILb0ELi128ELb0EEEEEEEEEvNT_6ParamsE": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_splitK_NTN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_NNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_splitK_NTN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_NNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_splitK_NTN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_NNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_192x192_64x3_2x1_v_bz_coopB_NNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "triton_poi_fused__unsafe_view_mul_pow_relu_threshold_backward_view_5": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_NNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "void cutlass::device_kernel<flash::enable_sm90_or_later<flash::FlashAttnBwdSm90<flash::CollectiveMainloopBwdSm90<(int)2, (int)2, (int)2, cute::tuple<cute::C<(int)1>, cute::C<(int)1>, cute::C<(int)1>>, cute::tuple<cute::C<(int)64>, cute::C<(int)128>, cute::C<(int)128>>, cutlass::bfloat16_t, float, cutlass::arch::Sm90, (bool)1, (bool)0, (bool)0, (bool)0, (bool)0, (bool)1, (bool)0, (bool)0, (int)2, (int)1, (int)2, (int)1, (bool)0>, flash::CollectiveEpilogueBwd<cute::tuple<cute::C<(int)64>, cute::C<(int)128>, cute::C<(int)128>>, cutlass::bfloat16_t, cutlass::arch::Sm90, (int)256, (bool)0, (bool)0, (int)1>, flash::SingleTileBwdLPTScheduler<(bool)0, (int)128, (bool)0>>>>(T1::Params)": 0%....50%....100% - 17 passes
+==PROF== Profiling "_ZN7cutlass13device_kernelIN5flash20enable_sm90_or_laterINS1_16FlashAttnBwdSm90INS1_25CollectiveMainloopBwdSm90ILi2ELi2ELi2EN4cute5tupleIJNS5_1CILi1EEES8_S8_EEENS6_IJNS7_ILi64EEENS7_ILi128EEESB_EEENS_10bfloat16_tEfNS_4arch4Sm90ELb1ELb0ELb0ELb0ELb0ELb1ELb0ELb0ELi2ELi1ELi2ELi1ELb0EEENS1_21CollectiveEpilogueBwdISC_SD_SF_Li256ELb0ELb0ELi1EEENS1_25SingleTileBwdLPTSchedulerILb0ELi128ELb0EEEEEEEEEvNT_6ParamsE": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_NNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_NNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_NNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_192x192_64x3_1x2_h_bz_coopB_splitK_NTN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_192x192_64x3_1x2_h_bz_coopB_splitK_NTN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_splitK_NTN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_splitK_NTN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_splitK_NTN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_splitK_NTN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_192x192_64x3_1x2_h_bz_coopB_splitK_NTN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_192x192_64x3_2x1_v_bz_coopB_NNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "triton_poi_fused__unsafe_view_mul_pow_relu_threshold_backward_view_5": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_192x192_64x3_1x2_h_bz_coopB_splitK_NTN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_NNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_splitK_NTN": 0%....50%....100% - 17 passes
+==PROF== Profiling "void cutlass::device_kernel<flash::enable_sm90_or_later<flash::FlashAttnBwdSm90<flash::CollectiveMainloopBwdSm90<(int)2, (int)2, (int)2, cute::tuple<cute::C<(int)1>, cute::C<(int)1>, cute::C<(int)1>>, cute::tuple<cute::C<(int)64>, cute::C<(int)128>, cute::C<(int)128>>, cutlass::bfloat16_t, float, cutlass::arch::Sm90, (bool)1, (bool)0, (bool)0, (bool)0, (bool)0, (bool)1, (bool)0, (bool)0, (int)2, (int)1, (int)2, (int)1, (bool)0>, flash::CollectiveEpilogueBwd<cute::tuple<cute::C<(int)64>, cute::C<(int)128>, cute::C<(int)128>>, cutlass::bfloat16_t, cutlass::arch::Sm90, (int)256, (bool)0, (bool)0, (int)1>, flash::SingleTileBwdLPTScheduler<(bool)0, (int)128, (bool)0>>>>(T1::Params)": 0%....50%....100% - 17 passes
+==PROF== Profiling "_ZN7cutlass13device_kernelIN5flash20enable_sm90_or_laterINS1_16FlashAttnBwdSm90INS1_25CollectiveMainloopBwdSm90ILi2ELi2ELi2EN4cute5tupleIJNS5_1CILi1EEES8_S8_EEENS6_IJNS7_ILi64EEENS7_ILi128EEESB_EEENS_10bfloat16_tEfNS_4arch4Sm90ELb1ELb0ELb0ELb0ELb0ELb1ELb0ELb0ELi2ELi1ELi2ELi1ELb0EEENS1_21CollectiveEpilogueBwdISC_SD_SF_Li256ELb0ELb0ELi1EEENS1_25SingleTileBwdLPTSchedulerILb0ELi128ELb0EEEEEEEEEvNT_6ParamsE": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_splitK_NTN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_NNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_splitK_NTN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_NNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_splitK_NTN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_NNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_192x192_64x3_2x1_v_bz_coopB_NNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "triton_poi_fused__unsafe_view_mul_pow_relu_threshold_backward_view_5": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_NNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "void cutlass::device_kernel<flash::enable_sm90_or_later<flash::FlashAttnBwdSm90<flash::CollectiveMainloopBwdSm90<(int)2, (int)2, (int)2, cute::tuple<cute::C<(int)1>, cute::C<(int)1>, cute::C<(int)1>>, cute::tuple<cute::C<(int)64>, cute::C<(int)128>, cute::C<(int)128>>, cutlass::bfloat16_t, float, cutlass::arch::Sm90, (bool)1, (bool)0, (bool)0, (bool)0, (bool)0, (bool)1, (bool)0, (bool)0, (int)2, (int)1, (int)2, (int)1, (bool)0>, flash::CollectiveEpilogueBwd<cute::tuple<cute::C<(int)64>, cute::C<(int)128>, cute::C<(int)128>>, cutlass::bfloat16_t, cutlass::arch::Sm90, (int)256, (bool)0, (bool)0, (int)1>, flash::SingleTileBwdLPTScheduler<(bool)0, (int)128, (bool)0>>>>(T1::Params)": 0%....50%....100% - 17 passes
+==PROF== Profiling "_ZN7cutlass13device_kernelIN5flash20enable_sm90_or_laterINS1_16FlashAttnBwdSm90INS1_25CollectiveMainloopBwdSm90ILi2ELi2ELi2EN4cute5tupleIJNS5_1CILi1EEES8_S8_EEENS6_IJNS7_ILi64EEENS7_ILi128EEESB_EEENS_10bfloat16_tEfNS_4arch4Sm90ELb1ELb0ELb0ELb0ELb0ELb1ELb0ELb0ELi2ELi1ELi2ELi1ELb0EEENS1_21CollectiveEpilogueBwdISC_SD_SF_Li256ELb0ELb0ELi1EEENS1_25SingleTileBwdLPTSchedulerILb0ELi128ELb0EEEEEEEEEvNT_6ParamsE": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_NNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_NNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_NNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_192x192_64x3_1x2_h_bz_coopB_splitK_NTN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_192x192_64x3_1x2_h_bz_coopB_splitK_NTN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_splitK_NTN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_splitK_NTN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_splitK_NTN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_splitK_NTN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_64x8_64x16_1x1_v_bz_splitK_NNT": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_192x192_64x4_1x2_h_bz_coopB_TNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_192x192_64x3_2x1_v_bz_coopB_NNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_192x192_64x3_2x1_v_bz_coopB_NNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_192x192_64x4_1x2_h_bz_coopB_TNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_192x192_64x3_2x1_v_bz_coopB_NNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_192x192_64x3_2x1_v_bz_coopB_NNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_192x192_64x4_1x2_h_bz_coopB_TNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_192x192_64x3_2x1_v_bz_coopB_NNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_192x192_64x3_2x1_v_bz_coopB_NNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_192x192_64x4_1x2_h_bz_coopB_TNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_192x192_64x3_2x1_v_bz_coopB_NNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_192x192_64x3_2x1_v_bz_coopB_NNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_192x192_64x4_1x2_h_bz_coopB_TNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_192x192_64x3_2x1_v_bz_coopB_NNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_192x192_64x3_2x1_v_bz_coopB_NNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_TNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_NNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_192x192_64x3_2x1_v_bz_coopB_NNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_TNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_NNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_192x192_64x3_2x1_v_bz_coopB_NNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_TNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_NNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_192x192_64x3_2x1_v_bz_coopB_NNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_TNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_NNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_192x192_64x3_2x1_v_bz_coopB_NNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_TNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_NNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_192x192_64x3_2x1_v_bz_coopB_NNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_NTN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_NNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_192x192_64x3_2x1_v_bz_coopB_NNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_NTN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_NNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_192x192_64x3_2x1_v_bz_coopB_NNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_NTN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_NNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_192x192_64x3_2x1_v_bz_coopB_NNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_NTN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_NNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_192x192_64x3_2x1_v_bz_coopB_NNN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_NTN": 0%....50%....100% - 17 passes
+==PROF== Profiling "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_NNN": 0%....50%....100% - 17 passes
+2026-10-19 17:57:53,443 - nanochat.checkpoint_manager - [32m[1mINFO[0m - Saved model parameters to: /tmp/nanochat_3417340/base_checkpoints/p_s4_ncu/model_000023.pt
+2026-10-19 17:57:53,444 - nanochat.checkpoint_manager - [32m[1mINFO[0m - Saved metadata to: /tmp/nanochat_3417340/base_checkpoints/p_s4_ncu/meta_000023.json
+2026-10-19 17:57:53,920 - nanochat.checkpoint_manager - [32m[1mINFO[0m - Saved optimizer state to: /tmp/nanochat_3417340/base_checkpoints/p_s4_ncu/optim_000023_rank0.pt
+
+                                                       █████                █████
+                                                      ░░███                ░░███
+     ████████    ██████   ████████    ██████   ██████  ░███████    ██████  ███████
+    ░░███░░███  ░░░░░███ ░░███░░███  ███░░███ ███░░███ ░███░░███  ░░░░░███░░░███░
+     ░███ ░███   ███████  ░███ ░███ ░███ ░███░███ ░░░  ░███ ░███   ███████  ░███
+     ░███ ░███  ███░░███  ░███ ░███ ░███ ░███░███  ███ ░███ ░███  ███░░███  ░███ ███
+     ████ █████░░████████ ████ █████░░██████ ░░██████  ████ █████░░███████  ░░█████
+    ░░░░ ░░░░░  ░░░░░░░░ ░░░░ ░░░░░  ░░░░░░   ░░░░░░  ░░░░ ░░░░░  ░░░░░░░░   ░░░░░
+    
+Autodetected device type: cuda
+GPU: NVIDIA GH200 120GB | Peak FLOPS (BF16): 9.89e+14
+COMPUTE_DTYPE: torch.bfloat16 (auto-detected: CUDA SM 90 (bf16 supported))
+✓ Using Flash Attention 3: efficient, new and awesome.
+Vocab size: 32,768
+Model config:
+{
+  "sequence_len": 2048,
+  "vocab_size": 32768,
+  "n_layer": 12,
+  "n_head": 6,
+  "n_kv_head": 6,
+  "n_embd": 768,
+  "window_pattern": "L"
+}
+Parameter counts:
+wte                     : 25,165,824
+value_embeds            : 150,994,944
+lm_head                 : 25,165,824
+transformer_matrices    : 84,935,088
+scalars                 : 50
+total                   : 286,261,730
+Estimated FLOPs per token: 8.870980e+08
+Scaling LRs by 0.2500 for batch size 32,768 (reference: 524,288)
+Scaling weight decay from 0.280000 to 0.070000 for depth 12
+Scaling the LR for the AdamW parameters ∝1/√(768/768) = 1.000000
+Using user-provided number of iterations: 23
+Total number of training tokens: 753,664
+Tokens : Scaling params ratio: 0.01
+Total training FLOPs estimate: 6.685739e+14
+Tokens / micro-batch / rank: 16 x 2048 = 32,768
+Tokens / micro-batch: 32,768
+Total batch size 32,768 => gradient accumulation steps: 1
+step 00000/00023 (0.00%) | loss: 10.397537 | lrm: 0.03 | dt: 28665.03ms | tok/sec: 1,143 | bf16_mfu: 0.10 | epoch: 1 pq: 0 rg: 1 | total time: 0.00m
+step 00001/00023 (4.35%) | loss: 10.395276 | lrm: 0.05 | dt: 145.39ms | tok/sec: 225,375 | bf16_mfu: 20.22 | epoch: 1 pq: 0 rg: 1 | total time: 0.00m
+step 00002/00023 (8.70%) | loss: 10.391078 | lrm: 0.07 | dt: 153.98ms | tok/sec: 212,811 | bf16_mfu: 19.09 | epoch: 1 pq: 0 rg: 1 | total time: 0.00m
+step 00003/00023 (13.04%) | loss: 10.385527 | lrm: 0.10 | dt: 137.39ms | tok/sec: 238,504 | bf16_mfu: 21.39 | epoch: 1 pq: 0 rg: 1 | total time: 0.00m
+step 00004/00023 (17.39%) | loss: 10.377938 | lrm: 0.12 | dt: 136.15ms | tok/sec: 240,681 | bf16_mfu: 21.59 | epoch: 1 pq: 0 rg: 1 | total time: 0.00m
+step 00005/00023 (21.74%) | loss: 10.367896 | lrm: 0.15 | dt: 144.01ms | tok/sec: 227,536 | bf16_mfu: 20.41 | epoch: 1 pq: 0 rg: 1 | total time: 0.00m
+step 00006/00023 (26.09%) | loss: 10.353883 | lrm: 0.17 | dt: 140.51ms | tok/sec: 233,208 | bf16_mfu: 20.92 | epoch: 1 pq: 0 rg: 1 | total time: 0.00m
+step 00007/00023 (30.43%) | loss: 10.337120 | lrm: 0.20 | dt: 144.47ms | tok/sec: 226,815 | bf16_mfu: 20.34 | epoch: 1 pq: 0 rg: 1 | total time: 0.00m
+step 00008/00023 (34.78%) | loss: 10.316377 | lrm: 0.23 | dt: 135.87ms | tok/sec: 241,179 | bf16_mfu: 21.63 | epoch: 1 pq: 0 rg: 1 | total time: 0.00m
+step 00009/00023 (39.13%) | loss: 10.288659 | lrm: 0.25 | dt: 134.25ms | tok/sec: 244,075 | bf16_mfu: 21.89 | epoch: 1 pq: 0 rg: 1 | total time: 0.00m
+step 00010/00023 (43.48%) | loss: 10.253137 | lrm: 0.28 | dt: 145.10ms | tok/sec: 225,837 | bf16_mfu: 20.26 | epoch: 1 pq: 0 rg: 1 | total time: 0.00m
+step 00011/00023 (47.83%) | loss: 10.208085 | lrm: 0.30 | dt: 134.28ms | tok/sec: 244,034 | bf16_mfu: 21.89 | epoch: 1 pq: 0 rg: 1 | total time: 0.00m | eta: 0.0m
+step 00012/00023 (52.17%) | loss: 10.144466 | lrm: 0.33 | dt: 141.62ms | tok/sec: 231,384 | bf16_mfu: 20.75 | epoch: 1 pq: 0 rg: 1 | total time: 0.00m | eta: 0.0m
+step 00013/00023 (56.52%) | loss: 10.060045 | lrm: 0.35 | dt: 134.67ms | tok/sec: 243,327 | bf16_mfu: 21.83 | epoch: 1 pq: 0 rg: 1 | total time: 0.01m | eta: 0.0m
+step 00014/00023 (60.87%) | loss: 9.943506 | lrm: 0.38 | dt: 134.29ms | tok/sec: 244,007 | bf16_mfu: 21.89 | epoch: 1 pq: 0 rg: 1 | total time: 0.01m | eta: 0.0m
+step 00015/00023 (65.22%) | loss: 9.778435 | lrm: 0.40 | dt: 142.34ms | tok/sec: 230,210 | bf16_mfu: 20.65 | epoch: 1 pq: 0 rg: 1 | total time: 0.01m | eta: 0.0m
+step 00016/00023 (69.57%) | loss: 9.578705 | lrm: 0.42 | dt: 135.47ms | tok/sec: 241,878 | bf16_mfu: 21.70 | epoch: 1 pq: 0 rg: 1 | total time: 0.01m | eta: 0.0m
+step 00017/00023 (73.91%) | loss: 9.404720 | lrm: 0.45 | dt: 145.14ms | tok/sec: 225,763 | bf16_mfu: 20.25 | epoch: 1 pq: 0 rg: 1 | total time: 0.02m | eta: 0.0m
+step 00018/00023 (78.26%) | loss: 9.220551 | lrm: 0.47 | dt: 134.11ms | tok/sec: 244,333 | bf16_mfu: 21.92 | epoch: 1 pq: 0 rg: 1 | total time: 0.02m | eta: 0.0m
+step 00019/00023 (82.61%) | loss: 9.065216 | lrm: 0.50 | dt: 135.84ms | tok/sec: 241,218 | bf16_mfu: 21.64 | epoch: 1 pq: 0 rg: 1 | total time: 0.02m | eta: 0.0m
+step 00020/00023 (86.96%) | loss: 8.897834 | lrm: 0.53 | dt: 155.08ms | tok/sec: 211,304 | bf16_mfu: 18.95 | epoch: 1 pq: 0 rg: 2 | total time: 0.02m | eta: 0.0m
+step 00021/00023 (91.30%) | loss: 8.774228 | lrm: 0.55 | dt: 243011.73ms | tok/sec: 134 | bf16_mfu: 0.01 | epoch: 1 pq: 0 rg: 2 | total time: 4.07m | eta: 0.7m
+step 00022/00023 (95.65%) | loss: 8.635661 | lrm: 0.57 | dt: 144.96ms | tok/sec: 226,053 | bf16_mfu: 20.28 | epoch: 1 pq: 0 rg: 2 | total time: 4.08m | eta: 0.3m
+Peak memory usage: 15174.50MiB
+Total training time: 4.08m
+==PROF== Disconnected from process 279343
+==PROF== Report: /work/nvme/bffp/tmahmood1/cisc662/profiles/s4_bas6_3417340/ncu_step.ncu-rep

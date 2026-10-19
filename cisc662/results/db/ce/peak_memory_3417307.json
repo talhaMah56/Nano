@@ -1,0 +1,30 @@
+{
+  "job_id": "3417307",
+  "shape": [
+    16,
+    2048,
+    32768
+  ],
+  "note": "max_memory_allocated - memory_allocated before the call, inputs (2.15 GB logits) already resident; fwd+bwd via torch.autograd.grad",
+  "eager": {
+    "peak_above_inputs_GB": 17.179870208
+  },
+  "compile": {
+    "peak_above_inputs_GB": 2.147747328
+  },
+  "ours_rec": {
+    "peak_above_inputs_GB": 2.147747328
+  },
+  "ours_rec_2k": {
+    "peak_above_inputs_GB": 2.147616256
+  },
+  "ours_rec_8k": {
+    "peak_above_inputs_GB": 2.147616256
+  },
+  "ours_gif_tile": {
+    "peak_above_inputs_GB": 2.147910144
+  },
+  "ours_gif_2pass": {
+    "peak_above_inputs_GB": 2.147910144
+  }
+}

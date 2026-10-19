@@ -147,3 +147,38 @@ Shape q,k (16,2048,6,128) bf16, cos/sin (1,2048,1,64) bf16; q and k in one launc
 Baselines (same job): eager chain fwd 861.6 µs / fwd+bwd 1898.6 µs; compile fwd 77.7 µs (2.60 TB/s) / fwd+bwd 319.0 µs (1.58 TB/s effective).
 **Why (goal iii).** Forward: Inductor's single fused kernel moves 1.36× the minimum bytes (BAS-1) and reaches 2.6 TB/s; ours moves the minimum (one read and one write of q and k, 128-bit vector loads/stores including the cos/sin table) at 94% of the copy roof → 1.33× (CI lower bound 1.32 ≥ 1.3: a valid "≥ 1.3×" claim). Backward: Inductor uses three kernels and five launches per layer, including a zero-filled `slice_backward` scatter of the rotated halves, moving 2.09× the minimum; ours is one kernel that recomputes the rotation from the saved input and the saved fp32 rstd → **2.08× vs compile on fwd+bwd**, above the BAS-1 projection (1.6–1.9×). **ILP does not help**: doubling or quadrupling the loads in flight per thread (ilp2/ilp4) changes nothing — v1's 8 × 16-B loads per thread × 2048 threads/SM ≈ 16k loads in flight per SM, far above the ≈ 600 needed at 344 ns (Little's law) — it only costs registers (167 in the ilp4 backward). Open question: the triton_op path is 5% faster than the autograd.Function path with the same kernel and config (58.6 vs 61.6 µs, tight CIs) — a host/allocation difference to explain with nsys before quoting the fn rows.
 **Vs the plan:** KT-2 acceptance: G1/G2 ✓; vs eager ≥ 3× ✓ (14.7× fwd, 12.4× fwd+bwd); vs compile against the 1.3–1.6× forward target ✓ (1.33×); still open: ncu bytes (≈ 200 MB per forward call) — add to BAS-6 (S4).
+
+<a id="ce"></a>
+## ISA card: `ce` (KT-3, Triton fused softcap + cross-entropy, fwd and bwd) — job 3417307 (gh006), 2026-10-19; all 50 gated tests passed (gates recorded via re-run job, see RUNLOG)
+
+**Design.** nanochat's softcap bounds every logit, |z| ≤ 15, so exp(z) cannot overflow fp32 even summed over 32768 columns: **no running max and no online-softmax rescale**. The first version computed `loss = log(Σ exp z) − z_t` and failed G1 on rows where the target saturates the softcap (z_t = 15, loss ≈ 3e-3): the fp32 subtraction `15.003 − 15` lost 1 ulp at 15 = 2e-4 relative (stock's log-softmax subtracts the row max first and gets 7e-6). The shipped kernel shifts every exponent by z_t (z − z_t ∈ [−30, 30], still no overflow), sums only the non-target columns and takes `loss = log1p(S)` (Kahan form): **2e-7 on those rows, 35× more accurate than stock**, same single pass. Forms: **rec** (form ii, the `torch.library` op): fwd stores per-row loss + log2(Σ exp z), bwd recomputes and writes bf16 dlogits — compile-safe, no host sync; **gif** (form i): loss and dlogits in one kernel, eager only (applying `grad_out` needs a host sync or another pass).
+
+**Timing** (R12: bf16 logits 32768 × 32768 = 2.15 GB, mean reduction; 3 process trials; speedup 95% CI):
+
+| case | fwd µs | fwd vs compile | fwd+bwd µs | fwd+bwd vs compile | vs eager (fwd+bwd) | GB/s on min bytes (fwd+bwd) |
+|---|---|---|---|---|---|---|
+| eager (13 kernels) | 13,823 | — | 29,600 | — | 1 | 145 |
+| torch.compile (2 Inductor kernels) | 1,911 | 1 | 3,834 | 1 | 7.7× | 1,120 |
+| **ours `rec` (triton_op)** | **1,178** | **1.62× [1.61, 1.63]** | **2,450** | **1.56× [1.56, 1.57]** | **12.1×** | 1,753 |
+| ours `rec_2k` (2048-wide tile, 4 warps) | 1,152 | 1.66× | 2,417 | 1.59× [1.58, 1.59] | 12.3× | 1,777 |
+| ours `rec_8k` (8192, 16 warps) | 1,316 | 1.45× | 2,736 | 1.40× | 10.8× | 1,570 |
+| ours `gif_tile` (form i, row in registers) | 2,510 | 0.76× | 2,626 | 1.46× | 11.3× | 1,635 |
+| ours `gif_2pass` (form i, streamed twice) | 2,601 | 0.73× | 2,613 | 1.47× | 11.3× | 1,644 |
+| ablation `rec_approx` (tanh.approx.f32; not gated) | 777 | 2.46× | 2,010 | 1.91× | — | 2,137 |
+
+Peak memory above the inputs for one fwd+bwd (`results/db/ce/peak_memory_3417307.json`): eager 17.2 GB; compile and every one of our forms 2.15 GB (= the dlogits). Decision **D3 (≥ 1.3× vs the compile tail, CI lower bound): met** (1.56×).
+
+**Why — instruction level** (SASS of the launched cubins, `results/isa/ce/`):
+
+| kernel | regs | spills | per 16 logits (one thread: 2× `LDG.E.128`) | MUFU per logit | MUFU-bound time at R12 | measured |
+|---|---|---|---|---|---|---|
+| `rec` fwd | 60 | 0 | 33 `MUFU.EX2` + 20 `MUFU.RCP`, 130 FFMA, 115 FMUL | ≈ 3.3 | ≈ 0.95 ms | 1.18 ms |
+| `rec` bwd | 45 | 0 | 32 EX2 + 17 RCP, 2× `STG.E.128` | ≈ 3.1 | ≈ 0.9 ms | ≈ 1.27 ms (fwd+bwd − fwd) |
+| `rec_approx` fwd | 40 | 0 | 17 `MUFU.TANH` + 16 EX2 + 2 RCP | ≈ 2.2 | ≈ 0.64 ms | 0.78 ms |
+| `gif_tile` | 64 (cap at 1024 threads) | 12 (13 `STL`) | whole row per CTA | ≈ 3.1 | — | 2.51 ms (fwd incl. dlogits) |
+
+MUFU bound = 1.07e9 logits × MUFU/logit ÷ (132 SMs × 16 MUFU/clk × ≈ 1.75 GHz); the HBM bound for the forward is 2.15 GB / 3.65 TB/s = 0.59 ms. **The tail is MUFU-bound, not bandwidth-bound**: libdevice `tanhf` = `EX2` + `RCP` and the softmax adds one more `EX2` per logit, so the forward reaches 1.8 TB/s (≈ 50% of the roof) at ≈ 80% of the MUFU bound. That explains (a) why Inductor's online softmax (an extra exp per element for the rescale) sits at 30% of the roof, (b) why form (i) loses although it moves 33% fewer bytes (same transcendental work, plus the `.all()` host sync, plus spills in `gif_tile`), and (c) why replacing tanh with one `MUFU.TANH` is worth 1.5×.
+
+**Ablation surprise (goal iii).** The card predicted `tanh.approx.f32` (abs err ≈ 5e-4) would miss the 1e-5 loss gate by ~100×. Measured per-row loss error at R12-like logits: **8.3e-6** (precise: ~1e-7): the per-element tanh error largely averages out inside the 32768-term log-sum-exp. It stays an ungated ablation — the dlogits and saturated-row behaviour were not gated for it — but it shows the gate has room for a cheaper transcendental.
+
+**Next lever (TUNE-1 candidate):** move work off the MUFU pipe — a polynomial `exp2` on the FMA pipe (8× MUFU's issue rate: ≈ 10 FFMA instead of one `MUFU.EX2`), or tanh via one `EX2` + a Newton-refined reciprocal — targeting the ≈ 0.6 ms HBM bound.

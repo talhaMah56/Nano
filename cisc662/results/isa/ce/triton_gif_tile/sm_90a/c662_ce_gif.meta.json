@@ -1,0 +1,46 @@
+{
+ "kernel": "c662_ce_gif",
+ "variant": "gif_tile",
+ "form": "gif",
+ "BLOCK_V": 32768,
+ "num_warps": 32,
+ "tanh_approx": false,
+ "shape": {
+  "logits": [
+   32768,
+   32768
+  ]
+ },
+ "dtype": "bfloat16",
+ "triton": "3.5.1",
+ "torch": "2.9.1+cu128",
+ "target": "cuda:90 (sm_90a)",
+ "mode": "launch",
+ "n_regs": 64,
+ "n_spills": 12,
+ "shared": 128,
+ "num_stages": 3,
+ "hash": "3c7f3abed8db31b598505ec404b3352813f23e8b4708c8d0fa4c0b1246b42835",
+ "device": "NVIDIA GH200 120GB",
+ "job_id": "3417307",
+ "sass_counts": {
+  "LDG.E.128": 4,
+  "LDG.E.64": 1,
+  "LDG total": 6,
+  "STG.E.128": 4,
+  "STG.E.64": 0,
+  "STG total": 5,
+  "MUFU.EX2": 64,
+  "MUFU.RCP": 35,
+  "MUFU.TANH": 0,
+  "MUFU.LG2": 0,
+  "MUFU total": 99,
+  "SHFL": 20,
+  "BAR": 5,
+  "FFMA": 300,
+  "FMUL": 334,
+  "STL (spill)": 13,
+  "LDL (spill)": 14,
+  "instructions": 1944
+ }
+}

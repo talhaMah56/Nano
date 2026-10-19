@@ -1,0 +1,31 @@
+==WARNING== Note: Running with unmodified GPU clocks. If not controlled otherwise, profiling results may be inconsistent.
+==PROF== Connected to process 290153 (/work/nvme/bffp/tmahmood1/cisc662/cache/uv-python/cpython-3.10.22-linux-aarch64-gnu/bin/python3.10)
+==PROF== Profiling "c662_rmsnorm_fwd_v2": 0%....50%....100% - 17 passes
+==PROF== Profiling "c662_rmsnorm_bwd": 0%....50%....100% - 17 passes
+==PROF== Profiling "c662_rmsnorm_fwd_v2": 0%....50%....100% - 17 passes
+==PROF== Profiling "c662_rmsnorm_bwd": 0%....50%....100% - 17 passes
+==PROF== Profiling "c662_rmsnorm_fwd_v2": 0%....50%....100% - 17 passes
+==PROF== Profiling "c662_rmsnorm_bwd": 0%....50%....100% - 17 passes
+ncu_targets: rmsnorm x3 done
+==PROF== Profiling "c662_qkrope_fwd": 0%....50%....100% - 17 passes
+==PROF== Profiling "c662_qkrope_bwd": 0%....50%....100% - 17 passes
+==PROF== Profiling "c662_qkrope_fwd": 0%....50%....100% - 17 passes
+==PROF== Profiling "c662_qkrope_bwd": 0%....50%....100% - 17 passes
+==PROF== Profiling "c662_qkrope_fwd": 0%....50%....100% - 17 passes
+==PROF== Profiling "c662_qkrope_bwd": 0%....50%....100% - 17 passes
+ncu_targets: qkrope x3 done
+==PROF== Profiling "c662_ce_fwd": 0%....50%....100% - 17 passes
+==PROF== Profiling "c662_ce_bwd": 0%....50%....100% - 17 passes
+==PROF== Profiling "c662_ce_gif": 0%....50%....100% - 17 passes
+==PROF== Profiling "c662_ce_gif": 0%....50%....100% - 17 passes
+==PROF== Profiling "c662_ce_fwd": 0%....50%....100% - 17 passes
+==PROF== Profiling "c662_ce_bwd": 0%....50%....100% - 17 passes
+==PROF== Profiling "c662_ce_gif": 0%....50%....100% - 17 passes
+==PROF== Profiling "c662_ce_gif": 0%....50%....100% - 17 passes
+==PROF== Profiling "c662_ce_fwd": 0%....50%....100% - 17 passes
+==PROF== Profiling "c662_ce_bwd": 0%....50%....100% - 17 passes
+==PROF== Profiling "c662_ce_gif": 0%....50%....100% - 17 passes
+==PROF== Profiling "c662_ce_gif": 0%....50%....100% - 17 passes
+ncu_targets: ce x3 done
+==PROF== Disconnected from process 290153
+==PROF== Report: /work/nvme/bffp/tmahmood1/cisc662/profiles/s4_bas6_3417340/ncu_ours.ncu-rep

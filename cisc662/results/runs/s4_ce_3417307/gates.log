@@ -1,0 +1,27 @@
+.ssssssssssssssssssssssssssssssssssssssss....................ssssssssssssssssssssssssssssssssssssssss....................sssss.....s.s...rec_approx per-row loss max rel err 8.272e-06
+Fs
+=================================== FAILURES ===================================
+_______________________ test_approx_is_outside_the_gate ________________________
+
+    @pytest.mark.gpu
+    def test_approx_is_outside_the_gate():
+        """rec_approx (tanh.approx.f32) is an instruction-count ablation: it must FAIL the 1e-5 loss gate
+        (so it is never recorded as gated) while staying a sane approximation (< 1e-2)."""
+        kernel_device("cuda")
+        g = torch.Generator(device="cuda").manual_seed(SEED)
+        lg = (torch.randn((512, 32768), generator=g, device="cuda") * 3).to(BF16)
+        tg = torch.randint(0, 32768, (512,), generator=g, device="cuda")
+        with torch.no_grad():
+            out = ce.softcap_ce(lg, tg, "none", impl="op", variant="rec_approx")
+            ref = ref_ops.softcap_ce(lg, tg, reduction="none", dtype=F64)
+        rel = ((out.double() - ref).abs() / ref.abs()).max().item()
+        print(f"rec_approx per-row loss max rel err {rel:.3e}")
+>       assert 1e-5 < rel < 1e-2
+E       assert 1e-05 < 8.271787259702863e-06
+
+cisc662/tests/test_ce.py:268: AssertionError
+- generated xml file: /u/tmahmood1/project/nanochat/cisc662/results/runs/s4_ce_3417307/gates_junit.xml -
+=========================== short test summary info ============================
+SKIPPED [87] cisc662/tests/test_ce.py:60: CPU runs of the Triton kernel need TRITON_INTERPRET=1 (see test_interpreter_subprocess)
+SKIPPED [1] cisc662/tests/test_ce.py:272: GPU node: the cuda variants test the real kernels
+1 failed, 50 passed, 88 skipped in 23.40s
