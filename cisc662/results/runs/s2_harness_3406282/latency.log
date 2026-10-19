@@ -1,0 +1,5 @@
+latency: 1024.000 MiB -> 343.7 ns/access (reps [345.6, 343.7, 343.6], verified=True)
+latency: 0.062 MiB -> 144.5 ns/access (reps [144.5, 144.5, 144.5], verified=True)
+latency: 4.000 MiB -> 146.5 ns/access (reps [148.6, 146.5, 146.5], verified=True)
+latency: 32.000 MiB -> 164.6 ns/access (reps [181.0, 164.2, 164.6], verified=True)
+latency: 256.000 MiB -> 327.4 ns/access (reps [332.6, 327.4, 327.3], verified=True)

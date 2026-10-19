@@ -1,0 +1,1 @@
+decode b=1: CPU-1t [33.021, 33.617, 33.568] tok/s, GPU [85.463, 104.406, 104.202] tok/s, ratio 3.10 (2.54-3.16) -> /u/tmahmood1/project/nanochat/cisc662/results/db/decode/s2_remeasure.json

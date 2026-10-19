@@ -24,6 +24,7 @@ export TORCHINDUCTOR_CACHE_DIR=$CISC662_WORK/cache/inductor
 export HF_HOME=$CISC662_WORK/cache/hf
 export TIKTOKEN_CACHE_DIR=$CISC662_WORK/cache/tiktoken
 export HF_HUB_DISABLE_PROGRESS_BARS=1
+export HF_XET_CHUNK_CACHE_SIZE_BYTES=0   # no xet chunk cache (ADM-2): the hub blobs are the only copy we need
 
 # Same as nanochat's speedrun: torch threads are set explicitly where it matters
 export OMP_NUM_THREADS=${OMP_NUM_THREADS:-1}

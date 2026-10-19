@@ -1,0 +1,15 @@
+clocks.applications.graphics [MHz], clocks.current.sm [MHz], clocks.max.sm [MHz]
+[Requested functionality has been deprecated], 1755 MHz, 1980 MHz
+[kbench] trial 1/1: /work/nvme/bffp/tmahmood1/cisc662/venv/bin/python -m cisc662.bench.kbench --suite smoke --trial 1 --raw-out /u/tmahmood1/project/nanochat/cisc662/results/runs/s2_harness_3406282/gpufreq_smoke/by_job/3406282/raw/trial1.json
+[kbench trial 1] host=gh147.hsn.cm.delta.internal.ncsa.edu device=NVIDIA GH200 120GB HAS_FA3=True USE_FA3=True git=a43b52f9f5 dirty=True
+[kbench trial 1] smoke_rmsnorm_768_cold                           median      45.20 us     2227 GB/s     2.2 TF/s
+[kbench trial 1] smoke_rmsnorm_768_warm                           median      60.72 us     1658 GB/s     1.7 TF/s
+[kbench trial 1] smoke_gemm_32768x768x768                         median      68.08 us     1496 GB/s   567.8 TF/s
+[kbench] trial 1 exit=0
+[kbench] 1 trial(s) aggregated, 3 case(s) -> /u/tmahmood1/project/nanochat/cisc662/results/runs/s2_harness_3406282/gpufreq_smoke (5s)
+ACCEPTANCE FAIL  cold-L2 GB/s < warm-L2 GB/s: cold 2227 vs warm 1658 GB/s; warm/cold time ratio 0.744 CI [0.736, 0.759]
+ACCEPTANCE PASS  GEMM 32768x768x768 >= 500 TF/s: 567.8 TF/s (79% of the 723 TF/s 8192^3 ceiling)
+ACCEPTANCE FAIL  GEMM trial-to-trial CV < 2%: needs >= 2 trials (have 1)
+ACCEPTANCE PASS  RMSNorm cold GB/s in 50-100% of 3650: 2227 GB/s = 61%
+ACCEPTANCE PASS  records validate against results/db/README.md schema: 3 records
+clock: sustained SM 1365.0 MHz (n=18), power 545.5250000000001 W, GEMM 590.2000789615779 TF/s, reasons {'sw_power_cap': 18}

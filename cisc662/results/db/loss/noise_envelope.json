@@ -1,0 +1,67 @@
+{
+ "band": 0.0012780000000001124,
+ "band_step": 437,
+ "val_bpb_delta": 5.000000000032756e-06,
+ "val_bpb_delta_step": 1000,
+ "steps": 899,
+ "step_range": [
+  101,
+  999
+ ],
+ "after_step": 100,
+ "median_abs_delta": 0.00028600000000000847,
+ "loss_tol": 0.01,
+ "val_tol": 0.005,
+ "per_eval": [
+  {
+   "step": 0,
+   "val_bpb_a": 3.157534,
+   "val_bpb_b": 3.157534,
+   "delta": 0.0
+  },
+  {
+   "step": 250,
+   "val_bpb_a": 1.551218,
+   "val_bpb_b": 1.551198,
+   "delta": 1.999999999990898e-05
+  },
+  {
+   "step": 500,
+   "val_bpb_a": 1.293273,
+   "val_bpb_b": 1.293061,
+   "delta": 0.00021199999999987895
+  },
+  {
+   "step": 750,
+   "val_bpb_a": 1.190519,
+   "val_bpb_b": 1.190491,
+   "delta": 2.8000000000139025e-05
+  },
+  {
+   "step": 1000,
+   "val_bpb_a": 1.148788,
+   "val_bpb_b": 1.148793,
+   "delta": -5.000000000032756e-06
+  }
+ ],
+ "num_iterations": 1000,
+ "final_loss": {
+  "a": 3.791566,
+  "b": 3.7914
+ },
+ "source_logs": [
+  "/u/tmahmood1/project/nanochat/cisc662/results/runs/s2_noise_3406173/noise_a.log",
+  "/u/tmahmood1/project/nanochat/cisc662/results/runs/s2_noise_3406173/noise_b.log"
+ ],
+ "job_id": "3406173",
+ "source_job_ids": [
+  "3406173",
+  "3406173"
+ ],
+ "rule": "G4: |loss_var - loss_stock| <= max(2*band, 0.01) at every step > 100; |final val bpb delta| <= max(0.005, 2*val_bpb_delta); no NaN/Inf",
+ "loss_field": "base_train debiased EMA(0.9), used as logged",
+ "created": "2026-10-18T18:07:41+00:00",
+ "warnings": [],
+ "valid": true,
+ "invalid_reasons": []
+}

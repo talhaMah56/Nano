@@ -1,0 +1,55 @@
+..............................................x......Fxxxxx............. [ 66%]
+s...................................x                                    [100%]
+=================================== FAILURES ===================================
+_____________________________ test_qkrope_g1[r12] ______________________________
+
+rope_case = {'cos': tensor([[[[ 1.0000,  1.0000,  1.0000,  ...,  1.0000,  1.0000,  1.0000]],
+
+         [[ 0.5391,  0.6719,  0.7656... ...,  2.3730e-01,
+            3.2617e-01, -6.9531e-01]]]], device='cuda:0', dtype=torch.bfloat16), 'name': 'r12', ...}
+
+    def test_qkrope_g1(rope_case):
+        q, k, cos, sin = (rope_case[n] for n in ("q", "k", "cos", "sin"))
+        q64, k64 = ref_ops.qkrope(q, k, cos, sin, dtype=F64)
+        qs, ks = _nanochat_qk_chain(q, k, cos, sin)
+        qo, ko = ref_ops.qkrope(q, k, cos, sin)
+        # fp32 checks first, so an xfail below (stock bf16 itself misses rtol/atol: job 3406282 saw
+        # 4/25.2M q elements at max-abs 5.1e-2 -- bf16 RoPE rounding amplified by rstd) never hides them
+        qf, kf = _nanochat_qk_chain(q.float(), k.float(), cos.float(), sin.float())
+        assert_gate(tol.check_forward(qf, q64, reduction_len=q.shape[-1]))
+        assert_gate(tol.check_forward(kf, k64, reduction_len=k.shape[-1]))
+>       assert_gate_vs_stock(tol.check_forward(qo, q64, stock_out=qs), tol.check_forward(qs, q64))
+
+cisc662/tests/test_ref_ops.py:284: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+r = GateResult(passed=False, kind='elementwise', dtype='bfloat16', max_abs=0.051458733542374624, max_rel=127.5521478653383...o=None, limits={'rtol': 0.016, 'atol': 0.01, 'stock_factor': 2.0}, reasons=['4 elements outside rtol=0.016 atol=0.01'])
+r_stock = GateResult(passed=False, kind='elementwise', dtype='bfloat16', max_abs=0.051458733542374624, max_rel=127.5521478653383... 'atol': 0.01}, reasons=['4 elements outside rtol=0.016 atol=0.01', 'stock error required for the <= 2.0x stock rule'])
+
+    def assert_gate_vs_stock(r, r_stock):
+        """assert_gate, except: if the *stock* op fails the same gate only through the rtol/atol rule
+        (while ours passes cosine and <= 2x stock), the table itself is unachievable at this scale --
+        report it as an xfail for a PLAN.md 7.3 decision instead of a broken reference."""
+        if r:
+            return
+        only_elementwise = all("outside rtol" in m for m in r.reasons)
+        stock_same = (not r_stock) and all("outside rtol" in m for m in r_stock.reasons)
+        if only_elementwise and stock_same:
+            pytest.xfail("PLAN 7.3 bf16 rtol/atol rule is violated by the stock op itself: "
+                         f"stock {r_stock.summary()} | ours {r.summary()}")
+>       assert r, r.summary()
+E       AssertionError: FAIL elementwise/bfloat16 max_abs=5.146e-02 max_rel=1.276e+02 violations=4/25165824 stock_err=5.146e-02 ratio=1.00 reasons: 4 elements outside rtol=0.016 atol=0.01
+E       assert GateResult(passed=False, kind='elementwise', dtype='bfloat16', max_abs=0.051458733542374624, max_rel=127.5521478653383...o=None, limits={'rtol': 0.016, 'atol': 0.01, 'stock_factor': 2.0}, reasons=['4 elements outside rtol=0.016 atol=0.01'])
+
+cisc662/tests/test_ref_ops.py:107: AssertionError
+- generated xml file: /u/tmahmood1/project/nanochat/cisc662/results/runs/s2_rerun_3406329/pytest_junit.xml -
+=========================== short test summary info ============================
+XFAIL cisc662/tests/test_ref_ops.py::test_rope_g2_bf16[r12] - PLAN 7.3 bf16 rtol/atol rule is violated by the stock op itself: stock FAIL elementwise/bfloat16 max_abs=3.039e-02 max_rel=1.270e+02 violations=3/25165824 stock_err=3.039e-02 ratio=1.00 cosine=0.99999742 reasons: 3 elements outside rtol=0.016 atol=0.01 | ours FAIL elementwise/bfloat16 max_abs=3.039e-02 max_rel=1.270e+02 violations=3/25165824 stock_err=3.039e-02 ratio=1.00 cosine=0.99999742 reasons: 3 elements outside rtol=0.016 atol=0.01
+XFAIL cisc662/tests/test_ref_ops.py::test_qkrope_g2_bf16[tiny] - PLAN 7.3 bf16 rtol/atol rule is violated by the stock op itself: stock FAIL elementwise/bfloat16 max_abs=5.156e-02 max_rel=3.844e+00 violations=11/24576 stock_err=5.156e-02 ratio=1.00 cosine=0.99999576 reasons: 11 elements outside rtol=0.016 atol=0.01 | ours FAIL elementwise/bfloat16 max_abs=5.156e-02 max_rel=3.844e+00 violations=11/24576 stock_err=5.156e-02 ratio=1.00 cosine=0.99999576 reasons: 11 elements outside rtol=0.016 atol=0.01
+XFAIL cisc662/tests/test_ref_ops.py::test_qkrope_g2_bf16[tail_pos] - PLAN 7.3 bf16 rtol/atol rule is violated by the stock op itself: stock FAIL elementwise/bfloat16 max_abs=5.455e-02 max_rel=2.325e+02 violations=4/6144 stock_err=5.455e-02 ratio=1.00 cosine=0.99999448 reasons: 4 elements outside rtol=0.016 atol=0.01 | ours FAIL elementwise/bfloat16 max_abs=5.455e-02 max_rel=2.325e+02 violations=4/6144 stock_err=5.455e-02 ratio=1.00 cosine=0.99999448 reasons: 4 elements outside rtol=0.016 atol=0.01
+XFAIL cisc662/tests/test_ref_ops.py::test_qkrope_g2_bf16[decode_t1] - PLAN 7.3 bf16 rtol/atol rule is violated by the stock op itself: stock FAIL elementwise/bfloat16 max_abs=4.444e-02 max_rel=2.633e+00 violations=7/3072 stock_err=4.444e-02 ratio=1.00 cosine=0.99999431 reasons: 7 elements outside rtol=0.016 atol=0.01 | ours FAIL elementwise/bfloat16 max_abs=4.444e-02 max_rel=2.633e+00 violations=7/3072 stock_err=4.444e-02 ratio=1.00 cosine=0.99999431 reasons: 7 elements outside rtol=0.016 atol=0.01
+XFAIL cisc662/tests/test_ref_ops.py::test_qkrope_g2_bf16[tiny_cuda] - PLAN 7.3 bf16 rtol/atol rule is violated by the stock op itself: stock FAIL elementwise/bfloat16 max_abs=6.172e-02 max_rel=1.372e+01 violations=42/24576 stock_err=6.172e-02 ratio=1.00 cosine=0.99999455 reasons: 42 elements outside rtol=0.016 atol=0.01 | ours FAIL elementwise/bfloat16 max_abs=6.172e-02 max_rel=1.372e+01 violations=42/24576 stock_err=6.172e-02 ratio=1.00 cosine=0.99999455 reasons: 42 elements outside rtol=0.016 atol=0.01
+XFAIL cisc662/tests/test_ref_ops.py::test_qkrope_g2_bf16[r12] - PLAN 7.3 bf16 rtol/atol rule is violated by the stock op itself: stock FAIL elementwise/bfloat16 max_abs=1.110e-01 max_rel=1.289e+05 violations=37285/25165824 stock_err=1.110e-01 ratio=1.00 cosine=0.99999462 reasons: 37285 elements outside rtol=0.016 atol=0.01 | ours FAIL elementwise/bfloat16 max_abs=1.110e-01 max_rel=1.289e+05 violations=37287/25165824 stock_err=1.110e-01 ratio=1.00 cosine=0.99999462 reasons: 37287 elements outside rtol=0.016 atol=0.01
+XFAIL cisc662/tests/test_ref_ops.py::test_attention_fa3_stock_error - PLAN 7.3 attention bound 4e-3 is below the bf16 output rounding floor (7.812e-03): FA3's own error 9.120e-03; the <= 2x FA3 rule is unaffected
+SKIPPED [1] cisc662/tests/test_ref_ops.py:383: mean over zero valid rows is NaN; no gradient to compare
+1 failed, 100 passed, 1 skipped, 7 xfailed in 10.60s

@@ -1,0 +1,3511 @@
+{
+  "probe": "clock",
+  "env": {
+    "host": "gh147.hsn.cm.delta.internal.ncsa.edu",
+    "job_id": "3406282",
+    "cuda_visible_devices": "0",
+    "slurm_step_id": "0",
+    "nvidia_smi": {
+      "name": "NVIDIA GH200 120GB",
+      "driver_version": "595.71.05",
+      "clocks.max.sm": "1980 MHz",
+      "clocks.applications.graphics": "[Requested functionality has been deprecated]",
+      "power.limit": "900.00 W"
+    },
+    "torch": "2.9.1+cu128",
+    "triton": "3.5.1",
+    "device": "NVIDIA GH200 120GB"
+  },
+  "gemm": {
+    "size": 8192,
+    "dtype": "bf16",
+    "chunk_mms": 20,
+    "seconds": 20.02,
+    "n_chunks": 536,
+    "tflops_median": 590.2000789615779,
+    "tflops_min": 572.1974237386318,
+    "tflops_max": 672.2131454935312
+  },
+  "reason_field": "clocks_event_reasons.active",
+  "nvidia_smi_id_args": [
+    "-i",
+    "GPU-6ee632ba-9466-c853-f525-e39976acc10d"
+  ],
+  "ramp_s": 3.0,
+  "n_busy_samples": 18,
+  "sustained_sm_mhz_median": 1365.0,
+  "sustained_sm_mhz_min": 1320.0,
+  "sustained_sm_mhz_max": 1380.0,
+  "sustained_mem_mhz_median": 2619.0,
+  "power_w_median": 545.5250000000001,
+  "power_w_max": 550.37,
+  "temp_c_max": 37.0,
+  "throttle_reasons_active": {
+    "sw_power_cap": 18
+  },
+  "idle_pre": {
+    "t_s": 0.0,
+    "q": {
+      "sm_mhz": 1755.0,
+      "graphics_mhz": 1755.0,
+      "mem_mhz": 2619.0,
+      "app_graphics_mhz": null,
+      "power_w": 136.13,
+      "power_limit_w": 900.0,
+      "perf_state": "P0",
+      "reasons_active": [],
+      "reason_counters": {
+        "SW Power Capping": "503496453778 us",
+        "Sync Boost": "0 us",
+        "SW Thermal Slowdown": "0 us",
+        "HW Thermal Slowdown": "0 us",
+        "HW Power Braking": "0 us"
+      }
+    },
+    "sm_mhz": 1755.0,
+    "gr_mhz": 1755.0,
+    "mem_mhz": 2619.0,
+    "power_w": 106.4,
+    "temp_c": 20.0,
+    "util_pct": 0.0,
+    "reasons_mask": "0x0000000000000000",
+    "reasons": []
+  },
+  "idle_post": {
+    "t_s": 21.135,
+    "q": {
+      "sm_mhz": 1755.0,
+      "graphics_mhz": 1755.0,
+      "mem_mhz": 2619.0,
+      "app_graphics_mhz": null,
+      "power_w": 132.29,
+      "power_limit_w": 900.0,
+      "perf_state": "P0",
+      "reasons_active": [],
+      "reason_counters": {
+        "SW Power Capping": "503516528632 us",
+        "Sync Boost": "0 us",
+        "SW Thermal Slowdown": "0 us",
+        "HW Thermal Slowdown": "0 us",
+        "HW Power Braking": "0 us"
+      }
+    },
+    "sm_mhz": 1755.0,
+    "gr_mhz": 1755.0,
+    "mem_mhz": 2619.0,
+    "power_w": 131.45,
+    "temp_c": 23.0,
+    "util_pct": 0.0,
+    "reasons_mask": "0x0000000000000000",
+    "reasons": []
+  },
+  "samples": [
+    {
+      "t_s": 0.0,
+      "q": {
+        "sm_mhz": 1755.0,
+        "graphics_mhz": 1755.0,
+        "mem_mhz": 2619.0,
+        "app_graphics_mhz": null,
+        "power_w": 136.13,
+        "power_limit_w": 900.0,
+        "perf_state": "P0",
+        "reasons_active": [],
+        "reason_counters": {
+          "SW Power Capping": "503496453778 us",
+          "Sync Boost": "0 us",
+          "SW Thermal Slowdown": "0 us",
+          "HW Thermal Slowdown": "0 us",
+          "HW Power Braking": "0 us"
+        }
+      },
+      "sm_mhz": 1755.0,
+      "gr_mhz": 1755.0,
+      "mem_mhz": 2619.0,
+      "power_w": 106.4,
+      "temp_c": 20.0,
+      "util_pct": 0.0,
+      "reasons_mask": "0x0000000000000000",
+      "reasons": []
+    },
+    {
+      "t_s": 0.063,
+      "q": {
+        "sm_mhz": 1755.0,
+        "graphics_mhz": 1755.0,
+        "mem_mhz": 2619.0,
+        "app_graphics_mhz": null,
+        "power_w": 139.76,
+        "power_limit_w": 900.0,
+        "perf_state": "P0",
+        "reasons_active": [],
+        "reason_counters": {
+          "SW Power Capping": "503496453778 us",
+          "Sync Boost": "0 us",
+          "SW Thermal Slowdown": "0 us",
+          "HW Thermal Slowdown": "0 us",
+          "HW Power Braking": "0 us"
+        }
+      },
+      "sm_mhz": 1755.0,
+      "gr_mhz": 1755.0,
+      "mem_mhz": 2619.0,
+      "power_w": 108.0,
+      "temp_c": 20.0,
+      "util_pct": 6.0,
+      "reasons_mask": "0x0000000000000000",
+      "reasons": []
+    },
+    {
+      "t_s": 1.063,
+      "q": {
+        "sm_mhz": 1305.0,
+        "graphics_mhz": 1305.0,
+        "mem_mhz": 2619.0,
+        "app_graphics_mhz": null,
+        "power_w": 536.44,
+        "power_limit_w": 900.0,
+        "perf_state": "P0",
+        "reasons_active": [
+          "SW Power Cap"
+        ],
+        "reason_counters": {
+          "SW Power Capping": "503497394076 us",
+          "Sync Boost": "0 us",
+          "SW Thermal Slowdown": "0 us",
+          "HW Thermal Slowdown": "0 us",
+          "HW Power Braking": "0 us"
+        }
+      },
+      "sm_mhz": 1305.0,
+      "gr_mhz": 1305.0,
+      "mem_mhz": 2619.0,
+      "power_w": 546.31,
+      "temp_c": 33.0,
+      "util_pct": 100.0,
+      "reasons_mask": "0x0000000000000004",
+      "reasons": [
+        "sw_power_cap"
+      ]
+    },
+    {
+      "t_s": 2.063,
+      "q": {
+        "sm_mhz": 1350.0,
+        "graphics_mhz": 1350.0,
+        "mem_mhz": 2619.0,
+        "app_graphics_mhz": null,
+        "power_w": 545.41,
+        "power_limit_w": 900.0,
+        "perf_state": "P0",
+        "reasons_active": [
+          "SW Power Cap"
+        ],
+        "reason_counters": {
+          "SW Power Capping": "503498394067 us",
+          "Sync Boost": "0 us",
+          "SW Thermal Slowdown": "0 us",
+          "HW Thermal Slowdown": "0 us",
+          "HW Power Braking": "0 us"
+        }
+      },
+      "sm_mhz": 1350.0,
+      "gr_mhz": 1350.0,
+      "mem_mhz": 2619.0,
+      "power_w": 542.23,
+      "temp_c": 34.0,
+      "util_pct": 100.0,
+      "reasons_mask": "0x0000000000000004",
+      "reasons": [
+        "sw_power_cap"
+      ]
+    },
+    {
+      "t_s": 3.063,
+      "q": {
+        "sm_mhz": 1350.0,
+        "graphics_mhz": 1350.0,
+        "mem_mhz": 2619.0,
+        "app_graphics_mhz": null,
+        "power_w": 536.3,
+        "power_limit_w": 900.0,
+        "perf_state": "P0",
+        "reasons_active": [
+          "SW Power Cap"
+        ],
+        "reason_counters": {
+          "SW Power Capping": "503499394062 us",
+          "Sync Boost": "0 us",
+          "SW Thermal Slowdown": "0 us",
+          "HW Thermal Slowdown": "0 us",
+          "HW Power Braking": "0 us"
+        }
+      },
+      "sm_mhz": 1350.0,
+      "gr_mhz": 1350.0,
+      "mem_mhz": 2619.0,
+      "power_w": 546.88,
+      "temp_c": 35.0,
+      "util_pct": 100.0,
+      "reasons_mask": "0x0000000000000004",
+      "reasons": [
+        "sw_power_cap"
+      ]
+    },
+    {
+      "t_s": 4.063,
+      "q": {
+        "sm_mhz": 1365.0,
+        "graphics_mhz": 1365.0,
+        "mem_mhz": 2619.0,
+        "app_graphics_mhz": null,
+        "power_w": 545.45,
+        "power_limit_w": 900.0,
+        "perf_state": "P0",
+        "reasons_active": [
+          "SW Power Cap"
+        ],
+        "reason_counters": {
+          "SW Power Capping": "503500394068 us",
+          "Sync Boost": "0 us",
+          "SW Thermal Slowdown": "0 us",
+          "HW Thermal Slowdown": "0 us",
+          "HW Power Braking": "0 us"
+        }
+      },
+      "sm_mhz": 1365.0,
+      "gr_mhz": 1365.0,
+      "mem_mhz": 2619.0,
+      "power_w": 548.49,
+      "temp_c": 35.0,
+      "util_pct": 100.0,
+      "reasons_mask": "0x0000000000000004",
+      "reasons": [
+        "sw_power_cap"
+      ]
+    },
+    {
+      "t_s": 5.063,
+      "q": {
+        "sm_mhz": 1350.0,
+        "graphics_mhz": 1350.0,
+        "mem_mhz": 2619.0,
+        "app_graphics_mhz": null,
+        "power_w": 550.21,
+        "power_limit_w": 900.0,
+        "perf_state": "P0",
+        "reasons_active": [
+          "SW Power Cap"
+        ],
+        "reason_counters": {
+          "SW Power Capping": "503501394131 us",
+          "Sync Boost": "0 us",
+          "SW Thermal Slowdown": "0 us",
+          "HW Thermal Slowdown": "0 us",
+          "HW Power Braking": "0 us"
+        }
+      },
+      "sm_mhz": 1350.0,
+      "gr_mhz": 1350.0,
+      "mem_mhz": 2619.0,
+      "power_w": 550.37,
+      "temp_c": 36.0,
+      "util_pct": 100.0,
+      "reasons_mask": "0x0000000000000004",
+      "reasons": [
+        "sw_power_cap"
+      ]
+    },
+    {
+      "t_s": 6.063,
+      "q": {
+        "sm_mhz": 1365.0,
+        "graphics_mhz": 1365.0,
+        "mem_mhz": 2619.0,
+        "app_graphics_mhz": null,
+        "power_w": 563.18,
+        "power_limit_w": 900.0,
+        "perf_state": "P0",
+        "reasons_active": [
+          "SW Power Cap"
+        ],
+        "reason_counters": {
+          "SW Power Capping": "503502394048 us",
+          "Sync Boost": "0 us",
+          "SW Thermal Slowdown": "0 us",
+          "HW Thermal Slowdown": "0 us",
+          "HW Power Braking": "0 us"
+        }
+      },
+      "sm_mhz": 1365.0,
+      "gr_mhz": 1365.0,
+      "mem_mhz": 2619.0,
+      "power_w": 545.0,
+      "temp_c": 36.0,
+      "util_pct": 100.0,
+      "reasons_mask": "0x0000000000000004",
+      "reasons": [
+        "sw_power_cap"
+      ]
+    },
+    {
+      "t_s": 7.063,
+      "q": {
+        "sm_mhz": 1350.0,
+        "graphics_mhz": 1350.0,
+        "mem_mhz": 2619.0,
+        "app_graphics_mhz": null,
+        "power_w": 545.94,
+        "power_limit_w": 900.0,
+        "perf_state": "P0",
+        "reasons_active": [
+          "SW Power Cap"
+        ],
+        "reason_counters": {
+          "SW Power Capping": "503503394073 us",
+          "Sync Boost": "0 us",
+          "SW Thermal Slowdown": "0 us",
+          "HW Thermal Slowdown": "0 us",
+          "HW Power Braking": "0 us"
+        }
+      },
+      "sm_mhz": 1350.0,
+      "gr_mhz": 1350.0,
+      "mem_mhz": 2619.0,
+      "power_w": 547.88,
+      "temp_c": 36.0,
+      "util_pct": 100.0,
+      "reasons_mask": "0x0000000000000004",
+      "reasons": [
+        "sw_power_cap"
+      ]
+    },
+    {
+      "t_s": 8.063,
+      "q": {
+        "sm_mhz": 1365.0,
+        "graphics_mhz": 1365.0,
+        "mem_mhz": 2619.0,
+        "app_graphics_mhz": null,
+        "power_w": 548.21,
+        "power_limit_w": 900.0,
+        "perf_state": "P0",
+        "reasons_active": [
+          "SW Power Cap"
+        ],
+        "reason_counters": {
+          "SW Power Capping": "503504394088 us",
+          "Sync Boost": "0 us",
+          "SW Thermal Slowdown": "0 us",
+          "HW Thermal Slowdown": "0 us",
+          "HW Power Braking": "0 us"
+        }
+      },
+      "sm_mhz": 1365.0,
+      "gr_mhz": 1365.0,
+      "mem_mhz": 2619.0,
+      "power_w": 545.48,
+      "temp_c": 36.0,
+      "util_pct": 100.0,
+      "reasons_mask": "0x0000000000000004",
+      "reasons": [
+        "sw_power_cap"
+      ]
+    },
+    {
+      "t_s": 9.064,
+      "q": {
+        "sm_mhz": 1320.0,
+        "graphics_mhz": 1320.0,
+        "mem_mhz": 2619.0,
+        "app_graphics_mhz": null,
+        "power_w": 539.8,
+        "power_limit_w": 900.0,
+        "perf_state": "P0",
+        "reasons_active": [
+          "SW Power Cap"
+        ],
+        "reason_counters": {
+          "SW Power Capping": "503505394115 us",
+          "Sync Boost": "0 us",
+          "SW Thermal Slowdown": "0 us",
+          "HW Thermal Slowdown": "0 us",
+          "HW Power Braking": "0 us"
+        }
+      },
+      "sm_mhz": 1320.0,
+      "gr_mhz": 1320.0,
+      "mem_mhz": 2619.0,
+      "power_w": 545.86,
+      "temp_c": 36.0,
+      "util_pct": 100.0,
+      "reasons_mask": "0x0000000000000004",
+      "reasons": [
+        "sw_power_cap"
+      ]
+    },
+    {
+      "t_s": 10.064,
+      "q": {
+        "sm_mhz": 1350.0,
+        "graphics_mhz": 1350.0,
+        "mem_mhz": 2619.0,
+        "app_graphics_mhz": null,
+        "power_w": 542.85,
+        "power_limit_w": 900.0,
+        "perf_state": "P0",
+        "reasons_active": [
+          "SW Power Cap"
+        ],
+        "reason_counters": {
+          "SW Power Capping": "503506394074 us",
+          "Sync Boost": "0 us",
+          "SW Thermal Slowdown": "0 us",
+          "HW Thermal Slowdown": "0 us",
+          "HW Power Braking": "0 us"
+        }
+      },
+      "sm_mhz": 1350.0,
+      "gr_mhz": 1350.0,
+      "mem_mhz": 2619.0,
+      "power_w": 544.07,
+      "temp_c": 36.0,
+      "util_pct": 100.0,
+      "reasons_mask": "0x0000000000000004",
+      "reasons": [
+        "sw_power_cap"
+      ]
+    },
+    {
+      "t_s": 11.064,
+      "q": {
+        "sm_mhz": 1365.0,
+        "graphics_mhz": 1365.0,
+        "mem_mhz": 2619.0,
+        "app_graphics_mhz": null,
+        "power_w": 547.87,
+        "power_limit_w": 900.0,
+        "perf_state": "P0",
+        "reasons_active": [
+          "SW Power Cap"
+        ],
+        "reason_counters": {
+          "SW Power Capping": "503507394062 us",
+          "Sync Boost": "0 us",
+          "SW Thermal Slowdown": "0 us",
+          "HW Thermal Slowdown": "0 us",
+          "HW Power Braking": "0 us"
+        }
+      },
+      "sm_mhz": 1365.0,
+      "gr_mhz": 1365.0,
+      "mem_mhz": 2619.0,
+      "power_w": 546.21,
+      "temp_c": 36.0,
+      "util_pct": 100.0,
+      "reasons_mask": "0x0000000000000004",
+      "reasons": [
+        "sw_power_cap"
+      ]
+    },
+    {
+      "t_s": 12.064,
+      "q": {
+        "sm_mhz": 1365.0,
+        "graphics_mhz": 1365.0,
+        "mem_mhz": 2619.0,
+        "app_graphics_mhz": null,
+        "power_w": 534.34,
+        "power_limit_w": 900.0,
+        "perf_state": "P0",
+        "reasons_active": [
+          "SW Power Cap"
+        ],
+        "reason_counters": {
+          "SW Power Capping": "503508394147 us",
+          "Sync Boost": "0 us",
+          "SW Thermal Slowdown": "0 us",
+          "HW Thermal Slowdown": "0 us",
+          "HW Power Braking": "0 us"
+        }
+      },
+      "sm_mhz": 1365.0,
+      "gr_mhz": 1365.0,
+      "mem_mhz": 2619.0,
+      "power_w": 545.57,
+      "temp_c": 36.0,
+      "util_pct": 100.0,
+      "reasons_mask": "0x0000000000000004",
+      "reasons": [
+        "sw_power_cap"
+      ]
+    },
+    {
+      "t_s": 13.064,
+      "q": {
+        "sm_mhz": 1365.0,
+        "graphics_mhz": 1365.0,
+        "mem_mhz": 2619.0,
+        "app_graphics_mhz": null,
+        "power_w": 542.29,
+        "power_limit_w": 900.0,
+        "perf_state": "P0",
+        "reasons_active": [
+          "SW Power Cap"
+        ],
+        "reason_counters": {
+          "SW Power Capping": "503509394070 us",
+          "Sync Boost": "0 us",
+          "SW Thermal Slowdown": "0 us",
+          "HW Thermal Slowdown": "0 us",
+          "HW Power Braking": "0 us"
+        }
+      },
+      "sm_mhz": 1365.0,
+      "gr_mhz": 1365.0,
+      "mem_mhz": 2619.0,
+      "power_w": 548.34,
+      "temp_c": 36.0,
+      "util_pct": 100.0,
+      "reasons_mask": "0x0000000000000004",
+      "reasons": [
+        "sw_power_cap"
+      ]
+    },
+    {
+      "t_s": 14.064,
+      "q": {
+        "sm_mhz": 1380.0,
+        "graphics_mhz": 1380.0,
+        "mem_mhz": 2619.0,
+        "app_graphics_mhz": null,
+        "power_w": 534.04,
+        "power_limit_w": 900.0,
+        "perf_state": "P0",
+        "reasons_active": [
+          "SW Power Cap"
+        ],
+        "reason_counters": {
+          "SW Power Capping": "503510394078 us",
+          "Sync Boost": "0 us",
+          "SW Thermal Slowdown": "0 us",
+          "HW Thermal Slowdown": "0 us",
+          "HW Power Braking": "0 us"
+        }
+      },
+      "sm_mhz": 1380.0,
+      "gr_mhz": 1380.0,
+      "mem_mhz": 2619.0,
+      "power_w": 544.89,
+      "temp_c": 36.0,
+      "util_pct": 100.0,
+      "reasons_mask": "0x0000000000000004",
+      "reasons": [
+        "sw_power_cap"
+      ]
+    },
+    {
+      "t_s": 15.064,
+      "q": {
+        "sm_mhz": 1350.0,
+        "graphics_mhz": 1350.0,
+        "mem_mhz": 2619.0,
+        "app_graphics_mhz": null,
+        "power_w": 553.13,
+        "power_limit_w": 900.0,
+        "perf_state": "P0",
+        "reasons_active": [
+          "SW Power Cap"
+        ],
+        "reason_counters": {
+          "SW Power Capping": "503511394079 us",
+          "Sync Boost": "0 us",
+          "SW Thermal Slowdown": "0 us",
+          "HW Thermal Slowdown": "0 us",
+          "HW Power Braking": "0 us"
+        }
+      },
+      "sm_mhz": 1350.0,
+      "gr_mhz": 1350.0,
+      "mem_mhz": 2619.0,
+      "power_w": 541.36,
+      "temp_c": 36.0,
+      "util_pct": 100.0,
+      "reasons_mask": "0x0000000000000004",
+      "reasons": [
+        "sw_power_cap"
+      ]
+    },
+    {
+      "t_s": 16.064,
+      "q": {
+        "sm_mhz": 1365.0,
+        "graphics_mhz": 1365.0,
+        "mem_mhz": 2619.0,
+        "app_graphics_mhz": null,
+        "power_w": 547.17,
+        "power_limit_w": 900.0,
+        "perf_state": "P0",
+        "reasons_active": [
+          "SW Power Cap"
+        ],
+        "reason_counters": {
+          "SW Power Capping": "503512394098 us",
+          "Sync Boost": "0 us",
+          "SW Thermal Slowdown": "0 us",
+          "HW Thermal Slowdown": "0 us",
+          "HW Power Braking": "0 us"
+        }
+      },
+      "sm_mhz": 1365.0,
+      "gr_mhz": 1365.0,
+      "mem_mhz": 2619.0,
+      "power_w": 544.66,
+      "temp_c": 36.0,
+      "util_pct": 100.0,
+      "reasons_mask": "0x0000000000000004",
+      "reasons": [
+        "sw_power_cap"
+      ]
+    },
+    {
+      "t_s": 17.064,
+      "q": {
+        "sm_mhz": 1365.0,
+        "graphics_mhz": 1365.0,
+        "mem_mhz": 2619.0,
+        "app_graphics_mhz": null,
+        "power_w": 532.85,
+        "power_limit_w": 900.0,
+        "perf_state": "P0",
+        "reasons_active": [
+          "SW Power Cap"
+        ],
+        "reason_counters": {
+          "SW Power Capping": "503513394131 us",
+          "Sync Boost": "0 us",
+          "SW Thermal Slowdown": "0 us",
+          "HW Thermal Slowdown": "0 us",
+          "HW Power Braking": "0 us"
+        }
+      },
+      "sm_mhz": 1365.0,
+      "gr_mhz": 1365.0,
+      "mem_mhz": 2619.0,
+      "power_w": 542.53,
+      "temp_c": 36.0,
+      "util_pct": 100.0,
+      "reasons_mask": "0x0000000000000004",
+      "reasons": [
+        "sw_power_cap"
+      ]
+    },
+    {
+      "t_s": 18.064,
+      "q": {
+        "sm_mhz": 1380.0,
+        "graphics_mhz": 1380.0,
+        "mem_mhz": 2619.0,
+        "app_graphics_mhz": null,
+        "power_w": 557.66,
+        "power_limit_w": 900.0,
+        "perf_state": "P0",
+        "reasons_active": [
+          "SW Power Cap"
+        ],
+        "reason_counters": {
+          "SW Power Capping": "503514394143 us",
+          "Sync Boost": "0 us",
+          "SW Thermal Slowdown": "0 us",
+          "HW Thermal Slowdown": "0 us",
+          "HW Power Braking": "0 us"
+        }
+      },
+      "sm_mhz": 1380.0,
+      "gr_mhz": 1380.0,
+      "mem_mhz": 2619.0,
+      "power_w": 546.92,
+      "temp_c": 37.0,
+      "util_pct": 100.0,
+      "reasons_mask": "0x0000000000000004",
+      "reasons": [
+        "sw_power_cap"
+      ]
+    },
+    {
+      "t_s": 19.064,
+      "q": {
+        "sm_mhz": 1365.0,
+        "graphics_mhz": 1365.0,
+        "mem_mhz": 2619.0,
+        "app_graphics_mhz": null,
+        "power_w": 550.35,
+        "power_limit_w": 900.0,
+        "perf_state": "P0",
+        "reasons_active": [
+          "SW Power Cap"
+        ],
+        "reason_counters": {
+          "SW Power Capping": "503515394035 us",
+          "Sync Boost": "0 us",
+          "SW Thermal Slowdown": "0 us",
+          "HW Thermal Slowdown": "0 us",
+          "HW Power Braking": "0 us"
+        }
+      },
+      "sm_mhz": 1365.0,
+      "gr_mhz": 1365.0,
+      "mem_mhz": 2619.0,
+      "power_w": 544.51,
+      "temp_c": 36.0,
+      "util_pct": 100.0,
+      "reasons_mask": "0x0000000000000004",
+      "reasons": [
+        "sw_power_cap"
+      ]
+    },
+    {
+      "t_s": 20.064,
+      "q": {
+        "sm_mhz": 1365.0,
+        "graphics_mhz": 1365.0,
+        "mem_mhz": 2619.0,
+        "app_graphics_mhz": null,
+        "power_w": 549.86,
+        "power_limit_w": 900.0,
+        "perf_state": "P0",
+        "reasons_active": [
+          "SW Power Cap"
+        ],
+        "reason_counters": {
+          "SW Power Capping": "503516394036 us",
+          "Sync Boost": "0 us",
+          "SW Thermal Slowdown": "0 us",
+          "HW Thermal Slowdown": "0 us",
+          "HW Power Braking": "0 us"
+        }
+      },
+      "sm_mhz": 1365.0,
+      "gr_mhz": 1365.0,
+      "mem_mhz": 2619.0,
+      "power_w": 540.76,
+      "temp_c": 37.0,
+      "util_pct": 100.0,
+      "reasons_mask": "0x0000000000000004",
+      "reasons": [
+        "sw_power_cap"
+      ]
+    },
+    {
+      "t_s": 21.135,
+      "q": {
+        "sm_mhz": 1755.0,
+        "graphics_mhz": 1755.0,
+        "mem_mhz": 2619.0,
+        "app_graphics_mhz": null,
+        "power_w": 132.29,
+        "power_limit_w": 900.0,
+        "perf_state": "P0",
+        "reasons_active": [],
+        "reason_counters": {
+          "SW Power Capping": "503516528632 us",
+          "Sync Boost": "0 us",
+          "SW Thermal Slowdown": "0 us",
+          "HW Thermal Slowdown": "0 us",
+          "HW Power Braking": "0 us"
+        }
+      },
+      "sm_mhz": 1755.0,
+      "gr_mhz": 1755.0,
+      "mem_mhz": 2619.0,
+      "power_w": 131.45,
+      "temp_c": 23.0,
+      "util_pct": 0.0,
+      "reasons_mask": "0x0000000000000000",
+      "reasons": []
+    }
+  ],
+  "chunks": [
+    {
+      "t_s": 0.095,
+      "ms": 32.473567962646484,
+      "tflops": 677.1732807683715
+    },
+    {
+      "t_s": 0.128,
+      "ms": 32.71318435668945,
+      "tflops": 672.2131454935312
+    },
+    {
+      "t_s": 0.163,
+      "ms": 34.81670379638672,
+      "tflops": 631.6000700158799
+    },
+    {
+      "t_s": 0.2,
+      "ms": 36.78841781616211,
+      "tflops": 597.7487986955264
+    },
+    {
+      "t_s": 0.238,
+      "ms": 38.208641052246094,
+      "tflops": 575.5303499397108
+    },
+    {
+      "t_s": 0.276,
+      "ms": 38.18636703491211,
+      "tflops": 575.866055427983
+    },
+    {
+      "t_s": 0.315,
+      "ms": 38.43119812011719,
+      "tflops": 572.1974237386318
+    },
+    {
+      "t_s": 0.353,
+      "ms": 38.333343505859375,
+      "tflops": 573.6580883469953
+    },
+    {
+      "t_s": 0.391,
+      "ms": 38.142112731933594,
+      "tflops": 576.5342027608552
+    },
+    {
+      "t_s": 0.429,
+      "ms": 37.788352966308594,
+      "tflops": 581.9314902431998
+    },
+    {
+      "t_s": 0.467,
+      "ms": 37.91312026977539,
+      "tflops": 580.0164270058978
+    },
+    {
+      "t_s": 0.505,
+      "ms": 37.905025482177734,
+      "tflops": 580.1402921061064
+    },
+    {
+      "t_s": 0.543,
+      "ms": 37.89798355102539,
+      "tflops": 580.2480896091112
+    },
+    {
+      "t_s": 0.581,
+      "ms": 37.75785446166992,
+      "tflops": 582.4015392040747
+    },
+    {
+      "t_s": 0.619,
+      "ms": 37.78054428100586,
+      "tflops": 582.0517669613239
+    },
+    {
+      "t_s": 0.656,
+      "ms": 37.84988784790039,
+      "tflops": 580.9854085668009
+    },
+    {
+      "t_s": 0.694,
+      "ms": 37.76652908325195,
+      "tflops": 582.2677669701939
+    },
+    {
+      "t_s": 0.732,
+      "ms": 37.81244659423828,
+      "tflops": 581.5606906237796
+    },
+    {
+      "t_s": 0.77,
+      "ms": 37.910945892333984,
+      "tflops": 580.0496937737095
+    },
+    {
+      "t_s": 0.808,
+      "ms": 37.780513763427734,
+      "tflops": 582.0522371193101
+    },
+    {
+      "t_s": 0.846,
+      "ms": 37.74476623535156,
+      "tflops": 582.6034904654955
+    },
+    {
+      "t_s": 0.883,
+      "ms": 37.736351013183594,
+      "tflops": 582.7334112892229
+    },
+    {
+      "t_s": 0.921,
+      "ms": 37.882625579833984,
+      "tflops": 580.4833276188236
+    },
+    {
+      "t_s": 0.959,
+      "ms": 37.84102249145508,
+      "tflops": 581.1215212402265
+    },
+    {
+      "t_s": 0.997,
+      "ms": 37.80656051635742,
+      "tflops": 581.6512334150493
+    },
+    {
+      "t_s": 1.035,
+      "ms": 37.84889602661133,
+      "tflops": 581.0006331508005
+    },
+    {
+      "t_s": 1.073,
+      "ms": 37.86399841308594,
+      "tflops": 580.7688959737569
+    },
+    {
+      "t_s": 1.111,
+      "ms": 37.892478942871094,
+      "tflops": 580.3323817550643
+    },
+    {
+      "t_s": 1.149,
+      "ms": 37.88278579711914,
+      "tflops": 580.4808725865214
+    },
+    {
+      "t_s": 1.187,
+      "ms": 37.90611267089844,
+      "tflops": 580.1236530487733
+    },
+    {
+      "t_s": 1.224,
+      "ms": 37.81126403808594,
+      "tflops": 581.5788790707982
+    },
+    {
+      "t_s": 1.262,
+      "ms": 37.89699172973633,
+      "tflops": 580.2632755745913
+    },
+    {
+      "t_s": 1.3,
+      "ms": 37.86592102050781,
+      "tflops": 580.7394079655505
+    },
+    {
+      "t_s": 1.338,
+      "ms": 37.95014572143555,
+      "tflops": 579.4505432715416
+    },
+    {
+      "t_s": 1.376,
+      "ms": 37.831329345703125,
+      "tflops": 581.2704162355227
+    },
+    {
+      "t_s": 1.414,
+      "ms": 37.78700637817383,
+      "tflops": 581.9522281135716
+    },
+    {
+      "t_s": 1.452,
+      "ms": 37.72857666015625,
+      "tflops": 582.8534893748872
+    },
+    {
+      "t_s": 1.489,
+      "ms": 37.62428665161133,
+      "tflops": 584.4690893183546
+    },
+    {
+      "t_s": 1.527,
+      "ms": 37.64662551879883,
+      "tflops": 584.12227530298
+    },
+    {
+      "t_s": 1.564,
+      "ms": 37.30860900878906,
+      "tflops": 589.4144311394616
+    },
+    {
+      "t_s": 1.601,
+      "ms": 36.90127944946289,
+      "tflops": 595.920599057713
+    },
+    {
+      "t_s": 1.638,
+      "ms": 36.810462951660156,
+      "tflops": 597.390817507451
+    },
+    {
+      "t_s": 1.675,
+      "ms": 36.833824157714844,
+      "tflops": 597.0119328735012
+    },
+    {
+      "t_s": 1.712,
+      "ms": 37.158145904541016,
+      "tflops": 591.8011251695049
+    },
+    {
+      "t_s": 1.749,
+      "ms": 37.24531173706055,
+      "tflops": 590.416122994585
+    },
+    {
+      "t_s": 1.787,
+      "ms": 37.1429443359375,
+      "tflops": 592.0433328233336
+    },
+    {
+      "t_s": 1.824,
+      "ms": 37.53807830810547,
+      "tflops": 585.8113560057155
+    },
+    {
+      "t_s": 1.862,
+      "ms": 37.45248031616211,
+      "tflops": 587.1502333059211
+    },
+    {
+      "t_s": 1.899,
+      "ms": 37.56972885131836,
+      "tflops": 585.317840396081
+    },
+    {
+      "t_s": 1.937,
+      "ms": 37.80198287963867,
+      "tflops": 581.7216685573557
+    },
+    {
+      "t_s": 1.975,
+      "ms": 37.777278900146484,
+      "tflops": 582.1020781736277
+    },
+    {
+      "t_s": 2.012,
+      "ms": 37.39263916015625,
+      "tflops": 588.0898767624753
+    },
+    {
+      "t_s": 2.05,
+      "ms": 37.27280044555664,
+      "tflops": 589.980690816096
+    },
+    {
+      "t_s": 2.087,
+      "ms": 37.33561706542969,
+      "tflops": 588.988057087223
+    },
+    {
+      "t_s": 2.124,
+      "ms": 37.41606521606445,
+      "tflops": 587.7216759307596
+    },
+    {
+      "t_s": 2.162,
+      "ms": 37.191776275634766,
+      "tflops": 591.2659936580209
+    },
+    {
+      "t_s": 2.199,
+      "ms": 37.63612747192383,
+      "tflops": 584.2852076618268
+    },
+    {
+      "t_s": 2.237,
+      "ms": 37.715328216552734,
+      "tflops": 583.0582311058556
+    },
+    {
+      "t_s": 2.275,
+      "ms": 37.77033615112305,
+      "tflops": 582.2090771851962
+    },
+    {
+      "t_s": 2.313,
+      "ms": 37.6940803527832,
+      "tflops": 583.3868965553982
+    },
+    {
+      "t_s": 2.35,
+      "ms": 37.46895980834961,
+      "tflops": 586.8919945469017
+    },
+    {
+      "t_s": 2.387,
+      "ms": 36.93574523925781,
+      "tflops": 595.3645286720055
+    },
+    {
+      "t_s": 2.424,
+      "ms": 36.68540954589844,
+      "tflops": 599.427206285028
+    },
+    {
+      "t_s": 2.461,
+      "ms": 36.91484832763672,
+      "tflops": 595.7015551126284
+    },
+    {
+      "t_s": 2.498,
+      "ms": 37.218849182128906,
+      "tflops": 590.8359081150442
+    },
+    {
+      "t_s": 2.536,
+      "ms": 37.51318359375,
+      "tflops": 586.200115502427
+    },
+    {
+      "t_s": 2.573,
+      "ms": 37.33552169799805,
+      "tflops": 588.9895615600607
+    },
+    {
+      "t_s": 2.61,
+      "ms": 37.3540153503418,
+      "tflops": 588.6979578841659
+    },
+    {
+      "t_s": 2.648,
+      "ms": 37.285919189453125,
+      "tflops": 589.7731109641053
+    },
+    {
+      "t_s": 2.685,
+      "ms": 37.11830520629883,
+      "tflops": 592.436331166013
+    },
+    {
+      "t_s": 2.722,
+      "ms": 37.193824768066406,
+      "tflops": 591.2334290072853
+    },
+    {
+      "t_s": 2.76,
+      "ms": 37.384254455566406,
+      "tflops": 588.2217761399203
+    },
+    {
+      "t_s": 2.797,
+      "ms": 37.466590881347656,
+      "tflops": 586.9291023877917
+    },
+    {
+      "t_s": 2.835,
+      "ms": 37.50646209716797,
+      "tflops": 586.3051678548064
+    },
+    {
+      "t_s": 2.872,
+      "ms": 37.44224166870117,
+      "tflops": 587.3107905796713
+    },
+    {
+      "t_s": 2.91,
+      "ms": 37.47603225708008,
+      "tflops": 586.781236729391
+    },
+    {
+      "t_s": 2.947,
+      "ms": 37.44425582885742,
+      "tflops": 587.2791986046799
+    },
+    {
+      "t_s": 2.984,
+      "ms": 37.3785285949707,
+      "tflops": 588.3118833757087
+    },
+    {
+      "t_s": 3.022,
+      "ms": 37.23324966430664,
+      "tflops": 590.6073940304159
+    },
+    {
+      "t_s": 3.059,
+      "ms": 37.26588821411133,
+      "tflops": 590.0901228806091
+    },
+    {
+      "t_s": 3.097,
+      "ms": 37.5338249206543,
+      "tflops": 585.8777409978035
+    },
+    {
+      "t_s": 3.134,
+      "ms": 37.49372863769531,
+      "tflops": 586.5042863038044
+    },
+    {
+      "t_s": 3.172,
+      "ms": 37.763038635253906,
+      "tflops": 582.3215861392808
+    },
+    {
+      "t_s": 3.209,
+      "ms": 37.4447021484375,
+      "tflops": 587.2721985702219
+    },
+    {
+      "t_s": 3.247,
+      "ms": 37.325279235839844,
+      "tflops": 589.1511866950727
+    },
+    {
+      "t_s": 3.284,
+      "ms": 37.11859130859375,
+      "tflops": 592.4317647913753
+    },
+    {
+      "t_s": 3.321,
+      "ms": 37.277217864990234,
+      "tflops": 589.9107770103369
+    },
+    {
+      "t_s": 3.358,
+      "ms": 37.13372802734375,
+      "tflops": 592.1902734712576
+    },
+    {
+      "t_s": 3.396,
+      "ms": 37.1987190246582,
+      "tflops": 591.1556400891967
+    },
+    {
+      "t_s": 3.433,
+      "ms": 37.167903900146484,
+      "tflops": 591.6457547511397
+    },
+    {
+      "t_s": 3.47,
+      "ms": 37.236671447753906,
+      "tflops": 590.5531214403546
+    },
+    {
+      "t_s": 3.508,
+      "ms": 37.266624450683594,
+      "tflops": 590.0784651054337
+    },
+    {
+      "t_s": 3.545,
+      "ms": 37.16838455200195,
+      "tflops": 591.6381037425413
+    },
+    {
+      "t_s": 3.582,
+      "ms": 37.24319839477539,
+      "tflops": 590.4496257927425
+    },
+    {
+      "t_s": 3.619,
+      "ms": 37.06358337402344,
+      "tflops": 593.311022671709
+    },
+    {
+      "t_s": 3.656,
+      "ms": 37.076446533203125,
+      "tflops": 593.1051816367313
+    },
+    {
+      "t_s": 3.693,
+      "ms": 36.9213752746582,
+      "tflops": 595.5962472127488
+    },
+    {
+      "t_s": 3.73,
+      "ms": 36.6486701965332,
+      "tflops": 600.0281166436478
+    },
+    {
+      "t_s": 3.767,
+      "ms": 36.66166305541992,
+      "tflops": 599.8154672437602
+    },
+    {
+      "t_s": 3.804,
+      "ms": 37.13926315307617,
+      "tflops": 592.1020151876273
+    },
+    {
+      "t_s": 3.841,
+      "ms": 37.33884811401367,
+      "tflops": 588.9370900884011
+    },
+    {
+      "t_s": 3.879,
+      "ms": 37.58707046508789,
+      "tflops": 585.0477912596367
+    },
+    {
+      "t_s": 3.916,
+      "ms": 37.492000579833984,
+      "tflops": 586.531319092852
+    },
+    {
+      "t_s": 3.954,
+      "ms": 37.30934524536133,
+      "tflops": 589.402800046566
+    },
+    {
+      "t_s": 3.991,
+      "ms": 37.323936462402344,
+      "tflops": 589.1723821165406
+    },
+    {
+      "t_s": 4.029,
+      "ms": 37.563232421875,
+      "tflops": 585.4190690658975
+    },
+    {
+      "t_s": 4.066,
+      "ms": 37.69513702392578,
+      "tflops": 583.3705430374853
+    },
+    {
+      "t_s": 4.103,
+      "ms": 36.79244613647461,
+      "tflops": 597.6833525542553
+    },
+    {
+      "t_s": 4.14,
+      "ms": 37.0173454284668,
+      "tflops": 594.0521207284961
+    },
+    {
+      "t_s": 4.177,
+      "ms": 36.82166290283203,
+      "tflops": 597.209110668076
+    },
+    {
+      "t_s": 4.215,
+      "ms": 37.389408111572266,
+      "tflops": 588.1406972236579
+    },
+    {
+      "t_s": 4.252,
+      "ms": 37.416481018066406,
+      "tflops": 587.7151446952507
+    },
+    {
+      "t_s": 4.289,
+      "ms": 37.10515213012695,
+      "tflops": 592.6463386647961
+    },
+    {
+      "t_s": 4.326,
+      "ms": 37.26598358154297,
+      "tflops": 590.0886127801356
+    },
+    {
+      "t_s": 4.364,
+      "ms": 37.1959342956543,
+      "tflops": 591.1998978363928
+    },
+    {
+      "t_s": 4.401,
+      "ms": 37.271583557128906,
+      "tflops": 589.9999532301586
+    },
+    {
+      "t_s": 4.438,
+      "ms": 37.23107147216797,
+      "tflops": 590.6419473304379
+    },
+    {
+      "t_s": 4.476,
+      "ms": 37.148799896240234,
+      "tflops": 591.9500123002787
+    },
+    {
+      "t_s": 4.513,
+      "ms": 37.185951232910156,
+      "tflops": 591.3586133049703
+    },
+    {
+      "t_s": 4.55,
+      "ms": 37.31254577636719,
+      "tflops": 589.3522432727722
+    },
+    {
+      "t_s": 4.587,
+      "ms": 37.22547149658203,
+      "tflops": 590.7307999453841
+    },
+    {
+      "t_s": 4.624,
+      "ms": 37.06140899658203,
+      "tflops": 593.3458319824817
+    },
+    {
+      "t_s": 4.662,
+      "ms": 37.221439361572266,
+      "tflops": 590.7947928048936
+    },
+    {
+      "t_s": 4.699,
+      "ms": 37.20323181152344,
+      "tflops": 591.0839323563466
+    },
+    {
+      "t_s": 4.736,
+      "ms": 37.24860763549805,
+      "tflops": 590.3638807310273
+    },
+    {
+      "t_s": 4.774,
+      "ms": 37.20755386352539,
+      "tflops": 591.0152716886087
+    },
+    {
+      "t_s": 4.81,
+      "ms": 36.69657516479492,
+      "tflops": 599.244819353509
+    },
+    {
+      "t_s": 4.847,
+      "ms": 36.7336311340332,
+      "tflops": 598.6403161528551
+    },
+    {
+      "t_s": 4.884,
+      "ms": 36.80278396606445,
+      "tflops": 597.5154644767366
+    },
+    {
+      "t_s": 4.921,
+      "ms": 37.45507049560547,
+      "tflops": 587.1096293384383
+    },
+    {
+      "t_s": 4.959,
+      "ms": 37.145023345947266,
+      "tflops": 592.0101961093333
+    },
+    {
+      "t_s": 4.996,
+      "ms": 37.13884735107422,
+      "tflops": 592.1086442895204
+    },
+    {
+      "t_s": 5.033,
+      "ms": 37.41408157348633,
+      "tflops": 587.7528361167492
+    },
+    {
+      "t_s": 5.071,
+      "ms": 37.57078552246094,
+      "tflops": 585.3013784439929
+    },
+    {
+      "t_s": 5.108,
+      "ms": 37.51264190673828,
+      "tflops": 586.2085803018305
+    },
+    {
+      "t_s": 5.146,
+      "ms": 37.55571365356445,
+      "tflops": 585.5362717473719
+    },
+    {
+      "t_s": 5.184,
+      "ms": 37.519775390625,
+      "tflops": 586.0971268238097
+    },
+    {
+      "t_s": 5.221,
+      "ms": 37.450496673583984,
+      "tflops": 587.1813329255788
+    },
+    {
+      "t_s": 5.258,
+      "ms": 37.21958541870117,
+      "tflops": 590.8242208541876
+    },
+    {
+      "t_s": 5.295,
+      "ms": 37.16649627685547,
+      "tflops": 591.6681624147036
+    },
+    {
+      "t_s": 5.333,
+      "ms": 37.174495697021484,
+      "tflops": 591.540843882434
+    },
+    {
+      "t_s": 5.37,
+      "ms": 37.18732833862305,
+      "tflops": 591.336714358175
+    },
+    {
+      "t_s": 5.407,
+      "ms": 37.25193786621094,
+      "tflops": 590.3111036665306
+    },
+    {
+      "t_s": 5.445,
+      "ms": 37.470558166503906,
+      "tflops": 586.86695986231
+    },
+    {
+      "t_s": 5.482,
+      "ms": 37.61663818359375,
+      "tflops": 584.5879275067939
+    },
+    {
+      "t_s": 5.52,
+      "ms": 37.5115852355957,
+      "tflops": 586.225093325379
+    },
+    {
+      "t_s": 5.557,
+      "ms": 37.34636688232422,
+      "tflops": 588.8185221553058
+    },
+    {
+      "t_s": 5.595,
+      "ms": 37.54569625854492,
+      "tflops": 585.692495994539
+    },
+    {
+      "t_s": 5.632,
+      "ms": 37.46931076049805,
+      "tflops": 586.88649748805
+    },
+    {
+      "t_s": 5.67,
+      "ms": 37.20982360839844,
+      "tflops": 590.9792206205648
+    },
+    {
+      "t_s": 5.707,
+      "ms": 37.17203140258789,
+      "tflops": 591.5800596786607
+    },
+    {
+      "t_s": 5.744,
+      "ms": 37.19945526123047,
+      "tflops": 591.143940175876
+    },
+    {
+      "t_s": 5.782,
+      "ms": 37.53936004638672,
+      "tflops": 585.7913541506051
+    },
+    {
+      "t_s": 5.819,
+      "ms": 37.72825622558594,
+      "tflops": 582.8584396807352
+    },
+    {
+      "t_s": 5.857,
+      "ms": 37.847198486328125,
+      "tflops": 581.0266924634784
+    },
+    {
+      "t_s": 5.895,
+      "ms": 37.747169494628906,
+      "tflops": 582.5663976910645
+    },
+    {
+      "t_s": 5.933,
+      "ms": 37.55593490600586,
+      "tflops": 585.532822190598
+    },
+    {
+      "t_s": 5.97,
+      "ms": 37.45657730102539,
+      "tflops": 587.0860110573426
+    },
+    {
+      "t_s": 6.007,
+      "ms": 36.82352066040039,
+      "tflops": 597.1789812908371
+    },
+    {
+      "t_s": 6.044,
+      "ms": 36.77257537841797,
+      "tflops": 598.0063220817052
+    },
+    {
+      "t_s": 6.081,
+      "ms": 36.74143981933594,
+      "tflops": 598.5130866849477
+    },
+    {
+      "t_s": 6.12,
+      "ms": 37.10281753540039,
+      "tflops": 592.6836293372805
+    },
+    {
+      "t_s": 6.158,
+      "ms": 37.48393630981445,
+      "tflops": 586.6575050647036
+    },
+    {
+      "t_s": 6.195,
+      "ms": 37.15324783325195,
+      "tflops": 591.8791448385532
+    },
+    {
+      "t_s": 6.232,
+      "ms": 37.20499038696289,
+      "tflops": 591.0559934783819
+    },
+    {
+      "t_s": 6.27,
+      "ms": 37.14633560180664,
+      "tflops": 591.9892823681506
+    },
+    {
+      "t_s": 6.307,
+      "ms": 37.136478424072266,
+      "tflops": 592.1464147571327
+    },
+    {
+      "t_s": 6.344,
+      "ms": 37.208736419677734,
+      "tflops": 590.9964882303965
+    },
+    {
+      "t_s": 6.381,
+      "ms": 37.231231689453125,
+      "tflops": 590.6394056189497
+    },
+    {
+      "t_s": 6.419,
+      "ms": 37.410430908203125,
+      "tflops": 587.8101914805295
+    },
+    {
+      "t_s": 6.456,
+      "ms": 37.57484817504883,
+      "tflops": 585.2380947242889
+    },
+    {
+      "t_s": 6.493,
+      "ms": 37.062721252441406,
+      "tflops": 593.3248237694218
+    },
+    {
+      "t_s": 6.53,
+      "ms": 36.79536056518555,
+      "tflops": 597.636012196776
+    },
+    {
+      "t_s": 6.567,
+      "ms": 36.700321197509766,
+      "tflops": 599.1836539297675
+    },
+    {
+      "t_s": 6.604,
+      "ms": 37.00883102416992,
+      "tflops": 594.1887908093747
+    },
+    {
+      "t_s": 6.641,
+      "ms": 37.11820983886719,
+      "tflops": 592.4378533065354
+    },
+    {
+      "t_s": 6.678,
+      "ms": 37.11276626586914,
+      "tflops": 592.5247500546295
+    },
+    {
+      "t_s": 6.716,
+      "ms": 37.366943359375,
+      "tflops": 588.4942834106035
+    },
+    {
+      "t_s": 6.753,
+      "ms": 37.491424560546875,
+      "tflops": 586.5403305763112
+    },
+    {
+      "t_s": 6.791,
+      "ms": 37.57302474975586,
+      "tflops": 585.2664964287413
+    },
+    {
+      "t_s": 6.828,
+      "ms": 37.24959945678711,
+      "tflops": 590.3481614891095
+    },
+    {
+      "t_s": 6.866,
+      "ms": 37.23945617675781,
+      "tflops": 590.508960473078
+    },
+    {
+      "t_s": 6.903,
+      "ms": 37.523582458496094,
+      "tflops": 586.0376625777363
+    },
+    {
+      "t_s": 6.94,
+      "ms": 37.24342346191406,
+      "tflops": 590.446057624313
+    },
+    {
+      "t_s": 6.978,
+      "ms": 37.18425750732422,
+      "tflops": 591.3855494139841
+    },
+    {
+      "t_s": 7.015,
+      "ms": 37.15097427368164,
+      "tflops": 591.9153665667992
+    },
+    {
+      "t_s": 7.052,
+      "ms": 37.236961364746094,
+      "tflops": 590.5485235521699
+    },
+    {
+      "t_s": 7.09,
+      "ms": 37.55686569213867,
+      "tflops": 585.5183107072471
+    },
+    {
+      "t_s": 7.127,
+      "ms": 37.52707290649414,
+      "tflops": 585.9831543566656
+    },
+    {
+      "t_s": 7.165,
+      "ms": 37.5338249206543,
+      "tflops": 585.8777409978035
+    },
+    {
+      "t_s": 7.202,
+      "ms": 37.05718231201172,
+      "tflops": 593.4135080851003
+    },
+    {
+      "t_s": 7.239,
+      "ms": 36.951358795166016,
+      "tflops": 595.112961269418
+    },
+    {
+      "t_s": 7.276,
+      "ms": 36.83046340942383,
+      "tflops": 597.0664097018489
+    },
+    {
+      "t_s": 7.313,
+      "ms": 37.2918701171875,
+      "tflops": 589.6789966933005
+    },
+    {
+      "t_s": 7.35,
+      "ms": 37.15584182739258,
+      "tflops": 591.8378234484795
+    },
+    {
+      "t_s": 7.388,
+      "ms": 37.489376068115234,
+      "tflops": 586.5723802808958
+    },
+    {
+      "t_s": 7.425,
+      "ms": 37.40886306762695,
+      "tflops": 587.8348271575782
+    },
+    {
+      "t_s": 7.463,
+      "ms": 37.44294357299805,
+      "tflops": 587.2997808692114
+    },
+    {
+      "t_s": 7.5,
+      "ms": 37.473472595214844,
+      "tflops": 586.8213173904794
+    },
+    {
+      "t_s": 7.538,
+      "ms": 37.511009216308594,
+      "tflops": 586.2340954015
+    },
+    {
+      "t_s": 7.575,
+      "ms": 37.46886444091797,
+      "tflops": 586.8934883306875
+    },
+    {
+      "t_s": 7.613,
+      "ms": 37.248287200927734,
+      "tflops": 590.3689594342554
+    },
+    {
+      "t_s": 7.65,
+      "ms": 37.21392059326172,
+      "tflops": 590.9141580611031
+    },
+    {
+      "t_s": 7.687,
+      "ms": 37.28179168701172,
+      "tflops": 589.8384053033852
+    },
+    {
+      "t_s": 7.725,
+      "ms": 37.553470611572266,
+      "tflops": 585.5712454108999
+    },
+    {
+      "t_s": 7.763,
+      "ms": 37.80575942993164,
+      "tflops": 581.6635583336505
+    },
+    {
+      "t_s": 7.8,
+      "ms": 37.352928161621094,
+      "tflops": 588.7150924385693
+    },
+    {
+      "t_s": 7.837,
+      "ms": 37.1864013671875,
+      "tflops": 591.3514550220425
+    },
+    {
+      "t_s": 7.874,
+      "ms": 37.183616638183594,
+      "tflops": 591.3957420951459
+    },
+    {
+      "t_s": 7.912,
+      "ms": 37.64992141723633,
+      "tflops": 584.0711408617377
+    },
+    {
+      "t_s": 7.95,
+      "ms": 37.55062484741211,
+      "tflops": 585.6156227726663
+    },
+    {
+      "t_s": 7.987,
+      "ms": 37.38742446899414,
+      "tflops": 588.1719018585186
+    },
+    {
+      "t_s": 8.024,
+      "ms": 36.591102600097656,
+      "tflops": 600.9721214430228
+    },
+    {
+      "t_s": 8.06,
+      "ms": 36.681312561035156,
+      "tflops": 599.494157111466
+    },
+    {
+      "t_s": 8.098,
+      "ms": 37.00092697143555,
+      "tflops": 594.3157200492924
+    },
+    {
+      "t_s": 8.135,
+      "ms": 37.11033630371094,
+      "tflops": 592.5635482134134
+    },
+    {
+      "t_s": 8.172,
+      "ms": 37.29529571533203,
+      "tflops": 589.624834278492
+    },
+    {
+      "t_s": 8.209,
+      "ms": 37.10678482055664,
+      "tflops": 592.6202623553016
+    },
+    {
+      "t_s": 8.247,
+      "ms": 37.487998962402344,
+      "tflops": 586.5939277680453
+    },
+    {
+      "t_s": 8.284,
+      "ms": 37.37958526611328,
+      "tflops": 588.2952525815045
+    },
+    {
+      "t_s": 8.322,
+      "ms": 37.436927795410156,
+      "tflops": 587.3941546618055
+    },
+    {
+      "t_s": 8.359,
+      "ms": 37.29750442504883,
+      "tflops": 589.5899174624526
+    },
+    {
+      "t_s": 8.396,
+      "ms": 37.39932632446289,
+      "tflops": 587.984723701726
+    },
+    {
+      "t_s": 8.434,
+      "ms": 37.46700668334961,
+      "tflops": 586.9225887557357
+    },
+    {
+      "t_s": 8.471,
+      "ms": 37.19996643066406,
+      "tflops": 591.135817192388
+    },
+    {
+      "t_s": 8.508,
+      "ms": 37.1828498840332,
+      "tflops": 591.4079373717636
+    },
+    {
+      "t_s": 8.546,
+      "ms": 37.152801513671875,
+      "tflops": 591.8862551301228
+    },
+    {
+      "t_s": 8.583,
+      "ms": 37.36969757080078,
+      "tflops": 588.4509103627937
+    },
+    {
+      "t_s": 8.62,
+      "ms": 37.09977722167969,
+      "tflops": 592.7321995526634
+    },
+    {
+      "t_s": 8.658,
+      "ms": 37.40480041503906,
+      "tflops": 587.8986737402442
+    },
+    {
+      "t_s": 8.695,
+      "ms": 37.4620475769043,
+      "tflops": 587.0002836971779
+    },
+    {
+      "t_s": 8.732,
+      "ms": 37.40009689331055,
+      "tflops": 587.9726092221225
+    },
+    {
+      "t_s": 8.77,
+      "ms": 37.36550521850586,
+      "tflops": 588.5169336511202
+    },
+    {
+      "t_s": 8.807,
+      "ms": 37.36393737792969,
+      "tflops": 588.5416286054825
+    },
+    {
+      "t_s": 8.845,
+      "ms": 37.19472122192383,
+      "tflops": 591.2191793108054
+    },
+    {
+      "t_s": 8.882,
+      "ms": 37.1071662902832,
+      "tflops": 592.6141700903286
+    },
+    {
+      "t_s": 8.919,
+      "ms": 37.34860610961914,
+      "tflops": 588.7832196729936
+    },
+    {
+      "t_s": 8.957,
+      "ms": 37.46227264404297,
+      "tflops": 586.9967570965495
+    },
+    {
+      "t_s": 8.994,
+      "ms": 37.42214584350586,
+      "tflops": 587.6261785596168
+    },
+    {
+      "t_s": 9.032,
+      "ms": 37.53411102294922,
+      "tflops": 585.8732751676113
+    },
+    {
+      "t_s": 9.069,
+      "ms": 37.67795181274414,
+      "tflops": 583.6366229462094
+    },
+    {
+      "t_s": 9.107,
+      "ms": 37.888511657714844,
+      "tflops": 580.3931480386445
+    },
+    {
+      "t_s": 9.145,
+      "ms": 37.95276641845703,
+      "tflops": 579.4105313183652
+    },
+    {
+      "t_s": 9.183,
+      "ms": 37.41446304321289,
+      "tflops": 587.7468435166838
+    },
+    {
+      "t_s": 9.22,
+      "ms": 37.427391052246094,
+      "tflops": 587.5438265206124
+    },
+    {
+      "t_s": 9.257,
+      "ms": 37.25894546508789,
+      "tflops": 590.2000789615779
+    },
+    {
+      "t_s": 9.295,
+      "ms": 37.19059371948242,
+      "tflops": 591.2847942516265
+    },
+    {
+      "t_s": 9.331,
+      "ms": 36.75049591064453,
+      "tflops": 598.3656005346768
+    },
+    {
+      "t_s": 9.368,
+      "ms": 36.8831672668457,
+      "tflops": 596.213237231582
+    },
+    {
+      "t_s": 9.406,
+      "ms": 37.284385681152344,
+      "tflops": 589.7973683561668
+    },
+    {
+      "t_s": 9.443,
+      "ms": 37.552608489990234,
+      "tflops": 585.584688780849
+    },
+    {
+      "t_s": 9.481,
+      "ms": 37.57088088989258,
+      "tflops": 585.2998927538022
+    },
+    {
+      "t_s": 9.518,
+      "ms": 37.31532669067383,
+      "tflops": 589.3083219613347
+    },
+    {
+      "t_s": 9.556,
+      "ms": 37.32931137084961,
+      "tflops": 589.0875493806224
+    },
+    {
+      "t_s": 9.593,
+      "ms": 37.557151794433594,
+      "tflops": 585.51385035484
+    },
+    {
+      "t_s": 9.631,
+      "ms": 37.29587173461914,
+      "tflops": 589.6157277672104
+    },
+    {
+      "t_s": 9.668,
+      "ms": 37.25078582763672,
+      "tflops": 590.3293599568907
+    },
+    {
+      "t_s": 9.705,
+      "ms": 37.275169372558594,
+      "tflops": 589.9431961188852
+    },
+    {
+      "t_s": 9.742,
+      "ms": 37.28956985473633,
+      "tflops": 589.715371917247
+    },
+    {
+      "t_s": 9.78,
+      "ms": 37.205345153808594,
+      "tflops": 591.0503575389873
+    },
+    {
+      "t_s": 9.817,
+      "ms": 37.24863815307617,
+      "tflops": 590.3633970495628
+    },
+    {
+      "t_s": 9.854,
+      "ms": 37.1495361328125,
+      "tflops": 591.9382809223565
+    },
+    {
+      "t_s": 9.892,
+      "ms": 37.25779342651367,
+      "tflops": 590.2183283852539
+    },
+    {
+      "t_s": 9.929,
+      "ms": 37.17033767700195,
+      "tflops": 591.6070159654698
+    },
+    {
+      "t_s": 9.966,
+      "ms": 37.57676696777344,
+      "tflops": 585.2082105514626
+    },
+    {
+      "t_s": 10.004,
+      "ms": 37.44512176513672,
+      "tflops": 587.2656174934383
+    },
+    {
+      "t_s": 10.041,
+      "ms": 37.316097259521484,
+      "tflops": 589.2961528796804
+    },
+    {
+      "t_s": 10.079,
+      "ms": 37.50175857543945,
+      "tflops": 586.3787030489226
+    },
+    {
+      "t_s": 10.116,
+      "ms": 37.459999084472656,
+      "tflops": 587.0323836883127
+    },
+    {
+      "t_s": 10.153,
+      "ms": 37.16851043701172,
+      "tflops": 591.6360999396557
+    },
+    {
+      "t_s": 10.191,
+      "ms": 37.25331115722656,
+      "tflops": 590.2893426764359
+    },
+    {
+      "t_s": 10.228,
+      "ms": 37.14547348022461,
+      "tflops": 592.0030220432401
+    },
+    {
+      "t_s": 10.265,
+      "ms": 37.18899154663086,
+      "tflops": 591.3102679309465
+    },
+    {
+      "t_s": 10.303,
+      "ms": 37.742401123046875,
+      "tflops": 582.6399990776414
+    },
+    {
+      "t_s": 10.341,
+      "ms": 37.78492736816406,
+      "tflops": 581.9842484082161
+    },
+    {
+      "t_s": 10.379,
+      "ms": 37.80400085449219,
+      "tflops": 581.6906162964214
+    },
+    {
+      "t_s": 10.416,
+      "ms": 37.46761703491211,
+      "tflops": 586.9130277228368
+    },
+    {
+      "t_s": 10.453,
+      "ms": 37.208030700683594,
+      "tflops": 591.0076975698686
+    },
+    {
+      "t_s": 10.491,
+      "ms": 37.21635055541992,
+      "tflops": 590.8755755826655
+    },
+    {
+      "t_s": 10.528,
+      "ms": 37.26358413696289,
+      "tflops": 590.1266092572994
+    },
+    {
+      "t_s": 10.565,
+      "ms": 37.15929412841797,
+      "tflops": 591.7828384878477
+    },
+    {
+      "t_s": 10.602,
+      "ms": 37.21129608154297,
+      "tflops": 590.9558352208885
+    },
+    {
+      "t_s": 10.64,
+      "ms": 37.31785583496094,
+      "tflops": 589.2683827487919
+    },
+    {
+      "t_s": 10.677,
+      "ms": 37.09660720825195,
+      "tflops": 592.7828502502078
+    },
+    {
+      "t_s": 10.714,
+      "ms": 37.20444869995117,
+      "tflops": 591.0645990985712
+    },
+    {
+      "t_s": 10.751,
+      "ms": 37.1657600402832,
+      "tflops": 591.6798830882307
+    },
+    {
+      "t_s": 10.789,
+      "ms": 37.227073669433594,
+      "tflops": 590.7053761675536
+    },
+    {
+      "t_s": 10.826,
+      "ms": 37.15571212768555,
+      "tflops": 591.8398893809543
+    },
+    {
+      "t_s": 10.863,
+      "ms": 37.161441802978516,
+      "tflops": 591.748637528845
+    },
+    {
+      "t_s": 10.9,
+      "ms": 37.36492919921875,
+      "tflops": 588.5260062524028
+    },
+    {
+      "t_s": 10.938,
+      "ms": 37.47398376464844,
+      "tflops": 586.8133127672635
+    },
+    {
+      "t_s": 10.975,
+      "ms": 37.504032135009766,
+      "tflops": 586.3431557534386
+    },
+    {
+      "t_s": 11.013,
+      "ms": 37.15510559082031,
+      "tflops": 591.8495508448506
+    },
+    {
+      "t_s": 11.05,
+      "ms": 37.15568161010742,
+      "tflops": 591.8403754848092
+    },
+    {
+      "t_s": 11.087,
+      "ms": 37.16371154785156,
+      "tflops": 591.7124969395383
+    },
+    {
+      "t_s": 11.124,
+      "ms": 37.298240661621094,
+      "tflops": 589.5782794427452
+    },
+    {
+      "t_s": 11.162,
+      "ms": 37.079551696777344,
+      "tflops": 593.0555130587303
+    },
+    {
+      "t_s": 11.199,
+      "ms": 37.21769714355469,
+      "tflops": 590.8541968811265
+    },
+    {
+      "t_s": 11.236,
+      "ms": 37.42176055908203,
+      "tflops": 587.632228601364
+    },
+    {
+      "t_s": 11.274,
+      "ms": 37.719966888427734,
+      "tflops": 582.9865286087107
+    },
+    {
+      "t_s": 11.312,
+      "ms": 37.76688003540039,
+      "tflops": 582.2623561943079
+    },
+    {
+      "t_s": 11.35,
+      "ms": 37.71206283569336,
+      "tflops": 583.1087164690151
+    },
+    {
+      "t_s": 11.387,
+      "ms": 37.515777587890625,
+      "tflops": 586.1595832314036
+    },
+    {
+      "t_s": 11.424,
+      "ms": 37.32777786254883,
+      "tflops": 589.111750409952
+    },
+    {
+      "t_s": 11.462,
+      "ms": 37.24275207519531,
+      "tflops": 590.4567017797295
+    },
+    {
+      "t_s": 11.499,
+      "ms": 37.14739227294922,
+      "tflops": 591.9724430167691
+    },
+    {
+      "t_s": 11.536,
+      "ms": 37.35113525390625,
+      "tflops": 588.7433516018826
+    },
+    {
+      "t_s": 11.574,
+      "ms": 37.30908966064453,
+      "tflops": 589.40683773146
+    },
+    {
+      "t_s": 11.611,
+      "ms": 37.24800109863281,
+      "tflops": 590.3734940645486
+    },
+    {
+      "t_s": 11.648,
+      "ms": 37.051841735839844,
+      "tflops": 593.4990414862182
+    },
+    {
+      "t_s": 11.685,
+      "ms": 37.09836959838867,
+      "tflops": 592.7546895881678
+    },
+    {
+      "t_s": 11.722,
+      "ms": 37.1497917175293,
+      "tflops": 591.9342084802003
+    },
+    {
+      "t_s": 11.76,
+      "ms": 37.19139099121094,
+      "tflops": 591.2721188814027
+    },
+    {
+      "t_s": 11.797,
+      "ms": 37.1346549987793,
+      "tflops": 592.1754909596675
+    },
+    {
+      "t_s": 11.834,
+      "ms": 37.18492889404297,
+      "tflops": 591.3748717438812
+    },
+    {
+      "t_s": 11.871,
+      "ms": 37.082462310791016,
+      "tflops": 593.0089639468421
+    },
+    {
+      "t_s": 11.908,
+      "ms": 36.71744155883789,
+      "tflops": 598.904270611604
+    },
+    {
+      "t_s": 11.944,
+      "ms": 36.506046295166016,
+      "tflops": 602.3723406725602
+    },
+    {
+      "t_s": 11.981,
+      "ms": 36.73737716674805,
+      "tflops": 598.579274064887
+    },
+    {
+      "t_s": 12.019,
+      "ms": 37.46944046020508,
+      "tflops": 586.8844659923603
+    },
+    {
+      "t_s": 12.056,
+      "ms": 37.489662170410156,
+      "tflops": 586.5679038547445
+    },
+    {
+      "t_s": 12.094,
+      "ms": 37.174110412597656,
+      "tflops": 591.5469748017937
+    },
+    {
+      "t_s": 12.131,
+      "ms": 37.16998291015625,
+      "tflops": 591.612662525907
+    },
+    {
+      "t_s": 12.168,
+      "ms": 37.18819046020508,
+      "tflops": 591.3230055937154
+    },
+    {
+      "t_s": 12.205,
+      "ms": 37.19491195678711,
+      "tflops": 591.2161475491099
+    },
+    {
+      "t_s": 12.243,
+      "ms": 37.680320739746094,
+      "tflops": 583.5999302501739
+    },
+    {
+      "t_s": 12.281,
+      "ms": 37.60678482055664,
+      "tflops": 584.7410955349656
+    },
+    {
+      "t_s": 12.318,
+      "ms": 37.0302734375,
+      "tflops": 593.8447252525773
+    },
+    {
+      "t_s": 12.355,
+      "ms": 36.88479995727539,
+      "tflops": 596.1868460989851
+    },
+    {
+      "t_s": 12.392,
+      "ms": 37.1668815612793,
+      "tflops": 591.662028983071
+    },
+    {
+      "t_s": 12.429,
+      "ms": 37.31129455566406,
+      "tflops": 589.3720069860658
+    },
+    {
+      "t_s": 12.466,
+      "ms": 37.0365104675293,
+      "tflops": 593.7447204914002
+    },
+    {
+      "t_s": 12.503,
+      "ms": 37.05740737915039,
+      "tflops": 593.4099040045733
+    },
+    {
+      "t_s": 12.54,
+      "ms": 37.091552734375,
+      "tflops": 592.8636288968381
+    },
+    {
+      "t_s": 12.578,
+      "ms": 37.152225494384766,
+      "tflops": 591.8954319127835
+    },
+    {
+      "t_s": 12.614,
+      "ms": 36.69935989379883,
+      "tflops": 599.1993489574661
+    },
+    {
+      "t_s": 12.651,
+      "ms": 36.69251251220703,
+      "tflops": 599.3111686806453
+    },
+    {
+      "t_s": 12.688,
+      "ms": 36.87305450439453,
+      "tflops": 596.3767540033659
+    },
+    {
+      "t_s": 12.725,
+      "ms": 37.01939010620117,
+      "tflops": 594.0193096762116
+    },
+    {
+      "t_s": 12.762,
+      "ms": 37.05712127685547,
+      "tflops": 593.4144854704163
+    },
+    {
+      "t_s": 12.799,
+      "ms": 37.08345413208008,
+      "tflops": 592.9931035333824
+    },
+    {
+      "t_s": 12.837,
+      "ms": 37.22585678100586,
+      "tflops": 590.7246859322875
+    },
+    {
+      "t_s": 12.874,
+      "ms": 37.4450569152832,
+      "tflops": 587.2666345593051
+    },
+    {
+      "t_s": 12.911,
+      "ms": 36.953311920166016,
+      "tflops": 595.0815072550934
+    },
+    {
+      "t_s": 12.948,
+      "ms": 36.75068664550781,
+      "tflops": 598.3624950367549
+    },
+    {
+      "t_s": 12.985,
+      "ms": 36.90886306762695,
+      "tflops": 595.7981559938053
+    },
+    {
+      "t_s": 13.022,
+      "ms": 37.2507209777832,
+      "tflops": 590.3303876624361
+    },
+    {
+      "t_s": 13.059,
+      "ms": 37.26118469238281,
+      "tflops": 590.1646106280512
+    },
+    {
+      "t_s": 13.097,
+      "ms": 37.279903411865234,
+      "tflops": 589.8682813786763
+    },
+    {
+      "t_s": 13.134,
+      "ms": 37.314334869384766,
+      "tflops": 589.3239858755272
+    },
+    {
+      "t_s": 13.171,
+      "ms": 37.26505661010742,
+      "tflops": 590.103291284296
+    },
+    {
+      "t_s": 13.209,
+      "ms": 37.67891311645508,
+      "tflops": 583.6217326002554
+    },
+    {
+      "t_s": 13.247,
+      "ms": 38.048126220703125,
+      "tflops": 577.9583580006748
+    },
+    {
+      "t_s": 13.285,
+      "ms": 37.775390625,
+      "tflops": 582.1311756592854
+    },
+    {
+      "t_s": 13.323,
+      "ms": 37.68339157104492,
+      "tflops": 583.5523725103557
+    },
+    {
+      "t_s": 13.36,
+      "ms": 37.11155319213867,
+      "tflops": 592.5441180451102
+    },
+    {
+      "t_s": 13.397,
+      "ms": 37.24275207519531,
+      "tflops": 590.4567017797295
+    },
+    {
+      "t_s": 13.434,
+      "ms": 37.218143463134766,
+      "tflops": 590.8471113638893
+    },
+    {
+      "t_s": 13.472,
+      "ms": 37.11027145385742,
+      "tflops": 592.5645837126914
+    },
+    {
+      "t_s": 13.508,
+      "ms": 36.8682861328125,
+      "tflops": 596.45388658164
+    },
+    {
+      "t_s": 13.545,
+      "ms": 36.700992584228516,
+      "tflops": 599.1726928107619
+    },
+    {
+      "t_s": 13.582,
+      "ms": 36.637855529785156,
+      "tflops": 600.2052313799533
+    },
+    {
+      "t_s": 13.619,
+      "ms": 37.18035125732422,
+      "tflops": 591.4476816888089
+    },
+    {
+      "t_s": 13.656,
+      "ms": 37.16377639770508,
+      "tflops": 591.7114644161386
+    },
+    {
+      "t_s": 13.693,
+      "ms": 37.04012680053711,
+      "tflops": 593.6867515043476
+    },
+    {
+      "t_s": 13.731,
+      "ms": 37.2946891784668,
+      "tflops": 589.6344235579986
+    },
+    {
+      "t_s": 13.768,
+      "ms": 37.27132797241211,
+      "tflops": 590.0039991007824
+    },
+    {
+      "t_s": 13.805,
+      "ms": 37.221343994140625,
+      "tflops": 590.7963065219164
+    },
+    {
+      "t_s": 13.843,
+      "ms": 37.28316879272461,
+      "tflops": 589.8166188012201
+    },
+    {
+      "t_s": 13.88,
+      "ms": 37.228416442871094,
+      "tflops": 590.6840703059485
+    },
+    {
+      "t_s": 13.917,
+      "ms": 37.314144134521484,
+      "tflops": 589.3269982621832
+    },
+    {
+      "t_s": 13.955,
+      "ms": 37.2281608581543,
+      "tflops": 590.6881255645847
+    },
+    {
+      "t_s": 13.992,
+      "ms": 37.28220748901367,
+      "tflops": 589.8318269378251
+    },
+    {
+      "t_s": 14.029,
+      "ms": 37.25094223022461,
+      "tflops": 590.3268813876498
+    },
+    {
+      "t_s": 14.067,
+      "ms": 37.225440979003906,
+      "tflops": 590.7312842290586
+    },
+    {
+      "t_s": 14.105,
+      "ms": 37.71100616455078,
+      "tflops": 583.1250553105456
+    },
+    {
+      "t_s": 14.142,
+      "ms": 37.691585540771484,
+      "tflops": 583.4255110264033
+    },
+    {
+      "t_s": 14.18,
+      "ms": 37.88723373413086,
+      "tflops": 580.412724503294
+    },
+    {
+      "t_s": 14.218,
+      "ms": 37.241695404052734,
+      "tflops": 590.4734550062124
+    },
+    {
+      "t_s": 14.255,
+      "ms": 37.12489700317383,
+      "tflops": 592.3311397642408
+    },
+    {
+      "t_s": 14.292,
+      "ms": 37.38166427612305,
+      "tflops": 588.2625340885617
+    },
+    {
+      "t_s": 14.329,
+      "ms": 37.245697021484375,
+      "tflops": 590.4100154934787
+    },
+    {
+      "t_s": 14.367,
+      "ms": 37.21036911010742,
+      "tflops": 590.9705569017538
+    },
+    {
+      "t_s": 14.404,
+      "ms": 37.35718536376953,
+      "tflops": 588.6480028242972
+    },
+    {
+      "t_s": 14.441,
+      "ms": 37.20969772338867,
+      "tflops": 590.9812199763647
+    },
+    {
+      "t_s": 14.479,
+      "ms": 37.256446838378906,
+      "tflops": 590.2396610958415
+    },
+    {
+      "t_s": 14.516,
+      "ms": 37.38243103027344,
+      "tflops": 588.2504681868239
+    },
+    {
+      "t_s": 14.553,
+      "ms": 37.392513275146484,
+      "tflops": 588.0918566160182
+    },
+    {
+      "t_s": 14.591,
+      "ms": 37.21820831298828,
+      "tflops": 590.8460818584306
+    },
+    {
+      "t_s": 14.628,
+      "ms": 36.9977912902832,
+      "tflops": 594.3660902075345
+    },
+    {
+      "t_s": 14.665,
+      "ms": 36.95507049560547,
+      "tflops": 595.0531891999767
+    },
+    {
+      "t_s": 14.702,
+      "ms": 37.15590286254883,
+      "tflops": 591.8368512499526
+    },
+    {
+      "t_s": 14.739,
+      "ms": 37.143775939941406,
+      "tflops": 592.030077692599
+    },
+    {
+      "t_s": 14.776,
+      "ms": 37.30112075805664,
+      "tflops": 589.5327568882859
+    },
+    {
+      "t_s": 14.814,
+      "ms": 37.08582305908203,
+      "tflops": 592.9552249787472
+    },
+    {
+      "t_s": 14.851,
+      "ms": 37.214942932128906,
+      "tflops": 590.8979249444205
+    },
+    {
+      "t_s": 14.889,
+      "ms": 37.74233627319336,
+      "tflops": 582.6410001846825
+    },
+    {
+      "t_s": 14.926,
+      "ms": 37.679039001464844,
+      "tflops": 583.6197827302625
+    },
+    {
+      "t_s": 14.964,
+      "ms": 37.840736389160156,
+      "tflops": 581.1259149232444
+    },
+    {
+      "t_s": 15.002,
+      "ms": 37.42524719238281,
+      "tflops": 587.5774832556266
+    },
+    {
+      "t_s": 15.039,
+      "ms": 37.16368103027344,
+      "tflops": 591.7129828341497
+    },
+    {
+      "t_s": 15.076,
+      "ms": 37.3551025390625,
+      "tflops": 588.6808243271358
+    },
+    {
+      "t_s": 15.116,
+      "ms": 37.593631744384766,
+      "tflops": 584.9456818921095
+    },
+    {
+      "t_s": 15.153,
+      "ms": 37.32572937011719,
+      "tflops": 589.1440817530355
+    },
+    {
+      "t_s": 15.19,
+      "ms": 37.23088073730469,
+      "tflops": 590.6449732059701
+    },
+    {
+      "t_s": 15.228,
+      "ms": 37.51017761230469,
+      "tflops": 586.247092264005
+    },
+    {
+      "t_s": 15.265,
+      "ms": 37.16038513183594,
+      "tflops": 591.7654641496326
+    },
+    {
+      "t_s": 15.302,
+      "ms": 37.15580749511719,
+      "tflops": 591.8383703115545
+    },
+    {
+      "t_s": 15.339,
+      "ms": 37.10675048828125,
+      "tflops": 592.6208106652932
+    },
+    {
+      "t_s": 15.377,
+      "ms": 37.159934997558594,
+      "tflops": 591.7726324592536
+    },
+    {
+      "t_s": 15.413,
+      "ms": 36.71900939941406,
+      "tflops": 598.8786983962292
+    },
+    {
+      "t_s": 15.45,
+      "ms": 36.426849365234375,
+      "tflops": 603.6819801524581
+    },
+    {
+      "t_s": 15.487,
+      "ms": 37.135616302490234,
+      "tflops": 592.1601617271498
+    },
+    {
+      "t_s": 15.525,
+      "ms": 37.417537689208984,
+      "tflops": 587.6985476214771
+    },
+    {
+      "t_s": 15.562,
+      "ms": 37.47750473022461,
+      "tflops": 586.7581823766795
+    },
+    {
+      "t_s": 15.599,
+      "ms": 37.417598724365234,
+      "tflops": 587.6975889743724
+    },
+    {
+      "t_s": 15.637,
+      "ms": 37.52947235107422,
+      "tflops": 585.9456895585841
+    },
+    {
+      "t_s": 15.674,
+      "ms": 37.31020736694336,
+      "tflops": 589.3891808010486
+    },
+    {
+      "t_s": 15.712,
+      "ms": 37.255550384521484,
+      "tflops": 590.2538636137356
+    },
+    {
+      "t_s": 15.749,
+      "ms": 37.211936950683594,
+      "tflops": 590.9456576975102
+    },
+    {
+      "t_s": 15.786,
+      "ms": 37.12678527832031,
+      "tflops": 592.3010136932297
+    },
+    {
+      "t_s": 15.823,
+      "ms": 37.24739074707031,
+      "tflops": 590.3831681753343
+    },
+    {
+      "t_s": 15.861,
+      "ms": 37.277889251708984,
+      "tflops": 589.9001525284018
+    },
+    {
+      "t_s": 15.898,
+      "ms": 37.44627380371094,
+      "tflops": 587.2475502046017
+    },
+    {
+      "t_s": 15.936,
+      "ms": 37.72447967529297,
+      "tflops": 582.9167889072872
+    },
+    {
+      "t_s": 15.974,
+      "ms": 37.782657623291016,
+      "tflops": 582.019210368203
+    },
+    {
+      "t_s": 16.011,
+      "ms": 37.14838409423828,
+      "tflops": 591.9566379989778
+    },
+    {
+      "t_s": 16.048,
+      "ms": 37.03123092651367,
+      "tflops": 593.8293706509066
+    },
+    {
+      "t_s": 16.085,
+      "ms": 36.931968688964844,
+      "tflops": 595.4254088299011
+    },
+    {
+      "t_s": 16.122,
+      "ms": 37.04518508911133,
+      "tflops": 593.6056872876463
+    },
+    {
+      "t_s": 16.159,
+      "ms": 37.21916961669922,
+      "tflops": 590.8308213747355
+    },
+    {
+      "t_s": 16.197,
+      "ms": 37.220703125,
+      "tflops": 590.8064789015185
+    },
+    {
+      "t_s": 16.234,
+      "ms": 37.22003173828125,
+      "tflops": 590.8171360558724
+    },
+    {
+      "t_s": 16.271,
+      "ms": 37.30390548706055,
+      "tflops": 589.4887483871538
+    },
+    {
+      "t_s": 16.308,
+      "ms": 37.14195251464844,
+      "tflops": 592.0591424709635
+    },
+    {
+      "t_s": 16.346,
+      "ms": 37.14700698852539,
+      "tflops": 591.9785828859032
+    },
+    {
+      "t_s": 16.383,
+      "ms": 37.20195388793945,
+      "tflops": 591.1042366688444
+    },
+    {
+      "t_s": 16.42,
+      "ms": 37.22502517700195,
+      "tflops": 590.737882673235
+    },
+    {
+      "t_s": 16.457,
+      "ms": 37.278465270996094,
+      "tflops": 589.8910375108479
+    },
+    {
+      "t_s": 16.495,
+      "ms": 37.180641174316406,
+      "tflops": 591.4430698605162
+    },
+    {
+      "t_s": 16.532,
+      "ms": 37.48303985595703,
+      "tflops": 586.6715357139099
+    },
+    {
+      "t_s": 16.57,
+      "ms": 37.40147018432617,
+      "tflops": 587.9510202980053
+    },
+    {
+      "t_s": 16.607,
+      "ms": 37.46470260620117,
+      "tflops": 586.9586844626431
+    },
+    {
+      "t_s": 16.644,
+      "ms": 37.33145523071289,
+      "tflops": 589.0537194335906
+    },
+    {
+      "t_s": 16.682,
+      "ms": 37.14156723022461,
+      "tflops": 592.0652841387117
+    },
+    {
+      "t_s": 16.719,
+      "ms": 37.11891174316406,
+      "tflops": 592.4266505353512
+    },
+    {
+      "t_s": 16.756,
+      "ms": 37.187713623046875,
+      "tflops": 591.3305877963865
+    },
+    {
+      "t_s": 16.793,
+      "ms": 37.1297607421875,
+      "tflops": 592.2535485270256
+    },
+    {
+      "t_s": 16.831,
+      "ms": 37.23686218261719,
+      "tflops": 590.5500965058602
+    },
+    {
+      "t_s": 16.868,
+      "ms": 37.43539047241211,
+      "tflops": 587.4182766098202
+    },
+    {
+      "t_s": 16.906,
+      "ms": 37.83955383300781,
+      "tflops": 581.1440761845797
+    },
+    {
+      "t_s": 16.944,
+      "ms": 37.78752136230469,
+      "tflops": 581.9442970254347
+    },
+    {
+      "t_s": 16.981,
+      "ms": 37.78886413574219,
+      "tflops": 581.9236184641172
+    },
+    {
+      "t_s": 17.019,
+      "ms": 37.74409484863281,
+      "tflops": 582.6138537354948
+    },
+    {
+      "t_s": 17.057,
+      "ms": 37.517120361328125,
+      "tflops": 586.138604022154
+    },
+    {
+      "t_s": 17.094,
+      "ms": 36.98060989379883,
+      "tflops": 594.6422359899336
+    },
+    {
+      "t_s": 17.131,
+      "ms": 36.85798263549805,
+      "tflops": 596.6206228102438
+    },
+    {
+      "t_s": 17.168,
+      "ms": 36.7861442565918,
+      "tflops": 597.7857424288092
+    },
+    {
+      "t_s": 17.205,
+      "ms": 37.178558349609375,
+      "tflops": 591.4762038036649
+    },
+    {
+      "t_s": 17.243,
+      "ms": 37.671905517578125,
+      "tflops": 583.7302959166511
+    },
+    {
+      "t_s": 17.28,
+      "ms": 37.72995376586914,
+      "tflops": 582.8322158033643
+    },
+    {
+      "t_s": 17.318,
+      "ms": 37.697601318359375,
+      "tflops": 583.3324080704939
+    },
+    {
+      "t_s": 17.356,
+      "ms": 37.60044860839844,
+      "tflops": 584.839632753963
+    },
+    {
+      "t_s": 17.393,
+      "ms": 36.98262405395508,
+      "tflops": 594.6098503837309
+    },
+    {
+      "t_s": 17.429,
+      "ms": 36.68080139160156,
+      "tflops": 599.5025114297226
+    },
+    {
+      "t_s": 17.466,
+      "ms": 36.69011306762695,
+      "tflops": 599.3503621803444
+    },
+    {
+      "t_s": 17.503,
+      "ms": 36.998592376708984,
+      "tflops": 594.3532211069491
+    },
+    {
+      "t_s": 17.54,
+      "ms": 37.233985900878906,
+      "tflops": 590.5957158081461
+    },
+    {
+      "t_s": 17.578,
+      "ms": 37.13004684448242,
+      "tflops": 592.2489849696427
+    },
+    {
+      "t_s": 17.615,
+      "ms": 37.22409439086914,
+      "tflops": 590.752654036738
+    },
+    {
+      "t_s": 17.652,
+      "ms": 37.154144287109375,
+      "tflops": 591.8648639998286
+    },
+    {
+      "t_s": 17.689,
+      "ms": 37.16864013671875,
+      "tflops": 591.6340354296668
+    },
+    {
+      "t_s": 17.727,
+      "ms": 37.1759033203125,
+      "tflops": 591.5184458612679
+    },
+    {
+      "t_s": 17.764,
+      "ms": 37.11577606201172,
+      "tflops": 592.4767009796456
+    },
+    {
+      "t_s": 17.801,
+      "ms": 37.11289596557617,
+      "tflops": 592.5226793381174
+    },
+    {
+      "t_s": 17.838,
+      "ms": 37.25187301635742,
+      "tflops": 590.3121313085121
+    },
+    {
+      "t_s": 17.876,
+      "ms": 37.47683334350586,
+      "tflops": 586.7686939811995
+    },
+    {
+      "t_s": 17.913,
+      "ms": 37.471553802490234,
+      "tflops": 586.8513665440423
+    },
+    {
+      "t_s": 17.951,
+      "ms": 37.45391845703125,
+      "tflops": 587.1276881415797
+    },
+    {
+      "t_s": 17.988,
+      "ms": 37.05487823486328,
+      "tflops": 593.4504066142193
+    },
+    {
+      "t_s": 18.025,
+      "ms": 36.71123123168945,
+      "tflops": 599.0055854225297
+    },
+    {
+      "t_s": 18.061,
+      "ms": 36.752384185791016,
+      "tflops": 598.3348575252904
+    },
+    {
+      "t_s": 18.098,
+      "ms": 36.98713684082031,
+      "tflops": 594.5373022561402
+    },
+    {
+      "t_s": 18.136,
+      "ms": 37.15305709838867,
+      "tflops": 591.8821834037909
+    },
+    {
+      "t_s": 18.173,
+      "ms": 37.243934631347656,
+      "tflops": 590.4379538087568
+    },
+    {
+      "t_s": 18.211,
+      "ms": 37.715999603271484,
+      "tflops": 583.0478520212034
+    },
+    {
+      "t_s": 18.248,
+      "ms": 37.83478546142578,
+      "tflops": 581.217318595344
+    },
+    {
+      "t_s": 18.286,
+      "ms": 37.66969680786133,
+      "tflops": 583.7645221219523
+    },
+    {
+      "t_s": 18.324,
+      "ms": 37.48624038696289,
+      "tflops": 586.6214463899092
+    },
+    {
+      "t_s": 18.361,
+      "ms": 37.505088806152344,
+      "tflops": 586.3266360780545
+    },
+    {
+      "t_s": 18.398,
+      "ms": 36.891136169433594,
+      "tflops": 596.0844484301939
+    },
+    {
+      "t_s": 18.435,
+      "ms": 36.719905853271484,
+      "tflops": 598.8640777944921
+    },
+    {
+      "t_s": 18.472,
+      "ms": 36.64336013793945,
+      "tflops": 600.1150678524147
+    },
+    {
+      "t_s": 18.509,
+      "ms": 37.17488098144531,
+      "tflops": 591.5347130901574
+    },
+    {
+      "t_s": 18.546,
+      "ms": 37.19395065307617,
+      "tflops": 591.2314279446211
+    },
+    {
+      "t_s": 18.583,
+      "ms": 37.0700798034668,
+      "tflops": 593.2070465481834
+    },
+    {
+      "t_s": 18.62,
+      "ms": 37.177791595458984,
+      "tflops": 591.488402398973
+    },
+    {
+      "t_s": 18.657,
+      "ms": 37.086273193359375,
+      "tflops": 592.9480279905166
+    },
+    {
+      "t_s": 18.695,
+      "ms": 37.075809478759766,
+      "tflops": 593.1153726560686
+    },
+    {
+      "t_s": 18.732,
+      "ms": 37.32371139526367,
+      "tflops": 589.1759349074415
+    },
+    {
+      "t_s": 18.769,
+      "ms": 37.24972915649414,
+      "tflops": 590.3461059578258
+    },
+    {
+      "t_s": 18.806,
+      "ms": 37.098785400390625,
+      "tflops": 592.7480460125377
+    },
+    {
+      "t_s": 18.844,
+      "ms": 37.59308624267578,
+      "tflops": 584.9541698589413
+    },
+    {
+      "t_s": 18.882,
+      "ms": 37.47011184692383,
+      "tflops": 586.873950239498
+    },
+    {
+      "t_s": 18.919,
+      "ms": 37.5695686340332,
+      "tflops": 585.320336512985
+    },
+    {
+      "t_s": 18.957,
+      "ms": 37.60348892211914,
+      "tflops": 584.792347355431
+    },
+    {
+      "t_s": 18.994,
+      "ms": 37.133121490478516,
+      "tflops": 592.1999463782925
+    },
+    {
+      "t_s": 19.031,
+      "ms": 36.760929107666016,
+      "tflops": 598.1957771283377
+    },
+    {
+      "t_s": 19.068,
+      "ms": 36.83824157714844,
+      "tflops": 596.9403428083554
+    },
+    {
+      "t_s": 19.105,
+      "ms": 37.28281784057617,
+      "tflops": 589.822170887182
+    },
+    {
+      "t_s": 19.143,
+      "ms": 37.289249420166016,
+      "tflops": 589.7204394687463
+    },
+    {
+      "t_s": 19.18,
+      "ms": 37.57593536376953,
+      "tflops": 585.2211619653475
+    },
+    {
+      "t_s": 19.218,
+      "ms": 37.71148681640625,
+      "tflops": 583.117623088603
+    },
+    {
+      "t_s": 19.256,
+      "ms": 37.79094314575195,
+      "tflops": 581.8916048405608
+    },
+    {
+      "t_s": 19.293,
+      "ms": 37.5120964050293,
+      "tflops": 586.2171049595548
+    },
+    {
+      "t_s": 19.331,
+      "ms": 37.52899169921875,
+      "tflops": 585.9531940469847
+    },
+    {
+      "t_s": 19.368,
+      "ms": 37.48499298095703,
+      "tflops": 586.6409676718197
+    },
+    {
+      "t_s": 19.406,
+      "ms": 37.25507354736328,
+      "tflops": 590.2614184230043
+    },
+    {
+      "t_s": 19.443,
+      "ms": 37.18396759033203,
+      "tflops": 591.3901603452758
+    },
+    {
+      "t_s": 19.48,
+      "ms": 37.179840087890625,
+      "tflops": 591.4558132454733
+    },
+    {
+      "t_s": 19.518,
+      "ms": 37.33036804199219,
+      "tflops": 589.0708747040379
+    },
+    {
+      "t_s": 19.555,
+      "ms": 37.33977508544922,
+      "tflops": 588.9224695434568
+    },
+    {
+      "t_s": 19.592,
+      "ms": 37.21833419799805,
+      "tflops": 590.8440834168995
+    },
+    {
+      "t_s": 19.629,
+      "ms": 37.2213134765625,
+      "tflops": 590.796790913002
+    },
+    {
+      "t_s": 19.667,
+      "ms": 37.226463317871094,
+      "tflops": 590.7150611582077
+    },
+    {
+      "t_s": 19.704,
+      "ms": 37.16566467285156,
+      "tflops": 591.6814013441613
+    },
+    {
+      "t_s": 19.741,
+      "ms": 37.2723503112793,
+      "tflops": 589.987815951208
+    },
+    {
+      "t_s": 19.779,
+      "ms": 37.46611022949219,
+      "tflops": 586.9366320875754
+    },
+    {
+      "t_s": 19.817,
+      "ms": 37.80147171020508,
+      "tflops": 581.7295348737284
+    },
+    {
+      "t_s": 19.854,
+      "ms": 37.76995086669922,
+      "tflops": 582.21501619448
+    },
+    {
+      "t_s": 19.892,
+      "ms": 37.6789436340332,
+      "tflops": 583.621259903303
+    },
+    {
+      "t_s": 19.93,
+      "ms": 37.43574523925781,
+      "tflops": 587.4127098305888
+    },
+    {
+      "t_s": 19.967,
+      "ms": 37.22208023071289,
+      "tflops": 590.7846208277015
+    },
+    {
+      "t_s": 20.004,
+      "ms": 37.2509765625,
+      "tflops": 590.3263373142607
+    },
+    {
+      "t_s": 20.041,
+      "ms": 37.202335357666016,
+      "tflops": 591.0981755339891
+    },
+    {
+      "t_s": 20.079,
+      "ms": 37.20598220825195,
+      "tflops": 591.0402373584634
+    }
+  ],
+  "smi_q_first_sample": "\n==============NVSMI LOG==============\n\nTimestamp                                              : Sun Oct 18 13:09:44 2026\nDriver Version                                         : 595.71.05\nCUDA Version                                           : 13.2\n\nAttached GPUs                                          : 1\nGPU 00000009:01:00.0\n    Performance State                                  : P0\n    Clocks Event Reasons\n        Idle                                           : Not Active\n        Applications Clocks Setting                    : Not Active\n        SW Power Cap                                   : Not Active\n        HW Slowdown                                    : Not Active\n            HW Thermal Slowdown                        : Not Active\n            HW Power Brake Slowdown                    : Not Active\n        Sync Boost                                     : Not Active\n        SW Thermal Slowdown                            : Not Active\n        Display Clock Setting                          : Not Active\n    Clocks Event Reasons Counters\n        SW Power Capping                               : 503496453778 us\n        Sync Boost                                     : 0 us\n        SW Thermal Slowdown                            : 0 us\n        HW Thermal Slowdown                            : 0 us\n        HW Power Braking                               : 0 us\n    Sparse Operation Mode                              : Disabled\n    GPU Power Readings\n        Average Power Draw                             : 106.40 W\n        Instantaneous Power Draw                       : 136.13 W\n        Current Power Limit                            : 900.00 W\n        Requested Power Limit                          : 900.00 W\n        Default Power Limit                            : 900.00 W\n        Min Power Limit                                : 100.00 W\n        Max Power Limit                                : 900.00 W\n    Power Samples\n        Duration                                       : 2.36 sec\n        Number of Samples                              : 119\n        Max                                            : 271.75 W\n        Min                                            : 94.20 W\n        Avg                                            : 124.88 W\n    GPU Memory Power Readings \n        Average Power Draw                             : 20.30 W\n        Instantaneous Power Draw                       : N/A\n    Module Power Readings\n        Average Power Draw                             : 182.25 W\n        Instantaneous Power Draw                       : 211.24 W\n        Current Power Limit                            : 660.12 W\n        Requested Power Limit                          : 1000.00 W\n        Default Power Limit                            : 1000.00 W\n        Min Power Limit                                : 200.00 W\n        Max Power Limit                                : 1000.00 W\n    EDPp Multiplier                                    : 0.00%\n    Clocks\n        Graphics                                       : 1755 MHz\n        SM                                             : 1755 MHz\n        Memory                                         : 2619 MHz\n        Video                                          : 1545 MHz\n    Applications Clocks\n        Graphics                                       : Requested functionality has been deprecated\n        Memory                                         : Requested functionality has been deprecated\n    Default Applications Clocks\n        Graphics                                       : Requested functionality has been deprecated\n        Memory                                         : Requested functionality has been deprecated\n    Deferred Clocks\n        Memory                                         : N/A\n    Max Clocks\n        Graphics                                       : 1980 MHz\n        SM                                             : 1980 MHz\n        Memory                                         : 2619 MHz\n        Video                                          : 1545 MHz\n    Max Customer Boost Clocks\n        Graphics                                       : 1980 MHz\n    SM Clock Samples\n        Duration                                       : Not Found\n        Number of Samples                              : Not Found\n        Max                                            : Not Found\n        Min                                            : Not Found\n        Avg                                            : Not Found\n    Memory Clock Samples\n        Duration                                       : Not Found\n        Number of Samples                              : Not Found\n        Max                                            : Not Found\n        Min                                            : Not Found\n        Avg                                            : Not Found\n    Clock Policy\n        Auto Boost                                     : N/A\n        Auto Boost Default                             : N/A\n\n"
+}

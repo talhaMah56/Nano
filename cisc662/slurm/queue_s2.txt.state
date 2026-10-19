@@ -1,0 +1,4 @@
+3 3406171 /u/tmahmood1/project/nanochat/cisc662/slurm/s2_inductor_dump.sbatch
+4 3406173 /u/tmahmood1/project/nanochat/cisc662/slurm/s2_noise_band.sbatch
+6 3406282 /u/tmahmood1/project/nanochat/cisc662/slurm/s2_harness.sbatch
+7 3406329 /u/tmahmood1/project/nanochat/cisc662/slurm/s2_rerun.sbatch

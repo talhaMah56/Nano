@@ -42,7 +42,8 @@ run_step() {
     if "$@" > "$log" 2>&1; then
         echo "<<< [$(date +%H:%M:%S)] ok    ${name} ($(( $(date +%s) - t0 ))s)"
     else
-        echo "!!! [$(date +%H:%M:%S)] FAIL  ${name} rc=$? ($(( $(date +%s) - t0 ))s); tail of log:"
+        local rc=$?   # must be read first: the $(date ...) below would reset $?
+        echo "!!! [$(date +%H:%M:%S)] FAIL  ${name} rc=${rc} ($(( $(date +%s) - t0 ))s); tail of log:"
         tail -n 15 "$log" | sed 's/^/    /'
         FAILED_STEPS="${FAILED_STEPS} ${name}"
     fi

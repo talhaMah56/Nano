@@ -1,9 +1,9 @@
 # STATUS — read this first when resuming
 
-Last session: **S1 — 2026-10-17/18 — Talha (with Claude)**. Plan: [PLAN.md](PLAN.md) · tasks: [TASKS.md](TASKS.md) · rules: [AGENT_GUIDE.md](AGENT_GUIDE.md).
-SU: this session **0.33** | cumulative **0.33** / planned 25 (hard cap 40) | pool balance 6,604 SU (`accounts`, 2026-10-18 00:10).
-In-flight jobs: **none** (`squeue -u tmahmood1` empty).
-Storage: project uses 11 GB on `/work/nvme/bffp/tmahmood1/cisc662` (keep < 50 GB). Nothing is committed to git yet (see ADM-3).
+Last session: **S2 — 2026-10-18 (moved up from Tue 10-20) — Talha (with Claude)**. Plan: [PLAN.md](PLAN.md) · tasks: [TASKS.md](TASKS.md) · rules: [AGENT_GUIDE.md](AGENT_GUIDE.md) · findings: [findings.md](findings.md) · every job: [../results/RUNLOG.md](../results/RUNLOG.md).
+SU: S2 **0.263** (cap 1.5) | cumulative **0.597** / planned 25 (hard cap 40; pre-P1 limit 10, re-plan checkpoint 8) | pool balance 6,604 SU (`accounts`, 2026-10-18 13:35). `jobcharge -u tmahmood1 -d 30` shows 0.28 SU more: those are HW2 jobs on 10-12 (`hw2_run`/`hw2_ncu`, ghx4-interactive), not this project.
+In-flight jobs: **none**. Queue runner: `slurm/queue.sh` (tmux `cisc662`, windows `queue`/`queue2`; drained and exited).
+Storage: ≈ 11 GB on `/work/nvme/bffp/tmahmood1/cisc662` (+64 MB S2 ncu/debug profiles). Git: S1 committed as `a43b52f` on `cisc662` (by Talha, 10-18 12:14); **all S2 work is uncommitted** (needs the user's OK).
 
 ## How to resume
 ```bash
@@ -31,14 +31,26 @@ accounts | grep bffp; tail -3 $CISC662_WORK/logs/job_ledger.csv; squeue -u $USER
 
 Facts that set vs-compile targets (from traces + the Inductor-generated code in the project cache): eager `F.rms_norm` is already one fused kernel; Inductor fuses RoPE+QK-norm+scale forward into one kernel but at only ≈ 1.8 TB/s; Inductor's CE tail is 2 reduction kernels ≈ 6.4 GB/step (bf16 logits saved, softcap+log-softmax recomputed in the backward from per-row max/lse, dlogits written in place) with the forward at ≈ 0.95 TB/s — the vs-compile headroom is achieved bandwidth, not bytes; weight casts cost 0.66 GB/forward and 73% of decode bytes at b=1. Decode GPU b=1 varied 68–107 tok/s between S1 jobs (BAS-3 re-measures). `F.rms_norm(eps=None)` uses the fp32 epsilon 1.19e-7 in torch 2.9.1 (not the bf16 eps).
 
+## Done in S2 (2026-10-18; jobs 3406171, 3406173, 3406282, 3406329 — details and outputs in `results/RUNLOG.md`)
+- **Job queue + provenance:** `slurm/queue.sh` (bounded, ≤ 2 in flight, session-cap and 8-SU checks before every submit, halts on any non-COMPLETED job, archives script + git diff + untracked sources to `$CISC662_WORK/logs/submitted/`) with `slurm/queue_s2.txt`; `results/RUNLOG.md` + `results/runlog.csv` record every job (S1 back-filled).
+- **INF-1** `bench/kbench.py` (process-level trials, L2 flush, **queue pad**, host-time fields), `analysis/stats.py` (stratified bootstrap), `results/db/README.md`; smoke acceptance 5/5 PASS (3406329). **INF-3** `bench/ops_at_shapes.py`: 54 cases (27 ops × eager/compile) × 3 trials with CIs in `results/db/ops_baseline/` (3406329; the 3406282 rows are invalid, archived). **INF-2** `tests/` (ref_ops, tolerances, conftest, gates, 109 tests): GPU run 100 passed, 7 xfailed, 1 failed → the failure was test logic, fixed on the login node (CPU replay + login subset green; the GPU re-check rides in the S3 job). Eps fact confirmed on CUDA (bit-exact RMSNorm test passed).
+- **BAS-1 / D1** (3406171): `analysis/inductor_fusion.py` → `results/inductor_fusion_table.csv`, `findings.md#inductor-baseline`; KT-1..KT-4 cards now carry measured "Target vs compile" lines.
+- **BAS-2** (3406173): `analysis/losscurve.py`; envelope 0.00128, val-bpb Δ 5e-6 ⇒ G4 runs on its floors (0.01 / 0.005); `results/db/loss/noise_envelope.json`, `results/figures/loss_noise_band.png`.
+- **BAS-3** (3406282): `bench/platform_probe.py`, `analysis/decode_remeasure.py`, `slurm/s2_harness.sbatch`; `results/db/platform/clocks_3406282.json`, `results/db/decode/s2_remeasure.json`; `findings.md#platform-s2`.
+- **ADM-2 partly:** `HF_XET_CHUNK_CACHE_SIZE_BYTES=0` in env.sh; the three deletions (≈ 354 MB) were **blocked by the Claude Code auto-mode classifier** — the user runs them (command in "Next").
+- Fixed `run_step` logging rc=0 on failures (`_common.sh`).
+
 ## Gates status
-No optimized kernels yet. Harness (INF-1/INF-2) is the first S2 deliverable.
+No optimized kernels yet. Harness ready: G1/G2 machinery (`tests/tolerances.py`, `gates.py`), G4 machinery (`analysis/losscurve.py` + envelope). Tolerances final under amendment A1 (Decisions).
 
 ## Decisions
+- **D1 (S2, from BAS-1):** vs-compile targets — softcap+CE fwd 2.4–3.0× (Inductor at 30% of the roof), CE single-pass tail 2.4–2.9×; QK-norm+RoPE bwd 1.7–2.1× (2.09× the minimum bytes), fwd 1.3–1.6×; mixnorm/RMSNorm, relu², AdamW = parity (Inductor at the roof); Muon non-GEMM pointwise moves 4.8× its minimum (KT-8 stronger than planned; revisit at D4).
+- **Clock policy (BAS-3):** default clocks + `gpu_monitor.csv`; `--gpu-freq` is not honoured under the power cap; no pinned-clock repeats.
 - R12 frozen (PLAN.md §3). Timing metric = sum of dt over steps 10–109.
 - Budget: ≤ 10 SU before P1, 25 SU planned, 40 hard cap (PLAN.md §2).
 - AMD half: static tier guaranteed; measured tier only if Delta MI100/MI210 access arrives (D2 on 2026-11-03).
-- Pending: D1 (Inductor fusion facts, S2), D2 (access, 11-03), D3 (CE ≥ 1.3× vs compile, S5), D4 (scope freeze, S9), D5 (per-kernel go/no-go, S12), D6 (code freeze, 12-08).
+- **PLAN §7.3 amendment A1 (decided 2026-10-18, user delegated the call):** bf16 outputs are judged against the stock op where it cannot meet the absolute rule (max-abs ≤ 2× stock, cosine ≥ 0.9999, rtol/atol violations ≤ 2× stock's count — strict whenever stock meets it); attention ≤ 2× FA3 (4e-3 term dropped); dlogits rel-L2 ≤ 1e-2 and ≤ 2× stock. Implemented in `tests/tolerances.py`; login subset 75 passed / 0 xfail; GPU confirmation rides in the S3 job. Rationale: `findings.md#tolerance-a1`.
+- Pending: D2 (access, 11-03), D3 (CE ≥ 1.3× vs compile, S5), D4 (scope freeze, S9), D5 (per-kernel go/no-go, S12), D6 (code freeze, 12-08).
 
 ## Access status
 | Route | Status |
@@ -50,6 +62,10 @@ No optimized kernels yet. Harness (INF-1/INF-2) is the first S2 deliverable.
 | Hamza's DeltaAI account | unknown — check `sacctmgr show assoc account=bffp-dtai-gh format=user` |
 
 ## Known gotchas
+- **kbench timings need the queue pad** (now built in): without it, host overhead of compiled/autograd calls leaks into CUDA-event times (job 3406282 rows invalid). Never compare cold numbers across 3406282 and later jobs.
+- **GH200 power cap:** sustained tensor-core work runs at ≈ 1365 MHz / 545 W (`sw_power_cap`), bursts at 1980 MHz; always log clocks, interleave variants.
+- `--constraint=nvperf` is a no-op on DeltaAI (counters always on; sbatch prints a warning mentioning perf/xpmem — harmless, billing stays 1000 = 1 SU/h).
+- ncu with `--nvtx --target-processes application-only` inside the profiler window profiles one whole compiled step (915 launches) in ≈ 25 s; steps under ncu run at ≈ 138 ms instead of 80 ms (interception), irrelevant for counters.
 - **Login-node auto-killer (verified 2026-10-17 by an NCSA policy email):** any process outside Slurm that exceeds 30 CPU-minutes is killed. The victim was a filesystem-wide `bfs … / -name claude_skills` search spawned by the Claude Code harness (36 CPU-min). The tmux server was gone by 01:00 on 10-18. Rules now in AGENT_GUIDE.md §1: no searches from `/`/`$HOME`, split login-node batches, no perpetual loops, restart long Claude sessions. Check the VS Code Claude extension / skills settings for a bare `claude_skills` path that triggers a root search.
 - S1 jobs (≤ 45 min) started 8–29 s after becoming eligible; the one 1-h job was cancelled after 8 min pending with a start estimate 8 h out. Keep ≤ 30 min and submit a session's jobs together.
 - ncu ignores the `NANOCHAT_PROFILE_STEPS` window unless run with `--profile-from-start off`; a compiled R12 step has ≈ 915 kernel launches.
@@ -59,8 +75,8 @@ No optimized kernels yet. Harness (INF-1/INF-2) is the first S2 deliverable.
 - `test`/`full` partitions are staff-only; `ghx4-interactive` bills 2× and allows one job.
 - Scratch to delete (ADM-2): `$CISC662_WORK/scratch/toolchain-feasibility/{fa3_download,hf_home}` (~233 MB).
 
-## Next session (S2, Tue 2026-10-20) — first actions
-1. ADM-1 access requests (human, first hour) and ADM-5 budget check.
-2. INF-1 `kbench.py` + INF-2 `tests/` + INF-3 `ops_at_shapes.py`, validated in one 20-min job (`slurm/s2_harness.sbatch`) together with BAS-3 (clock probe).
-3. BAS-1 Inductor fusion facts (D1) and BAS-2 noise envelope — two more short jobs. Then update the KT-1..KT-4 "target vs compile" lines in TASKS.md.
-4. ADM-2 housekeeping; ADM-3 first commit (ask the user).
+## Next session (S3, Fri 2026-10-23; cap 1.0 SU) — first actions
+1. **User:** ADM-1 access requests (six routes; D2 on 11-03) — still not sent. Decide the PLAN §7.3 tolerance amendment (Decisions). OK to commit S2 work? Run the ADM-2 deletions: `rm -rf $CISC662_WORK/scratch/toolchain-feasibility/{fa3_download,hf_home} $CISC662_WORK/cache/hf/xet` (FA3 itself lives in `cache/hf/hub`, verified; untouched).
+2. KT-1 (RMSNorm/mixnorm) + KT-2 (qkrope) into `slurm/s3_kernels.sbatch`; its first step is `pytest cisc662/tests -q -rxs` (re-checks `test_qkrope_g1[r12]` on GPU). Baselines to beat are in `results/db/ops_baseline/` (3406329): e.g. qkrope fwd+bwd compile 317 µs, eager 1900 µs; mixnorm fwd+bwd compile 181 µs; RMSNorm(768) fwd 42.6 µs eager = compile.
+3. AMD-1 static pipeline and ANA-1 roofline v0 (login node; split work so no process passes ~20 CPU-min).
+4. Submit through the queue: append lines to a new `slurm/queue_s3.txt`, start `bash cisc662/slurm/queue.sh cisc662/slurm/queue_s3.txt 1.0` in tmux, add a **Result** line to RUNLOG.md after each job.

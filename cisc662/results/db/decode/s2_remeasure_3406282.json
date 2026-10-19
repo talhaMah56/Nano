@@ -1,0 +1,215 @@
+{
+  "job_id": "3406282",
+  "node": "gh147",
+  "batch_size": 1,
+  "cpu_bind": "numactl --physcpubind=0 --localalloc",
+  "cpu_1thread": {
+    "reps": [
+      {
+        "rep": 1,
+        "log": "/u/tmahmood1/project/nanochat/cisc662/results/runs/s2_harness_3406282/decode/cpu_r1.log",
+        "device": "cpu",
+        "threads": 1,
+        "dtype": "torch.float32",
+        "model_tag": "r12_conv",
+        "step": 2000,
+        "prompt_tokens": 512,
+        "decode_tokens": 256,
+        "decode_steps": 255,
+        "tok_per_sec": 33.0205391417619,
+        "tpot_ms": 30.216229846701026,
+        "ttft_ms": 1583.4435510914773
+      },
+      {
+        "rep": 2,
+        "log": "/u/tmahmood1/project/nanochat/cisc662/results/runs/s2_harness_3406282/decode/cpu_r2.log",
+        "device": "cpu",
+        "threads": 1,
+        "dtype": "torch.float32",
+        "model_tag": "r12_conv",
+        "step": 2000,
+        "prompt_tokens": 512,
+        "decode_tokens": 256,
+        "decode_steps": 255,
+        "tok_per_sec": 33.616702404391205,
+        "tpot_ms": 29.76309391669929,
+        "ttft_ms": 1577.8573960997164
+      },
+      {
+        "rep": 3,
+        "log": "/u/tmahmood1/project/nanochat/cisc662/results/runs/s2_harness_3406282/decode/cpu_r3.log",
+        "device": "cpu",
+        "threads": 1,
+        "dtype": "torch.float32",
+        "model_tag": "r12_conv",
+        "step": 2000,
+        "prompt_tokens": 512,
+        "decode_tokens": 256,
+        "decode_steps": 255,
+        "tok_per_sec": 33.56832985728906,
+        "tpot_ms": 29.702407075092196,
+        "ttft_ms": 1571.177292848006
+      }
+    ],
+    "failed_reps": [],
+    "tok_per_sec": [
+      33.021,
+      33.617,
+      33.568
+    ],
+    "tok_per_sec_stats": {
+      "n": 3,
+      "median": 33.56832985728906,
+      "min": 33.0205391417619,
+      "max": 33.616702404391205,
+      "mean": 33.40185713448072,
+      "cv": 0.008094003478180869
+    },
+    "tpot_ms_stats": {
+      "n": 3,
+      "median": 29.76309391669929,
+      "min": 29.702407075092196,
+      "max": 30.216229846701026,
+      "mean": 29.893910279497504,
+      "cv": 0.007669019783312566
+    },
+    "ttft_ms_stats": {
+      "n": 3,
+      "median": 1577.8573960997164,
+      "min": 1571.177292848006,
+      "max": 1583.4435510914773,
+      "mean": 1577.4927466797333,
+      "cv": 0.003178659832031716
+    }
+  },
+  "gpu": {
+    "reps": [
+      {
+        "rep": 1,
+        "log": "/u/tmahmood1/project/nanochat/cisc662/results/runs/s2_harness_3406282/decode/gpu_r1.log",
+        "device": "cuda",
+        "threads": 1,
+        "dtype": "torch.float32",
+        "model_tag": "r12_conv",
+        "step": 2000,
+        "prompt_tokens": 512,
+        "decode_tokens": 256,
+        "decode_steps": 255,
+        "tok_per_sec": 85.46281285808172,
+        "tpot_ms": 11.117157991975546,
+        "ttft_ms": 12.814151123166084
+      },
+      {
+        "rep": 2,
+        "log": "/u/tmahmood1/project/nanochat/cisc662/results/runs/s2_harness_3406282/decode/gpu_r2.log",
+        "device": "cuda",
+        "threads": 1,
+        "dtype": "torch.float32",
+        "model_tag": "r12_conv",
+        "step": 2000,
+        "prompt_tokens": 512,
+        "decode_tokens": 256,
+        "decode_steps": 255,
+        "tok_per_sec": 104.40649456107822,
+        "tpot_ms": 9.26363398320973,
+        "ttft_ms": 10.622981004416943
+      },
+      {
+        "rep": 3,
+        "log": "/u/tmahmood1/project/nanochat/cisc662/results/runs/s2_harness_3406282/decode/gpu_r3.log",
+        "device": "cuda",
+        "threads": 1,
+        "dtype": "torch.float32",
+        "model_tag": "r12_conv",
+        "step": 2000,
+        "prompt_tokens": 512,
+        "decode_tokens": 256,
+        "decode_steps": 255,
+        "tok_per_sec": 104.20249227562253,
+        "tpot_ms": 9.147785138338804,
+        "ttft_ms": 10.43845689855516
+      }
+    ],
+    "failed_reps": [],
+    "tok_per_sec": [
+      85.463,
+      104.406,
+      104.202
+    ],
+    "tok_per_sec_stats": {
+      "n": 3,
+      "median": 104.20249227562253,
+      "min": 85.46281285808172,
+      "max": 104.40649456107822,
+      "mean": 98.02393323159417,
+      "cv": 0.09061505239588162
+    },
+    "tpot_ms_stats": {
+      "n": 3,
+      "median": 9.26363398320973,
+      "min": 9.147785138338804,
+      "max": 11.117157991975546,
+      "mean": 9.84285903784136,
+      "cv": 0.09167110757111029
+    },
+    "ttft_ms_stats": {
+      "n": 3,
+      "median": 10.622981004416943,
+      "min": 10.43845689855516,
+      "max": 12.814151123166084,
+      "mean": 11.29186300871273,
+      "cv": 0.09556022900982102
+    },
+    "clocks_per_rep": [
+      {
+        "csv": "/u/tmahmood1/project/nanochat/cisc662/results/runs/s2_harness_3406282/decode/gpu_r1.smi.csv",
+        "n_samples": 41,
+        "n_busy": 17,
+        "sm_mhz_median_busy": 1980.0,
+        "mem_mhz_median_busy": 2619.0,
+        "power_w_median_busy": 155.3,
+        "util_pct_median": 0.0
+      },
+      {
+        "csv": "/u/tmahmood1/project/nanochat/cisc662/results/runs/s2_harness_3406282/decode/gpu_r2.smi.csv",
+        "n_samples": 39,
+        "n_busy": 14,
+        "sm_mhz_median_busy": 1980.0,
+        "mem_mhz_median_busy": 2619.0,
+        "power_w_median_busy": 156.935,
+        "util_pct_median": 0.0
+      },
+      {
+        "csv": "/u/tmahmood1/project/nanochat/cisc662/results/runs/s2_harness_3406282/decode/gpu_r3.smi.csv",
+        "n_samples": 38,
+        "n_busy": 14,
+        "sm_mhz_median_busy": 1980.0,
+        "mem_mhz_median_busy": 2619.0,
+        "power_w_median_busy": 156.725,
+        "util_pct_median": 0.0
+      }
+    ],
+    "sm_mhz_median_over_reps": 1980.0
+  },
+  "gpu_over_cpu_1thread": {
+    "median_over_median": 3.104206387035272,
+    "pairwise_min": 2.5422554064907636,
+    "pairwise_max": 3.1618061233760337,
+    "n_pairs": 9,
+    "definition": "GPU tok/s / CPU-1-thread tok/s at batch 1; spread = min/max over all rep pairs"
+  },
+  "platform_clocks": {
+    "sustained_sm_mhz": 1365.0,
+    "power_w": 543.45,
+    "gpu_freq_pinnable": false
+  },
+  "s1_reference": {
+    "cpu_1thread_tok_s": 32.8,
+    "gpu_b1_tok_s_range": [
+      68,
+      107
+    ],
+    "note": "S1: prompt 512, decode 16 (CPU) / 32 (GPU) tokens; jobs 3400723, 3400725"
+  },
+  "warnings": []
+}

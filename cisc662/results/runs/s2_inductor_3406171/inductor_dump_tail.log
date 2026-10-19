@@ -1,0 +1,200 @@
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             extern_kernels.bmm(reinterpret_tensor(buf11, (12, 768, 3072), (2359296, 1, 768), 0), buf11, out=buf12)
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             buf13 = buf8; del buf8  # reuse
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             # Topologically Sorted Source Nodes: [matmul_4], Original ATen: [aten.bmm]
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             # [Provenance debug handles] extern_kernels.bmm:740
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             extern_kernels.bmm(buf12, buf12, out=buf13)
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             buf14 = buf12; del buf12  # reuse
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             # Topologically Sorted Source Nodes: [mul_5, mul_6, B_1], Original ATen: [aten.mul, aten.add]
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             # [Provenance debug handles] triton_poi_fused_add_mul_7:724
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             stream0 = get_raw_stream(0)
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             triton_poi_fused_add_mul_7.run(buf14, buf13, 7077888, stream=stream0)
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             buf15 = empty_strided_cuda((12, 3072, 768), (2359296, 768, 1), torch.bfloat16)
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             # Topologically Sorted Source Nodes: [mul_5, mul_6, B_1, matmul_5], Original ATen: [aten.mul, aten.add, aten.bmm]
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             # [Provenance debug handles] extern_kernels.bmm:741
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             extern_kernels.bmm(buf11, buf14, out=buf15)
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             buf16 = buf11; del buf11  # reuse
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             # Topologically Sorted Source Nodes: [norm_2, mul_1, add, X_2, mul_4, X_3, mul_7, X_4], Original ATen: [aten.linalg_vector_norm, aten.mul, aten.add, aten.div]
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             # [Provenance debug handles] triton_poi_fused_add_div_linalg_vector_norm_mul_8:725
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             stream0 = get_raw_stream(0)
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             triton_poi_fused_add_div_linalg_vector_norm_mul_8.run(buf3, buf5, buf10, buf15, buf16, 28311552, stream=stream0)
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             buf17 = buf14; del buf14  # reuse
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             # Topologically Sorted Source Nodes: [norm_2, mul_1, add, X_2, mul_4, X_3, mul_7, X_4, getattr_3, A_2], Original ATen: [aten.linalg_vector_norm, aten.mul, aten.add, aten.div, aten.transpose, aten.bmm]
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             # [Provenance debug handles] extern_kernels.bmm:742
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             extern_kernels.bmm(reinterpret_tensor(buf16, (12, 768, 3072), (2359296, 1, 768), 0), buf16, out=buf17)
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             buf18 = buf13; del buf13  # reuse
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             # Topologically Sorted Source Nodes: [matmul_7], Original ATen: [aten.bmm]
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             # [Provenance debug handles] extern_kernels.bmm:743
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             extern_kernels.bmm(buf17, buf17, out=buf18)
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             buf19 = buf17; del buf17  # reuse
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             # Topologically Sorted Source Nodes: [mul_8, mul_9, B_2], Original ATen: [aten.mul, aten.add]
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             # [Provenance debug handles] triton_poi_fused_add_mul_9:726
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             stream0 = get_raw_stream(0)
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             triton_poi_fused_add_mul_9.run(buf19, buf18, 7077888, stream=stream0)
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             buf20 = empty_strided_cuda((12, 3072, 768), (2359296, 768, 1), torch.bfloat16)
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             # Topologically Sorted Source Nodes: [mul_8, mul_9, B_2, matmul_8], Original ATen: [aten.mul, aten.add, aten.bmm]
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             # [Provenance debug handles] extern_kernels.bmm:744
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             extern_kernels.bmm(buf16, buf19, out=buf20)
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             del buf16
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             buf21 = buf3; del buf3  # reuse
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             # Topologically Sorted Source Nodes: [norm_2, mul_1, add, X_2, mul_4, X_3, mul_7, X_4, mul_10, X_5], Original ATen: [aten.linalg_vector_norm, aten.mul, aten.add, aten.div]
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             # [Provenance debug handles] triton_poi_fused_add_div_linalg_vector_norm_mul_10:727
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             stream0 = get_raw_stream(0)
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             triton_poi_fused_add_div_linalg_vector_norm_mul_10.run(buf21, buf5, buf10, buf15, buf20, 28311552, stream=stream0)
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             buf22 = buf19; del buf19  # reuse
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             # Topologically Sorted Source Nodes: [getattr_4, A_3], Original ATen: [aten.transpose, aten.bmm]
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             # [Provenance debug handles] extern_kernels.bmm:745
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             extern_kernels.bmm(reinterpret_tensor(buf21, (12, 768, 3072), (2359296, 1, 768), 0), buf21, out=buf22)
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             buf23 = buf18; del buf18  # reuse
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             # Topologically Sorted Source Nodes: [matmul_10], Original ATen: [aten.bmm]
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             # [Provenance debug handles] extern_kernels.bmm:746
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             extern_kernels.bmm(buf22, buf22, out=buf23)
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             buf24 = buf22; del buf22  # reuse
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             # Topologically Sorted Source Nodes: [mul_11, mul_12, B_3], Original ATen: [aten.mul, aten.add]
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             # [Provenance debug handles] triton_poi_fused_add_mul_11:728
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             stream0 = get_raw_stream(0)
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             triton_poi_fused_add_mul_11.run(buf24, buf23, 7077888, stream=stream0)
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             buf25 = buf20; del buf20  # reuse
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             # Topologically Sorted Source Nodes: [mul_11, mul_12, B_3, matmul_11], Original ATen: [aten.mul, aten.add, aten.bmm]
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             # [Provenance debug handles] extern_kernels.bmm:747
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             extern_kernels.bmm(buf21, buf24, out=buf25)
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             buf26 = buf15; del buf15  # reuse
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             # Topologically Sorted Source Nodes: [mul_13, X_6], Original ATen: [aten.mul, aten.add]
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             # [Provenance debug handles] triton_poi_fused_add_mul_12:729
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             stream0 = get_raw_stream(0)
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             triton_poi_fused_add_mul_12.run(buf21, buf25, buf26, 28311552, stream=stream0)
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             buf27 = buf24; del buf24  # reuse
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             # Topologically Sorted Source Nodes: [mul_13, X_6, getattr_5, A_4], Original ATen: [aten.mul, aten.add, aten.transpose, aten.bmm]
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             # [Provenance debug handles] extern_kernels.bmm:748
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             extern_kernels.bmm(reinterpret_tensor(buf26, (12, 768, 3072), (2359296, 1, 768), 0), buf26, out=buf27)
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             buf28 = buf23; del buf23  # reuse
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             # Topologically Sorted Source Nodes: [matmul_13], Original ATen: [aten.bmm]
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             # [Provenance debug handles] extern_kernels.bmm:749
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             extern_kernels.bmm(buf27, buf27, out=buf28)
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             buf29 = buf27; del buf27  # reuse
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             # Topologically Sorted Source Nodes: [mul_14, mul_15, B_4], Original ATen: [aten.mul, aten.add]
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             # [Provenance debug handles] triton_poi_fused_add_mul_13:730
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             stream0 = get_raw_stream(0)
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             triton_poi_fused_add_mul_13.run(buf29, buf28, 7077888, stream=stream0)
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             del buf28
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             buf30 = buf10; del buf10  # reuse
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             # Topologically Sorted Source Nodes: [mul_14, mul_15, B_4, matmul_14], Original ATen: [aten.mul, aten.add, aten.bmm]
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             # [Provenance debug handles] extern_kernels.bmm:750
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             extern_kernels.bmm(buf26, buf29, out=buf30)
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             del buf26
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             del buf29
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             buf31 = buf4; del buf4  # reuse
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             # Topologically Sorted Source Nodes: [mul_13, X_6, mul_16, X_7, g_1, norm_3], Original ATen: [aten.mul, aten.add, aten._to_copy, aten.linalg_vector_norm]
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             # [Provenance debug handles] triton_red_fused__to_copy_add_linalg_vector_norm_mul_14:731
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             stream0 = get_raw_stream(0)
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             triton_red_fused__to_copy_add_linalg_vector_norm_mul_14.run(buf21, buf25, buf30, buf31, 576, 49152, stream=stream0)
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             buf32 = buf5; del buf5  # reuse
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             # Topologically Sorted Source Nodes: [mul_13, X_6, mul_16, X_7, g_1, norm_3], Original ATen: [aten.mul, aten.add, aten._to_copy, aten.linalg_vector_norm]
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             # [Provenance debug handles] triton_per_fused__to_copy_lerp_linalg_vector_norm_rsub_1:732
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             stream0 = get_raw_stream(0)
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             triton_per_fused__to_copy_lerp_linalg_vector_norm_rsub_1.run(buf31, buf32, 12, 48, stream=stream0)
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             del buf31
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             buf33 = empty_strided_cuda((12, 3072, 1), (3072, 1, 36864), torch.float32)
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             # Topologically Sorted Source Nodes: [mul_13, X_6, mul_16, X_7, g_1, norm_3, current_norm, truediv_3, g_2, square, v_mean], Original ATen: [aten.mul, aten.add, aten._to_copy, aten.linalg_vector_norm, aten.clamp_min, aten.reciprocal, aten.pow, aten.mean]
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             # [Provenance debug handles] triton_per_fused__to_copy_add_clamp_min_linalg_vector_norm_mean_mul_pow_reciprocal_15:733
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             stream0 = get_raw_stream(0)
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             triton_per_fused__to_copy_add_clamp_min_linalg_vector_norm_mean_mul_pow_reciprocal_15.run(buf21, buf25, buf30, buf32, buf33, 36864, 768, stream=stream0)
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             buf36 = empty_strided_cuda((12, 3072, 1), (3072, 1, 36864), torch.float32)
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             # Topologically Sorted Source Nodes: [mul_13, X_6, mul_16, X_7, g_1, norm_3, current_norm, truediv_3, g_2, square, v_mean, sum_1, v_norm_sq, v_norm, mul_19, sub_1, lerp__2, clamp_min_2, step_size, square_1, scaled_sq_sum, sum_2, v_norm_new, clamp_min_3, truediv_4, final_scale], Original ATen: [aten.mul, aten.add, aten._to_copy, aten.linalg_vector_norm, aten.clamp_min, aten.reciprocal, aten.pow, aten.mean, aten.sum, aten.sqrt, aten.rsub, aten.lerp, aten.rsqrt, aten.div, aten.copy_]
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             # [Provenance debug handles] triton_red_fused__to_copy_add_clamp_min_copy__div_lerp_linalg_vector_norm_mean_mul_pow_reciprocal_rsqrt_rsub_sqrt_sum_16:734
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             stream0 = get_raw_stream(0)
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             triton_red_fused__to_copy_add_clamp_min_copy__div_lerp_linalg_vector_norm_mean_mul_pow_reciprocal_rsqrt_rsub_sqrt_sum_16.run(buf33, arg4_1.item(), arg5_1, buf36, arg5_1, 12, 3072, stream=stream0)
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             del arg4_1
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             del arg5_1
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             del buf33
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             # Topologically Sorted Source Nodes: [mul_13, X_6, mul_16, X_7, g_1, norm_3, current_norm, truediv_3, g_2, square, v_mean, v_norm_sq, v_norm, sub_1, lerp__2, clamp_min_2, step_size, v_norm_new, clamp_min_3, truediv_4, final_scale, g_3, mul_24, mul_25, mul_26, mul_23, mask, mul_27, add_11, sub_], Original ATen: [aten.mul, aten.add, aten._to_copy, aten.linalg_vector_norm, aten.clamp_min, aten.reciprocal, aten.pow, aten.mean, aten.sqrt, aten.rsub, aten.lerp, aten.rsqrt, aten.div, aten.ge, aten.sub, aten.copy_]
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             # [Provenance debug handles] triton_poi_fused__to_copy_add_clamp_min_copy__div_ge_lerp_linalg_vector_norm_mean_mul_pow_reciprocal_rsqrt_rsub_sqrt_sub_17:735
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             stream0 = get_raw_stream(0)
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             triton_poi_fused__to_copy_add_clamp_min_copy__div_ge_lerp_linalg_vector_norm_mean_mul_pow_reciprocal_rsqrt_rsub_sqrt_sub_17.run(buf21, buf25, buf30, buf32, buf36, arg3_1, arg6_1.item(), arg7_1.item(), arg3_1, 28311552, stream=stream0)
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             del arg3_1
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             del arg6_1
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             del arg7_1
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             del buf21
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             del buf25
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             del buf30
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             del buf32
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]             del buf36
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]         return ()
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code] 
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code] runner = Runner(partitions=[])
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code] call = runner.call
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code] recursively_apply_fns = runner.recursively_apply_fns
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code] 
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code] 
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code] def benchmark_compiled_module(times=10, repeat=10):
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]     from torch._dynamo.testing import rand_strided
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]     from torch._inductor.utils import print_performance
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]     arg0_1 = rand_strided((), (), device='cpu', dtype=torch.float32)
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]     arg1_1 = rand_strided((12, 3072, 768), (2359296, 768, 1), device='cuda:0', dtype=torch.float32)
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]     arg2_1 = rand_strided((12, 3072, 768), (2359296, 768, 1), device='cuda:0', dtype=torch.float32)
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]     arg3_1 = rand_strided((12, 3072, 768), (2359296, 768, 1), device='cuda:0', dtype=torch.float32)
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]     arg4_1 = rand_strided((), (), device='cpu', dtype=torch.float32)
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]     arg5_1 = rand_strided((12, 3072, 1), (3072, 1, 1), device='cuda:0', dtype=torch.float32)
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]     arg6_1 = rand_strided((), (), device='cpu', dtype=torch.float32)
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]     arg7_1 = rand_strided((), (), device='cpu', dtype=torch.float32)
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]     fn = lambda: call([arg0_1, arg1_1, arg2_1, arg3_1, arg4_1, arg5_1, arg6_1, arg7_1])
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]     return print_performance(fn, times=times, repeat=repeat)
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code] 
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code] 
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code] if __name__ == "__main__":
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]     from torch._inductor.wrapper_benchmark import compiled_module_main
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code]     compiled_module_main('None', benchmark_compiled_module)
+V1018 12:35:57.652000 2763206 torch/_inductor/graph.py:2371] [2/3] [__output_code] 
+V1018 12:35:57.657000 2763206 torch/_inductor/graph.py:2382] [2/3] [__output_code] Output code written to: /work/nvme/bffp/tmahmood1/cisc662/cache/inductor/tmpstr9hj1a/np/cnpd3jd4ysunj5xoshdmjxeqvzqcf26k5zwzpyogvhi46qxlzpgc.py
+I1018 12:35:58.040000 2763206 torch/_inductor/graph.py:2343] [2/3] [__output_code] Output code written to: /work/nvme/bffp/tmahmood1/cisc662/cache/inductor/tmpstr9hj1a/np/cnpd3jd4ysunj5xoshdmjxeqvzqcf26k5zwzpyogvhi46qxlzpgc.py
+W1018 12:35:58.084000 2763206 torch/_inductor/debug.py:507] [2/3] model__9_inference_12 debug trace: /work/nvme/bffp/tmahmood1/cisc662/profiles/s2_inductor_3406171/compile_debug/torch_compile_debug/run_2026_10_18_12_35_18_904092-pid_2763206/torchinductor/model__9_inference_12.10
+2026-10-18 12:35:59,154 - nanochat.checkpoint_manager - [32m[1mINFO[0m - Saved model parameters to: /tmp/nanochat_3406171/base_checkpoints/p_s2_dump/model_000003.pt
+2026-10-18 12:35:59,155 - nanochat.checkpoint_manager - [32m[1mINFO[0m - Saved metadata to: /tmp/nanochat_3406171/base_checkpoints/p_s2_dump/meta_000003.json
+2026-10-18 12:35:59,638 - nanochat.checkpoint_manager - [32m[1mINFO[0m - Saved optimizer state to: /tmp/nanochat_3406171/base_checkpoints/p_s2_dump/optim_000003_rank0.pt
+
+                                                       █████                █████
+                                                      ░░███                ░░███
+     ████████    ██████   ████████    ██████   ██████  ░███████    ██████  ███████
+    ░░███░░███  ░░░░░███ ░░███░░███  ███░░███ ███░░███ ░███░░███  ░░░░░███░░░███░
+     ░███ ░███   ███████  ░███ ░███ ░███ ░███░███ ░░░  ░███ ░███   ███████  ░███
+     ░███ ░███  ███░░███  ░███ ░███ ░███ ░███░███  ███ ░███ ░███  ███░░███  ░███ ███
+     ████ █████░░████████ ████ █████░░██████ ░░██████  ████ █████░░███████  ░░█████
+    ░░░░ ░░░░░  ░░░░░░░░ ░░░░ ░░░░░  ░░░░░░   ░░░░░░  ░░░░ ░░░░░  ░░░░░░░░   ░░░░░
+    
+Autodetected device type: cuda
+GPU: NVIDIA GH200 120GB | Peak FLOPS (BF16): 9.89e+14
+COMPUTE_DTYPE: torch.bfloat16 (auto-detected: CUDA SM 90 (bf16 supported))
+✓ Using Flash Attention 3: efficient, new and awesome.
+Vocab size: 32,768
+Model config:
+{
+  "sequence_len": 2048,
+  "vocab_size": 32768,
+  "n_layer": 12,
+  "n_head": 6,
+  "n_kv_head": 6,
+  "n_embd": 768,
+  "window_pattern": "L"
+}
+Parameter counts:
+wte                     : 25,165,824
+value_embeds            : 150,994,944
+lm_head                 : 25,165,824
+transformer_matrices    : 84,935,088
+scalars                 : 50
+total                   : 286,261,730
+Estimated FLOPs per token: 8.870980e+08
+Scaling LRs by 0.2500 for batch size 32,768 (reference: 524,288)
+Scaling weight decay from 0.280000 to 0.070000 for depth 12
+Scaling the LR for the AdamW parameters ∝1/√(768/768) = 1.000000
+Using user-provided number of iterations: 3
+Total number of training tokens: 98,304
+Tokens : Scaling params ratio: 0.00
+Total training FLOPs estimate: 8.720528e+13
+Tokens / micro-batch / rank: 16 x 2048 = 32,768
+Tokens / micro-batch: 32,768
+Total batch size 32,768 => gradient accumulation steps: 1
+step 00000/00003 (0.00%) | loss: 10.397537 | lrm: 0.03 | dt: 39526.92ms | tok/sec: 829 | bf16_mfu: 0.07 | epoch: 1 pq: 0 rg: 1 | total time: 0.00m
+step 00001/00003 (33.33%) | loss: 10.395276 | lrm: 0.05 | dt: 75.10ms | tok/sec: 436,319 | bf16_mfu: 39.14 | epoch: 1 pq: 0 rg: 1 | total time: 0.00m
+step 00002/00003 (66.67%) | loss: 10.391078 | lrm: 0.07 | dt: 81.71ms | tok/sec: 401,021 | bf16_mfu: 35.97 | epoch: 1 pq: 0 rg: 1 | total time: 0.00m
+Peak memory usage: 15174.50MiB
+Total training time: 0.00m

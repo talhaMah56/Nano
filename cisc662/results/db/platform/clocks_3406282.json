@@ -1,0 +1,163 @@
+{
+  "job_id": "3406282",
+  "host": "gh147.hsn.cm.delta.internal.ncsa.edu",
+  "sustained_sm_mhz": 1365.0,
+  "sustained_sm_mhz_range": [
+    1320.0,
+    1380.0
+  ],
+  "sustained_mem_mhz": 2619.0,
+  "power_w": 543.45,
+  "power_w_max": 549.44,
+  "gemm_tflops_sustained": 590.8298524817501,
+  "throttle_reasons": {
+    "sw_power_cap": 29
+  },
+  "reason_field": "clocks_event_reasons.active",
+  "latency_ns": 343.673542374745,
+  "latency_bytes": 1073741824,
+  "latency_sane_500_800": false,
+  "latency_footprints": [
+    {
+      "bytes": 1073741824,
+      "ns_median": 343.673542374745,
+      "ns_per_access": [
+        345.617241691798,
+        343.673542374745,
+        343.5579128563404
+      ],
+      "verified": true
+    },
+    {
+      "bytes": 65536,
+      "ns_median": 144.5006055291742,
+      "ns_per_access": [
+        144.5006055291742,
+        144.5064990548417,
+        144.4960362277925
+      ],
+      "verified": true
+    },
+    {
+      "bytes": 4194304,
+      "ns_median": 146.51806850451976,
+      "ns_per_access": [
+        148.59793009236455,
+        146.5032109990716,
+        146.51806850451976
+      ],
+      "verified": true
+    },
+    {
+      "bytes": 33554432,
+      "ns_median": 164.56491721328348,
+      "ns_per_access": [
+        180.9587120078504,
+        164.23792112618685,
+        164.56491721328348
+      ],
+      "verified": true
+    },
+    {
+      "bytes": 268435456,
+      "ns_median": 327.4280752521008,
+      "ns_per_access": [
+        332.55229936912656,
+        327.4280752521008,
+        327.30333623476326
+      ],
+      "verified": true
+    }
+  ],
+  "gpu_freq_pinnable": false,
+  "gpu_freq_step": {
+    "csv": "/u/tmahmood1/project/nanochat/cisc662/results/runs/s2_harness_3406282/gpufreq_probe.csv",
+    "n_samples": 58,
+    "n_busy": 40,
+    "busy_rule": "utilization.gpu >= 50.0%",
+    "n_in_band": 0,
+    "frac_in_band": 0.0,
+    "sm_mhz_median_busy": 1365.0,
+    "sm_mhz_min_busy": 1305.0,
+    "sm_mhz_max_busy": 1380.0,
+    "reasons_busy": {
+      "sw_power_cap": 40
+    },
+    "min_busy": 5,
+    "pinnable": false,
+    "target_mhz": 1755.0,
+    "tol_mhz": 15.0,
+    "rc": 0,
+    "stderr": "",
+    "gemm_loop_in_step": {
+      "sustained_sm_mhz_median": 1365.0,
+      "sustained_sm_mhz_min": 1320.0,
+      "sustained_sm_mhz_max": 1380.0,
+      "power_w_median": 545.5250000000001,
+      "throttle_reasons_active": {
+        "sw_power_cap": 18
+      },
+      "tflops_median": 590.2000789615779
+    }
+  },
+  "clock_policy_recommendation": "default clocks (GpuFreqDef=high) + gpu_monitor.csv logging; --gpu-freq pinning not reliable here",
+  "smoke_default_clocks": {
+    "smoke_gemm_32768x768x768": {
+      "median_us": 60.448,
+      "p10_us": 59.808,
+      "p90_us": 61.3152,
+      "gbps": 1684.8025410269986,
+      "tflops": 639.4703822128112,
+      "trials": 3
+    },
+    "smoke_rmsnorm_768_cold": {
+      "median_us": 42.864000000000004,
+      "p10_us": 42.2688,
+      "p90_us": 43.4592,
+      "gbps": 2348.434490481523,
+      "tflops": 2.348434490481523,
+      "trials": 3
+    },
+    "smoke_rmsnorm_768_warm": {
+      "median_us": 62.72,
+      "p10_us": 56.5408,
+      "p90_us": 66.4128,
+      "gbps": 1604.9632653061226,
+      "tflops": 1.6049632653061225,
+      "trials": 3
+    }
+  },
+  "smoke_pinned_clocks": {
+    "smoke_gemm_32768x768x768": {
+      "median_us": 68.08,
+      "p10_us": 67.1648,
+      "p90_us": 69.15520000000001,
+      "gbps": 1495.9304347826087,
+      "tflops": 567.7835732079906,
+      "trials": 1
+    },
+    "smoke_rmsnorm_768_cold": {
+      "median_us": 45.2,
+      "p10_us": 44.6336,
+      "p90_us": 45.9232,
+      "gbps": 2227.06407079646,
+      "tflops": 2.22706407079646,
+      "trials": 1
+    },
+    "smoke_rmsnorm_768_warm": {
+      "median_us": 60.72,
+      "p10_us": 53.5328,
+      "p90_us": 64.4576,
+      "gbps": 1657.82766798419,
+      "tflops": 1.65782766798419,
+      "trials": 1
+    }
+  },
+  "sources": {
+    "clock": "/u/tmahmood1/project/nanochat/cisc662/results/runs/s2_harness_3406282/clock.json",
+    "latency": "/u/tmahmood1/project/nanochat/cisc662/results/runs/s2_harness_3406282/latency.json",
+    "gpufreq_csv": "/u/tmahmood1/project/nanochat/cisc662/results/runs/s2_harness_3406282/gpufreq_probe.csv",
+    "gpufreq_stderr": "/u/tmahmood1/project/nanochat/cisc662/results/runs/s2_harness_3406282/gpufreq_step.stderr",
+    "pinned_clock": "/u/tmahmood1/project/nanochat/cisc662/results/runs/s2_harness_3406282/clock_pinned.json"
+  }
+}

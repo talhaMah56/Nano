@@ -1,0 +1,7 @@
+# S2 queue (started 2026-10-18 by Claude for Talha). Processed in order by slurm/queue.sh, <= 2 jobs in flight.
+# BAS-1 and BAS-2 go first: they run stock nanochat only, so they can queue while the S2 harness code is written.
+cisc662/slurm/s2_inductor_dump.sbatch BAS-1
+cisc662/slurm/s2_noise_band.sbatch BAS-2
+#WAIT(released 10-18 after login-node checks) s2_harness.sbatch (INF-1,INF-2,INF-3,BAS-3): code being written + reviewed; release after login-node checks pass
+cisc662/slurm/s2_harness.sbatch INF-1,INF-2,INF-3,BAS-3
+cisc662/slurm/s2_rerun.sbatch INF-1,INF-2,INF-3

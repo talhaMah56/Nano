@@ -1,0 +1,63 @@
+{
+  "case": "attention_fa3_stock_error",
+  "shape_BTHD": [
+    16,
+    2048,
+    6,
+    128
+  ],
+  "causal": true,
+  "dtype": "bfloat16",
+  "reference": "SDPA math backend, fp32, same bf16 inputs",
+  "fa3_max_abs_err": 0.009119510650634766,
+  "per_seed": [
+    {
+      "seed": 1234,
+      "ref_max_abs_value": 4.0,
+      "bf16_output_rounding_floor": 0.007798433303833008,
+      "fa3_causal_max_abs": 0.009119510650634766,
+      "fa3_causal_rmse": 0.0002512094582124954,
+      "fa3_nanochat_call_max_abs": 0.009119510650634766,
+      "fa3_nanochat_call_rmse": 0.0002512094582124954,
+      "sdpa_bf16_max_abs": 0.009119510650634766,
+      "sdpa_bf16_rmse": 0.0002498707525642327,
+      "fa3_vs_sdpa_bf16_max_abs": 0.0078125
+    },
+    {
+      "seed": 1244,
+      "ref_max_abs_value": 3.734375,
+      "bf16_output_rounding_floor": 0.0078125,
+      "fa3_causal_max_abs": 0.008311033248901367,
+      "fa3_causal_rmse": 0.00025119644868374963,
+      "fa3_nanochat_call_max_abs": 0.008311033248901367,
+      "fa3_nanochat_call_rmse": 0.00025119644868374963,
+      "sdpa_bf16_max_abs": 0.008311033248901367,
+      "sdpa_bf16_rmse": 0.0002498630828779714,
+      "fa3_vs_sdpa_bf16_max_abs": 0.0078125
+    },
+    {
+      "seed": 1254,
+      "ref_max_abs_value": 4.28125,
+      "bf16_output_rounding_floor": 0.007788181304931641,
+      "fa3_causal_max_abs": 0.008766412734985352,
+      "fa3_causal_rmse": 0.0002507969579720734,
+      "fa3_nanochat_call_max_abs": 0.008766412734985352,
+      "fa3_nanochat_call_rmse": 0.0002507969579720734,
+      "sdpa_bf16_max_abs": 0.008766412734985352,
+      "sdpa_bf16_rmse": 0.00024946536109458597,
+      "fa3_vs_sdpa_bf16_max_abs": 0.0078125
+    }
+  ],
+  "sdpa_bf16_max_abs_err": 0.009119510650634766,
+  "fa3_vs_sdpa_bf16_max_abs": 0.0078125,
+  "bf16_output_rounding_floor": 0.0078125,
+  "fa3_meets_abs_bound": false,
+  "gate": {
+    "max_abs": 0.004,
+    "stock_factor": 2.0
+  },
+  "job_id": "3406282",
+  "device": "NVIDIA GH200 120GB",
+  "torch": "2.9.1+cu128",
+  "utc": "2026-10-18T18:08:31"
+}

@@ -1,0 +1,91 @@
+{
+  "probe": "latency",
+  "env": {
+    "host": "gh147.hsn.cm.delta.internal.ncsa.edu",
+    "job_id": "3406282",
+    "cuda_visible_devices": "0",
+    "slurm_step_id": null,
+    "nvidia_smi": {
+      "name": "NVIDIA GH200 120GB",
+      "driver_version": "595.71.05",
+      "clocks.max.sm": "1980 MHz",
+      "clocks.applications.graphics": "[Requested functionality has been deprecated]",
+      "power.limit": "900.00 W"
+    },
+    "torch": "2.9.1+cu128",
+    "triton": "3.5.1",
+    "device": "NVIDIA GH200 120GB"
+  },
+  "method": "Triton grid (1,), 1 warp, serial dependent int64 loads (.cg), random single cycle nxt[perm[i]]=perm[(i+1)%n] built with torch.randperm on the GPU; CUDA events; ns/access = elapsed/steps after a warm-up chase",
+  "latency_ns": 343.673542374745,
+  "latency_bytes": 1073741824,
+  "sane_500_800": false,
+  "verified": true,
+  "footprints": [
+    {
+      "bytes": 1073741824,
+      "n_elems": 134217728,
+      "n_steps": 1048576,
+      "warmup_steps": 16384,
+      "ns_per_access": [
+        345.617241691798,
+        343.673542374745,
+        343.5579128563404
+      ],
+      "verified": true,
+      "ns_median": 343.673542374745
+    },
+    {
+      "bytes": 65536,
+      "n_elems": 8192,
+      "n_steps": 1048576,
+      "warmup_steps": 16384,
+      "ns_per_access": [
+        144.5006055291742,
+        144.5064990548417,
+        144.4960362277925
+      ],
+      "verified": true,
+      "ns_median": 144.5006055291742
+    },
+    {
+      "bytes": 4194304,
+      "n_elems": 524288,
+      "n_steps": 1048576,
+      "warmup_steps": 16384,
+      "ns_per_access": [
+        148.59793009236455,
+        146.5032109990716,
+        146.51806850451976
+      ],
+      "verified": true,
+      "ns_median": 146.51806850451976
+    },
+    {
+      "bytes": 33554432,
+      "n_elems": 4194304,
+      "n_steps": 1048576,
+      "warmup_steps": 16384,
+      "ns_per_access": [
+        180.9587120078504,
+        164.23792112618685,
+        164.56491721328348
+      ],
+      "verified": true,
+      "ns_median": 164.56491721328348
+    },
+    {
+      "bytes": 268435456,
+      "n_elems": 33554432,
+      "n_steps": 1048576,
+      "warmup_steps": 16384,
+      "ns_per_access": [
+        332.55229936912656,
+        327.4280752521008,
+        327.30333623476326
+      ],
+      "verified": true,
+      "ns_median": 327.4280752521008
+    }
+  ]
+}

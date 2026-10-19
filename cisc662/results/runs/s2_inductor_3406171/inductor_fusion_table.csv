@@ -1,0 +1,173 @@
+region,kernel_name,launches_per_step,us_per_step,dram_bytes_per_step,min_bytes_per_step,bytes_ratio,achieved_GBps,registers,achieved_occupancy_pct,source_ops,job_id
+mixnorm_fwd,triton_per_fused__to_copy__unsafe_view_add_cat_mean_mul_pow_rsqrt_select_sigmoid_slice_4,1.00,101.63,123427072,,,1214.5,32,94.51,_to_copy+add+cat+mean+mul+pow+rsqrt+select+sigmoid+slice,3406171
+mixnorm_fwd,triton_per_fused__to_copy__unsafe_view_add_mean_mul_pow_rsqrt_select_16,1.00,68.58,227355904,,,3315.4,28,92.33,_to_copy+add+mean+mul+pow+rsqrt+select,3406171
+mixnorm_fwd,triton_per_fused__to_copy__unsafe_view_add_mean_mul_pow_rsqrt_select_30,1.00,68.48,227195904,,,3317.7,28,92.25,_to_copy+add+mean+mul+pow+rsqrt+select,3406171
+mixnorm_fwd,triton_per_fused__to_copy__unsafe_view_add_mean_mul_pow_rsqrt_select_18,1.00,68.26,227056640,,,3326.5,28,92.25,_to_copy+add+mean+mul+pow+rsqrt+select,3406171
+mixnorm_fwd,triton_per_fused__to_copy__unsafe_view_add_mean_mul_pow_rsqrt_select_13,1.00,68.13,227078656,,,3333.1,26,92.34,_to_copy+add+mean+mul+pow+rsqrt+select,3406171
+mixnorm_fwd,triton_per_fused__to_copy__unsafe_view_add_mean_mul_pow_rsqrt_select_29,1.00,68.03,226718976,,,3332.5,26,92.34,_to_copy+add+mean+mul+pow+rsqrt+select,3406171
+mixnorm_fwd,triton_per_fused__to_copy__unsafe_view_add_mean_mul_pow_rsqrt_select_23,1.00,68.00,226976768,,,3337.9,26,92.31,_to_copy+add+mean+mul+pow+rsqrt+select,3406171
+mixnorm_fwd,triton_per_fused__to_copy__unsafe_view_add_mean_mul_pow_rsqrt_select_26,1.00,67.97,227077632,,,3340.9,28,92.23,_to_copy+add+mean+mul+pow+rsqrt+select,3406171
+mixnorm_fwd,triton_per_fused__to_copy__unsafe_view_add_mean_mul_pow_rsqrt_sub_34,1.00,67.90,226816512,,,3340.3,26,92.34,_to_copy+add+mean+mul+pow+rsqrt+sub,3406171
+mixnorm_fwd,triton_per_fused__to_copy__unsafe_view_add_mean_mul_pow_rsqrt_select_20,1.00,67.81,226950912,,,3347.0,28,92.22,_to_copy+add+mean+mul+pow+rsqrt+select,3406171
+mixnorm_fwd,triton_per_fused__to_copy__unsafe_view_add_mean_mul_pow_rsqrt_select_25,1.00,67.81,226671872,,,3342.8,26,92.29,_to_copy+add+mean+mul+pow+rsqrt+select,3406171
+mixnorm_fwd,triton_per_fused__to_copy__unsafe_view_add_mean_mul_pow_rsqrt_select_31,1.00,67.81,226650368,,,3342.5,26,92.34,_to_copy+add+mean+mul+pow+rsqrt+select,3406171
+mixnorm_fwd,triton_per_fused__to_copy__unsafe_view_add_mean_mul_pow_rsqrt_select_10,1.00,67.68,227048448,,,3354.7,28,92.24,_to_copy+add+mean+mul+pow+rsqrt+select,3406171
+mixnorm_fwd,triton_per_fused__to_copy__unsafe_view_add_mean_mul_pow_rsqrt_select_17,1.00,67.68,226358528,,,3344.5,26,92.23,_to_copy+add+mean+mul+pow+rsqrt+select,3406171
+mixnorm_fwd,triton_per_fused__to_copy__unsafe_view_add_mean_mul_pow_rsqrt_select_22,1.00,67.68,227340544,,,3359.1,28,92.12,_to_copy+add+mean+mul+pow+rsqrt+select,3406171
+mixnorm_fwd,triton_per_fused__to_copy__unsafe_view_add_mean_mul_pow_rsqrt_select_27,1.00,67.49,226965504,,,3363.0,26,92.18,_to_copy+add+mean+mul+pow+rsqrt+select,3406171
+mixnorm_fwd,triton_per_fused__to_copy__unsafe_view_add_mean_mul_pow_rsqrt_select_32,1.00,67.30,227011840,,,3373.3,28,92.11,_to_copy+add+mean+mul+pow+rsqrt+select,3406171
+mixnorm_fwd,triton_per_fused__to_copy__unsafe_view_add_mean_mul_pow_rsqrt_select_28,1.00,67.23,227103488,,,3377.9,28,92.10,_to_copy+add+mean+mul+pow+rsqrt+select,3406171
+mixnorm_fwd,triton_per_fused__to_copy__unsafe_view_add_mean_mul_pow_rsqrt_select_24,1.00,67.04,226318592,,,3375.9,28,92.17,_to_copy+add+mean+mul+pow+rsqrt+select,3406171
+mixnorm_fwd,triton_per_fused__to_copy__unsafe_view_add_mean_mul_pow_rsqrt_select_15,1.00,67.01,226415104,,,3378.9,26,92.28,_to_copy+add+mean+mul+pow+rsqrt+select,3406171
+mixnorm_fwd,triton_per_fused__to_copy__unsafe_view_add_mean_mul_pow_rsqrt_select_21,1.00,66.69,226519040,,,3396.7,26,92.19,_to_copy+add+mean+mul+pow+rsqrt+select,3406171
+mixnorm_fwd,triton_per_fused__to_copy__unsafe_view_add_mean_mul_pow_rsqrt_select_19,1.00,66.66,226495488,,,3398.0,26,92.20,_to_copy+add+mean+mul+pow+rsqrt+select,3406171
+mixnorm_fwd,triton_per_fused__to_copy__unsafe_view_add_mean_mul_pow_rsqrt_select_14,1.00,66.62,226339328,,,3397.3,28,92.04,_to_copy+add+mean+mul+pow+rsqrt+select,3406171
+mixnorm_fwd,triton_per_fused__to_copy__unsafe_view_add_mean_mul_pow_rsqrt_select_33,1.00,66.40,226913024,,,3417.4,26,92.17,_to_copy+add+mean+mul+pow+rsqrt+select,3406171
+mixnorm_fwd,triton_per_fused__to_copy__unsafe_view_add_mean_mul_pow_rsqrt_select_7,1.00,57.50,172944896,,,3007.5,25,90.96,_to_copy+add+mean+mul+pow+rsqrt+select,3406171
+mixnorm_fwd,__region_total__,25.00,1713.38,5513751040,5539758080,0.995,3218.1,,92.32,25 kernels,3406171
+mixnorm_bwd,triton_red_fused__fused_rms_norm_backward__to_copy_add_mul_neg_select_slice_backward_view_24,1.00,292.03,981004288,,,3359.2,40,65.85,_fused_rms_norm_backward+_to_copy+add+mul+neg+select+slice_backward,3406171
+mixnorm_bwd,triton_red_fused__fused_rms_norm_backward__to_copy_add_mul_select_slice_backward_view_32,1.00,285.47,880952064,,,3085.9,40,66.56,_fused_rms_norm_backward+_to_copy+add+mul+select+slice_backward,3406171
+mixnorm_bwd,triton_red_fused__fused_rms_norm_backward__to_copy_add_mul_select_slice_backward_view_14,1.00,219.17,627895296,,,2864.9,48,54.84,_fused_rms_norm_backward+_to_copy+add+mul+select+slice_backward,3406171
+mixnorm_bwd,triton_red_fused__fused_rms_norm_backward__to_copy_add_mul_select_slice_backward_view_20,1.00,181.41,628619776,,,3465.2,40,62.57,_fused_rms_norm_backward+_to_copy+add+mul+select+slice_backward,3406171
+mixnorm_bwd,triton_red_fused__fused_rms_norm_backward__to_copy_add_mul_select_slice_backward_view_28,1.00,179.87,628132096,,,3492.1,40,62.41,_fused_rms_norm_backward+_to_copy+add+mul+select+slice_backward,3406171
+mixnorm_bwd,triton_per_fused__fused_rms_norm_backward_add_mul_select_sum_view_26,1.00,165.34,594098688,,,3593.1,40,71.27,_fused_rms_norm_backward+add+mul+select+sum,3406171
+mixnorm_bwd,triton_per_fused__fused_rms_norm_backward_add_mul_select_sum_view_30,1.00,164.83,594875904,,,3609.0,40,71.17,_fused_rms_norm_backward+add+mul+select+sum,3406171
+mixnorm_bwd,triton_per_fused__fused_rms_norm_backward_add_mul_select_sum_view_22,1.00,164.74,594743296,,,3610.3,40,71.19,_fused_rms_norm_backward+add+mul+select+sum,3406171
+mixnorm_bwd,triton_per_fused__fused_rms_norm_backward_add_mul_select_sum_view_34,1.00,164.61,594202112,,,3609.8,40,71.19,_fused_rms_norm_backward+add+mul+select+sum,3406171
+mixnorm_bwd,triton_per_fused__fused_rms_norm_backward_add_mul_select_sum_view_17,1.00,164.45,595221504,,,3619.5,40,71.18,_fused_rms_norm_backward+add+mul+select+sum,3406171
+mixnorm_bwd,triton_red_fused__fused_rms_norm_backward__to_copy_add_mul_select_slice_backward_view_36,1.00,142.27,478084608,,,3360.4,32,86.65,_fused_rms_norm_backward+_to_copy+add+mul+select+slice_backward,3406171
+mixnorm_bwd,triton_per_fused__fused_rms_norm_backward__to_copy_add_mul_select_sum_view_38,1.00,138.88,498849792,,,3591.9,40,70.78,_fused_rms_norm_backward+_to_copy+add+mul+select+sum,3406171
+mixnorm_bwd,triton_red_fused_mul_sum_18,23.00,108.03,3135744,,,29.0,32,24.45,mul+sum,3406171
+mixnorm_bwd,triton_per_fused__fused_rms_norm_backward__to_copy_mul_neg_sum_view_2,1.00,68.03,190890496,,,2805.9,29,91.50,_fused_rms_norm_backward+_to_copy+mul+neg+sum,3406171
+mixnorm_bwd,triton_per_fused__fused_rms_norm_backward__to_copy_add_mul_view_6,1.00,59.71,187214592,,,3135.3,25,80.51,_fused_rms_norm_backward+_to_copy+add+mul,3406171
+mixnorm_bwd,triton_per_fused__fused_rms_norm_backward__to_copy_add_mul_select_view_31,1.00,59.65,186799616,,,3131.7,29,80.82,_fused_rms_norm_backward+_to_copy+add+mul+select,3406171
+mixnorm_bwd,triton_per_fused__fused_rms_norm_backward__to_copy_add_mul_view_25,1.00,59.58,186995200,,,3138.3,27,80.42,_fused_rms_norm_backward+_to_copy+add+mul,3406171
+mixnorm_bwd,triton_per_fused__fused_rms_norm_backward__to_copy_add_mul_select_view_23,1.00,59.55,186830848,,,3137.3,29,80.51,_fused_rms_norm_backward+_to_copy+add+mul+select,3406171
+mixnorm_bwd,triton_per_fused__fused_rms_norm_backward__to_copy_add_mul_select_view_21,1.00,59.52,187415808,,,3148.8,29,80.90,_fused_rms_norm_backward+_to_copy+add+mul+select,3406171
+mixnorm_bwd,triton_per_fused__fused_rms_norm_backward__to_copy_add_mul_select_view_33,1.00,59.46,187371776,,,3151.4,29,80.84,_fused_rms_norm_backward+_to_copy+add+mul+select,3406171
+mixnorm_bwd,triton_per_fused__fused_rms_norm_backward__to_copy_add_mul_select_view_16,1.00,59.42,187722752,,,3159.0,29,80.73,_fused_rms_norm_backward+_to_copy+add+mul+select,3406171
+mixnorm_bwd,triton_per_fused__fused_rms_norm_backward__to_copy_add_mul_select_view_37,1.00,59.42,186944000,,,3145.9,29,80.79,_fused_rms_norm_backward+_to_copy+add+mul+select,3406171
+mixnorm_bwd,triton_per_fused__fused_rms_norm_backward__to_copy_add_mul_select_view_19,1.00,59.39,187222528,,,3152.3,29,80.88,_fused_rms_norm_backward+_to_copy+add+mul+select,3406171
+mixnorm_bwd,triton_per_fused__fused_rms_norm_backward__to_copy_add_mul_select_view_29,1.00,59.36,187243520,,,3154.4,29,80.83,_fused_rms_norm_backward+_to_copy+add+mul+select,3406171
+mixnorm_bwd,triton_per_fused__fused_rms_norm_backward__to_copy_add_mul_select_view_35,1.00,59.26,187368960,,,3161.6,29,80.71,_fused_rms_norm_backward+_to_copy+add+mul+select,3406171
+mixnorm_bwd,triton_per_fused__fused_rms_norm_backward__to_copy_add_mul_select_view_27,1.00,58.91,186840320,,,3171.5,29,80.86,_fused_rms_norm_backward+_to_copy+add+mul+select,3406171
+mixnorm_bwd,triton_poi_fused__to_copy_add_select_backward_39,2.00,4.99,8960,,,1.8,27,1.56,_to_copy+add+select_backward,3406171
+mixnorm_bwd,triton_red_fused__fused_rms_norm_backward__to_copy_mul_neg_sum_view_3,1.00,4.45,135936,,,30.6,32,24.36,_fused_rms_norm_backward+_to_copy+mul+neg+sum,3406171
+mixnorm_bwd,__region_total__,51.00,3161.82,10136820480,8559656960,1.184,3206.0,,69.65,28 kernels,3406171
+qkrope_fwd,triton_per_fused__to_copy__unsafe_view_add_cat_mean_mul_neg_pow_rsqrt_slice_view_6,12.00,1210.66,3310438400,2441084928,1.356,2734.4,40,70.66,_to_copy+add+cat+mean+mul+neg+pow+rsqrt+slice,3406171
+qkrope_fwd,__region_total__,12.00,1210.66,3310438400,2441084928,1.356,2734.4,,70.66,1 kernels,3406171
+qkrope_bwd,triton_poi_fused__fused_rms_norm_backward__to_copy_add_mul_neg_slice_9,12.00,955.10,3385157376,,,3544.3,64,42.38,_fused_rms_norm_backward+_to_copy+add+mul+neg+slice,3406171
+qkrope_bwd,triton_per_fused__fused_rms_norm_backward__to_copy_mul_8,24.00,728.00,2445996032,,,3359.9,32,93.14,_fused_rms_norm_backward+_to_copy+mul,3406171
+qkrope_bwd,triton_poi_fused_add_slice_backward_13,24.00,630.08,1788580096,,,2838.7,22,81.65,add+slice_backward,3406171
+qkrope_bwd,__region_total__,60.00,2313.18,7619733504,3649044480,2.088,3294.0,,69.05,3 kernels,3406171
+relu2_fwd,triton_poi_fused__unsafe_view_pow_relu_9,12.00,1290.78,4505249024,4831838208,0.932,3490.3,16,82.87,pow+relu,3406171
+relu2_fwd,__region_total__,12.00,1290.78,4505249024,4831838208,0.932,3490.3,,82.87,1 kernels,3406171
+relu2_bwd,triton_poi_fused__unsafe_view_mul_pow_relu_threshold_backward_view_5,12.00,1904.00,6935900928,7247757312,0.957,3642.8,23,86.43,mul+pow+relu+threshold_backward,3406171
+relu2_bwd,__region_total__,12.00,1904.00,6935900928,7247757312,0.957,3642.8,,86.43,1 kernels,3406171
+ce_fwd,triton_red_fused__log_softmax__to_copy__unsafe_view_div_mul_prepare_softmax_online_tanh_view_36,1.00,1910.24,2147826688,,,1124.4,32,99.00,_log_softmax+_to_copy+div+mul+prepare_softmax_online+tanh,3406171
+ce_fwd,triton_red_fused__log_softmax__to_copy__unsafe_view_div_mul_nll_loss_forward_sub_tanh_view_37,1.00,27.39,2648832,,,96.7,63,24.96,_log_softmax+_to_copy+div+mul+nll_loss_forward+sub+tanh,3406171
+ce_fwd,triton_per_fused__log_softmax__to_copy__unsafe_view_div_mul_nll_loss_forward_sub_tanh_view_38,1.00,3.10,3840,,,1.2,16,3.09,_log_softmax+_to_copy+div+mul+nll_loss_forward+sub+tanh,3406171
+ce_fwd,__region_total__,3.00,1940.74,2150479360,2147876864,1.001,1108.1,,97.80,3 kernels,3406171
+ce_bwd,triton_red_fused__log_softmax__log_softmax_backward_data__to_copy__unsafe_view_div_mul_nll_loss_backward_nll_loss_forward_tanh_tanh_backward_view_0,1.00,1879.74,4266190336,4295360512,0.993,2269.6,34,70.75,_log_softmax+_log_softmax_backward_data+_to_copy+div+mul+nll_loss_backward+nll_loss_forward+tanh+tanh_backward,3406171
+ce_bwd,__region_total__,1.00,1879.74,4266190336,4295360512,0.993,2269.6,,70.75,1 kernels,3406171
+optim_adamw,triton_poi_fused__to_copy_add_copy_copy__div_lerp_mul_neg_pow_rsub_sqrt_0,7.00,659.55,2266786560,,,3436.9,48,54.22,_to_copy+add+copy+copy_+div+lerp+mul+neg+pow+rsub+sqrt,3406171
+optim_adamw,triton_poi_fused_add_copy__div_lerp_mul_neg_pow_rsub_sqrt_0,6.00,204.06,676570368,,,3315.5,26,77.78,add+copy_+div+lerp+mul+neg+pow+rsub+sqrt,3406171
+optim_adamw,__region_total__,13.00,863.62,2943356928,3170895224,0.928,3408.2,,59.79,2 kernels,3406171
+optim_muon,triton_poi_fused__to_copy_add_clamp_min_copy__div_ge_lerp_linalg_vector_norm_mean_mul_pow_reciprocal_rsqrt_rsub_sqrt_sub_17,3.00,304.77,1113307904,,,3653.0,32,95.19,_to_copy+add+clamp_min+copy_+div+ge+lerp+linalg_vector_norm+mean+mul+pow+reciprocal+rsqrt+rsub+sqrt+sub,3406171
+optim_muon,triton_per_fused__to_copy_clamp_min_copy__div_lerp_linalg_vector_norm_mul_rsub_2,2.00,280.06,961659904,,,3433.7,25,93.79,_to_copy+clamp_min+copy_+div+lerp+linalg_vector_norm+mul+rsub,3406171
+optim_muon,triton_red_fused__to_copy_lerp_linalg_vector_norm_rsub_0,3.00,220.29,679570688,,,3084.9,30,96.02,_to_copy+lerp+linalg_vector_norm+rsub,3406171
+optim_muon,triton_red_fused__to_copy_add_linalg_vector_norm_mul_14,3.00,168.32,509767168,,,3028.6,28,93.49,_to_copy+add+linalg_vector_norm+mul,3406171
+optim_muon,triton_red_fused__to_copy_clamp_min_copy__div_lerp_linalg_vector_norm_mul_rsub_2,1.00,137.38,471586048,,,3432.8,32,89.41,_to_copy+clamp_min+copy_+div+lerp+linalg_vector_norm+mul+rsub,3406171
+optim_muon,triton_per_fused__to_copy_add_clamp_min_linalg_vector_norm_mean_mul_pow_reciprocal_15,2.00,99.90,340160000,,,3404.9,22,87.32,_to_copy+add+clamp_min+linalg_vector_norm+mean+mul+pow+reciprocal,3406171
+optim_muon,triton_red_fused__to_copy_add_clamp_min_linalg_vector_norm_mean_mul_pow_reciprocal_15,1.00,53.15,170251776,,,3203.1,36,62.00,_to_copy+add+clamp_min+linalg_vector_norm+mean+mul+pow+reciprocal,3406171
+optim_muon,triton_per_fused__to_copy_lerp_linalg_vector_norm_rsub_1,9.00,23.04,50176,,,2.2,16,5.11,_to_copy+lerp+linalg_vector_norm+rsub,3406171
+optim_muon,triton_red_fused__to_copy_add_clamp_min_copy__div_lerp_linalg_vector_norm_mean_mul_pow_reciprocal_rsqrt_rsub_sqrt_sum_16,2.00,7.36,605696,,,82.3,39,23.46,_to_copy+add+clamp_min+copy_+div+lerp+linalg_vector_norm+mean+mul+pow+reciprocal+rsqrt+rsub+sqrt+sum,3406171
+optim_muon,triton_per_fused__to_copy_add_clamp_min_copy__div_lerp_linalg_vector_norm_mean_mul_pow_reciprocal_rsqrt_rsub_sqrt_sum_16,1.00,3.17,300032,,,94.7,25,12.30,_to_copy+add+clamp_min+copy_+div+lerp+linalg_vector_norm+mean+mul+pow+reciprocal+rsqrt+rsub+sqrt+sum,3406171
+optim_muon,triton_per_fused__to_copy_add_clamp_min_copy__div_lerp_linalg_vector_norm_mean_mul_pow_reciprocal_rsqrt_rsub_sqrt_sum_13,1.00,3.01,8448,,,2.8,32,3.11,_to_copy+add+clamp_min+copy_+div+lerp+linalg_vector_norm+mean+mul+pow+reciprocal+rsqrt+rsub+sqrt+sum,3406171
+optim_muon,triton_per_fused__to_copy_clamp_min_copy__div_lerp_linalg_vector_norm_mul_rsub_1,1.00,2.82,7680,,,2.7,18,2.99,_to_copy+clamp_min+copy_+div+lerp+linalg_vector_norm+mul+rsub,3406171
+optim_muon,triton_per_fused__to_copy_lerp_linalg_vector_norm_rsub_0,1.00,2.66,7680,,,2.9,22,12.21,_to_copy+lerp+linalg_vector_norm+rsub,3406171
+optim_muon,triton_per_fused__to_copy_add_linalg_vector_norm_mul_12,1.00,2.56,6656,,,2.6,22,12.22,_to_copy+add+linalg_vector_norm+mul,3406171
+optim_muon,triton_poi_fused__to_copy_add_clamp_min_copy__div_ge_lerp_linalg_vector_norm_mul_reciprocal_rsqrt_rsub_sqrt_sub_14,1.00,2.34,8704,,,3.7,19,5.88,_to_copy+add+clamp_min+copy_+div+ge+lerp+linalg_vector_norm+mul+reciprocal+rsqrt+rsub+sqrt+sub,3406171
+optim_muon,__region_total__,32.00,1310.82,4247298560,2038442112,2.084,3240.2,,89.18,15 kernels,3406171
+optim_muon_ns,triton_poi_fused_add_div_linalg_vector_norm_mul_10,3.00,224.38,808698368,,,3604.1,31,87.99,add+div+linalg_vector_norm+mul,3406171
+optim_muon_ns,triton_poi_fused_add_div_linalg_vector_norm_mul_8,4.00,180.90,636190720,,,3516.9,25,85.99,add+div+linalg_vector_norm+mul,3406171
+optim_muon_ns,triton_poi_fused_add_div_linalg_vector_norm_mul_6,4.00,131.17,440226304,,,3356.2,24,82.64,add+div+linalg_vector_norm+mul,3406171
+optim_muon_ns,triton_poi_fused_add_mul_12,3.00,128.74,439045376,,,3410.4,23,84.24,add+mul,3406171
+optim_muon_ns,triton_poi_fused_add_div_linalg_vector_norm_mul_4,4.00,89.66,257609984,,,2873.1,16,77.74,add+div+linalg_vector_norm+mul,3406171
+optim_muon_ns,triton_poi_fused_add_mul_9,4.00,68.96,200506880,,,2907.6,23,79.59,add+mul,3406171
+optim_muon_ns,triton_poi_fused_add_mul_7,4.00,68.19,200124416,,,2934.7,23,79.15,add+mul,3406171
+optim_muon_ns,triton_poi_fused_add_mul_11,4.00,67.90,200515072,,,2952.9,23,79.38,add+mul,3406171
+optim_muon_ns,triton_poi_fused_add_mul_5,4.00,67.81,200471040,,,2956.5,23,79.41,add+mul,3406171
+optim_muon_ns,triton_poi_fused_add_mul_13,3.00,65.95,200635648,,,3042.1,23,81.72,add+mul,3406171
+optim_muon_ns,triton_red_fused_linalg_vector_norm_3,3.00,56.16,170004992,,,3027.2,31,92.09,linalg_vector_norm,3406171
+optim_muon_ns,triton_per_fused_add_div_linalg_vector_norm_mul_2,1.00,2.59,4864,,,1.9,18,3.11,add+div+linalg_vector_norm+mul,3406171
+optim_muon_ns,triton_poi_fused_add_mul_10,1.00,2.27,4352,,,1.9,16,5.71,add+mul,3406171
+optim_muon_ns,triton_poi_fused_add_mul_3,1.00,2.05,3840,,,1.9,16,6.18,add+mul,3406171
+optim_muon_ns,__region_total__,43.00,1156.74,3754041856,,,3245.4,,83.17,14 kernels,3406171
+optim_muon_stack,"void at::<unnamed>::CatArrayBatchedCopy_alignedK_contig<at::<unnamed>::OpaqueType<4>, unsigned int, 2, 128, 1, 16>(T1 *, at::<unnamed>::CatArrInputTensorMetadata<T1, T2, T4, T5>, at::<unnamed>::TensorSizeStride<T2, 4>, int, T2)",8.00,371.74,1199005184,,,3225.4,32,82.60,extern,3406171
+optim_muon_stack,"void at::<unnamed>::multi_tensor_apply_kernel<at::<unnamed>::TensorListMetadata<2>, at::<unnamed>::UnaryOpFunctor<float, 2, 1, 1>, at::Copy<float, float>>(T1, T2, T3...)",7.00,212.35,540780288,,,2546.6,32,46.33,extern,3406171
+optim_muon_stack,__region_total__,15.00,584.10,1739785472,,,2978.6,,69.41,2 kernels,3406171
+optim_muon_ns_gemm,nvjet_tst_192x192_64x3_2x1_v_bz_coopB_NNN,20.00,1384.51,2306472192,,,1665.9,168,14.70,extern:cuBLAS,3406171
+optim_muon_ns_gemm,nvjet_tst_128x256_64x4_2x1_v_bz_coopA_NTN,5.00,340.26,301747200,,,886.8,168,14.37,extern:cuBLAS,3406171
+optim_muon_ns_gemm,nvjet_tst_128x256_64x4_2x1_v_bz_coopA_TNN,5.00,339.55,301039616,,,886.6,168,14.37,extern:cuBLAS,3406171
+optim_muon_ns_gemm,nvjet_tst_192x192_64x4_1x2_h_bz_coopB_TNN,5.00,329.82,457642496,,,1387.5,168,14.70,extern:cuBLAS,3406171
+optim_muon_ns_gemm,nvjet_tst_128x256_64x4_2x1_v_bz_coopA_NNN,10.00,221.76,141776128,,,639.3,168,14.40,extern:cuBLAS,3406171
+optim_muon_ns_gemm,void cutlass::Kernel2<cutlass_80_wmma_tensorop_bf16_s161616gemm_bf16_16x16_32x1_nn_align2>(T1::Params),10.00,34.14,151552,,,4.4,64,1.56,extern:cuBLAS,3406171
+optim_muon_ns_gemm,void cutlass::Kernel2<cutlass_80_wmma_tensorop_bf16_s161616gemm_bf16_16x16_32x1_tn_align2>(T1::Params),5.00,16.80,73216,,,4.4,56,1.56,extern:cuBLAS,3406171
+optim_muon_ns_gemm,__region_total__,60.00,2666.85,3508902400,,,1315.7,,14.34,7 kernels,3406171
+gemm_fwd,nvjet_tst_128x256_64x4_2x1_v_bz_coopA_TNN,60.00,5411.84,7052757248,,,1303.2,168,14.70,extern:cuBLAS,3406171
+gemm_fwd,nvjet_tst_192x192_64x4_2x1_v_bz_coopB_TNN,12.00,2925.66,2822117632,,,964.6,168,14.80,extern:cuBLAS,3406171
+gemm_fwd,nvjet_tst_192x192_64x4_1x1_v_bz_coopB_TNN,1.00,2477.92,2910444544,,,1174.6,168,15.62,extern:cuBLAS,3406171
+gemm_fwd,void cutlass::Kernel2<cutlass_80_wmma_tensorop_bf16_s161616gemm_bf16_32x32_32x1_tn_align2>(T1::Params),6.00,34.78,25250560,,,725.9,40,43.16,extern:cuBLAS,3406171
+gemm_fwd,nvjet_tst_256x8_64x6_2x1_v_bz_TNT,1.00,5.18,1591552,,,307.0,168,14.67,extern:cuBLAS,3406171
+gemm_fwd,__region_total__,80.00,10855.39,12812161536,,,1180.3,,15.03,5 kernels,3406171
+gemm_bwd,nvjet_tst_128x256_64x4_2x1_v_bz_coopA_NNN,61.00,7659.78,9930095104,,,1296.4,168,14.71,extern:cuBLAS,3406171
+gemm_bwd,nvjet_tst_192x192_64x3_1x2_h_bz_coopB_splitK_NTN,24.00,5031.52,6043209216,,,1201.1,168,14.06,extern:cuBLAS,3406171
+gemm_bwd,nvjet_tst_192x192_64x3_2x1_v_bz_coopB_NNN,12.00,2993.09,2826263808,,,944.3,168,14.81,extern:cuBLAS,3406171
+gemm_bwd,nvjet_tst_128x256_64x4_2x1_v_bz_coopA_splitK_NTN,48.00,2538.18,4838278912,,,1906.2,168,14.04,extern:cuBLAS,3406171
+gemm_bwd,nvjet_tst_128x256_64x4_2x1_v_bz_coopA_NTN,1.00,2193.18,2729255680,,,1244.4,168,14.71,extern:cuBLAS,3406171
+gemm_bwd,"void cublasLt::splitKreduce_kernel<32, 16, int, float, __nv_bfloat16, float, __nv_bfloat16, 0, float, __nv_bfloat16, __nv_bfloat16, 1, 0, 0>(cublasLt::cublasSplitKParams<T6>, const T4 *, const T10 *, T9 *, T5 *, const T6 *, const T6 *, const T11 *, const T4 *, T11 *, void *, long, T6 *, int *, T6 *, T6 *, const T6 *, const T6 *, const T6 *, const T6 *, const T6 *)",73.00,883.52,1246415360,,,1410.7,32,84.90,extern:cuBLAS,3406171
+gemm_bwd,void cutlass::Kernel2<cutlass_80_wmma_tensorop_bf16_s161616gemm_bf16_32x32_128x2_nt_align2>(T1::Params),6.00,57.76,27660032,,,478.9,80,6.25,extern:cuBLAS,3406171
+gemm_bwd,"void cublasLt::splitKreduce_kernel<32, 16, int, __nv_bfloat16, __nv_bfloat16, float, __nv_bfloat16, 0, __nv_bfloat16, __nv_bfloat16, __nv_bfloat16, 1, 0, 0>(cublasLt::cublasSplitKParams<T6>, const T4 *, const T10 *, T9 *, T5 *, const T6 *, const T6 *, const T11 *, const T4 *, T11 *, void *, long, T6 *, int *, T6 *, T6 *, const T6 *, const T6 *, const T6 *, const T6 *, const T6 *)",6.00,43.14,131328,,,3.0,32,10.60,extern:cuBLAS,3406171
+gemm_bwd,void cutlass::Kernel2<cutlass_80_wmma_tensorop_bf16_s161616gemm_bf16_32x32_32x1_nn_align2>(T1::Params),6.00,31.30,2439680,,,78.0,42,40.94,extern:cuBLAS,3406171
+gemm_bwd,nvjet_tst_64x8_64x16_1x1_v_bz_splitK_NNT,1.00,7.30,1657600,,,227.2,168,14.49,extern:cuBLAS,3406171
+gemm_bwd,void cutlass::Kernel2<cutlass_75_tensorop_bf16_s1688gemm_bf16_64x64_nn_align1>(T1::Params),1.00,6.56,130304,,,19.9,96,22.00,extern:cuBLAS,3406171
+gemm_bwd,__region_total__,239.00,21445.31,27645537024,,,1289.1,,17.39,11 kernels,3406171
+attention_fwd,"void cutlass::device_kernel<flash::enable_sm90_or_later<flash::FlashAttnFwdSm90<flash::CollectiveMainloopFwdSm90<2, cute::tuple<cute::C<1>, cute::C<1>, cute::C<1>>, cute::tuple<cute::C<128>, cute::C<128>, cute::C<128>>, 128, cutlass::bfloat16_t, float, arch::Sm90, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0>, flash::CollectiveEpilogueFwd<cute::tuple<cute::C<128>, cute::C<128>, cute::C<128>>, cute::tuple<cute::C<1>, cute::C<1>, cute::C<1>>, cutlass::bfloat16_t, arch::Sm90, 256, 0, 0, 0, 0>, flash::DynamicPersistentTileScheduler<256, 32, 0, 0, 1>>>>(T1::Params)",12.00,2278.82,2395945728,,,1051.4,168,14.04,extern:FA3,3406171
+attention_fwd,__region_total__,12.00,2278.82,2395945728,,,1051.4,,14.04,1 kernels,3406171
+attention_bwd,"void cutlass::device_kernel<flash::enable_sm90_or_later<flash::FlashAttnBwdSm90<flash::CollectiveMainloopBwdSm90<2, 2, 2, cute::tuple<cute::C<1>, cute::C<1>, cute::C<1>>, cute::tuple<cute::C<64>, cute::C<128>, cute::C<128>>, cutlass::bfloat16_t, float, arch::Sm90, 1, 0, 0, 0, 0, 1, 0, 0, 2, 1, 2, 1, 0>, flash::CollectiveEpilogueBwd<cute::tuple<cute::C<64>, cute::C<128>, cute::C<128>>, cutlass::bfloat16_t, arch::Sm90, 256, 0, 0, 1>, flash::SingleTileBwdLPTScheduler<0, 128, 0>>>>(T1::Params)",12.00,6025.95,5774697472,,,958.3,168,15.09,extern:FA3,3406171
+attention_bwd,"void cutlass::device_kernel<flash::FlashAttnBwdPreprocess<cute::tuple<cute::C<64>, cute::C<128>>, cutlass::bfloat16_t, float, arch::Sm90, 1, 0>>(T1::Params)",12.00,658.27,2107796736,,,3202.0,64,38.44,extern:FA3,3406171
+attention_bwd,"void cutlass::device_kernel<flash::FlashAttnBwdPostprocessConvertdQ<cute::tuple<cute::C<64>, cute::C<128>>, cutlass::bfloat16_t, float, arch::Sm90, 256, cute::TiledMMA<cute::MMA_Atom<SM90::MMA_64x64x16_F32BF16BF16_SS<0, 1, 1, 1>>, cute::Layout<cute::tuple<cute::C<1>, cute::C<2>, cute::C<1>>, cute::tuple<cute::C<0>, cute::C<1>, cute::C<0>>>, cute::tuple<cute::Underscore, cute::Underscore, cute::Underscore>>, 0>>(T1::Params)",12.00,467.87,1527752448,,,3265.3,56,46.04,extern:FA3,3406171
+attention_bwd,__region_total__,36.00,7152.10,9410246656,,,1315.7,,19.26,3 kernels,3406171
+weight_cast_fwd,triton_poi_fused__to_copy_t_5,48.00,165.86,113412608,,,683.8,18,22.08,_to_copy+t,3406171
+weight_cast_fwd,triton_poi_fused__to_copy_t_8,24.00,146.62,226580480,,,1545.3,18,62.78,_to_copy+t,3406171
+weight_cast_fwd,triton_poi_fused__to_copy_t_35,1.00,38.05,128299776,,,3372.1,18,82.11,_to_copy+t,3406171
+weight_cast_fwd,triton_poi_fused__to_copy_t_11,6.00,15.23,20224,,,1.3,16,5.08,_to_copy+t,3406171
+weight_cast_fwd,triton_poi_fused__to_copy_t_1,1.00,3.10,3072,,,1.0,16,1.56,_to_copy+t,3406171
+weight_cast_fwd,__region_total__,80.00,368.86,468316160,,,1269.6,,43.57,5 kernels,3406171
+weight_cast_bwd,triton_poi_fused__to_copy_7,48.00,151.74,56800256,,,374.3,18,22.75,_to_copy,3406171
+weight_cast_bwd,triton_poi_fused__to_copy_4,24.00,144.16,113337856,,,786.2,18,64.39,_to_copy,3406171
+weight_cast_bwd,triton_poi_fused__to_copy_1,1.00,42.02,121699584,,,2896.5,18,91.12,_to_copy,3406171
+weight_cast_bwd,triton_poi_fused__to_copy_12,6.00,13.25,17408,,,1.3,16,5.37,_to_copy,3406171
+weight_cast_bwd,triton_poi_fused__to_copy_44,1.00,2.27,2816,,,1.2,16,1.56,_to_copy,3406171
+weight_cast_bwd,__region_total__,80.00,353.44,291857920,,,825.8,,47.08,5 kernels,3406171
+embedding_ve_fwd,triton_poi_fused__unsafe_view_add_embedding_mul_sigmoid_unsqueeze_view_12,6.00,273.82,810089984,,,2958.4,28,84.44,add+embedding+mul+sigmoid,3406171
+embedding_ve_fwd,triton_per_fused__to_copy_add_embedding_mean_pow_rsqrt_0,1.00,40.54,34117632,,,841.5,24,86.21,_to_copy+add+embedding+mean+pow+rsqrt,3406171
+embedding_ve_fwd,__region_total__,7.00,314.37,844207616,,,2685.4,,84.67,2 kernels,3406171
+embedding_ve_bwd,triton_per_fused__unsafe_view_embedding_dense_backward_mul_nll_loss_forward_sigmoid_sigmoid_backward_squeeze_sum_unsqueeze_view_11,6.00,376.10,821199104,,,2183.5,32,91.78,embedding_dense_backward+mul+nll_loss_forward+sigmoid+sigmoid_backward+sum,3406171
+embedding_ve_bwd,triton_poi_fused_embedding_dense_backward_15,7.00,268.32,895097088,,,3335.9,18,82.31,embedding_dense_backward,3406171
+embedding_ve_bwd,triton_poi_fused__unsafe_view_embedding_dense_backward_mul_nll_loss_forward_sigmoid_unsqueeze_view_10,7.00,184.74,496224512,,,2686.1,16,71.66,embedding_dense_backward+mul+nll_loss_forward+sigmoid,3406171
+embedding_ve_bwd,triton_per_fused__fused_rms_norm_backward__to_copy__unsafe_view_add_embedding_dense_backward_mul_nll_loss_forward_sigmoid_slice_slice_backward_view_45,1.00,89.76,139586560,,,1555.1,31,93.70,_fused_rms_norm_backward+_to_copy+add+embedding_dense_backward+mul+nll_loss_forward+sigmoid+slice+slice_backward,3406171
+embedding_ve_bwd,__region_total__,21.00,918.91,2352107264,,,2559.7,,85.16,4 kernels,3406171
+other_elementwise_fwd,"void at::vectorized_elementwise_kernel<4, at::FillFunctor<int>, std::array<char *, 1>>(int, T2, T3)",12.00,28.42,52736,,,1.9,16,6.07,extern,3406171
+other_elementwise_fwd,triton_poi_fused__to_copy_clone_mul_slice_2,1.00,3.65,2231040,,,611.6,24,29.73,_to_copy+clone+mul+slice,3406171
+other_elementwise_fwd,triton_poi_fused__to_copy__unsafe_view_clone_mul_slice_3,1.00,3.20,1576192,,,492.6,16,28.65,_to_copy+clone+mul+slice,3406171
+other_elementwise_fwd,"void at::vectorized_elementwise_kernel<4, at::BUnaryFunctor<float, float, float, binary_internal::MulFunctor<float>>, std::array<char *, 2>>(int, T2, T3)",1.00,2.27,5632,,,2.5,32,4.45,extern,3406171
+other_elementwise_fwd,__region_total__,15.00,37.54,3865600,,,103.0,,10.20,4 kernels,3406171
+other_elementwise_bwd,triton_red_fused__to_copy_mul_slice_sum_40,1.00,31.58,100845056,,,3192.9,32,94.59,_to_copy+mul+slice+sum,3406171
+other_elementwise_bwd,triton_red_fused__to_copy__unsafe_view_mul_sigmoid_sigmoid_backward_sum_41,1.00,8.67,140288,,,16.2,40,24.89,_to_copy+mul+sigmoid+sigmoid_backward+sum,3406171
+other_elementwise_bwd,triton_poi_fused__to_copy__unsafe_view_mul_sigmoid_sigmoid_backward_view_43,1.00,2.66,68608,,,25.8,16,11.37,_to_copy+mul+sigmoid+sigmoid_backward,3406171
+other_elementwise_bwd,"void at::vectorized_elementwise_kernel<4, at::BUnaryFunctor<float, float, float, binary_internal::MulFunctor<float>>, std::array<char *, 2>>(int, T2, T3)",1.00,2.40,5120,,,2.1,32,4.13,extern,3406171
+other_elementwise_bwd,triton_per_fused__to_copy__unsafe_view_mul_sigmoid_sum_view_42,1.00,2.24,2816,,,1.3,16,3.02,_to_copy+mul+sigmoid+sum,3406171
+other_elementwise_bwd,"void at::vectorized_elementwise_kernel<4, at::FillFunctor<float>, std::array<char *, 1>>(int, T2, T3)",1.00,1.89,4096,,,2.2,16,5.95,extern,3406171
+other_elementwise_bwd,__region_total__,6.00,49.44,101065984,,,2044.2,,65.97,6 kernels,3406171

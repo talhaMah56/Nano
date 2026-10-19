@@ -1,0 +1,1986 @@
+{
+ "job_id": "3406171",
+ "ncu_csv": "cisc662/results/runs/s2_inductor_3406171/ncu_step20_raw.csv",
+ "steps": 1,
+ "dims": {
+  "B": 16,
+  "T": 2048,
+  "C": 768,
+  "H": 6,
+  "D": 128,
+  "F": 3072,
+  "V": 32768,
+  "L": 12
+ },
+ "hbm_GBps": 3650.0,
+ "target_GBps": 3000.0,
+ "regions": {
+  "mixnorm_fwd": {
+   "launches": 25.0,
+   "us": 1713.3760000000002,
+   "bytes": 5513751040.0,
+   "occ_us": 158182.74815999996,
+   "kernels": 25,
+   "occ": 92.32226210709146,
+   "tier": "A",
+   "min_bytes": 5539758080,
+   "min_formula": "110A + (2L+1)*N*4 rstd with A = N*C*2 = 50,331,648 B  [layer 0 lambda-mix+norm (read x0; write a, h): 1 x (1R+2W)A; layers 1..L-1 MLP-residual add + lambda-mix + norm (read b, mlp_out, x0; write a, h): 11 x (3R+2W)A; attn-residual add + norm (read a, attn_out; write b, h): 12 x (2R+2W)A; final add - backout + norm (read b, mlp_out, x_backout; write h): 1 x (3R+1W)A]",
+   "nsys_us": 1902.4959999999996
+  },
+  "mixnorm_bwd": {
+   "launches": 51.0,
+   "us": 3161.8240000000005,
+   "bytes": 10136820480.0,
+   "occ_us": 220216.8448,
+   "kernels": 28,
+   "occ": 69.64867266489215,
+   "tier": "A",
+   "min_bytes": 8559656960,
+   "min_formula": "170A + (2L+1)*N*4 rstd with A = N*C*2 = 50,331,648 B  [layer 0 (read dh x3 q/k/v dX GEMMs, db, x0, dx0_acc; write dx0): 1 x (6R+1W)A; layers 1..L-1 (read dh x3, db, b, mlp_out, x0, dx0_acc; write dx, dx0_acc): 11 x (8R+2W)A; attn-residual norm bwd (read dh, dx, b; write db): 12 x (3R+1W)A; final norm + backout bwd (read dh, h, x_backout; write dx): 1 x (3R+1W)A; backout grad added at layer L/2 (read dx): 1 x (1R+0W)A]",
+   "nsys_us": 3262.3040000000005
+  },
+  "qkrope_fwd": {
+   "launches": 12.0,
+   "us": 1210.656,
+   "bytes": 3310438400.0,
+   "occ_us": 85550.07648,
+   "kernels": 1,
+   "occ": 70.66423201966538,
+   "tier": "A",
+   "min_bytes": 2441084928,
+   "min_formula": "L*(4A + 2*N*H*4 rstd + cos/sin 524,288 B): read q,k (GEMM outputs), write rotated+normed+scaled q,k",
+   "nsys_us": 1339.456
+  },
+  "qkrope_bwd": {
+   "launches": 60.0,
+   "us": 2313.184,
+   "bytes": 7619733504.0,
+   "occ_us": 159729.61696,
+   "kernels": 3,
+   "occ": 69.05184237829762,
+   "tier": "A",
+   "min_bytes": 3649044480,
+   "min_formula": "L*(6A + rstd + cos/sin): read dq',dk' (FA3 bwd) and q,k; write dq,dk",
+   "nsys_us": 2418.432
+  },
+  "relu2_fwd": {
+   "launches": 12.0,
+   "us": 1290.784,
+   "bytes": 4505249024.0,
+   "occ_us": 106963.92447999999,
+   "kernels": 1,
+   "occ": 82.86740808686812,
+   "tier": "A",
+   "min_bytes": 4831838208,
+   "min_formula": "L*8A: read h (N x F bf16 = 4A), write relu(h)^2 (4A)",
+   "nsys_us": 1319.9360000000001
+  },
+  "relu2_bwd": {
+   "launches": 12.0,
+   "us": 1904.0,
+   "bytes": 6935900928.0,
+   "occ_us": 164558.35488000003,
+   "kernels": 1,
+   "occ": 86.42770739495799,
+   "tier": "A",
+   "min_bytes": 7247757312,
+   "min_formula": "L*12A: read dy (4A) and h (4A), write dh (4A)",
+   "nsys_us": 1957.888
+  },
+  "ce_fwd": {
+   "launches": 3.0,
+   "us": 1940.736,
+   "bytes": 2150479360.0,
+   "occ_us": 189807.05568,
+   "kernels": 3,
+   "occ": 97.80158438860308,
+   "tier": "A",
+   "min_bytes": 2147876864,
+   "min_formula": "N*V*2 (read bf16 logits once, 2,147,483,648 B) + N*8 targets + N*4 lse",
+   "nsys_us": 2275.264
+  },
+  "ce_bwd": {
+   "launches": 1.0,
+   "us": 1879.744,
+   "bytes": 4266190336.0,
+   "occ_us": 132991.888,
+   "kernels": 1,
+   "occ": 70.75,
+   "tier": "A",
+   "min_bytes": 4295360512,
+   "min_formula": "2*N*V*2 (read logits, write bf16 dlogits) + targets + lse",
+   "nsys_us": 2164.928
+  },
+  "optim_adamw": {
+   "launches": 13.0,
+   "us": 863.616,
+   "bytes": 2943356928.0,
+   "occ_us": 51632.4256,
+   "kernels": 2,
+   "occ": 59.78632355120795,
+   "tier": "A",
+   "min_bytes": 3170895224,
+   "min_formula": "28 B/param x 25,165,874 fp32 params (lm_head, scalars: read p,g,m,v, write p,m,v) + 14 B/param x 176,160,768 bf16 params (wte + 6 value embeddings)",
+   "nsys_us": 908.768
+  },
+  "optim_muon": {
+   "launches": 32.0,
+   "us": 1310.8159999999998,
+   "bytes": 4247298560.0,
+   "occ_us": 116896.19776000001,
+   "kernels": 15,
+   "occ": 89.17818958572373,
+   "tier": "A",
+   "min_bytes": 2038442112,
+   "min_formula": "24 B/param x 84,935,088 Muon params: pre-NS read g,m (fp32) write m (fp32) + X (bf16); post-NS read X (bf16), p write p (fp32); NS pointwise folded into bmm epilogues and stack/unstack avoided (both 0); extra passes for the global norms not counted",
+   "nsys_us": 1359.1999999999996
+  },
+  "optim_muon_ns": {
+   "launches": 43.0,
+   "us": 1156.736,
+   "bytes": 3754041856.0,
+   "occ_us": 96210.28959999997,
+   "kernels": 14,
+   "occ": 83.17393908376671,
+   "tier": "-",
+   "min_bytes": null,
+   "min_formula": null,
+   "nsys_us": 1184.4480000000003
+  },
+  "optim_muon_stack": {
+   "launches": 15.0,
+   "us": 584.096,
+   "bytes": 1739785472.0,
+   "occ_us": 40543.43968,
+   "kernels": 2,
+   "occ": 69.41228784309429,
+   "tier": "-",
+   "min_bytes": null,
+   "min_formula": null,
+   "nsys_us": 640.512
+  },
+  "optim_muon_ns_gemm": {
+   "launches": 60.0,
+   "us": 2666.8480000000004,
+   "bytes": 3508902400.0,
+   "occ_us": 38246.43584,
+   "kernels": 7,
+   "occ": 14.341438222200887,
+   "tier": "-",
+   "min_bytes": null,
+   "min_formula": null,
+   "nsys_us": 3309.6594786788314
+  },
+  "gemm_fwd": {
+   "launches": 80.0,
+   "us": 10855.392,
+   "bytes": 12812161536.0,
+   "occ_us": 163157.41472,
+   "kernels": 5,
+   "occ": 15.030080417178855,
+   "tier": "-",
+   "min_bytes": null,
+   "min_formula": null,
+   "nsys_us": 12761.726997791142
+  },
+  "gemm_bwd": {
+   "launches": 239.0,
+   "us": 21445.311999999998,
+   "bytes": 27645537024.0,
+   "occ_us": 372990.76096000004,
+   "kernels": 11,
+   "occ": 17.39264791111456,
+   "tier": "-",
+   "min_bytes": null,
+   "min_formula": null,
+   "nsys_us": 25842.566523530022
+  },
+  "attention_fwd": {
+   "launches": 12.0,
+   "us": 2278.816,
+   "bytes": 2395945728.0,
+   "occ_us": 32002.168639999996,
+   "kernels": 1,
+   "occ": 14.043331554631878,
+   "tier": "-",
+   "min_bytes": null,
+   "min_formula": null,
+   "nsys_us": 2626.0800000000004
+  },
+  "attention_bwd": {
+   "launches": 36.0,
+   "us": 7152.0960000000005,
+   "bytes": 9410246656.0,
+   "occ_us": 137764.72960000002,
+   "kernels": 3,
+   "occ": 19.26214771166383,
+   "tier": "-",
+   "min_bytes": null,
+   "min_formula": null,
+   "nsys_us": 8482.497
+  },
+  "weight_cast_fwd": {
+   "launches": 80.0,
+   "us": 368.864,
+   "bytes": 468316160.0,
+   "occ_us": 16072.881279999998,
+   "kernels": 5,
+   "occ": 43.57400364361933,
+   "tier": "-",
+   "min_bytes": null,
+   "min_formula": null,
+   "nsys_us": 321.1840000000001
+  },
+  "weight_cast_bwd": {
+   "launches": 80.0,
+   "us": 353.44,
+   "bytes": 291857920.0,
+   "occ_us": 16638.32224,
+   "kernels": 5,
+   "occ": 47.07537980986872,
+   "tier": "-",
+   "min_bytes": null,
+   "min_formula": null,
+   "nsys_us": 256.0
+  },
+  "embedding_ve_fwd": {
+   "launches": 7.0,
+   "us": 314.368,
+   "bytes": 844207616.0,
+   "occ_us": 26617.87904,
+   "kernels": 2,
+   "occ": 84.67108306188925,
+   "tier": "-",
+   "min_bytes": null,
+   "min_formula": null,
+   "nsys_us": 337.85600000000005
+  },
+  "embedding_ve_bwd": {
+   "launches": 21.0,
+   "us": 918.9119999999999,
+   "bytes": 2352107264.0,
+   "occ_us": 78251.51775999999,
+   "kernels": 4,
+   "occ": 85.15670462459953,
+   "tier": "-",
+   "min_bytes": null,
+   "min_formula": null,
+   "nsys_us": 1067.9679999999998
+  },
+  "other_elementwise_fwd": {
+   "launches": 15.0,
+   "us": 37.536,
+   "bytes": 3865600.0,
+   "occ_us": 382.72768,
+   "kernels": 4,
+   "occ": 10.196283034953112,
+   "tier": "-",
+   "min_bytes": null,
+   "min_formula": null,
+   "nsys_us": 17.11605479452055
+  },
+  "other_elementwise_bwd": {
+   "launches": 6.0,
+   "us": 49.44,
+   "bytes": 101065984.0,
+   "occ_us": 3261.48576,
+   "kernels": 6,
+   "occ": 65.96856310679613,
+   "tier": "-",
+   "min_bytes": null,
+   "min_formula": null,
+   "nsys_us": 46.307945205479456
+  }
+ },
+ "targets": [
+  {
+   "label": "residual/lambda-mix + RMSNorm fwd",
+   "inductor_us": 1713.3760000000002,
+   "dram_bytes": 5513751040.0,
+   "min_bytes": 5539758080,
+   "bytes_ratio": 0.9953053834437477,
+   "achieved_GBps": 3218.062491828997,
+   "effective_GBps": 3233.2413200605115,
+   "target_us": {
+    "2700": 2051.762251851852,
+    "3000": 1846.5860266666666,
+    "3300": 1678.7145696969696
+   },
+   "speedup": {
+    "2700": 0.8350753107254821,
+    "3000": 0.9278614563616469,
+    "3300": 1.0206476019978117
+   },
+   "verdict": "~parity: Inductor already runs at 3,233 GB/s effective on the minimum bytes (89% of 3650); only removing bytes across the GEMM boundary (epilogue/prologue fusion) can help"
+  },
+  {
+   "label": "residual/lambda-mix + RMSNorm bwd",
+   "inductor_us": 3161.8240000000005,
+   "dram_bytes": 10136820480.0,
+   "min_bytes": 8559656960,
+   "bytes_ratio": 1.1842554587608147,
+   "achieved_GBps": 3206.004028054692,
+   "effective_GBps": 2707.189571589057,
+   "target_us": {
+    "2700": 3170.2433185185187,
+    "3000": 2853.2189866666668,
+    "3300": 2593.8354424242425
+   },
+   "speedup": {
+    "2700": 0.9973442674039126,
+    "3000": 1.1081602971154585,
+    "3300": 1.2189763268270042
+   },
+   "verdict": "~parity: Inductor already runs at 2,707 GB/s effective on the minimum bytes (74% of 3650); only removing bytes across the GEMM boundary (epilogue/prologue fusion) can help"
+  },
+  {
+   "label": "residual/lambda-mix + RMSNorm fwd+bwd",
+   "inductor_us": 4875.200000000001,
+   "dram_bytes": 15650571520.0,
+   "min_bytes": 14099415040,
+   "bytes_ratio": 1.1100156620398345,
+   "achieved_GBps": 3210.24194289465,
+   "effective_GBps": 2892.069051526091,
+   "target_us": {
+    "2700": 5222.00557037037,
+    "3000": 4699.805013333334,
+    "3300": 4272.550012121212
+   },
+   "speedup": {
+    "2700": 0.9335876674781539,
+    "3000": 1.037319630531282,
+    "3300": 1.1410515935844103
+   },
+   "verdict": "~parity: Inductor already runs at 2,892 GB/s effective on the minimum bytes (79% of 3650); only removing bytes across the GEMM boundary (epilogue/prologue fusion) can help"
+  },
+  {
+   "label": "QK-norm+RoPE+scale fwd",
+   "inductor_us": 1210.656,
+   "dram_bytes": 3310438400.0,
+   "min_bytes": 2441084928,
+   "bytes_ratio": 1.3561340541774054,
+   "achieved_GBps": 2734.4170433219674,
+   "effective_GBps": 2016.3324082150505,
+   "target_us": {
+    "2700": 904.1055288888889,
+    "3000": 813.694976,
+    "3300": 739.7227054545455
+   },
+   "speedup": {
+    "2700": 1.3390649225293976,
+    "3000": 1.4878499139215529,
+    "3300": 1.6366349053137081
+   },
+   "verdict": "target >= 1.3x (bytes: Inductor moves 1.36x the minimum)"
+  },
+  {
+   "label": "QK-norm+RoPE+scale bwd",
+   "inductor_us": 2313.184,
+   "dram_bytes": 7619733504.0,
+   "min_bytes": 3649044480,
+   "bytes_ratio": 2.0881448679956898,
+   "achieved_GBps": 3294.0455683594555,
+   "effective_GBps": 1577.4985820410307,
+   "target_us": {
+    "2700": 1351.4979555555556,
+    "3000": 1216.34816,
+    "3300": 1105.7710545454545
+   },
+   "speedup": {
+    "2700": 1.7115704766635238,
+    "3000": 1.901744974070582,
+    "3300": 2.0919194714776403
+   },
+   "verdict": "target >= 1.3x (bytes: Inductor moves 2.09x the minimum)"
+  },
+  {
+   "label": "QK-norm+RoPE+scale fwd+bwd",
+   "inductor_us": 3523.84,
+   "dram_bytes": 10930171904.0,
+   "min_bytes": 6090129408,
+   "bytes_ratio": 1.7947355748536502,
+   "achieved_GBps": 3101.7787141300396,
+   "effective_GBps": 1728.2650199782054,
+   "target_us": {
+    "2700": 2255.6034844444443,
+    "3000": 2030.043136,
+    "3300": 1845.49376
+   },
+   "speedup": {
+    "2700": 1.5622603991800104,
+    "3000": 1.7358448879777892,
+    "3300": 1.9094293767755681
+   },
+   "verdict": "target >= 1.3x (bytes: Inductor moves 1.79x the minimum)"
+  },
+  {
+   "label": "relu^2 fwd",
+   "inductor_us": 1290.784,
+   "dram_bytes": 4505249024.0,
+   "min_bytes": 4831838208,
+   "bytes_ratio": 0.9324089156256782,
+   "achieved_GBps": 3490.319855219773,
+   "effective_GBps": 3743.3359942484562,
+   "target_us": {
+    "2700": 1789.5697066666667,
+    "3000": 1610.612736,
+    "3300": 1464.1933963636363
+   },
+   "speedup": {
+    "2700": 0.7212817668914796,
+    "3000": 0.8014241854349773,
+    "3300": 0.881566603978475
+   },
+   "verdict": "~parity: Inductor already runs at 3,743 GB/s effective on the minimum bytes (103% of 3650); only removing bytes across the GEMM boundary (epilogue/prologue fusion) can help"
+  },
+  {
+   "label": "relu^2 bwd",
+   "inductor_us": 1904.0,
+   "dram_bytes": 6935900928.0,
+   "min_bytes": 7247757312,
+   "bytes_ratio": 0.9569720162285699,
+   "achieved_GBps": 3642.8051092436976,
+   "effective_GBps": 3806.5952268907563,
+   "target_us": {
+    "2700": 2684.35456,
+    "3000": 2415.919104,
+    "3300": 2196.2900945454544
+   },
+   "speedup": {
+    "2700": 0.7092952728271483,
+    "3000": 0.7881058586968316,
+    "3300": 0.8669164445665148
+   },
+   "verdict": "~parity: Inductor already runs at 3,807 GB/s effective on the minimum bytes (104% of 3650); only removing bytes across the GEMM boundary (epilogue/prologue fusion) can help"
+  },
+  {
+   "label": "softcap+CE fwd",
+   "inductor_us": 1940.736,
+   "dram_bytes": 2150479360.0,
+   "min_bytes": 2147876864,
+   "bytes_ratio": 1.001211659776042,
+   "achieved_GBps": 1108.0741327001713,
+   "effective_GBps": 1106.7331486611263,
+   "target_us": {
+    "2700": 795.5099496296297,
+    "3000": 715.9589546666666,
+    "3300": 650.871776969697
+   },
+   "speedup": {
+    "2700": 2.4396124786416062,
+    "3000": 2.710680531824007,
+    "3300": 2.981748585006408
+   },
+   "verdict": "target >= 1.3x (bandwidth: Inductor achieves 1108 GB/s (30% of 3650))"
+  },
+  {
+   "label": "softcap+CE bwd",
+   "inductor_us": 1879.744,
+   "dram_bytes": 4266190336.0,
+   "min_bytes": 4295360512,
+   "bytes_ratio": 0.9932089108892008,
+   "achieved_GBps": 2269.559225085969,
+   "effective_GBps": 2285.0773892615166,
+   "target_us": {
+    "2700": 1590.8742637037037,
+    "3000": 1431.7868373333333,
+    "3300": 1301.6243975757575
+   },
+   "speedup": {
+    "2700": 1.181579237836044,
+    "3000": 1.3128658198178267,
+    "3300": 1.4441524017996095
+   },
+   "verdict": "target >= 1.3x (bandwidth: Inductor achieves 2270 GB/s (62% of 3650))"
+  },
+  {
+   "label": "softcap+CE fwd+bwd (separate fwd and bwd kernels)",
+   "inductor_us": 3820.48,
+   "dram_bytes": 6416669696.0,
+   "min_bytes": 6443237376,
+   "bytes_ratio": 0.9958766566479516,
+   "achieved_GBps": 1679.545422564704,
+   "effective_GBps": 1686.4994388139712,
+   "target_us": {
+    "2700": 2386.3842133333333,
+    "3000": 2147.745792,
+    "3300": 1952.4961745454546
+   },
+   "speedup": {
+    "2700": 1.6009492430657268,
+    "3000": 1.7788324922952519,
+    "3300": 1.9567157415247773
+   },
+   "verdict": "target >= 1.3x (bandwidth: Inductor achieves 1680 GB/s (46% of 3650))"
+  },
+  {
+   "label": "AdamW",
+   "inductor_us": 863.616,
+   "dram_bytes": 2943356928.0,
+   "min_bytes": 3170895224,
+   "bytes_ratio": 0.9282416226566558,
+   "achieved_GBps": 3408.1778568252557,
+   "effective_GBps": 3671.6494645768494,
+   "target_us": {
+    "2700": 1174.4056385185186,
+    "3000": 1056.9650746666666,
+    "3300": 960.8773406060606
+   },
+   "speedup": {
+    "2700": 0.7353643167870247,
+    "3000": 0.8170714630966942,
+    "3300": 0.8987786094063637
+   },
+   "verdict": "~parity: Inductor already runs at 3,672 GB/s effective on the minimum bytes (101% of 3650); only removing bytes across the GEMM boundary (epilogue/prologue fusion) can help"
+  },
+  {
+   "label": "Muon pre/post-NS pointwise",
+   "inductor_us": 1310.8159999999998,
+   "dram_bytes": 4247298560.0,
+   "min_bytes": 2038442112,
+   "bytes_ratio": 2.083600282292441,
+   "achieved_GBps": 3240.194321704954,
+   "effective_GBps": 1555.0940116690674,
+   "target_us": {
+    "2700": 754.97856,
+    "3000": 679.480704,
+    "3300": 617.7097309090909
+   },
+   "speedup": {
+    "2700": 1.7362294367670517,
+    "3000": 1.9291438186300576,
+    "3300": 2.122058200493063
+   },
+   "verdict": "target >= 1.3x (bytes: Inductor moves 2.08x the minimum)"
+  },
+  {
+   "label": "Muon all non-GEMM traffic (pre/post + NS pointwise + stack/unstack)",
+   "inductor_us": 3051.6479999999997,
+   "dram_bytes": 9741125888.0,
+   "min_bytes": 2038442112,
+   "bytes_ratio": 4.778711070898441,
+   "achieved_GBps": 3192.086992995261,
+   "effective_GBps": 667.9807474518688,
+   "target_us": {
+    "2700": 754.97856,
+    "3000": 679.480704,
+    "3300": 617.7097309090909
+   },
+   "speedup": {
+    "2700": 4.042032663814982,
+    "3000": 4.49114740423887,
+    "3300": 4.940262144662756
+   },
+   "verdict": "target >= 1.3x (bytes: Inductor moves 4.78x the minimum)"
+  },
+  {
+   "label": "softcap+CE, gradient written in the forward (KT-3 single pass)",
+   "inductor_us": 3820.48,
+   "dram_bytes": 6416669696.0,
+   "min_bytes": 4295360512,
+   "bytes_ratio": 1.4938605684141466,
+   "achieved_GBps": 1679.545422564704,
+   "effective_GBps": 1124.2986514783483,
+   "target_us": {
+    "2700": 1590.8742637037037,
+    "3000": 1431.7868373333333,
+    "3300": 1301.6243975757575
+   },
+   "speedup": {
+    "2700": 2.401497143530103,
+    "3000": 2.668330159477892,
+    "3300": 2.9351631754256813
+   },
+   "verdict": "target >= 1.3x (bytes: Inductor moves 1.49x the minimum; bandwidth: Inductor achieves 1680 GB/s (46% of 3650))"
+  }
+ ],
+ "graphs": [
+  {
+   "label": "graph_001_output_code.py",
+   "aot": "0_backward",
+   "role": "bwd",
+   "kernels": 46,
+   "n_mm": 160,
+   "n_bmm": 0
+  },
+  {
+   "label": "graph_002_output_code.py",
+   "aot": "0_forward",
+   "role": "fwd",
+   "kernels": 39,
+   "n_mm": 80,
+   "n_bmm": 0
+  },
+  {
+   "label": "graph_003_output_code.py",
+   "aot": "1_inference",
+   "role": "adamw",
+   "kernels": 1,
+   "n_mm": 0,
+   "n_bmm": 0
+  },
+  {
+   "label": "graph_004_output_code.py",
+   "aot": "2_inference",
+   "role": "adamw",
+   "kernels": 1,
+   "n_mm": 0,
+   "n_bmm": 0
+  },
+  {
+   "label": "graph_005_output_code.py",
+   "aot": "3_inference",
+   "role": "adamw",
+   "kernels": 1,
+   "n_mm": 0,
+   "n_bmm": 0
+  },
+  {
+   "label": "graph_006_output_code.py",
+   "aot": "4_inference",
+   "role": "adamw",
+   "kernels": 1,
+   "n_mm": 0,
+   "n_bmm": 0
+  },
+  {
+   "label": "graph_007_output_code.py",
+   "aot": "5_inference",
+   "role": "adamw",
+   "kernels": 1,
+   "n_mm": 0,
+   "n_bmm": 0
+  },
+  {
+   "label": "graph_008_output_code.py",
+   "aot": "6_inference",
+   "role": "muon",
+   "kernels": 15,
+   "n_mm": 0,
+   "n_bmm": 15
+  },
+  {
+   "label": "graph_009_output_code.py",
+   "aot": "7_inference",
+   "role": "muon",
+   "kernels": 18,
+   "n_mm": 0,
+   "n_bmm": 15
+  },
+  {
+   "label": "graph_010_output_code.py",
+   "aot": "8_inference",
+   "role": "muon",
+   "kernels": 18,
+   "n_mm": 0,
+   "n_bmm": 15
+  },
+  {
+   "label": "graph_011_output_code.py",
+   "aot": "9_inference",
+   "role": "muon",
+   "kernels": 18,
+   "n_mm": 0,
+   "n_bmm": 15
+  }
+ ],
+ "crosscheck": [
+  {
+   "name": "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_NNN",
+   "ncu_us": 7881.536,
+   "nsys_us": 9754.401,
+   "ratio": 0.8079979488233056,
+   "ncu_launches": 71.0,
+   "nsys_launches": 71,
+   "flag": ""
+  },
+  {
+   "name": "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_TNN",
+   "ncu_us": 5751.392,
+   "nsys_us": 7027.327999999998,
+   "ratio": 0.818432268993279,
+   "ncu_launches": 65.0,
+   "nsys_launches": 65,
+   "flag": ""
+  },
+  {
+   "name": "void cutlass::device_kernel<flash::enable_sm90_or_later<flash::FlashAttnBwdSm90<flash::CollectiveMainloopBwdSm90<2, 2, 2, cute::tuple<cute::C<1>, cute::C<1>, cute::C<1>>, cute::tuple<cute::C<64>, cute::C<128>, cute::C<128>>, cutlass::bfloat16_t, float, arch::Sm90, 1, 0, 0, 0, 0, 1, 0, 0, 2, 1, 2, 1, 0>, flash::CollectiveEpilogueBwd<cute::tuple<cute::C<64>, cute::C<128>, cute::C<128>>, cutlass::bfloat16_t, arch::Sm90, 256, 0, 0, 1>, flash::SingleTileBwdLPTScheduler<0, 128, 0>>>>(T1::Params)",
+   "ncu_us": 6025.952,
+   "nsys_us": 7294.1449999999995,
+   "ratio": 0.8261354826371015,
+   "ncu_launches": 12.0,
+   "nsys_launches": 12,
+   "flag": ""
+  },
+  {
+   "name": "nvjet_tst_192x192_64x3_2x1_v_bz_coopB_NNN",
+   "ncu_us": 4377.6,
+   "nsys_us": 5461.184000000001,
+   "ratio": 0.8015844183239385,
+   "ncu_launches": 32.0,
+   "nsys_launches": 32,
+   "flag": ""
+  },
+  {
+   "name": "nvjet_tst_192x192_64x3_1x2_h_bz_coopB_splitK_NTN",
+   "ncu_us": 5031.52,
+   "nsys_us": 5993.4079999999985,
+   "ratio": 0.8395090072292761,
+   "ncu_launches": 24.0,
+   "nsys_launches": 24,
+   "flag": ""
+  },
+  {
+   "name": "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_splitK_NTN",
+   "ncu_us": 2538.176,
+   "nsys_us": 3366.3039999999996,
+   "ratio": 0.7539948857857164,
+   "ncu_launches": 48.0,
+   "nsys_launches": 48,
+   "flag": ""
+  },
+  {
+   "name": "nvjet_tst_192x192_64x4_2x1_v_bz_coopB_TNN",
+   "ncu_us": 2925.664,
+   "nsys_us": 3395.2000000000003,
+   "ratio": 0.8617059377945334,
+   "ncu_launches": 12.0,
+   "nsys_launches": 12,
+   "flag": ""
+  },
+  {
+   "name": "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_NTN",
+   "ncu_us": 2533.44,
+   "nsys_us": 2902.144,
+   "ratio": 0.8729546156221056,
+   "ncu_launches": 6.0,
+   "nsys_launches": 6,
+   "flag": ""
+  },
+  {
+   "name": "triton_red_fused__log_softmax__to_copy__unsafe_view_div_mul_prepare_softmax_online_tanh_view_36",
+   "ncu_us": 1910.24,
+   "nsys_us": 2259.808,
+   "ratio": 0.8453107520638922,
+   "ncu_launches": 1.0,
+   "nsys_launches": 1,
+   "flag": ""
+  },
+  {
+   "name": "void cutlass::device_kernel<flash::enable_sm90_or_later<flash::FlashAttnFwdSm90<flash::CollectiveMainloopFwdSm90<2, cute::tuple<cute::C<1>, cute::C<1>, cute::C<1>>, cute::tuple<cute::C<128>, cute::C<128>, cute::C<128>>, 128, cutlass::bfloat16_t, float, arch::Sm90, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0>, flash::CollectiveEpilogueFwd<cute::tuple<cute::C<128>, cute::C<128>, cute::C<128>>, cute::tuple<cute::C<1>, cute::C<1>, cute::C<1>>, cutlass::bfloat16_t, arch::Sm90, 256, 0, 0, 0, 0>, flash::DynamicPersistentTileScheduler<256, 32, 0, 0, 1>>>>(T1::Params)",
+   "ncu_us": 2278.816,
+   "nsys_us": 2626.0800000000004,
+   "ratio": 0.8677633583135318,
+   "ncu_launches": 12.0,
+   "nsys_launches": 12,
+   "flag": ""
+  },
+  {
+   "name": "triton_red_fused__log_softmax__log_softmax_backward_data__to_copy__unsafe_view_div_mul_nll_loss_backward_nll_loss_forward_tanh_tanh_backward_view_0",
+   "ncu_us": 1879.744,
+   "nsys_us": 2164.928,
+   "ratio": 0.8682709078546723,
+   "ncu_launches": 1.0,
+   "nsys_launches": 1,
+   "flag": ""
+  },
+  {
+   "name": "void cublasLt::splitKreduce_kernel<32, 16, int, float, __nv_bfloat16, float, __nv_bfloat16, 0, float, __nv_bfloat16, __nv_bfloat16, 1, 0, 0>(cublasLt::cublasSplitKParams<T6>, const T4 *, const T10 *, T9 *, T5 *, const T6 *, const T6 *, const T11 *, const T4 *, T11 *, void *, long, T6 *, int *, T6 *, T6 *, const T6 *, const T6 *, const T6 *, const T6 *, const T6 *)",
+   "ncu_us": 883.52,
+   "nsys_us": 622.3360000000001,
+   "ratio": 1.4196832579185517,
+   "ncu_launches": 73.0,
+   "nsys_launches": 73,
+   "flag": "time differs +42%"
+  },
+  {
+   "name": "nvjet_tst_192x192_64x4_1x1_v_bz_coopB_TNN",
+   "ncu_us": 2477.92,
+   "nsys_us": 2713.376,
+   "ratio": 0.9132239689597018,
+   "ncu_launches": 1.0,
+   "nsys_launches": 1,
+   "flag": ""
+  },
+  {
+   "name": "nvjet_tst_192x192_64x4_1x2_h_bz_coopB_TNN",
+   "ncu_us": 329.824,
+   "nsys_us": 465.85599999999994,
+   "ratio": 0.7079956037917298,
+   "ncu_launches": 5.0,
+   "nsys_launches": 5,
+   "flag": ""
+  },
+  {
+   "name": "triton_per_fused__to_copy__unsafe_view_add_cat_mean_mul_neg_pow_rsqrt_slice_view_6",
+   "ncu_us": 1210.656,
+   "nsys_us": 1339.456,
+   "ratio": 0.9038415595585073,
+   "ncu_launches": 12.0,
+   "nsys_launches": 12,
+   "flag": ""
+  },
+  {
+   "name": "triton_per_fused__unsafe_view_embedding_dense_backward_mul_nll_loss_forward_sigmoid_sigmoid_backward_squeeze_sum_unsqueeze_view_11",
+   "ncu_us": 376.096,
+   "nsys_us": 455.19999999999993,
+   "ratio": 0.8262214411247805,
+   "ncu_launches": 6.0,
+   "nsys_launches": 6,
+   "flag": ""
+  },
+  {
+   "name": "triton_poi_fused__unsafe_view_mul_pow_relu_threshold_backward_view_5",
+   "ncu_us": 1904.0,
+   "nsys_us": 1957.888,
+   "ratio": 0.9724764644351465,
+   "ncu_launches": 12.0,
+   "nsys_launches": 12,
+   "flag": ""
+  },
+  {
+   "name": "triton_poi_fused__to_copy_7",
+   "ncu_us": 151.744,
+   "nsys_us": 98.55999999999999,
+   "ratio": 1.5396103896103899,
+   "ncu_launches": 48.0,
+   "nsys_launches": 48,
+   "flag": "time differs +54%"
+  },
+  {
+   "name": "triton_per_fused__fused_rms_norm_backward__to_copy_mul_8",
+   "ncu_us": 728.0,
+   "nsys_us": 778.5919999999998,
+   "ratio": 0.935021166413218,
+   "ncu_launches": 24.0,
+   "nsys_launches": 24,
+   "flag": ""
+  },
+  {
+   "name": "triton_poi_fused_add_slice_backward_13",
+   "ncu_us": 630.08,
+   "nsys_us": 676.7040000000001,
+   "ratio": 0.9311013382512886,
+   "ncu_launches": 24.0,
+   "nsys_launches": 24,
+   "flag": ""
+  },
+  {
+   "name": "triton_per_fused__to_copy__unsafe_view_add_cat_mean_mul_pow_rsqrt_select_sigmoid_slice_4",
+   "ncu_us": 101.632,
+   "nsys_us": 139.744,
+   "ratio": 0.7272727272727273,
+   "ncu_launches": 1.0,
+   "nsys_launches": 1,
+   "flag": ""
+  },
+  {
+   "name": "triton_poi_fused__to_copy_add_copy_copy__div_lerp_mul_neg_pow_rsub_sqrt_0",
+   "ncu_us": 659.552,
+   "nsys_us": 696.7040000000001,
+   "ratio": 0.9466746279625207,
+   "ncu_launches": 7.0,
+   "nsys_launches": 7,
+   "flag": ""
+  },
+  {
+   "name": "triton_poi_fused__to_copy_t_5",
+   "ncu_us": 165.856,
+   "nsys_us": 129.18400000000003,
+   "ratio": 1.2838741639831555,
+   "ncu_launches": 48.0,
+   "nsys_launches": 48,
+   "flag": ""
+  },
+  {
+   "name": "triton_poi_fused__to_copy_4",
+   "ncu_us": 144.16,
+   "nsys_us": 107.96800000000002,
+   "ratio": 1.3352104327208059,
+   "ncu_launches": 24.0,
+   "nsys_launches": 24,
+   "flag": "time differs +34%"
+  },
+  {
+   "name": "triton_per_fused__fused_rms_norm_backward__to_copy__unsafe_view_add_embedding_dense_backward_mul_nll_loss_forward_sigmoid_slice_slice_backward_view_45",
+   "ncu_us": 89.76,
+   "nsys_us": 125.056,
+   "ratio": 0.7177584442169909,
+   "ncu_launches": 1.0,
+   "nsys_launches": 1,
+   "flag": ""
+  },
+  {
+   "name": "triton_poi_fused_embedding_dense_backward_15",
+   "ncu_us": 268.32,
+   "nsys_us": 302.688,
+   "ratio": 0.8864573422137647,
+   "ncu_launches": 7.0,
+   "nsys_launches": 7,
+   "flag": ""
+  },
+  {
+   "name": "triton_per_fused__to_copy_add_clamp_min_linalg_vector_norm_mean_mul_pow_reciprocal_15",
+   "ncu_us": 99.904,
+   "nsys_us": 133.664,
+   "ratio": 0.7474263825712234,
+   "ncu_launches": 2.0,
+   "nsys_launches": 2,
+   "flag": ""
+  },
+  {
+   "name": "triton_red_fused__fused_rms_norm_backward__to_copy_add_mul_select_slice_backward_view_32",
+   "ncu_us": 285.472,
+   "nsys_us": 253.152,
+   "ratio": 1.1276703324484894,
+   "ncu_launches": 1.0,
+   "nsys_launches": 1,
+   "flag": ""
+  },
+  {
+   "name": "void cutlass::device_kernel<flash::FlashAttnBwdPreprocess<cute::tuple<cute::C<64>, cute::C<128>>, cutlass::bfloat16_t, float, arch::Sm90, 1, 0>>(T1::Params)",
+   "ncu_us": 658.272,
+   "nsys_us": 689.8879999999999,
+   "ratio": 0.9541722714411617,
+   "ncu_launches": 12.0,
+   "nsys_launches": 12,
+   "flag": ""
+  },
+  {
+   "name": "void cutlass::device_kernel<flash::FlashAttnBwdPostprocessConvertdQ<cute::tuple<cute::C<64>, cute::C<128>>, cutlass::bfloat16_t, float, arch::Sm90, 256, cute::TiledMMA<cute::MMA_Atom<SM90::MMA_64x64x16_F32BF16BF16_SS<0, 1, 1, 1>>, cute::Layout<cute::tuple<cute::C<1>, cute::C<2>, cute::C<1>>, cute::tuple<cute::C<0>, cute::C<1>, cute::C<0>>>, cute::tuple<cute::Underscore, cute::Underscore, cute::Underscore>>, 0>>(T1::Params)",
+   "ncu_us": 467.872,
+   "nsys_us": 498.464,
+   "ratio": 0.9386274635680811,
+   "ncu_launches": 12.0,
+   "nsys_launches": 12,
+   "flag": ""
+  },
+  {
+   "name": "triton_red_fused__fused_rms_norm_backward__to_copy_add_mul_select_slice_backward_view_14",
+   "ncu_us": 219.168,
+   "nsys_us": 189.088,
+   "ratio": 1.1590793704518532,
+   "ncu_launches": 1.0,
+   "nsys_launches": 1,
+   "flag": ""
+  },
+  {
+   "name": "triton_poi_fused__unsafe_view_pow_relu_9",
+   "ncu_us": 1290.784,
+   "nsys_us": 1319.9360000000001,
+   "ratio": 0.9779140806826997,
+   "ncu_launches": 12.0,
+   "nsys_launches": 12,
+   "flag": ""
+  },
+  {
+   "name": "void at::<unnamed>::multi_tensor_apply_kernel<at::<unnamed>::TensorListMetadata<2>, at::<unnamed>::UnaryOpFunctor<float, 2, 1, 1>, at::Copy<float, float>>(T1, T2, T3...)",
+   "ncu_us": 212.352,
+   "nsys_us": 240.64,
+   "ratio": 0.8824468085106384,
+   "ncu_launches": 7.0,
+   "nsys_launches": 7,
+   "flag": ""
+  },
+  {
+   "name": "triton_red_fused_mul_sum_18",
+   "ncu_us": 108.032,
+   "nsys_us": 79.84000000000002,
+   "ratio": 1.3531062124248494,
+   "ncu_launches": 23.0,
+   "nsys_launches": 23,
+   "flag": "time differs +35%"
+  },
+  {
+   "name": "void at::<unnamed>::CatArrayBatchedCopy_alignedK_contig<at::<unnamed>::OpaqueType<4>, unsigned int, 2, 128, 1, 16>(T1 *, at::<unnamed>::CatArrInputTensorMetadata<T1, T2, T4, T5>, at::<unnamed>::TensorSizeStride<T2, 4>, int, T2)",
+   "ncu_us": 371.744,
+   "nsys_us": 399.87199999999996,
+   "ratio": 0.9296574903969271,
+   "ncu_launches": 8.0,
+   "nsys_launches": 8,
+   "flag": ""
+  },
+  {
+   "name": "triton_red_fused__to_copy_lerp_linalg_vector_norm_rsub_0",
+   "ncu_us": 220.288,
+   "nsys_us": 241.76,
+   "ratio": 0.9111846459298478,
+   "ncu_launches": 3.0,
+   "nsys_launches": 3,
+   "flag": ""
+  },
+  {
+   "name": "triton_per_fused__fused_rms_norm_backward__to_copy_add_mul_select_sum_view_38",
+   "ncu_us": 138.88,
+   "nsys_us": 157.952,
+   "ratio": 0.8792544570502431,
+   "ncu_launches": 1.0,
+   "nsys_launches": 1,
+   "flag": ""
+  },
+  {
+   "name": "void at::vectorized_elementwise_kernel<4, at::FillFunctor<int>, std::array<char *, 1>>(int, T2, T3)",
+   "ncu_us": 28.416,
+   "nsys_us": 10.848000000000003,
+   "ratio": 2.619469026548672,
+   "ncu_launches": 12.0,
+   "nsys_launches": 12,
+   "flag": "time differs +162%"
+  },
+  {
+   "name": "void cublasLt::splitKreduce_kernel<32, 16, int, __nv_bfloat16, __nv_bfloat16, float, __nv_bfloat16, 0, __nv_bfloat16, __nv_bfloat16, __nv_bfloat16, 1, 0, 0>(cublasLt::cublasSplitKParams<T6>, const T4 *, const T10 *, T9 *, T5 *, const T6 *, const T6 *, const T11 *, const T4 *, T11 *, void *, long, T6 *, int *, T6 *, T6 *, const T6 *, const T6 *, const T6 *, const T6 *, const T6 *)",
+   "ncu_us": 43.136,
+   "nsys_us": 26.976000000000003,
+   "ratio": 1.5990510083036773,
+   "ncu_launches": 6.0,
+   "nsys_launches": 6,
+   "flag": "time differs +60%"
+  },
+  {
+   "name": "triton_per_fused__fused_rms_norm_backward__to_copy_mul_neg_sum_view_2",
+   "ncu_us": 68.032,
+   "nsys_us": 81.184,
+   "ratio": 0.8379976350019708,
+   "ncu_launches": 1.0,
+   "nsys_launches": 1,
+   "flag": ""
+  },
+  {
+   "name": "triton_red_fused__log_softmax__to_copy__unsafe_view_div_mul_nll_loss_forward_sub_tanh_view_37",
+   "ncu_us": 27.392,
+   "nsys_us": 14.272,
+   "ratio": 1.9192825112107623,
+   "ncu_launches": 1.0,
+   "nsys_launches": 1,
+   "flag": "time differs +92%"
+  },
+  {
+   "name": "triton_per_fused__to_copy_lerp_linalg_vector_norm_rsub_1",
+   "ncu_us": 23.04,
+   "nsys_us": 10.655999999999999,
+   "ratio": 2.1621621621621623,
+   "ncu_launches": 9.0,
+   "nsys_launches": 9,
+   "flag": "time differs +116%"
+  },
+  {
+   "name": "triton_per_fused__fused_rms_norm_backward_add_mul_select_sum_view_22",
+   "ncu_us": 164.736,
+   "nsys_us": 177.088,
+   "ratio": 0.9302493675460788,
+   "ncu_launches": 1.0,
+   "nsys_launches": 1,
+   "flag": ""
+  },
+  {
+   "name": "triton_per_fused__to_copy_add_embedding_mean_pow_rsqrt_0",
+   "ncu_us": 40.544,
+   "nsys_us": 52.896,
+   "ratio": 0.7664851784633998,
+   "ncu_launches": 1.0,
+   "nsys_launches": 1,
+   "flag": ""
+  },
+  {
+   "name": "triton_per_fused__fused_rms_norm_backward_add_mul_select_sum_view_30",
+   "ncu_us": 164.832,
+   "nsys_us": 176.672,
+   "ratio": 0.9329831552255026,
+   "ncu_launches": 1.0,
+   "nsys_launches": 1,
+   "flag": ""
+  },
+  {
+   "name": "triton_poi_fused_add_div_linalg_vector_norm_mul_10",
+   "ncu_us": 224.384,
+   "nsys_us": 236.03200000000004,
+   "ratio": 0.9506507592190887,
+   "ncu_launches": 3.0,
+   "nsys_launches": 3,
+   "flag": ""
+  },
+  {
+   "name": "triton_per_fused__fused_rms_norm_backward_add_mul_select_sum_view_34",
+   "ncu_us": 164.608,
+   "nsys_us": 175.776,
+   "ratio": 0.9364645912980156,
+   "ncu_launches": 1.0,
+   "nsys_launches": 1,
+   "flag": ""
+  },
+  {
+   "name": "triton_poi_fused__unsafe_view_add_embedding_mul_sigmoid_unsqueeze_view_12",
+   "ncu_us": 273.824,
+   "nsys_us": 284.96000000000004,
+   "ratio": 0.9609208309938236,
+   "ncu_launches": 6.0,
+   "nsys_launches": 6,
+   "flag": ""
+  },
+  {
+   "name": "triton_per_fused__fused_rms_norm_backward_add_mul_select_sum_view_26",
+   "ncu_us": 165.344,
+   "nsys_us": 176.288,
+   "ratio": 0.9379197676529315,
+   "ncu_launches": 1.0,
+   "nsys_launches": 1,
+   "flag": ""
+  },
+  {
+   "name": "triton_per_fused__fused_rms_norm_backward_add_mul_select_sum_view_17",
+   "ncu_us": 164.448,
+   "nsys_us": 175.36,
+   "ratio": 0.9377737226277372,
+   "ncu_launches": 1.0,
+   "nsys_launches": 1,
+   "flag": ""
+  },
+  {
+   "name": "triton_red_fused__fused_rms_norm_backward__to_copy_add_mul_select_slice_backward_view_36",
+   "ncu_us": 142.272,
+   "nsys_us": 152.96,
+   "ratio": 0.9301255230125522,
+   "ncu_launches": 1.0,
+   "nsys_launches": 1,
+   "flag": ""
+  },
+  {
+   "name": "triton_poi_fused_add_mul_12",
+   "ncu_us": 128.736,
+   "nsys_us": 139.232,
+   "ratio": 0.92461503102735,
+   "ncu_launches": 3.0,
+   "nsys_launches": 3,
+   "flag": ""
+  },
+  {
+   "name": "triton_per_fused__to_copy__unsafe_view_add_mean_mul_pow_rsqrt_select_15",
+   "ncu_us": 67.008,
+   "nsys_us": 77.024,
+   "ratio": 0.8699626090569172,
+   "ncu_launches": 1.0,
+   "nsys_launches": 1,
+   "flag": ""
+  },
+  {
+   "name": "triton_poi_fused_add_div_linalg_vector_norm_mul_6",
+   "ncu_us": 131.168,
+   "nsys_us": 140.736,
+   "ratio": 0.9320145520691224,
+   "ncu_launches": 4.0,
+   "nsys_launches": 4,
+   "flag": ""
+  },
+  {
+   "name": "triton_per_fused__to_copy__unsafe_view_add_mean_mul_pow_rsqrt_select_7",
+   "ncu_us": 57.504,
+   "nsys_us": 66.784,
+   "ratio": 0.8610445615716338,
+   "ncu_launches": 1.0,
+   "nsys_launches": 1,
+   "flag": ""
+  },
+  {
+   "name": "void cutlass::Kernel2<cutlass_80_wmma_tensorop_bf16_s161616gemm_bf16_16x16_32x1_nn_align2>(T1::Params)",
+   "ncu_us": 34.144,
+   "nsys_us": 24.863999999999997,
+   "ratio": 1.3732303732303732,
+   "ncu_launches": 10.0,
+   "nsys_launches": 10,
+   "flag": "time differs +37%"
+  },
+  {
+   "name": "triton_per_fused__to_copy__unsafe_view_add_mean_mul_pow_rsqrt_select_13",
+   "ncu_us": 68.128,
+   "nsys_us": 77.344,
+   "ratio": 0.880844021514274,
+   "ncu_launches": 1.0,
+   "nsys_launches": 1,
+   "flag": ""
+  },
+  {
+   "name": "triton_per_fused__to_copy__unsafe_view_add_mean_mul_pow_rsqrt_select_19",
+   "ncu_us": 66.656,
+   "nsys_us": 75.84,
+   "ratio": 0.878902953586498,
+   "ncu_launches": 1.0,
+   "nsys_launches": 1,
+   "flag": ""
+  },
+  {
+   "name": "triton_poi_fused_add_div_linalg_vector_norm_mul_4",
+   "ncu_us": 89.664,
+   "nsys_us": 98.43199999999999,
+   "ratio": 0.910923276983095,
+   "ncu_launches": 4.0,
+   "nsys_launches": 4,
+   "flag": ""
+  },
+  {
+   "name": "triton_poi_fused_add_div_linalg_vector_norm_mul_8",
+   "ncu_us": 180.896,
+   "nsys_us": 189.44,
+   "ratio": 0.9548986486486486,
+   "ncu_launches": 4.0,
+   "nsys_launches": 4,
+   "flag": ""
+  },
+  {
+   "name": "triton_per_fused__fused_rms_norm_backward__to_copy_add_mul_select_view_35",
+   "ncu_us": 59.264,
+   "nsys_us": 67.776,
+   "ratio": 0.874409820585458,
+   "ncu_launches": 1.0,
+   "nsys_launches": 1,
+   "flag": ""
+  },
+  {
+   "name": "triton_per_fused__to_copy__unsafe_view_add_mean_mul_pow_rsqrt_select_21",
+   "ncu_us": 66.688,
+   "nsys_us": 75.136,
+   "ratio": 0.8875638841567293,
+   "ncu_launches": 1.0,
+   "nsys_launches": 1,
+   "flag": ""
+  },
+  {
+   "name": "triton_red_fused__fused_rms_norm_backward__to_copy_add_mul_select_slice_backward_view_28",
+   "ncu_us": 179.872,
+   "nsys_us": 188.16,
+   "ratio": 0.955952380952381,
+   "ncu_launches": 1.0,
+   "nsys_launches": 1,
+   "flag": ""
+  },
+  {
+   "name": "triton_per_fused__to_copy__unsafe_view_add_mean_mul_pow_rsqrt_select_14",
+   "ncu_us": 66.624,
+   "nsys_us": 74.72,
+   "ratio": 0.8916488222698072,
+   "ncu_launches": 1.0,
+   "nsys_launches": 1,
+   "flag": ""
+  },
+  {
+   "name": "triton_per_fused__fused_rms_norm_backward__to_copy_add_mul_select_view_27",
+   "ncu_us": 58.912,
+   "nsys_us": 66.976,
+   "ratio": 0.8795986622073578,
+   "ncu_launches": 1.0,
+   "nsys_launches": 1,
+   "flag": ""
+  },
+  {
+   "name": "triton_poi_fused__fused_rms_norm_backward__to_copy_add_mul_neg_slice_9",
+   "ncu_us": 955.104,
+   "nsys_us": 963.1359999999999,
+   "ratio": 0.9916605754535187,
+   "ncu_launches": 12.0,
+   "nsys_launches": 12,
+   "flag": ""
+  },
+  {
+   "name": "triton_poi_fused_add_copy__div_lerp_mul_neg_pow_rsub_sqrt_0",
+   "ncu_us": 204.064,
+   "nsys_us": 212.064,
+   "ratio": 0.9622755394597857,
+   "ncu_launches": 6.0,
+   "nsys_launches": 6,
+   "flag": ""
+  },
+  {
+   "name": "triton_per_fused__to_copy__unsafe_view_add_mean_mul_pow_rsqrt_select_33",
+   "ncu_us": 66.4,
+   "nsys_us": 74.368,
+   "ratio": 0.892857142857143,
+   "ncu_launches": 1.0,
+   "nsys_launches": 1,
+   "flag": ""
+  },
+  {
+   "name": "triton_per_fused__to_copy__unsafe_view_add_mean_mul_pow_rsqrt_select_17",
+   "ncu_us": 67.68,
+   "nsys_us": 75.456,
+   "ratio": 0.8969465648854963,
+   "ncu_launches": 1.0,
+   "nsys_launches": 1,
+   "flag": ""
+  },
+  {
+   "name": "triton_per_fused__fused_rms_norm_backward__to_copy_add_mul_select_view_31",
+   "ncu_us": 59.648,
+   "nsys_us": 67.392,
+   "ratio": 0.8850902184235518,
+   "ncu_launches": 1.0,
+   "nsys_launches": 1,
+   "flag": ""
+  },
+  {
+   "name": "triton_poi_fused__to_copy_t_11",
+   "ncu_us": 15.232,
+   "nsys_us": 7.6160000000000005,
+   "ratio": 1.9999999999999998,
+   "ncu_launches": 6.0,
+   "nsys_launches": 6,
+   "flag": ""
+  },
+  {
+   "name": "triton_per_fused__fused_rms_norm_backward__to_copy_add_mul_select_view_19",
+   "ncu_us": 59.392,
+   "nsys_us": 66.976,
+   "ratio": 0.886765408504539,
+   "ncu_launches": 1.0,
+   "nsys_launches": 1,
+   "flag": ""
+  },
+  {
+   "name": "triton_per_fused__to_copy__unsafe_view_add_mean_mul_pow_rsqrt_select_25",
+   "ncu_us": 67.808,
+   "nsys_us": 75.328,
+   "ratio": 0.9001699235344096,
+   "ncu_launches": 1.0,
+   "nsys_launches": 1,
+   "flag": ""
+  },
+  {
+   "name": "triton_per_fused__fused_rms_norm_backward__to_copy_add_mul_select_view_23",
+   "ncu_us": 59.552,
+   "nsys_us": 66.944,
+   "ratio": 0.8895793499043977,
+   "ncu_launches": 1.0,
+   "nsys_launches": 1,
+   "flag": ""
+  },
+  {
+   "name": "triton_per_fused__fused_rms_norm_backward__to_copy_add_mul_view_6",
+   "ncu_us": 59.712,
+   "nsys_us": 66.944,
+   "ratio": 0.8919694072657743,
+   "ncu_launches": 1.0,
+   "nsys_launches": 1,
+   "flag": ""
+  },
+  {
+   "name": "triton_per_fused__to_copy__unsafe_view_add_mean_mul_pow_rsqrt_select_27",
+   "ncu_us": 67.488,
+   "nsys_us": 74.688,
+   "ratio": 0.903598971722365,
+   "ncu_launches": 1.0,
+   "nsys_launches": 1,
+   "flag": ""
+  },
+  {
+   "name": "triton_per_fused__to_copy__unsafe_view_add_mean_mul_pow_rsqrt_select_10",
+   "ncu_us": 67.68,
+   "nsys_us": 74.752,
+   "ratio": 0.9053938356164385,
+   "ncu_launches": 1.0,
+   "nsys_launches": 1,
+   "flag": ""
+  },
+  {
+   "name": "triton_per_fused__to_copy__unsafe_view_add_mean_mul_pow_rsqrt_select_23",
+   "ncu_us": 68.0,
+   "nsys_us": 74.88,
+   "ratio": 0.9081196581196582,
+   "ncu_launches": 1.0,
+   "nsys_launches": 1,
+   "flag": ""
+  },
+  {
+   "name": "triton_per_fused__to_copy__unsafe_view_add_mean_mul_pow_rsqrt_select_29",
+   "ncu_us": 68.032,
+   "nsys_us": 74.72,
+   "ratio": 0.910492505353319,
+   "ncu_launches": 1.0,
+   "nsys_launches": 1,
+   "flag": ""
+  },
+  {
+   "name": "triton_red_fused__fused_rms_norm_backward__to_copy_add_mul_select_slice_backward_view_20",
+   "ncu_us": 181.408,
+   "nsys_us": 187.936,
+   "ratio": 0.9652647709858674,
+   "ncu_launches": 1.0,
+   "nsys_launches": 1,
+   "flag": ""
+  },
+  {
+   "name": "triton_per_fused__fused_rms_norm_backward__to_copy_add_mul_select_view_37",
+   "ncu_us": 59.424,
+   "nsys_us": 65.888,
+   "ratio": 0.9018941233608547,
+   "ncu_launches": 1.0,
+   "nsys_launches": 1,
+   "flag": ""
+  },
+  {
+   "name": "triton_per_fused__fused_rms_norm_backward__to_copy_add_mul_select_view_21",
+   "ncu_us": 59.52,
+   "nsys_us": 65.92,
+   "ratio": 0.9029126213592233,
+   "ncu_launches": 1.0,
+   "nsys_launches": 1,
+   "flag": ""
+  },
+  {
+   "name": "triton_per_fused__to_copy__unsafe_view_add_mean_mul_pow_rsqrt_select_31",
+   "ncu_us": 67.808,
+   "nsys_us": 74.176,
+   "ratio": 0.9141501294219155,
+   "ncu_launches": 1.0,
+   "nsys_launches": 1,
+   "flag": ""
+  },
+  {
+   "name": "triton_per_fused__fused_rms_norm_backward__to_copy_add_mul_select_view_29",
+   "ncu_us": 59.36,
+   "nsys_us": 65.536,
+   "ratio": 0.90576171875,
+   "ncu_launches": 1.0,
+   "nsys_launches": 1,
+   "flag": ""
+  },
+  {
+   "name": "triton_per_fused__fused_rms_norm_backward__to_copy_add_mul_select_view_33",
+   "ncu_us": 59.456,
+   "nsys_us": 65.568,
+   "ratio": 0.9067837969741338,
+   "ncu_launches": 1.0,
+   "nsys_launches": 1,
+   "flag": ""
+  },
+  {
+   "name": "triton_per_fused__fused_rms_norm_backward__to_copy_add_mul_select_view_16",
+   "ncu_us": 59.424,
+   "nsys_us": 65.408,
+   "ratio": 0.9085127201565557,
+   "ncu_launches": 1.0,
+   "nsys_launches": 1,
+   "flag": ""
+  },
+  {
+   "name": "triton_poi_fused__to_copy_12",
+   "ncu_us": 13.248,
+   "nsys_us": 7.296,
+   "ratio": 1.8157894736842104,
+   "ncu_launches": 6.0,
+   "nsys_launches": 6,
+   "flag": ""
+  },
+  {
+   "name": "triton_poi_fused__to_copy_t_8",
+   "ncu_us": 146.624,
+   "nsys_us": 140.76800000000003,
+   "ratio": 1.0416003637190268,
+   "ncu_launches": 24.0,
+   "nsys_launches": 24,
+   "flag": ""
+  },
+  {
+   "name": "triton_red_fused_linalg_vector_norm_3",
+   "ncu_us": 56.16,
+   "nsys_us": 61.824,
+   "ratio": 0.9083850931677019,
+   "ncu_launches": 3.0,
+   "nsys_launches": 3,
+   "flag": ""
+  },
+  {
+   "name": "triton_per_fused__fused_rms_norm_backward__to_copy_add_mul_view_25",
+   "ncu_us": 59.584,
+   "nsys_us": 65.184,
+   "ratio": 0.9140893470790379,
+   "ncu_launches": 1.0,
+   "nsys_launches": 1,
+   "flag": ""
+  },
+  {
+   "name": "triton_poi_fused_add_mul_9",
+   "ncu_us": 68.96,
+   "nsys_us": 63.584,
+   "ratio": 1.084549572219426,
+   "ncu_launches": 4.0,
+   "nsys_launches": 4,
+   "flag": ""
+  },
+  {
+   "name": "triton_per_fused__to_copy__unsafe_view_add_mean_mul_pow_rsqrt_select_24",
+   "ncu_us": 67.04,
+   "nsys_us": 72.288,
+   "ratio": 0.9274015050907483,
+   "ncu_launches": 1.0,
+   "nsys_launches": 1,
+   "flag": ""
+  },
+  {
+   "name": "triton_poi_fused_add_mul_11",
+   "ncu_us": 67.904,
+   "nsys_us": 62.656000000000006,
+   "ratio": 1.0837589376915218,
+   "ncu_launches": 4.0,
+   "nsys_launches": 4,
+   "flag": ""
+  },
+  {
+   "name": "triton_poi_fused_add_mul_7",
+   "ncu_us": 68.192,
+   "nsys_us": 63.391999999999996,
+   "ratio": 1.0757193336698636,
+   "ncu_launches": 4.0,
+   "nsys_launches": 4,
+   "flag": ""
+  },
+  {
+   "name": "triton_poi_fused__to_copy_add_clamp_min_copy__div_ge_lerp_linalg_vector_norm_mean_mul_pow_reciprocal_rsqrt_rsub_sqrt_sub_17",
+   "ncu_us": 304.768,
+   "nsys_us": 309.408,
+   "ratio": 0.9850036198159063,
+   "ncu_launches": 3.0,
+   "nsys_launches": 3,
+   "flag": ""
+  },
+  {
+   "name": "triton_per_fused__to_copy__unsafe_view_add_mean_mul_pow_rsqrt_select_22",
+   "ncu_us": 67.68,
+   "nsys_us": 72.032,
+   "ratio": 0.9395824078187474,
+   "ncu_launches": 1.0,
+   "nsys_launches": 1,
+   "flag": ""
+  },
+  {
+   "name": "triton_poi_fused__to_copy_t_35",
+   "ncu_us": 38.048,
+   "nsys_us": 42.304,
+   "ratio": 0.8993948562783661,
+   "ncu_launches": 1.0,
+   "nsys_launches": 1,
+   "flag": ""
+  },
+  {
+   "name": "triton_poi_fused_add_mul_5",
+   "ncu_us": 67.808,
+   "nsys_us": 63.583999999999996,
+   "ratio": 1.0664318067438352,
+   "ncu_launches": 4.0,
+   "nsys_launches": 4,
+   "flag": ""
+  },
+  {
+   "name": "triton_per_fused__to_copy__unsafe_view_add_mean_mul_pow_rsqrt_select_28",
+   "ncu_us": 67.232,
+   "nsys_us": 71.456,
+   "ratio": 0.9408866995073891,
+   "ncu_launches": 1.0,
+   "nsys_launches": 1,
+   "flag": ""
+  },
+  {
+   "name": "void cutlass::Kernel2<cutlass_80_wmma_tensorop_bf16_s161616gemm_bf16_16x16_32x1_tn_align2>(T1::Params)",
+   "ncu_us": 16.8,
+   "nsys_us": 12.608,
+   "ratio": 1.33248730964467,
+   "ncu_launches": 5.0,
+   "nsys_launches": 5,
+   "flag": "time differs +33%"
+  },
+  {
+   "name": "triton_per_fused__to_copy__unsafe_view_add_mean_mul_pow_rsqrt_select_20",
+   "ncu_us": 67.808,
+   "nsys_us": 72.0,
+   "ratio": 0.9417777777777778,
+   "ncu_launches": 1.0,
+   "nsys_launches": 1,
+   "flag": ""
+  },
+  {
+   "name": "triton_per_fused__to_copy__unsafe_view_add_mean_mul_pow_rsqrt_select_26",
+   "ncu_us": 67.968,
+   "nsys_us": 72.128,
+   "ratio": 0.9423247559893523,
+   "ncu_launches": 1.0,
+   "nsys_launches": 1,
+   "flag": ""
+  },
+  {
+   "name": "triton_per_fused__to_copy__unsafe_view_add_mean_mul_pow_rsqrt_select_18",
+   "ncu_us": 68.256,
+   "nsys_us": 72.288,
+   "ratio": 0.9442231075697212,
+   "ncu_launches": 1.0,
+   "nsys_launches": 1,
+   "flag": ""
+  },
+  {
+   "name": "triton_red_fused__fused_rms_norm_backward__to_copy_add_mul_neg_select_slice_backward_view_24",
+   "ncu_us": 292.032,
+   "nsys_us": 288.032,
+   "ratio": 1.0138873458504611,
+   "ncu_launches": 1.0,
+   "nsys_launches": 1,
+   "flag": ""
+  },
+  {
+   "name": "triton_poi_fused_add_mul_13",
+   "ncu_us": 65.952,
+   "nsys_us": 61.952,
+   "ratio": 1.0645661157024793,
+   "ncu_launches": 3.0,
+   "nsys_launches": 3,
+   "flag": ""
+  },
+  {
+   "name": "triton_per_fused__to_copy__unsafe_view_add_mean_mul_pow_rsqrt_select_32",
+   "ncu_us": 67.296,
+   "nsys_us": 71.232,
+   "ratio": 0.9447439353099731,
+   "ncu_launches": 1.0,
+   "nsys_launches": 1,
+   "flag": ""
+  },
+  {
+   "name": "void cutlass::Kernel2<cutlass_80_wmma_tensorop_bf16_s161616gemm_bf16_32x32_128x2_nt_align2>(T1::Params)",
+   "ncu_us": 57.76,
+   "nsys_us": 61.216,
+   "ratio": 0.9435441714584422,
+   "ncu_launches": 6.0,
+   "nsys_launches": 6,
+   "flag": ""
+  },
+  {
+   "name": "triton_per_fused__to_copy__unsafe_view_add_mean_mul_pow_rsqrt_sub_34",
+   "ncu_us": 67.904,
+   "nsys_us": 71.168,
+   "ratio": 0.9541366906474819,
+   "ncu_launches": 1.0,
+   "nsys_launches": 1,
+   "flag": ""
+  },
+  {
+   "name": "triton_per_fused__to_copy_clamp_min_copy__div_lerp_linalg_vector_norm_mul_rsub_2",
+   "ncu_us": 280.064,
+   "nsys_us": 283.296,
+   "ratio": 0.9885914379306451,
+   "ncu_launches": 2.0,
+   "nsys_launches": 2,
+   "flag": ""
+  },
+  {
+   "name": "triton_per_fused__to_copy__unsafe_view_add_mean_mul_pow_rsqrt_select_16",
+   "ncu_us": 68.576,
+   "nsys_us": 71.776,
+   "ratio": 0.9554168524297815,
+   "ncu_launches": 1.0,
+   "nsys_launches": 1,
+   "flag": ""
+  },
+  {
+   "name": "triton_red_fused__to_copy_clamp_min_copy__div_lerp_linalg_vector_norm_mul_rsub_2",
+   "ncu_us": 137.376,
+   "nsys_us": 140.48,
+   "ratio": 0.9779043280182234,
+   "ncu_launches": 1.0,
+   "nsys_launches": 1,
+   "flag": ""
+  },
+  {
+   "name": "triton_per_fused__to_copy__unsafe_view_add_mean_mul_pow_rsqrt_select_30",
+   "ncu_us": 68.48,
+   "nsys_us": 71.168,
+   "ratio": 0.9622302158273381,
+   "ncu_launches": 1.0,
+   "nsys_launches": 1,
+   "flag": ""
+  },
+  {
+   "name": "void at::vectorized_elementwise_kernel<4, at::BUnaryFunctor<float, float, float, binary_internal::MulFunctor<float>>, std::array<char *, 2>>(int, T2, T3)",
+   "ncu_us": 4.672,
+   "nsys_us": 2.6239999999999997,
+   "ratio": 1.7804878048780488,
+   "ncu_launches": 2.0,
+   "nsys_launches": 2,
+   "flag": ""
+  },
+  {
+   "name": "triton_per_fused__log_softmax__to_copy__unsafe_view_div_mul_nll_loss_forward_sub_tanh_view_38",
+   "ncu_us": 3.104,
+   "nsys_us": 1.184,
+   "ratio": 2.621621621621622,
+   "ncu_launches": 1.0,
+   "nsys_launches": 1,
+   "flag": ""
+  },
+  {
+   "name": "triton_poi_fused__to_copy_add_select_backward_39",
+   "ncu_us": 4.992,
+   "nsys_us": 3.072,
+   "ratio": 1.625,
+   "ncu_launches": 2.0,
+   "nsys_launches": 2,
+   "flag": ""
+  },
+  {
+   "name": "triton_red_fused__to_copy_add_linalg_vector_norm_mul_14",
+   "ncu_us": 168.32,
+   "nsys_us": 170.208,
+   "ratio": 0.9889076894153036,
+   "ncu_launches": 3.0,
+   "nsys_launches": 3,
+   "flag": ""
+  },
+  {
+   "name": "triton_poi_fused__to_copy_t_1",
+   "ncu_us": 3.104,
+   "nsys_us": 1.312,
+   "ratio": 2.3658536585365852,
+   "ncu_launches": 1.0,
+   "nsys_launches": 1,
+   "flag": ""
+  },
+  {
+   "name": "triton_per_fused__to_copy_clamp_min_copy__div_lerp_linalg_vector_norm_mul_rsub_1",
+   "ncu_us": 2.816,
+   "nsys_us": 1.344,
+   "ratio": 2.095238095238095,
+   "ncu_launches": 1.0,
+   "nsys_launches": 1,
+   "flag": ""
+  },
+  {
+   "name": "triton_per_fused_add_div_linalg_vector_norm_mul_2",
+   "ncu_us": 2.592,
+   "nsys_us": 1.248,
+   "ratio": 2.076923076923077,
+   "ncu_launches": 1.0,
+   "nsys_launches": 1,
+   "flag": ""
+  },
+  {
+   "name": "triton_poi_fused__to_copy__unsafe_view_clone_mul_slice_3",
+   "ncu_us": 3.2,
+   "nsys_us": 1.888,
+   "ratio": 1.6949152542372883,
+   "ncu_launches": 1.0,
+   "nsys_launches": 1,
+   "flag": ""
+  },
+  {
+   "name": "triton_per_fused__to_copy_add_linalg_vector_norm_mul_12",
+   "ncu_us": 2.56,
+   "nsys_us": 1.28,
+   "ratio": 2.0,
+   "ncu_launches": 1.0,
+   "nsys_launches": 1,
+   "flag": ""
+  },
+  {
+   "name": "triton_red_fused__fused_rms_norm_backward__to_copy_mul_neg_sum_view_3",
+   "ncu_us": 4.448,
+   "nsys_us": 3.232,
+   "ratio": 1.3762376237623763,
+   "ncu_launches": 1.0,
+   "nsys_launches": 1,
+   "flag": ""
+  },
+  {
+   "name": "triton_per_fused__to_copy_add_clamp_min_copy__div_lerp_linalg_vector_norm_mean_mul_pow_reciprocal_rsqrt_rsub_sqrt_sum_13",
+   "ncu_us": 3.008,
+   "nsys_us": 1.792,
+   "ratio": 1.6785714285714286,
+   "ncu_launches": 1.0,
+   "nsys_launches": 1,
+   "flag": ""
+  },
+  {
+   "name": "triton_poi_fused__to_copy_add_clamp_min_copy__div_ge_lerp_linalg_vector_norm_mul_reciprocal_rsqrt_rsub_sqrt_sub_14",
+   "ncu_us": 2.336,
+   "nsys_us": 1.12,
+   "ratio": 2.0857142857142854,
+   "ncu_launches": 1.0,
+   "nsys_launches": 1,
+   "flag": ""
+  },
+  {
+   "name": "triton_poi_fused_add_mul_10",
+   "ncu_us": 2.272,
+   "nsys_us": 1.056,
+   "ratio": 2.1515151515151514,
+   "ncu_launches": 1.0,
+   "nsys_launches": 1,
+   "flag": ""
+  },
+  {
+   "name": "triton_poi_fused__to_copy__unsafe_view_mul_sigmoid_sigmoid_backward_view_43",
+   "ncu_us": 2.656,
+   "nsys_us": 1.472,
+   "ratio": 1.8043478260869565,
+   "ncu_launches": 1.0,
+   "nsys_launches": 1,
+   "flag": ""
+  },
+  {
+   "name": "triton_poi_fused__to_copy_44",
+   "ncu_us": 2.272,
+   "nsys_us": 1.088,
+   "ratio": 2.0882352941176467,
+   "ncu_launches": 1.0,
+   "nsys_launches": 1,
+   "flag": ""
+  },
+  {
+   "name": "triton_red_fused__to_copy_add_clamp_min_copy__div_lerp_linalg_vector_norm_mean_mul_pow_reciprocal_rsqrt_rsub_sqrt_sum_16",
+   "ncu_us": 7.36,
+   "nsys_us": 6.208,
+   "ratio": 1.1855670103092784,
+   "ncu_launches": 2.0,
+   "nsys_launches": 2,
+   "flag": ""
+  },
+  {
+   "name": "triton_per_fused__to_copy_lerp_linalg_vector_norm_rsub_0",
+   "ncu_us": 2.656,
+   "nsys_us": 1.504,
+   "ratio": 1.7659574468085106,
+   "ncu_launches": 1.0,
+   "nsys_launches": 1,
+   "flag": ""
+  },
+  {
+   "name": "triton_per_fused__to_copy__unsafe_view_mul_sigmoid_sum_view_42",
+   "ncu_us": 2.24,
+   "nsys_us": 1.12,
+   "ratio": 2.0,
+   "ncu_launches": 1.0,
+   "nsys_launches": 1,
+   "flag": ""
+  },
+  {
+   "name": "triton_red_fused__to_copy_add_clamp_min_linalg_vector_norm_mean_mul_pow_reciprocal_15",
+   "ncu_us": 53.152,
+   "nsys_us": 54.272,
+   "ratio": 0.9793632075471699,
+   "ncu_launches": 1.0,
+   "nsys_launches": 1,
+   "flag": ""
+  },
+  {
+   "name": "void cutlass::Kernel2<cutlass_80_wmma_tensorop_bf16_s161616gemm_bf16_32x32_32x1_tn_align2>(T1::Params)",
+   "ncu_us": 34.784,
+   "nsys_us": 35.872,
+   "ratio": 0.9696699375557538,
+   "ncu_launches": 6.0,
+   "nsys_launches": 6,
+   "flag": ""
+  },
+  {
+   "name": "triton_red_fused__to_copy_mul_slice_sum_40",
+   "ncu_us": 31.584,
+   "nsys_us": 32.64,
+   "ratio": 0.9676470588235294,
+   "ncu_launches": 1.0,
+   "nsys_launches": 1,
+   "flag": ""
+  },
+  {
+   "name": "void at::vectorized_elementwise_kernel<4, at::FillFunctor<float>, std::array<char *, 1>>(int, T2, T3)",
+   "ncu_us": 1.888,
+   "nsys_us": 0.896,
+   "ratio": 2.107142857142857,
+   "ncu_launches": 1.0,
+   "nsys_launches": 1,
+   "flag": ""
+  },
+  {
+   "name": "triton_per_fused__to_copy_add_clamp_min_copy__div_lerp_linalg_vector_norm_mean_mul_pow_reciprocal_rsqrt_rsub_sqrt_sum_16",
+   "ncu_us": 3.168,
+   "nsys_us": 2.208,
+   "ratio": 1.434782608695652,
+   "ncu_launches": 1.0,
+   "nsys_launches": 1,
+   "flag": ""
+  },
+  {
+   "name": "triton_poi_fused__to_copy_1",
+   "ncu_us": 42.016,
+   "nsys_us": 41.088,
+   "ratio": 1.0225856697819313,
+   "ncu_launches": 1.0,
+   "nsys_launches": 1,
+   "flag": ""
+  },
+  {
+   "name": "triton_poi_fused_add_mul_3",
+   "ncu_us": 2.048,
+   "nsys_us": 1.28,
+   "ratio": 1.6,
+   "ncu_launches": 1.0,
+   "nsys_launches": 1,
+   "flag": ""
+  },
+  {
+   "name": "void cutlass::Kernel2<cutlass_75_tensorop_bf16_s1688gemm_bf16_64x64_nn_align1>(T1::Params)",
+   "ncu_us": 6.56,
+   "nsys_us": 7.136,
+   "ratio": 0.9192825112107622,
+   "ncu_launches": 1.0,
+   "nsys_launches": 1,
+   "flag": ""
+  },
+  {
+   "name": "triton_poi_fused__to_copy_clone_mul_slice_2",
+   "ncu_us": 3.648,
+   "nsys_us": 3.104,
+   "ratio": 1.175257731958763,
+   "ncu_launches": 1.0,
+   "nsys_launches": 1,
+   "flag": ""
+  },
+  {
+   "name": "nvjet_tst_256x8_64x6_2x1_v_bz_TNT",
+   "ncu_us": 5.184,
+   "nsys_us": 4.832,
+   "ratio": 1.0728476821192054,
+   "ncu_launches": 1.0,
+   "nsys_launches": 1,
+   "flag": ""
+  },
+  {
+   "name": "triton_poi_fused__unsafe_view_embedding_dense_backward_mul_nll_loss_forward_sigmoid_unsqueeze_view_10",
+   "ncu_us": 184.736,
+   "nsys_us": 185.024,
+   "ratio": 0.99844344517468,
+   "ncu_launches": 7.0,
+   "nsys_launches": 7,
+   "flag": ""
+  },
+  {
+   "name": "void cutlass::Kernel2<cutlass_80_wmma_tensorop_bf16_s161616gemm_bf16_32x32_32x1_nn_align2>(T1::Params)",
+   "ncu_us": 31.296,
+   "nsys_us": 31.520000000000003,
+   "ratio": 0.9928934010152283,
+   "ncu_launches": 6.0,
+   "nsys_launches": 6,
+   "flag": ""
+  },
+  {
+   "name": "triton_red_fused__to_copy__unsafe_view_mul_sigmoid_sigmoid_backward_sum_41",
+   "ncu_us": 8.672,
+   "nsys_us": 8.832,
+   "ratio": 0.9818840579710145,
+   "ncu_launches": 1.0,
+   "nsys_launches": 1,
+   "flag": ""
+  },
+  {
+   "name": "nvjet_tst_64x8_64x16_1x1_v_bz_splitK_NNT",
+   "ncu_us": 7.296,
+   "nsys_us": 7.392,
+   "ratio": 0.987012987012987,
+   "ncu_launches": 1.0,
+   "nsys_launches": 1,
+   "flag": ""
+  }
+ ],
+ "unmapped": []
+}
