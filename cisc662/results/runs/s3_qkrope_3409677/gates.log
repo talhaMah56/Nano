@@ -1,0 +1,9 @@
+..ssssssssssssssssssssssssssss....................................sssssss.........ssssssssssssssssssssssssssss....................................ssss....ss..s.s...s.s
+- generated xml file: /u/tmahmood1/project/nanochat/cisc662/results/runs/s3_qkrope_3409677/gates_junit.xml -
+=========================== short test summary info ============================
+SKIPPED [28] cisc662/tests/test_qkrope.py:137: CPU runs of the Triton kernel need TRITON_INTERPRET=1 (see test_interpreter_subprocess)
+SKIPPED [7] cisc662/tests/test_qkrope.py:149: CPU runs of the Triton kernel need TRITON_INTERPRET=1 (see test_interpreter_subprocess)
+SKIPPED [28] cisc662/tests/test_qkrope.py:160: CPU runs of the Triton kernel need TRITON_INTERPRET=1 (see test_interpreter_subprocess)
+SKIPPED [9] cisc662/tests/test_qkrope.py:61: CPU runs of the Triton kernel need TRITON_INTERPRET=1 (see test_interpreter_subprocess)
+SKIPPED [1] cisc662/tests/test_qkrope.py:315: GPU node: the cuda variants test the real kernels
+94 passed, 73 skipped in 17.32s

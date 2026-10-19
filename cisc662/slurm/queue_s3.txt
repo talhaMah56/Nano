@@ -1,0 +1,4 @@
+# S3 queue (started 2026-10-18 by Claude for Talha; S3 cap 1.0 SU). Processed in order by slurm/queue.sh, <= 2 in flight.
+#WAIT(released 10-18 after review + login checks) kernels under adversarial review (KT-1/KT-2); release after login-node checks pass
+cisc662/slurm/s3_kernels_kt1.sbatch KT-1
+cisc662/slurm/s3_kernels_kt2.sbatch KT-2

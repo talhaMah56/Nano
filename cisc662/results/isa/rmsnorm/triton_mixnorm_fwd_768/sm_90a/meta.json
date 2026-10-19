@@ -1,0 +1,85 @@
+{
+ "variant": "triton_mixnorm_fwd_768",
+ "kernel": "c662_rmsnorm_fwd_mixnorm",
+ "grid": [
+  8192
+ ],
+ "constexprs": {
+  "D": 768,
+  "CHUNK": 256,
+  "NCHUNK": 3,
+  "ALIGNED": true,
+  "IS_F64": false,
+  "IDX64": false,
+  "BLOCK_M": 4
+ },
+ "num_warps": 4,
+ "shapes": {
+  "X": [
+   32768,
+   768
+  ],
+  "X0": [
+   32768,
+   768
+  ],
+  "R": [],
+  "L": [],
+  "XN": [
+   32768,
+   768
+  ],
+  "H": [
+   32768,
+   768
+  ],
+  "RSTD": [
+   32768
+  ]
+ },
+ "dtypes": {
+  "X": "bfloat16",
+  "X0": "bfloat16",
+  "R": "float32",
+  "L": "float32",
+  "XN": "bfloat16",
+  "H": "bfloat16",
+  "RSTD": "float32"
+ },
+ "triton": "3.5.1",
+ "torch": "2.9.1+cu128",
+ "name": "c662_rmsnorm_fwd_mixnorm",
+ "n_regs": 48,
+ "n_spills": 0,
+ "shared": 16,
+ "num_stages": 3,
+ "num_warps_compiled": 4,
+ "arch": "sm90",
+ "ptx_version": null,
+ "hash": "3796baa45634e8f9bf6c81bfa8eebcf2986686cb5fb94e0e16dfb443d5109f57",
+ "device": "NVIDIA GH200 120GB",
+ "slurm_job_id": "3409675",
+ "mode": "gpu-compile",
+ "ptxas_v": "ptxas info    : 11 bytes gmem\nptxas info    : Compiling entry function 'c662_rmsnorm_fwd_mixnorm' for 'sm_90a'\nptxas info    : Function properties for c662_rmsnorm_fwd_mixnorm\n    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads\nptxas info    : Used 48 registers, used 1 barriers\nptxas info    : Compile time = 9.716 ms",
+ "spill_store_bytes": 0,
+ "spill_load_bytes": 0,
+ "smem_bytes_ptxas": null,
+ "sass_stats": {
+  "LDG.E.128": 6,
+  "LDG.E.64": 0,
+  "LDG.E(32)": 2,
+  "LDG.E.U16": 0,
+  "STG.E.128": 6,
+  "STG.E.64": 0,
+  "STG.E(32)": 1,
+  "STG.E.U16": 0,
+  "SHFL": 5,
+  "MUFU.RSQ": 1,
+  "LDS": 1,
+  "STS": 1,
+  "BAR": 1,
+  "LDL": 0,
+  "STL": 0,
+  "F2FP.BF16": 12
+ }
+}

@@ -1,0 +1,27 @@
+fwd B=1 T=5 Hq=2 Hk=2 T0=0 op       q: max|err| 7.760e-03 (stock 2.598e-02) ok
+fwd B=1 T=5 Hq=2 Hk=2 T0=0 op       k: max|err| 7.769e-03 (stock 2.498e-02) ok
+bwd B=1 T=5 T0=0 op       dq: max|err| 2.911e-02 rel-to-max 2.98e-03 ok
+bwd B=1 T=5 T0=0 op       dk: max|err| 2.918e-02 rel-to-max 3.15e-03 ok
+fwd B=1 T=5 Hq=2 Hk=2 T0=0 function q: max|err| 7.760e-03 (stock 2.598e-02) ok
+fwd B=1 T=5 Hq=2 Hk=2 T0=0 function k: max|err| 7.769e-03 (stock 2.498e-02) ok
+bwd B=1 T=5 T0=0 function dq: max|err| 2.095e-02 rel-to-max 2.26e-03 ok
+bwd B=1 T=5 T0=0 function dk: max|err| 1.552e-02 rel-to-max 2.11e-03 ok
+fwd B=2 T=1 Hq=2 Hk=1 T0=1234 op       q: max|err| 7.628e-03 (stock 1.750e-02) ok
+fwd B=2 T=1 Hq=2 Hk=1 T0=1234 op       k: max|err| 1.235e-02 (stock 1.809e-02) ok
+bwd B=2 T=1 T0=1234 op       dq: max|err| 1.730e-02 rel-to-max 2.00e-03 ok
+bwd B=2 T=1 T0=1234 op       dk: max|err| 1.539e-02 rel-to-max 2.04e-03 ok
+fwd B=2 T=1 Hq=2 Hk=1 T0=1234 function q: max|err| 7.628e-03 (stock 1.750e-02) ok
+fwd B=2 T=1 Hq=2 Hk=1 T0=1234 function k: max|err| 1.235e-02 (stock 1.809e-02) ok
+bwd B=2 T=1 T0=1234 function dq: max|err| 1.517e-02 rel-to-max 2.05e-03 ok
+bwd B=2 T=1 T0=1234 function dk: max|err| 1.493e-02 rel-to-max 1.91e-03 ok
+fwd B=1 T=3 Hq=3 Hk=3 T0=2045 op       q: max|err| 1.372e-02 (stock 2.235e-02) ok
+fwd B=1 T=3 Hq=3 Hk=3 T0=2045 op       k: max|err| 7.795e-03 (stock 2.878e-02) ok
+bwd B=1 T=3 T0=2045 op       dq: max|err| 1.536e-02 rel-to-max 1.85e-03 ok
+bwd B=1 T=3 T0=2045 op       dk: max|err| 1.749e-02 rel-to-max 2.04e-03 ok
+fwd B=1 T=3 Hq=3 Hk=3 T0=2045 function q: max|err| 1.372e-02 (stock 2.235e-02) ok
+fwd B=1 T=3 Hq=3 Hk=3 T0=2045 function k: max|err| 7.795e-03 (stock 2.878e-02) ok
+bwd B=1 T=3 T0=2045 function dq: max|err| 2.847e-02 rel-to-max 3.52e-03 ok
+bwd B=1 T=3 T0=2045 function dk: max|err| 1.878e-02 rel-to-max 2.15e-03 ok
+gradcheck fp64 op: True
+gradcheck fp64 function: True
+SELF-TEST PASS

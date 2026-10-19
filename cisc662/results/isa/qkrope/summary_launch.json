@@ -1,0 +1,12 @@
+{
+ "written": [
+  "/u/tmahmood1/project/nanochat/cisc662/results/isa/qkrope/triton_v1/sm_90a/c662_qkrope_fwd.meta.json",
+  "/u/tmahmood1/project/nanochat/cisc662/results/isa/qkrope/triton_v1/sm_90a/c662_qkrope_bwd.meta.json",
+  "/u/tmahmood1/project/nanochat/cisc662/results/isa/qkrope/triton_ilp2/sm_90a/c662_qkrope_fwd.meta.json",
+  "/u/tmahmood1/project/nanochat/cisc662/results/isa/qkrope/triton_ilp2/sm_90a/c662_qkrope_bwd.meta.json",
+  "/u/tmahmood1/project/nanochat/cisc662/results/isa/qkrope/triton_ilp4/sm_90a/c662_qkrope_fwd.meta.json",
+  "/u/tmahmood1/project/nanochat/cisc662/results/isa/qkrope/triton_ilp4/sm_90a/c662_qkrope_bwd.meta.json"
+ ],
+ "mode": "launch",
+ "triton": "3.5.1"
+}

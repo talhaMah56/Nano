@@ -1,0 +1,58 @@
+{
+ "kernel": "c662_qkrope_bwd",
+ "variant": "v1",
+ "BLOCK_M": 16,
+ "num_warps": 4,
+ "grid": [
+  24576,
+  1,
+  1
+ ],
+ "shape": {
+  "q": [
+   16,
+   2048,
+   6,
+   128
+  ],
+  "k": [
+   16,
+   2048,
+   6,
+   128
+  ],
+  "cos": [
+   1,
+   2048,
+   1,
+   64
+  ]
+ },
+ "dtype": "bfloat16",
+ "triton": "3.5.1",
+ "torch": "2.9.1+cu128",
+ "target": "cuda:90 (sm_90a)",
+ "mode": "launch",
+ "n_regs": 62,
+ "n_spills": 0,
+ "device": "NVIDIA GH200 120GB",
+ "shared": 0,
+ "num_stages": 3,
+ "hash": "d903786a95248c7fc5bd652b0753d16fa42295713cbfac46c407bacbcdaea894",
+ "job_id": "3409677",
+ "sass_counts": {
+  "LDG.E.128": 12,
+  "LDG.E.64": 0,
+  "LDG.E (32-bit or narrower)": 2,
+  "LDG total": 14,
+  "STG.E.128": 4,
+  "STG.E.64": 0,
+  "STG total": 4,
+  "SHFL": 6,
+  "MUFU.RSQ": 0,
+  "BAR": 0,
+  "STS": 0,
+  "LDS": 0,
+  "instructions": 696
+ }
+}

@@ -1,0 +1,62 @@
+[G1 rmsnorm v1 rows1003_768] PASS elementwise/bfloat16 max_abs=1.515e-02 max_rel=3.888e-03 stock_err=1.515e-02 ratio=1.00 cosine=0.99999862
+.[G1 rmsnorm v2 rows1003_768] PASS elementwise/bfloat16 max_abs=1.515e-02 max_rel=3.888e-03 stock_err=1.515e-02 ratio=1.00 cosine=0.99999862
+.[G1 rmsnorm v1 rows1003_128] PASS elementwise/bfloat16 max_abs=1.402e-02 max_rel=3.888e-03 stock_err=1.402e-02 ratio=1.00 cosine=0.99999861
+.[G1 rmsnorm v2 rows1003_128] PASS elementwise/bfloat16 max_abs=1.402e-02 max_rel=3.888e-03 stock_err=1.402e-02 ratio=1.00 cosine=0.99999861
+.[G1 rmsnorm v1 t1_768] PASS elementwise/bfloat16 max_abs=7.592e-03 max_rel=3.639e-03 stock_err=7.592e-03 ratio=1.00 cosine=0.99999859
+.[G1 rmsnorm v2 t1_768] PASS elementwise/bfloat16 max_abs=7.592e-03 max_rel=3.639e-03 stock_err=7.592e-03 ratio=1.00 cosine=0.99999859
+.[G1 rmsnorm v1 t1_qk] PASS elementwise/bfloat16 max_abs=7.661e-03 max_rel=3.876e-03 stock_err=7.661e-03 ratio=1.00 cosine=0.99999859
+.[G1 rmsnorm v2 t1_qk] PASS elementwise/bfloat16 max_abs=7.661e-03 max_rel=3.876e-03 stock_err=7.661e-03 ratio=1.00 cosine=0.99999859
+.[G1 rmsnorm v1 r12_resid] PASS elementwise/bfloat16 max_abs=1.562e-02 max_rel=3.891e-03 stock_err=1.562e-02 ratio=1.00 cosine=0.99999862
+.[G1 rmsnorm v2 r12_resid] PASS elementwise/bfloat16 max_abs=1.562e-02 max_rel=3.891e-03 stock_err=1.562e-02 ratio=1.00 cosine=0.99999862
+.[G1 rmsnorm v1 r12_qk] PASS elementwise/bfloat16 max_abs=1.561e-02 max_rel=3.891e-03 stock_err=1.561e-02 ratio=1.00 cosine=0.99999862
+.[G1 rmsnorm v2 r12_qk] PASS elementwise/bfloat16 max_abs=1.561e-02 max_rel=3.891e-03 stock_err=1.561e-02 ratio=1.00 cosine=0.99999862
+.........[G2 rmsnorm v1 rows1003_768] PASS elementwise/bfloat16 max_abs=1.538e-02 max_rel=3.891e-03 stock_err=1.538e-02 ratio=1.00 cosine=0.99999862
+.[G2 rmsnorm v2 rows1003_768] PASS elementwise/bfloat16 max_abs=1.538e-02 max_rel=3.891e-03 stock_err=1.538e-02 ratio=1.00 cosine=0.99999862
+.[G2 rmsnorm v1 rows1003_128] PASS elementwise/bfloat16 max_abs=1.528e-02 max_rel=3.891e-03 stock_err=1.528e-02 ratio=1.00 cosine=0.99999861
+.[G2 rmsnorm v2 rows1003_128] PASS elementwise/bfloat16 max_abs=1.528e-02 max_rel=3.891e-03 stock_err=1.528e-02 ratio=1.00 cosine=0.99999861
+.[G2 rmsnorm v1 t1_768] PASS elementwise/bfloat16 max_abs=7.376e-03 max_rel=3.672e-03 stock_err=7.376e-03 ratio=1.00 cosine=0.99999866
+.[G2 rmsnorm v2 t1_768] PASS elementwise/bfloat16 max_abs=7.376e-03 max_rel=3.672e-03 stock_err=7.376e-03 ratio=1.00 cosine=0.99999866
+.[G2 rmsnorm v1 t1_qk] PASS elementwise/bfloat16 max_abs=7.806e-03 max_rel=3.796e-03 stock_err=7.806e-03 ratio=1.00 cosine=0.99999858
+.[G2 rmsnorm v2 t1_qk] PASS elementwise/bfloat16 max_abs=7.806e-03 max_rel=3.796e-03 stock_err=7.806e-03 ratio=1.00 cosine=0.99999858
+.[G2 rmsnorm v1 r12_resid] PASS elementwise/bfloat16 max_abs=1.562e-02 max_rel=8.100e-02 stock_err=1.562e-02 ratio=1.00 cosine=0.99999862
+.[G2 rmsnorm v2 r12_resid] PASS elementwise/bfloat16 max_abs=1.562e-02 max_rel=9.826e-02 stock_err=1.562e-02 ratio=1.00 cosine=0.99999862
+.[G2 rmsnorm v1 r12_qk] PASS elementwise/bfloat16 max_abs=1.562e-02 max_rel=1.360e-01 stock_err=1.562e-02 ratio=1.00 cosine=0.99999862
+.[G2 rmsnorm v2 r12_qk] PASS elementwise/bfloat16 max_abs=1.562e-02 max_rel=2.235e-01 stock_err=1.562e-02 ratio=1.00 cosine=0.99999862
+.....[G1 mixnorm rows1003] x_new: PASS elementwise/bfloat16 max_abs=7.812e-03 max_rel=8.333e-01 stock_err=2.061e-02 ratio=0.38 cosine=0.99999861
+[G1 mixnorm rows1003] h: PASS elementwise/bfloat16 max_abs=2.820e-02 max_rel=8.329e-01 stock_err=3.093e-02 ratio=0.91 cosine=0.99999724
+.[G1 mixnorm t1] x_new: PASS elementwise/bfloat16 max_abs=3.866e-03 max_rel=3.861e-03 stock_err=1.167e-02 ratio=0.33 cosine=0.99999863
+[G1 mixnorm t1] h: PASS elementwise/bfloat16 max_abs=1.286e-02 max_rel=6.830e-03 stock_err=1.760e-02 ratio=0.73 cosine=0.99999725
+.[G1 mixnorm r12] x_new: PASS elementwise/bfloat16 max_abs=7.813e-03 max_rel=8.333e-01 stock_err=2.116e-02 ratio=0.37 cosine=0.99999862
+[G1 mixnorm r12] h: PASS elementwise/bfloat16 max_abs=2.983e-02 max_rel=8.338e-01 stock_err=4.039e-02 ratio=0.74 cosine=0.99999724
+.[G2 mixnorm rows1003 dx] PASS elementwise/bfloat16 max_abs=1.605e-02 max_rel=3.196e+01 stock_err=3.584e-02 ratio=0.45 cosine=0.99999861
+[G2 mixnorm rows1003 dx0] PASS elementwise/bfloat16 max_abs=1.955e-03 max_rel=3.187e+01 stock_err=4.373e-03 ratio=0.45 cosine=0.99999862
+[G2 mixnorm rows1003 dr] ours -6.39514008e+01 | rel err vs fp64-given-our-x_new 2.30e-06, vs exactly-rounded-x_new ref 1.05e-04, vs unrounded chain 1.49e-02 (stock vs unrounded 8.96e-03) | ||terms||_2 4.501e+02
+[G2 mixnorm rows1003 dl] ours -9.88480774e+02 | rel err vs fp64-given-our-x_new 3.71e-08, vs exactly-rounded-x_new ref 1.16e-06, vs unrounded chain 1.90e-04 (stock vs unrounded 3.37e-03) | ||terms||_2 4.518e+02
+.[G2 mixnorm t1 dx] PASS elementwise/bfloat16 max_abs=8.091e-03 max_rel=1.113e-01 stock_err=1.857e-02 ratio=0.44 cosine=0.99999861
+[G2 mixnorm t1 dx0] PASS elementwise/bfloat16 max_abs=1.012e-03 max_rel=1.073e-01 stock_err=2.425e-03 ratio=0.42 cosine=0.99999863
+[G2 mixnorm t1 dr] ours -1.88464413e+01 | rel err vs fp64-given-our-x_new 1.42e-07, vs exactly-rounded-x_new ref 1.42e-07, vs unrounded chain 2.66e-03 (stock vs unrounded 9.12e-03) | ||terms||_2 2.498e+01
+[G2 mixnorm t1 dl] ours 5.44475460e+00 | rel err vs fp64-given-our-x_new 1.20e-07, vs exactly-rounded-x_new ref 1.20e-07, vs unrounded chain 8.14e-04 (stock vs unrounded 7.88e-03) | ||terms||_2 2.411e+01
+.[G2 mixnorm r12 dx] PASS elementwise/bfloat16 max_abs=1.629e-02 max_rel=1.808e+03 stock_err=4.501e-02 ratio=0.36 cosine=0.99999861
+[G2 mixnorm r12 dx0] PASS elementwise/bfloat16 max_abs=2.036e-03 max_rel=1.804e+03 stock_err=6.552e-03 ratio=0.31 cosine=0.99999861
+[G2 mixnorm r12 dr] ours 3.09985474e+02 | rel err vs fp64-given-our-x_new 1.04e-06, vs exactly-rounded-x_new ref 1.82e-04, vs unrounded chain 6.25e-04 (stock vs unrounded 5.87e-03) | ||terms||_2 2.577e+03
+[G2 mixnorm r12 dl] ours 2.72465039e+03 | rel err vs fp64-given-our-x_new 5.83e-08, vs exactly-rounded-x_new ref 1.32e-06, vs unrounded chain 1.26e-04 (stock vs unrounded 1.58e-03) | ||terms||_2 2.580e+03
+.[G2 mixnorm rows1003 dx] PASS elementwise/bfloat16 max_abs=1.622e-02 max_rel=2.542e+01 stock_err=2.113e-02 ratio=0.77 cosine=0.99999861
+[G2 mixnorm rows1003 dx0] PASS elementwise/bfloat16 max_abs=1.987e-03 max_rel=2.540e+01 stock_err=3.329e-03 ratio=0.60 cosine=0.99999862
+[G2 mixnorm rows1003 dr] ours 8.84595490e+01 | rel err vs fp64-given-our-x_new 1.77e-06, vs exactly-rounded-x_new ref 7.58e-05, vs unrounded chain 1.11e-02 (stock vs unrounded 1.15e-02) | ||terms||_2 3.938e+02
+[G2 mixnorm rows1003 dl] ours -7.32940186e+02 | rel err vs fp64-given-our-x_new 9.61e-08, vs exactly-rounded-x_new ref 1.51e-06, vs unrounded chain 2.56e-04 (stock vs unrounded 3.92e-03) | ||terms||_2 3.957e+02
+.[G2 mixnorm t1 dx] PASS elementwise/bfloat16 max_abs=8.214e-03 max_rel=4.815e-02 stock_err=1.585e-02 ratio=0.52 cosine=0.99999864
+[G2 mixnorm t1 dx0] PASS elementwise/bfloat16 max_abs=1.004e-03 max_rel=5.145e-02 stock_err=2.656e-03 ratio=0.38 cosine=0.99999862
+[G2 mixnorm t1 dr] ours -2.45000410e+00 | rel err vs fp64-given-our-x_new 1.45e-06, vs exactly-rounded-x_new ref 1.45e-06, vs unrounded chain 2.08e-02 (stock vs unrounded 3.00e-02) | ||terms||_2 2.154e+01
+[G2 mixnorm t1 dl] ours 2.01065273e+01 | rel err vs fp64-given-our-x_new 3.02e-10, vs exactly-rounded-x_new ref 3.02e-10, vs unrounded chain 2.20e-04 (stock vs unrounded 6.98e-04) | ||terms||_2 2.021e+01
+.[G2 mixnorm r12 dx] PASS elementwise/bfloat16 max_abs=1.633e-02 max_rel=4.280e+02 stock_err=3.212e-02 ratio=0.51 cosine=0.99999861
+[G2 mixnorm r12 dx0] PASS elementwise/bfloat16 max_abs=1.987e-03 max_rel=4.275e+02 stock_err=5.108e-03 ratio=0.39 cosine=0.99999861
+[G2 mixnorm r12 dr] ours -8.52942886e+01 | rel err vs fp64-given-our-x_new 1.29e-06, vs exactly-rounded-x_new ref 6.63e-04, vs unrounded chain 2.28e-03 (stock vs unrounded 1.69e-01) | ||terms||_2 2.251e+03
+[G2 mixnorm r12 dl] ours 7.13441223e+02 | rel err vs fp64-given-our-x_new 5.31e-07, vs exactly-rounded-x_new ref 4.74e-06, vs unrounded chain 4.80e-04 (stock vs unrounded 1.54e-03) | ||terms||_2 2.255e+03
+..........................................................................................................s...................................cuBLAS 32768x768x768: PASS gemm/bfloat16 max_abs=7.811e-03 max_rel=2.883e+01 rel_fro=1.661e-03 violations=25165809/25165824 stock_err=1.661e-03 ratio=1.00
+.cuBLAS 32768x768x3072: PASS gemm/bfloat16 max_abs=7.812e-03 max_rel=1.750e+02 rel_fro=1.661e-03 violations=100663238/100663296 stock_err=1.661e-03 ratio=1.00
+.{"fa3_max_abs_err": 0.009119510650634766, "sdpa_bf16_max_abs_err": 0.009119510650634766, "fa3_vs_sdpa_bf16_max_abs": 0.0078125, "bf16_output_rounding_floor": 0.0078125, "job_id": "3409675"}
+.
+- generated xml file: /u/tmahmood1/project/nanochat/cisc662/results/runs/s3_rmsnorm_3409675/gates_junit.xml -
+=========================== short test summary info ============================
+SKIPPED [1] cisc662/tests/test_ref_ops.py:378: mean over zero valid rows is NaN; no gradient to compare
+188 passed, 1 skipped in 47.08s

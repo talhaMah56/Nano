@@ -10,3 +10,6 @@ results/runs/*/output_code/*_ir_post_fusion.txt
 results/runs/*/output_code/*_fx_graph_runnable.py
 # cache-warming dry runs (s2_harness), not results
 results/runs/*/ops_dryrun/
+# compiled kernel binaries: regenerable with analysis/xcompile.py / --dump-isa (text dumps are kept)
+results/isa/**/*.cubin
+results/isa/**/*.hsaco

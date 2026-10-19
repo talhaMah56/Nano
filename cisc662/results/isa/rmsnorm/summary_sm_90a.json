@@ -1,0 +1,254 @@
+{
+ "triton_v1_768": {
+  "name": "c662_rmsnorm_fwd_v1",
+  "n_regs": 21,
+  "n_spills": 0,
+  "shared": 16,
+  "num_warps": 4,
+  "grid": [
+   32768
+  ],
+  "sass_stats": {
+   "LDG.E.128": 1,
+   "LDG.E.64": 0,
+   "LDG.E(32)": 0,
+   "LDG.E.U16": 0,
+   "STG.E.128": 1,
+   "STG.E.64": 0,
+   "STG.E(32)": 1,
+   "STG.E.U16": 0,
+   "SHFL": 7,
+   "MUFU.RSQ": 1,
+   "LDS": 2,
+   "STS": 2,
+   "BAR": 2,
+   "LDL": 0,
+   "STL": 0,
+   "F2FP.BF16": 4
+  }
+ },
+ "triton_v2_768": {
+  "name": "c662_rmsnorm_fwd_v2",
+  "n_regs": 64,
+  "n_spills": 0,
+  "shared": 32,
+  "num_warps": 4,
+  "grid": [
+   4096
+  ],
+  "sass_stats": {
+   "LDG.E.128": 6,
+   "LDG.E.64": 0,
+   "LDG.E(32)": 0,
+   "LDG.E.U16": 0,
+   "STG.E.128": 6,
+   "STG.E.64": 0,
+   "STG.E(32)": 1,
+   "STG.E.U16": 0,
+   "SHFL": 10,
+   "MUFU.RSQ": 2,
+   "LDS": 1,
+   "STS": 1,
+   "BAR": 1,
+   "LDL": 0,
+   "STL": 0,
+   "F2FP.BF16": 24
+  }
+ },
+ "triton_bwd_768": {
+  "name": "c662_rmsnorm_bwd",
+  "n_regs": 56,
+  "n_spills": 0,
+  "shared": 0,
+  "num_warps": 4,
+  "grid": [
+   8192
+  ],
+  "sass_stats": {
+   "LDG.E.128": 6,
+   "LDG.E.64": 0,
+   "LDG.E(32)": 1,
+   "LDG.E.U16": 0,
+   "STG.E.128": 3,
+   "STG.E.64": 0,
+   "STG.E(32)": 0,
+   "STG.E.U16": 0,
+   "SHFL": 5,
+   "MUFU.RSQ": 0,
+   "LDS": 0,
+   "STS": 0,
+   "BAR": 0,
+   "LDL": 0,
+   "STL": 0,
+   "F2FP.BF16": 12
+  }
+ },
+ "triton_v1_128": {
+  "name": "c662_rmsnorm_fwd_v1",
+  "n_regs": 16,
+  "n_spills": 0,
+  "shared": 0,
+  "num_warps": 1,
+  "grid": [
+   196608
+  ],
+  "sass_stats": {
+   "LDG.E.128": 0,
+   "LDG.E.64": 1,
+   "LDG.E(32)": 0,
+   "LDG.E.U16": 0,
+   "STG.E.128": 0,
+   "STG.E.64": 1,
+   "STG.E(32)": 1,
+   "STG.E.U16": 0,
+   "SHFL": 5,
+   "MUFU.RSQ": 1,
+   "LDS": 0,
+   "STS": 0,
+   "BAR": 0,
+   "LDL": 0,
+   "STL": 0,
+   "F2FP.BF16": 2
+  }
+ },
+ "triton_v2_128": {
+  "name": "c662_rmsnorm_fwd_v2",
+  "n_regs": 36,
+  "n_spills": 0,
+  "shared": 64,
+  "num_warps": 4,
+  "grid": [
+   12288
+  ],
+  "sass_stats": {
+   "LDG.E.128": 2,
+   "LDG.E.64": 0,
+   "LDG.E(32)": 0,
+   "LDG.E.U16": 0,
+   "STG.E.128": 2,
+   "STG.E.64": 0,
+   "STG.E(32)": 1,
+   "STG.E.U16": 0,
+   "SHFL": 8,
+   "MUFU.RSQ": 2,
+   "LDS": 1,
+   "STS": 1,
+   "BAR": 1,
+   "LDL": 0,
+   "STL": 0,
+   "F2FP.BF16": 8
+  }
+ },
+ "triton_bwd_128": {
+  "name": "c662_rmsnorm_bwd",
+  "n_regs": 32,
+  "n_spills": 0,
+  "shared": 0,
+  "num_warps": 4,
+  "grid": [
+   12288
+  ],
+  "sass_stats": {
+   "LDG.E.128": 4,
+   "LDG.E.64": 0,
+   "LDG.E(32)": 2,
+   "LDG.E.U16": 0,
+   "STG.E.128": 2,
+   "STG.E.64": 0,
+   "STG.E(32)": 0,
+   "STG.E.U16": 0,
+   "SHFL": 8,
+   "MUFU.RSQ": 0,
+   "LDS": 0,
+   "STS": 0,
+   "BAR": 0,
+   "LDL": 0,
+   "STL": 0,
+   "F2FP.BF16": 8
+  }
+ },
+ "triton_mixnorm_fwd_768": {
+  "name": "c662_rmsnorm_fwd_mixnorm",
+  "n_regs": 48,
+  "n_spills": 0,
+  "shared": 16,
+  "num_warps": 4,
+  "grid": [
+   8192
+  ],
+  "sass_stats": {
+   "LDG.E.128": 6,
+   "LDG.E.64": 0,
+   "LDG.E(32)": 2,
+   "LDG.E.U16": 0,
+   "STG.E.128": 6,
+   "STG.E.64": 0,
+   "STG.E(32)": 1,
+   "STG.E.U16": 0,
+   "SHFL": 5,
+   "MUFU.RSQ": 1,
+   "LDS": 1,
+   "STS": 1,
+   "BAR": 1,
+   "LDL": 0,
+   "STL": 0,
+   "F2FP.BF16": 12
+  }
+ },
+ "triton_mixnorm_bwd_768": {
+  "name": "c662_rmsnorm_bwd_mixnorm",
+  "n_regs": 127,
+  "n_spills": 0,
+  "shared": 16,
+  "num_warps": 4,
+  "grid": [
+   8192
+  ],
+  "sass_stats": {
+   "LDG.E.128": 12,
+   "LDG.E.64": 0,
+   "LDG.E(32)": 3,
+   "LDG.E.U16": 0,
+   "STG.E.128": 6,
+   "STG.E.64": 0,
+   "STG.E(32)": 2,
+   "STG.E.U16": 0,
+   "SHFL": 15,
+   "MUFU.RSQ": 0,
+   "LDS": 2,
+   "STS": 2,
+   "BAR": 3,
+   "LDL": 0,
+   "STL": 0,
+   "F2FP.BF16": 24
+  }
+ },
+ "triton_mixnorm_bwd_finish_768": {
+  "name": "c662_rmsnorm_bwd_mixnorm_finish",
+  "n_regs": 32,
+  "n_spills": 0,
+  "shared": 64,
+  "num_warps": 8,
+  "grid": [
+   2
+  ],
+  "sass_stats": {
+   "LDG.E.128": 2,
+   "LDG.E.64": 0,
+   "LDG.E(32)": 0,
+   "LDG.E.U16": 0,
+   "STG.E.128": 0,
+   "STG.E.64": 0,
+   "STG.E(32)": 1,
+   "STG.E.U16": 0,
+   "SHFL": 16,
+   "MUFU.RSQ": 0,
+   "LDS": 2,
+   "STS": 2,
+   "BAR": 2,
+   "LDL": 0,
+   "STL": 0,
+   "F2FP.BF16": 0
+  }
+ }
+}

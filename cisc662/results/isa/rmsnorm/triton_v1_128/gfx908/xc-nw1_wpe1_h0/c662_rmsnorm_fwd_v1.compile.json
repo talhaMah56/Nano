@@ -1,0 +1,77 @@
+{
+ "kernel_id": "rmsnorm",
+ "variant": "v1_128",
+ "kernel": "c662_rmsnorm_fwd_v1",
+ "target": "hip:gfx908",
+ "target_dir": "gfx908",
+ "tag": "nw1_wpe1_h0",
+ "is_base": false,
+ "cfg": {
+  "num_warps": 1,
+  "hints": false,
+  "waves_per_eu": 1
+ },
+ "options": {
+  "num_warps": 1,
+  "waves_per_eu": 1
+ },
+ "signature": {
+  "X": "*bf16",
+  "Y": "*bf16",
+  "RSTD": "*fp32",
+  "stride_x": "i32",
+  "stride_y": "i32",
+  "eps": "fp32",
+  "D": "constexpr",
+  "BLOCK_D": "constexpr",
+  "ALIGNED": "constexpr",
+  "IS_F64": "constexpr",
+  "IDX64": "constexpr"
+ },
+ "constexprs": {
+  "D": 128,
+  "BLOCK_D": 128,
+  "ALIGNED": false,
+  "IS_F64": false,
+  "IDX64": false
+ },
+ "divisibility_args": [],
+ "source": "cisc662/kernels/triton/rmsnorm.py",
+ "source_sha": "297fddc84add",
+ "shape": "X[196608, 128], Y[196608, 128] bf16, grid=[196608]",
+ "notes": "rmsnorm.CONFIGS launch (num_warps=1); constexprs {'D': 128, 'BLOCK_D': 128, 'ALIGNED': True, 'IS_F64': False, 'IDX64': False}",
+ "versions": {
+  "triton": "3.5.1",
+  "llvm": "22.0.0git (7d5de3033187, bundled in libtriton)",
+  "torch": "2.9.1+cu128",
+  "ptxas": "12.8 (/work/nvme/bffp/tmahmood1/cisc662/venv/lib/python3.10/site-packages/triton/backends/nvidia/bin/ptxas)"
+ },
+ "mode": "xcompile GPUTarget('hip', 'gfx908', 64) on the login node, no GPU",
+ "label": "STATIC",
+ "ok": true,
+ "files": [
+  "/work/nvme/bffp/tmahmood1/cisc662/scratch/AMD-1/isa_ir/rmsnorm/triton_v1_128/gfx908/xc-nw1_wpe1_h0/c662_rmsnorm_fwd_v1.ttgir",
+  "/work/nvme/bffp/tmahmood1/cisc662/scratch/AMD-1/isa_ir/rmsnorm/triton_v1_128/gfx908/xc-nw1_wpe1_h0/c662_rmsnorm_fwd_v1.llir",
+  "/work/nvme/bffp/tmahmood1/cisc662/scratch/AMD-1/isa_ir/rmsnorm/triton_v1_128/gfx908/xc-nw1_wpe1_h0/c662_rmsnorm_fwd_v1.amdgcn",
+  "c662_rmsnorm_fwd_v1.hsaco"
+ ],
+ "name": "c662_rmsnorm_fwd_v1",
+ "hash": "e4e359c5c617f335de456612fff2a74a491267781920ef376b2767e8117d2331",
+ "metadata": {
+  "shared": 0,
+  "num_warps": 1,
+  "num_stages": 2,
+  "num_ctas": 1,
+  "arch": "gfx908",
+  "warp_size": 64,
+  "waves_per_eu": 1,
+  "cluster_dims": [
+   1,
+   1,
+   1
+  ],
+  "profile_scratch_size": 0
+ },
+ "wall_s": 0.02,
+ "cpu_s": 0.01
+}

@@ -1,0 +1,1652 @@
+	.amdgcn_target "amdgcn-amd-amdhsa--gfx942"
+	.amdhsa_code_object_version 5
+	.text
+	.globl	matmul_kernel                   ; -- Begin function matmul_kernel
+	.p2align	8
+	.type	matmul_kernel,@function
+matmul_kernel:                          ; @matmul_kernel
+.Lfunc_begin0:
+	.cfi_sections .debug_frame
+	.cfi_startproc
+; %bb.53:
+	.file	1 "/u/tmahmood1/project/nanochat/cisc662/analysis" "kernel_registry.py"
+	.loc	1 80 0 prologue_end             ; kernel_registry.py:80:0
+	s_load_dwordx2 s[2:3], s[0:1], 0x0
+	s_load_dwordx8 s[4:11], s[0:1], 0x8
+	s_load_dwordx4 s[12:15], s[0:1], 0x28
+	s_waitcnt lgkmcnt(0)
+	s_branch .LBB0_0
+	.loc	1 0 0 is_stmt 0                 ; :0:0
+.Ltmp0:
+	.p2align	8
+; %bb.54:
+.LBB0_0:
+.Ltmp1:
+	.file	2 "/work/nvme/bffp/tmahmood1/cisc662/venv/lib/python3.10/site-packages/triton/language" "standard.py"
+	.loc	2 41 22 is_stmt 1               ; standard.py:41:22 @[ kernel_registry.py:86:27 ]
+	s_add_i32 s0, s9, 0x7f
+	.loc	2 41 28 is_stmt 0               ; standard.py:41:28 @[ kernel_registry.py:86:27 ]
+	s_ashr_i32 s1, s0, 31
+	s_lshr_b32 s1, s1, 25
+	s_add_i32 s0, s0, s1
+	s_ashr_i32 s0, s0, 7
+.Ltmp2:
+	.loc	1 87 38 is_stmt 1               ; kernel_registry.py:87:38
+	s_lshl_b32 s0, s0, 3
+	.loc	1 88 22                         ; kernel_registry.py:88:22
+	s_abs_i32 s1, s0
+	v_cvt_f32_u32_e32 v1, s1
+	s_sub_i32 s18, 0, s1
+.Ltmp3:
+	.loc	2 41 22                         ; standard.py:41:22 @[ kernel_registry.py:85:27 ]
+	s_add_i32 s14, s8, 0x7f
+.Ltmp4:
+	.loc	1 88 22                         ; kernel_registry.py:88:22
+	s_abs_i32 s17, s16
+	v_rcp_iflag_f32_e32 v1, v1
+.Ltmp5:
+	.loc	2 41 28                         ; standard.py:41:28 @[ kernel_registry.py:85:27 ]
+	s_ashr_i32 s15, s14, 31
+	s_lshr_b32 s15, s15, 25
+	s_add_i32 s14, s14, s15
+.Ltmp6:
+	.loc	1 88 22                         ; kernel_registry.py:88:22
+	v_mul_f32_e32 v1, 0x4f7ffffe, v1
+	v_cvt_u32_f32_e32 v1, v1
+	s_xor_b32 s15, s16, s0
+.Ltmp7:
+	.loc	2 41 28                         ; standard.py:41:28 @[ kernel_registry.py:85:27 ]
+	s_ashr_i32 s14, s14, 7
+.Ltmp8:
+	.loc	1 88 22                         ; kernel_registry.py:88:22
+	s_ashr_i32 s15, s15, 31
+	v_readfirstlane_b32 s19, v1
+	s_mul_i32 s18, s18, s19
+	s_mul_hi_u32 s18, s19, s18
+	s_add_i32 s19, s19, s18
+	s_mul_hi_u32 s18, s17, s19
+	s_mul_i32 s19, s18, s1
+	s_sub_i32 s17, s17, s19
+	s_add_i32 s19, s18, 1
+	s_sub_i32 s20, s17, s1
+	s_cmp_ge_u32 s17, s1
+	s_cselect_b32 s18, s19, s18
+	s_cselect_b32 s17, s20, s17
+	s_add_i32 s19, s18, 1
+	s_cmp_ge_u32 s17, s1
+	s_cselect_b32 s1, s19, s18
+	s_xor_b32 s1, s1, s15
+	s_sub_i32 s1, s1, s15
+	.loc	1 89 29                         ; kernel_registry.py:89:29
+	s_lshl_b32 s15, s1, 3
+	.loc	1 90 35                         ; kernel_registry.py:90:35
+	s_sub_i32 s14, s14, s15
+	.loc	1 90 48 is_stmt 0               ; kernel_registry.py:90:48
+	s_min_i32 s14, s14, 8
+	.loc	1 92 40 is_stmt 1               ; kernel_registry.py:92:40
+	s_abs_i32 s17, s14
+	v_cvt_f32_u32_e32 v1, s17
+	s_sub_i32 s18, 0, s17
+	.loc	1 91 34                         ; kernel_registry.py:91:34
+	s_mul_i32 s1, s1, s0
+	s_sub_i32 s0, s16, s1
+	.loc	1 92 40                         ; kernel_registry.py:92:40
+	v_rcp_iflag_f32_e32 v1, v1
+	s_abs_i32 s16, s0
+	s_xor_b32 s1, s0, s14
+	s_ashr_i32 s1, s1, 31
+	v_mul_f32_e32 v1, 0x4f7ffffe, v1
+	v_cvt_u32_f32_e32 v1, v1
+	.loc	1 103 51                        ; kernel_registry.py:103:51
+	v_lshrrev_b32_e32 v3, 3, v0
+	v_mov_b32_e32 v8, 0
+	v_mov_b32_e32 v9, 0
+	.loc	1 92 40                         ; kernel_registry.py:92:40
+	v_readfirstlane_b32 s19, v1
+	s_mul_i32 s18, s18, s19
+	s_mul_hi_u32 s18, s19, s18
+	s_add_i32 s19, s19, s18
+	s_mul_hi_u32 s18, s16, s19
+	s_mul_i32 s19, s18, s17
+	s_sub_i32 s16, s16, s19
+	s_add_i32 s19, s18, 1
+	s_sub_i32 s20, s16, s17
+	s_cmp_ge_u32 s16, s17
+	s_cselect_b32 s18, s19, s18
+	s_cselect_b32 s16, s20, s16
+	s_add_i32 s19, s18, 1
+	s_cmp_ge_u32 s16, s17
+	s_cselect_b32 s16, s19, s18
+	.loc	1 103 68                        ; kernel_registry.py:103:68
+	s_abs_i32 s23, s8
+	v_cvt_f32_u32_e32 v2, s23
+	.loc	1 92 40                         ; kernel_registry.py:92:40
+	s_xor_b32 s16, s16, s1
+	s_sub_i32 s16, s16, s1
+	.loc	1 91 54                         ; kernel_registry.py:91:54
+	s_mul_i32 s1, s16, s14
+	.loc	1 103 68                        ; kernel_registry.py:103:68
+	v_rcp_iflag_f32_e32 v2, v2
+	.loc	1 91 54                         ; kernel_registry.py:91:54
+	s_sub_i32 s0, s0, s1
+	.loc	1 91 27 is_stmt 0               ; kernel_registry.py:91:27
+	s_add_i32 s0, s0, s15
+	.loc	1 103 23 is_stmt 1              ; kernel_registry.py:103:23
+	s_lshl_b32 s18, s0, 7
+	.loc	1 103 68 is_stmt 0              ; kernel_registry.py:103:68
+	v_mul_f32_e32 v2, 0x4f7ffffe, v2
+	v_cvt_u32_f32_e32 v2, v2
+	s_bfe_i32 s24, s0, 0x10018
+	s_sub_i32 s0, 0, s23
+	.loc	1 103 38                        ; kernel_registry.py:103:38
+	v_or_b32_e32 v3, s18, v3
+	.loc	1 103 68                        ; kernel_registry.py:103:68
+	v_mul_lo_u32 v5, s0, v2
+	v_add_u32_e32 v3, s24, v3
+	v_mul_hi_u32 v5, v2, v5
+	v_xor_b32_e32 v4, s24, v3
+	v_add_u32_e32 v2, v2, v5
+	v_mul_hi_u32 v5, v4, v2
+	v_mul_lo_u32 v5, v5, s23
+	v_sub_u32_e32 v4, v4, v5
+	v_subrev_u32_e32 v5, s23, v4
+	v_cmp_le_u32_e32 vcc, s23, v4
+	.loc	1 104 68 is_stmt 1              ; kernel_registry.py:104:68
+	s_abs_i32 s20, s9
+	v_cvt_f32_u32_e32 v6, s20
+	.loc	1 103 68                        ; kernel_registry.py:103:68
+	v_cndmask_b32_e32 v4, v4, v5, vcc
+	v_subrev_u32_e32 v5, s23, v4
+	v_cmp_le_u32_e32 vcc, s23, v4
+	v_add_u32_e32 v3, 64, v3
+	.loc	1 103 51 is_stmt 0              ; kernel_registry.py:103:51
+	v_and_b32_e32 v1, 15, v0
+	.loc	1 103 68                        ; kernel_registry.py:103:68
+	v_cndmask_b32_e32 v4, v4, v5, vcc
+	v_xor_b32_e32 v4, s24, v4
+	v_subrev_u32_e32 v5, s24, v4
+	v_xor_b32_e32 v4, s24, v3
+	v_mad_u64_u32 v[2:3], s[0:1], v4, v2, 0
+	.loc	1 104 68 is_stmt 1              ; kernel_registry.py:104:68
+	v_rcp_iflag_f32_e32 v2, v6
+	.loc	1 103 51                        ; kernel_registry.py:103:51
+	v_lshlrev_b32_e32 v109, 3, v1
+	.loc	1 104 23                        ; kernel_registry.py:104:23
+	s_lshl_b32 s19, s16, 7
+	.loc	1 104 38 is_stmt 0              ; kernel_registry.py:104:38
+	v_or_b32_e32 v6, s19, v109
+	.loc	1 104 68                        ; kernel_registry.py:104:68
+	v_mul_f32_e32 v2, 0x4f7ffffe, v2
+	v_cvt_u32_f32_e32 v2, v2
+	s_bfe_i32 s22, s16, 0x10018
+	v_add_u32_e32 v6, s22, v6
+	s_sub_i32 s0, 0, s20
+	v_xor_b32_e32 v12, s22, v6
+	v_mul_lo_u32 v6, s0, v2
+	v_mul_hi_u32 v6, v2, v6
+	v_add_u32_e32 v2, v2, v6
+	v_mad_u64_u32 v[10:11], s[0:1], v12, v2, 0
+	.loc	1 106 60 is_stmt 1              ; kernel_registry.py:106:60
+	v_lshlrev_b32_e32 v2, 3, v0
+	v_and_b32_e32 v80, 56, v2
+.Ltmp9:
+	.loc	2 41 22                         ; standard.py:41:22 @[ kernel_registry.py:110:33 ]
+	s_add_i32 s21, s10, 63
+.Ltmp10:
+	.loc	1 106 53                        ; kernel_registry.py:106:53
+	v_mad_u64_u32 v[6:7], s[0:1], v5, s11, v[80:81]
+	.loc	1 110 22                        ; kernel_registry.py:110:22
+	s_cmp_gt_i32 s21, 63
+	.loc	1 106 22                        ; kernel_registry.py:106:22
+	v_ashrrev_i32_e32 v7, 31, v6
+	.loc	1 110 22                        ; kernel_registry.py:110:22
+	s_cselect_b64 s[14:15], -1, 0
+	.loc	1 111 51                        ; kernel_registry.py:111:51
+	v_cmp_gt_i32_e32 vcc, s10, v80
+	.loc	1 106 22                        ; kernel_registry.py:106:22
+	v_lshl_add_u64 v[18:19], v[6:7], 1, s[2:3]
+	.loc	1 110 22                        ; kernel_registry.py:110:22
+	s_and_b64 s[0:1], vcc, s[14:15]
+	v_mov_b32_e32 v2, 0
+	v_mov_b32_e32 v6, 0
+	v_mov_b32_e32 v7, 0
+	.loc	1 111 20                        ; kernel_registry.py:111:20
+	s_and_saveexec_b64 s[16:17], s[0:1]
+	s_cbranch_execz .LBB0_2
+; %bb.1:
+	global_load_dwordx4 v[6:9], v[18:19], off
+.LBB0_2:
+	.loc	1 0 20 is_stmt 0                ; kernel_registry.py:0:20
+	s_or_b64 exec, exec, s[16:17]
+	.loc	1 103 68 is_stmt 1              ; kernel_registry.py:103:68
+	v_mul_lo_u32 v3, v3, s23
+	v_sub_u32_e32 v3, v4, v3
+	v_subrev_u32_e32 v4, s23, v3
+	v_cmp_le_u32_e32 vcc, s23, v3
+	s_nop 1
+	v_cndmask_b32_e32 v3, v3, v4, vcc
+	v_subrev_u32_e32 v4, s23, v3
+	v_cmp_le_u32_e32 vcc, s23, v3
+	s_nop 1
+	v_cndmask_b32_e32 v3, v3, v4, vcc
+	v_xor_b32_e32 v3, s24, v3
+	v_subrev_u32_e32 v3, s24, v3
+	.loc	1 106 53                        ; kernel_registry.py:106:53
+	v_mad_u64_u32 v[4:5], s[16:17], v3, s11, v[80:81]
+	.loc	1 106 22 is_stmt 0              ; kernel_registry.py:106:22
+	v_ashrrev_i32_e32 v5, 31, v4
+	v_lshl_add_u64 v[20:21], v[4:5], 1, s[2:3]
+	v_mov_b32_e32 v3, 0
+	v_mov_b32_e32 v4, 0
+	v_mov_b32_e32 v5, 0
+	.loc	1 111 20 is_stmt 1              ; kernel_registry.py:111:20
+	s_and_saveexec_b64 s[2:3], s[0:1]
+	s_cbranch_execz .LBB0_4
+; %bb.3:
+	global_load_dwordx4 v[2:5], v[20:21], off
+.LBB0_4:
+	.loc	1 0 20 is_stmt 0                ; kernel_registry.py:0:20
+	s_or_b64 exec, exec, s[2:3]
+	.loc	1 104 68 is_stmt 1              ; kernel_registry.py:104:68
+	v_mul_lo_u32 v10, v11, s20
+	v_sub_u32_e32 v10, v12, v10
+	v_subrev_u32_e32 v11, s20, v10
+	v_cmp_le_u32_e32 vcc, s20, v10
+	.loc	1 107 29                        ; kernel_registry.py:107:29
+	v_and_b32_e32 v24, 0x1f0, v0
+	v_lshrrev_b32_e32 v118, 3, v24
+	.loc	1 104 68                        ; kernel_registry.py:104:68
+	v_cndmask_b32_e32 v10, v10, v11, vcc
+	v_subrev_u32_e32 v11, s20, v10
+	v_cmp_le_u32_e32 vcc, s20, v10
+	v_mov_b32_e32 v14, 0
+	v_mov_b32_e32 v15, 0
+	v_cndmask_b32_e32 v10, v10, v11, vcc
+	v_xor_b32_e32 v10, s22, v10
+	v_subrev_u32_e32 v10, s22, v10
+	.loc	1 107 52                        ; kernel_registry.py:107:52
+	v_mad_u64_u32 v[12:13], s[0:1], s12, v118, v[10:11]
+	.loc	1 107 22 is_stmt 0              ; kernel_registry.py:107:22
+	v_ashrrev_i32_e32 v13, 31, v12
+	.loc	1 112 51 is_stmt 1              ; kernel_registry.py:112:51
+	v_cmp_gt_i32_e32 vcc, s10, v118
+	.loc	1 107 22                        ; kernel_registry.py:107:22
+	v_lshl_add_u64 v[82:83], v[12:13], 1, s[4:5]
+	.loc	1 110 22                        ; kernel_registry.py:110:22
+	s_and_b64 s[0:1], vcc, s[14:15]
+	v_mov_b32_e32 v10, 0
+	v_mov_b32_e32 v16, 0
+	v_mov_b32_e32 v17, 0
+	.loc	1 112 20                        ; kernel_registry.py:112:20
+	s_and_saveexec_b64 s[2:3], s[0:1]
+	s_cbranch_execz .LBB0_6
+; %bb.5:
+	global_load_dwordx4 v[14:17], v[82:83], off
+.LBB0_6:
+	.loc	1 0 20 is_stmt 0                ; kernel_registry.py:0:20
+	s_or_b64 exec, exec, s[2:3]
+	.loc	1 107 52 is_stmt 1              ; kernel_registry.py:107:52
+	v_add_u32_e32 v12, s12, v12
+	.loc	1 107 22 is_stmt 0              ; kernel_registry.py:107:22
+	v_ashrrev_i32_e32 v13, 31, v12
+	v_lshl_add_u64 v[84:85], v[12:13], 1, s[4:5]
+	v_mov_b32_e32 v11, 0
+	v_mov_b32_e32 v12, 0
+	v_mov_b32_e32 v13, 0
+	.loc	1 112 20 is_stmt 1              ; kernel_registry.py:112:20
+	s_and_saveexec_b64 s[2:3], s[0:1]
+	s_cbranch_execz .LBB0_8
+; %bb.7:
+	global_load_dwordx4 v[10:13], v[84:85], off
+.LBB0_8:
+	.loc	1 0 20 is_stmt 0                ; kernel_registry.py:0:20
+	s_or_b64 exec, exec, s[2:3]
+	.loc	1 111 20 is_stmt 1              ; kernel_registry.py:111:20
+	v_lshlrev_b32_e32 v22, 4, v0
+	v_and_b32_e32 v23, 0x78, v0
+	v_xor_b32_e32 v119, v22, v23
+	v_add_u32_e32 v23, 0, v119
+	v_xor_b32_e32 v120, 8, v119
+	s_waitcnt vmcnt(0)
+	ds_write2st64_b64 v23, v[6:7], v[2:3] offset1:16
+	v_add_u32_e32 v22, 0, v120
+	.loc	1 112 20                        ; kernel_registry.py:112:20
+	v_and_b32_e32 v2, 14, v0
+	.loc	1 111 20                        ; kernel_registry.py:111:20
+	ds_write2st64_b64 v22, v[8:9], v[4:5] offset1:16
+	.loc	1 112 20                        ; kernel_registry.py:112:20
+	v_lshlrev_b32_e32 v3, 2, v2
+	v_lshrrev_b32_e32 v4, 2, v24
+	v_bfe_i32 v5, v0, 0, 1
+	v_and_b32_e32 v5, 0x440, v5
+	v_xor_b32_e32 v3, v3, v4
+	v_xor_b32_e32 v3, v3, v5
+	v_lshl_or_b32 v121, v2, 10, v3
+	s_mov_b32 s0, 0x5040100
+	v_add_u32_e32 v24, 0, v121
+	v_perm_b32 v2, v10, v14, s0
+	v_xor_b32_e32 v122, 8, v121
+	s_add_i32 s20, 0, 0x8000
+	s_mov_b32 s1, 0x7060302
+	ds_write_b32 v24, v2 offset:32768
+	v_add_u32_e32 v2, s20, v122
+	v_perm_b32 v3, v10, v14, s1
+	v_xor_b32_e32 v123, 16, v121
+	ds_write_b32 v2, v3 offset:128
+	v_add_u32_e32 v2, s20, v123
+	v_perm_b32 v3, v11, v15, s0
+	v_xor_b32_e32 v124, 24, v121
+	ds_write_b32 v2, v3 offset:256
+	v_add_u32_e32 v2, s20, v124
+	v_perm_b32 v3, v11, v15, s1
+	v_xor_b32_e32 v125, 32, v121
+	ds_write_b32 v2, v3 offset:384
+	v_add_u32_e32 v2, s20, v125
+	v_perm_b32 v3, v12, v16, s0
+	v_xor_b32_e32 v127, 40, v121
+	ds_write_b32 v2, v3 offset:512
+	v_add_u32_e32 v2, s20, v127
+	v_perm_b32 v3, v12, v16, s1
+	v_xor_b32_e32 v129, 48, v121
+	ds_write_b32 v2, v3 offset:640
+	v_add_u32_e32 v2, s20, v129
+	v_perm_b32 v3, v13, v17, s0
+	.loc	1 110 22                        ; kernel_registry.py:110:22
+	s_cmpk_gt_i32 s21, 0x7f
+	.loc	1 112 20                        ; kernel_registry.py:112:20
+	ds_write_b32 v2, v3 offset:768
+	v_xor_b32_e32 v130, 56, v121
+	v_perm_b32 v3, v13, v17, s1
+	.loc	1 110 22                        ; kernel_registry.py:110:22
+	s_cselect_b64 s[0:1], -1, 0
+	.loc	1 111 55                        ; kernel_registry.py:111:55
+	s_sub_i32 s11, s10, 64
+	.loc	1 112 20                        ; kernel_registry.py:112:20
+	v_add_u32_e32 v2, s20, v130
+	.loc	1 111 51                        ; kernel_registry.py:111:51
+	v_cmp_gt_i32_e32 vcc, s11, v80
+	.loc	1 112 20                        ; kernel_registry.py:112:20
+	ds_write_b32 v2, v3 offset:896
+	.loc	1 110 22                        ; kernel_registry.py:110:22
+	s_and_b64 s[2:3], s[0:1], vcc
+	v_mov_b32_e32 v2, 0
+	v_mov_b32_e32 v6, 0
+	v_mov_b32_e32 v7, 0
+	v_mov_b32_e32 v8, 0
+	v_mov_b32_e32 v9, 0
+	.loc	1 111 20                        ; kernel_registry.py:111:20
+	s_and_saveexec_b64 s[4:5], s[2:3]
+	s_cbranch_execz .LBB0_10
+; %bb.9:
+	global_load_dwordx4 v[6:9], v[18:19], off offset:128
+.LBB0_10:
+	.loc	1 0 20 is_stmt 0                ; kernel_registry.py:0:20
+	s_or_b64 exec, exec, s[4:5]
+	v_mov_b32_e32 v3, 0
+	v_mov_b32_e32 v4, 0
+	v_mov_b32_e32 v5, 0
+	.loc	1 111 20                        ; kernel_registry.py:111:20
+	s_and_saveexec_b64 s[4:5], s[2:3]
+	s_cbranch_execz .LBB0_12
+; %bb.11:
+	global_load_dwordx4 v[2:5], v[20:21], off offset:128
+.LBB0_12:
+	.loc	1 0 20                          ; kernel_registry.py:0:20
+	s_or_b64 exec, exec, s[4:5]
+	.loc	1 115 33 is_stmt 1              ; kernel_registry.py:115:33
+	s_lshl_b32 s4, s12, 6
+	.loc	1 112 51                        ; kernel_registry.py:112:51
+	v_cmp_gt_i32_e32 vcc, s11, v118
+	.loc	1 115 18                        ; kernel_registry.py:115:18
+	s_ashr_i32 s5, s4, 31
+	.loc	1 110 22                        ; kernel_registry.py:110:22
+	s_and_b64 s[2:3], s[0:1], vcc
+	v_mov_b32_e32 v10, 0
+	v_mov_b32_e32 v14, 0
+	v_mov_b32_e32 v15, 0
+	v_mov_b32_e32 v16, 0
+	v_mov_b32_e32 v17, 0
+	.loc	1 112 20                        ; kernel_registry.py:112:20
+	s_and_saveexec_b64 s[16:17], s[2:3]
+	s_cbranch_execz .LBB0_14
+; %bb.13:
+	.loc	1 115 18                        ; kernel_registry.py:115:18
+	v_lshl_add_u64 v[12:13], s[4:5], 1, v[82:83]
+	.loc	1 112 20                        ; kernel_registry.py:112:20
+	global_load_dwordx4 v[14:17], v[12:13], off
+.LBB0_14:
+	.loc	1 0 20 is_stmt 0                ; kernel_registry.py:0:20
+	s_or_b64 exec, exec, s[16:17]
+	v_mov_b32_e32 v11, 0
+	v_mov_b32_e32 v12, 0
+	v_mov_b32_e32 v13, 0
+	.loc	1 112 20                        ; kernel_registry.py:112:20
+	s_and_saveexec_b64 s[16:17], s[2:3]
+	s_cbranch_execz .LBB0_16
+; %bb.15:
+	.loc	1 115 18 is_stmt 1              ; kernel_registry.py:115:18
+	v_lshl_add_u64 v[10:11], s[4:5], 1, v[84:85]
+	.loc	1 112 20                        ; kernel_registry.py:112:20
+	global_load_dwordx4 v[10:13], v[10:11], off
+.LBB0_16:
+	.loc	1 0 20 is_stmt 0                ; kernel_registry.py:0:20
+	s_or_b64 exec, exec, s[16:17]
+	.loc	1 111 20 is_stmt 1              ; kernel_registry.py:111:20
+	s_add_i32 s12, 0, 0x4000
+	s_waitcnt lgkmcnt(0)
+	s_barrier
+	s_waitcnt vmcnt(0)
+	ds_write_b64 v23, v[6:7] offset:16384
+	v_add_u32_e32 v6, s12, v119
+	ds_write_b64 v6, v[2:3] offset:8192
+	ds_write_b64 v22, v[8:9] offset:16384
+	v_add_u32_e32 v2, s12, v120
+	.loc	1 112 20                        ; kernel_registry.py:112:20
+	s_mov_b32 s2, 0x5040100
+	.loc	1 111 20                        ; kernel_registry.py:111:20
+	ds_write_b64 v2, v[4:5] offset:8192
+	.loc	1 112 20                        ; kernel_registry.py:112:20
+	v_perm_b32 v2, v10, v14, s2
+	s_add_i32 s16, 0, 0xc000
+	s_mov_b32 s3, 0x7060302
+	ds_write_b32 v24, v2 offset:49152
+	v_add_u32_e32 v2, s16, v122
+	v_perm_b32 v3, v10, v14, s3
+	ds_write_b32 v2, v3 offset:128
+	v_add_u32_e32 v2, s16, v123
+	v_perm_b32 v3, v11, v15, s2
+	ds_write_b32 v2, v3 offset:256
+	v_add_u32_e32 v2, s16, v124
+	v_perm_b32 v3, v11, v15, s3
+	ds_write_b32 v2, v3 offset:384
+	v_add_u32_e32 v2, s16, v125
+	v_perm_b32 v3, v12, v16, s2
+	ds_write_b32 v2, v3 offset:512
+	v_add_u32_e32 v2, s16, v127
+	v_perm_b32 v3, v12, v16, s3
+	ds_write_b32 v2, v3 offset:640
+	v_add_u32_e32 v2, s16, v129
+	v_perm_b32 v3, v13, v17, s2
+	.loc	1 103 51                        ; kernel_registry.py:103:51
+	v_and_b32_e32 v81, 31, v0
+	v_and_b32_e32 v107, 0xc0, v0
+	v_and_b32_e32 v108, 32, v0
+	.loc	1 112 20                        ; kernel_registry.py:112:20
+	ds_write_b32 v2, v3 offset:768
+	v_add_u32_e32 v2, s16, v130
+	v_perm_b32 v3, v13, v17, s3
+	.loc	1 103 51                        ; kernel_registry.py:103:51
+	v_and_b32_e32 v106, 0x100, v0
+	.loc	1 112 20                        ; kernel_registry.py:112:20
+	ds_write_b32 v2, v3 offset:896
+	.loc	1 110 22                        ; kernel_registry.py:110:22
+	s_cmpk_gt_i32 s21, 0xbf
+	v_lshrrev_b32_e32 v4, 2, v108
+	v_lshl_or_b32 v5, v81, 7, v109
+	v_lshlrev_b32_e32 v2, 6, v107
+	v_lshrrev_b32_e32 v3, 2, v0
+	v_and_b32_e32 v131, 16, v0
+	s_cbranch_scc1 .LBB0_19
+; %bb.17:                               ; %.._crit_edge_crit_edge
+	.loc	1 111 20                        ; kernel_registry.py:111:20
+	v_xor_b32_e32 v6, v5, v4
+	v_lshl_or_b32 v117, v106, 4, v6
+	v_xor_b32_e32 v116, 16, v117
+	v_xor_b32_e32 v115, 32, v117
+	v_xor_b32_e32 v114, 48, v117
+	v_xor_b32_e32 v113, 64, v117
+	v_xor_b32_e32 v112, 0x50, v117
+	v_xor_b32_e32 v111, 0x60, v117
+	v_xor_b32_e32 v110, 0x70, v117
+	.loc	1 112 20                        ; kernel_registry.py:112:20
+	v_and_b32_e32 v126, 56, v3
+	v_and_b32_e32 v32, 16, v0
+	v_lshl_or_b32 v128, v1, 7, v2
+	s_mov_b32 s22, 1
+	s_cbranch_execz .LBB0_20
+; %bb.18:
+	.loc	1 0 20 is_stmt 0                ; kernel_registry.py:0:20
+	v_mov_b32_e32 v19, 0
+	s_mov_b32 s21, 0
+	v_mov_b32_e32 v18, v19
+	v_mov_b32_e32 v17, v19
+	v_mov_b32_e32 v16, v19
+	v_mov_b32_e32 v23, v19
+	v_mov_b32_e32 v22, v19
+	v_mov_b32_e32 v21, v19
+	v_mov_b32_e32 v20, v19
+	v_mov_b32_e32 v27, v19
+	v_mov_b32_e32 v26, v19
+	v_mov_b32_e32 v25, v19
+	v_mov_b32_e32 v24, v19
+	v_mov_b32_e32 v31, v19
+	v_mov_b32_e32 v30, v19
+	v_mov_b32_e32 v29, v19
+	v_mov_b32_e32 v28, v19
+	v_mov_b32_e32 v3, v19
+	v_mov_b32_e32 v2, v19
+	v_mov_b32_e32 v1, v19
+	v_mov_b32_e32 v0, v19
+	v_mov_b32_e32 v7, v19
+	v_mov_b32_e32 v6, v19
+	v_mov_b32_e32 v5, v19
+	v_mov_b32_e32 v4, v19
+	v_mov_b32_e32 v11, v19
+	v_mov_b32_e32 v10, v19
+	v_mov_b32_e32 v9, v19
+	v_mov_b32_e32 v8, v19
+	v_mov_b32_e32 v15, v19
+	v_mov_b32_e32 v14, v19
+	v_mov_b32_e32 v13, v19
+	v_mov_b32_e32 v12, v19
+	s_branch .LBB0_32
+.LBB0_19:
+                                        ; implicit-def: $vgpr117
+                                        ; implicit-def: $vgpr116
+                                        ; implicit-def: $vgpr115
+                                        ; implicit-def: $vgpr114
+                                        ; implicit-def: $vgpr113
+                                        ; implicit-def: $vgpr112
+                                        ; implicit-def: $vgpr111
+                                        ; implicit-def: $vgpr110
+                                        ; implicit-def: $vgpr126
+                                        ; implicit-def: $vgpr32
+                                        ; implicit-def: $vgpr128
+	s_mov_b32 s22, 1
+.LBB0_20:                               ; %.lr.ph
+.Ltmp11:
+	.loc	2 41 28 is_stmt 1               ; standard.py:41:28 @[ kernel_registry.py:110:33 ]
+	s_ashr_i32 s2, s21, 31
+	v_bfe_i32 v0, v0, 4, 1
+	s_lshr_b32 s2, s2, 26
+	v_and_b32_e32 v126, 56, v3
+	v_and_b32_e32 v0, 0x808, v0
+	s_add_i32 s21, s21, s2
+	v_xor_b32_e32 v0, v126, v0
+	s_ashr_i32 s2, s21, 6
+	v_xor_b32_e32 v4, v5, v4
+	v_lshl_or_b32 v128, v1, 7, v2
+	v_xor_b32_e32 v0, v0, v109
+	s_add_i32 s23, s10, 0xffffff80
+	v_lshl_or_b32 v117, v106, 4, v4
+	v_or_b32_e32 v133, v0, v128
+.Ltmp12:
+	.loc	1 110 22                        ; kernel_registry.py:110:22
+	s_max_i32 s17, s2, 3
+	s_mov_b64 s[10:11], 0x100
+	v_mov_b32_e32 v16, 0
+	.loc	1 107 29                        ; kernel_registry.py:107:29
+	v_or_b32_e32 v132, 1, v118
+	v_xor_b32_e32 v116, 16, v117
+	v_xor_b32_e32 v115, 32, v117
+	v_xor_b32_e32 v114, 48, v117
+	v_xor_b32_e32 v113, 64, v117
+	v_xor_b32_e32 v112, 0x50, v117
+	v_xor_b32_e32 v111, 0x60, v117
+	v_xor_b32_e32 v110, 0x70, v117
+	v_xor_b32_e32 v134, 16, v133
+	v_xor_b32_e32 v135, 32, v133
+	v_xor_b32_e32 v136, 48, v133
+	v_xor_b32_e32 v137, 64, v133
+	v_xor_b32_e32 v138, 0x50, v133
+	v_xor_b32_e32 v139, 0x60, v133
+	v_xor_b32_e32 v140, 0x70, v133
+	.loc	1 110 22                        ; kernel_registry.py:110:22
+	s_lshl_b64 s[2:3], s[4:5], 2
+	s_lshl_b64 s[4:5], s[4:5], 1
+	v_lshl_add_u64 v[86:87], v[20:21], 0, s[10:11]
+	v_lshl_add_u64 v[88:89], v[18:19], 0, s[10:11]
+	s_mov_b32 s28, 0
+	s_add_i32 s12, 0, 0x4000
+	s_add_i32 s27, 0, 0x8000
+	s_add_i32 s16, 0, 0xc000
+	s_add_i32 s24, s17, -2
+	s_mov_b32 s25, 0x5040100
+	s_mov_b32 s26, 0x7060302
+	s_mov_b64 s[10:11], 0x80
+	v_mov_b32_e32 v17, v16
+	v_mov_b32_e32 v18, v16
+	v_mov_b32_e32 v19, v16
+	v_mov_b32_e32 v20, v16
+	v_mov_b32_e32 v21, v16
+	v_mov_b32_e32 v22, v16
+	v_mov_b32_e32 v23, v16
+	v_mov_b32_e32 v24, v16
+	v_mov_b32_e32 v25, v16
+	v_mov_b32_e32 v26, v16
+	v_mov_b32_e32 v27, v16
+	v_mov_b32_e32 v28, v16
+	v_mov_b32_e32 v29, v16
+	v_mov_b32_e32 v30, v16
+	v_mov_b32_e32 v31, v16
+	v_mov_b32_e32 v0, v16
+	v_mov_b32_e32 v1, v16
+	v_mov_b32_e32 v2, v16
+	v_mov_b32_e32 v3, v16
+	v_mov_b32_e32 v4, v16
+	v_mov_b32_e32 v5, v16
+	v_mov_b32_e32 v6, v16
+	v_mov_b32_e32 v7, v16
+	v_mov_b32_e32 v8, v16
+	v_mov_b32_e32 v9, v16
+	v_mov_b32_e32 v10, v16
+	v_mov_b32_e32 v11, v16
+	v_mov_b32_e32 v12, v16
+	v_mov_b32_e32 v13, v16
+	v_mov_b32_e32 v14, v16
+	v_mov_b32_e32 v15, v16
+.LBB0_21:                               ; =>This Inner Loop Header: Depth=1
+	.loc	1 0 22 is_stmt 0                ; kernel_registry.py:0:22
+	s_mov_b32 s21, s12
+	s_mov_b32 s20, s16
+	.loc	1 111 51 is_stmt 1              ; kernel_registry.py:111:51
+	v_cmp_gt_i32_e32 vcc, s23, v80
+	v_mov_b32_e32 v36, 0
+	v_mov_b32_e32 v37, 0
+	v_mov_b32_e32 v38, 0
+	v_mov_b32_e32 v39, 0
+	.loc	1 111 20 is_stmt 0              ; kernel_registry.py:111:20
+	s_and_saveexec_b64 s[16:17], vcc
+	s_cbranch_execz .LBB0_23
+; %bb.22:                               ;   in Loop: Header=BB0_21 Depth=1
+	global_load_dwordx4 v[36:39], v[88:89], off
+.LBB0_23:                               ;   in Loop: Header=BB0_21 Depth=1
+	.loc	1 0 20                          ; kernel_registry.py:0:20
+	s_or_b64 exec, exec, s[16:17]
+	v_mov_b32_e32 v32, 0
+	v_mov_b32_e32 v40, 0
+	v_mov_b32_e32 v41, 0
+	v_mov_b32_e32 v42, 0
+	v_mov_b32_e32 v43, 0
+	.loc	1 111 20                        ; kernel_registry.py:111:20
+	s_and_saveexec_b64 s[16:17], vcc
+	s_cbranch_execz .LBB0_25
+; %bb.24:                               ;   in Loop: Header=BB0_21 Depth=1
+	global_load_dwordx4 v[40:43], v[86:87], off
+.LBB0_25:                               ;   in Loop: Header=BB0_21 Depth=1
+	.loc	1 0 20                          ; kernel_registry.py:0:20
+	s_or_b64 exec, exec, s[16:17]
+	.loc	1 111 20                        ; kernel_registry.py:111:20
+	v_add_u32_e32 v33, s28, v117
+	s_waitcnt lgkmcnt(0)
+	s_barrier
+	ds_read2st64_b64 v[76:79], v33 offset1:16
+	v_add_u32_e32 v33, s28, v116
+	ds_read2st64_b64 v[68:71], v33 offset1:16
+	v_add_u32_e32 v33, s28, v115
+	ds_read2st64_b64 v[64:67], v33 offset1:16
+	v_add_u32_e32 v33, s28, v114
+	ds_read2st64_b64 v[60:63], v33 offset1:16
+	v_add_u32_e32 v33, s28, v113
+	ds_read2st64_b64 v[56:59], v33 offset1:16
+	v_add_u32_e32 v33, s28, v112
+	ds_read2st64_b64 v[52:55], v33 offset1:16
+	v_add_u32_e32 v33, s28, v111
+	ds_read2st64_b64 v[48:51], v33 offset1:16
+	v_add_u32_e32 v33, s28, v110
+	ds_read2st64_b64 v[44:47], v33 offset1:16
+	.loc	1 112 20 is_stmt 1              ; kernel_registry.py:112:20
+	v_add_u32_e32 v33, s27, v133
+	v_add_u32_e32 v34, s27, v134
+	v_add_u32_e32 v35, s27, v135
+	v_add_u32_e32 v72, s27, v136
+	ds_read_b64 v[104:105], v33
+	ds_read_b64 v[102:103], v34
+	ds_read_b64 v[100:101], v35
+	ds_read_b64 v[96:97], v72
+	v_add_u32_e32 v33, s27, v137
+	v_add_u32_e32 v34, s27, v138
+	v_add_u32_e32 v35, s27, v139
+	v_add_u32_e32 v72, s27, v140
+	ds_read_b64 v[98:99], v33
+	ds_read_b64 v[94:95], v34
+	ds_read_b64 v[92:93], v35
+	ds_read_b64 v[90:91], v72
+	.loc	1 112 51 is_stmt 0              ; kernel_registry.py:112:51
+	v_cmp_gt_i32_e32 vcc, s23, v118
+	v_mov_b32_e32 v33, 0
+	v_mov_b32_e32 v34, 0
+	v_mov_b32_e32 v35, 0
+	.loc	1 112 20                        ; kernel_registry.py:112:20
+	s_and_saveexec_b64 s[16:17], vcc
+	s_cbranch_execz .LBB0_27
+; %bb.26:                               ;   in Loop: Header=BB0_21 Depth=1
+	.loc	1 115 18 is_stmt 1              ; kernel_registry.py:115:18
+	v_lshl_add_u64 v[32:33], v[82:83], 0, s[2:3]
+	.loc	1 112 20                        ; kernel_registry.py:112:20
+	global_load_dwordx4 v[32:35], v[32:33], off
+.LBB0_27:                               ;   in Loop: Header=BB0_21 Depth=1
+	.loc	1 0 20 is_stmt 0                ; kernel_registry.py:0:20
+	s_or_b64 exec, exec, s[16:17]
+	.loc	1 112 51                        ; kernel_registry.py:112:51
+	v_cmp_gt_i32_e32 vcc, s23, v132
+	v_mov_b32_e32 v72, 0
+	v_mov_b32_e32 v73, 0
+	v_mov_b32_e32 v74, 0
+	v_mov_b32_e32 v75, 0
+	.loc	1 112 20                        ; kernel_registry.py:112:20
+	s_and_saveexec_b64 s[16:17], vcc
+	s_cbranch_execz .LBB0_29
+; %bb.28:                               ;   in Loop: Header=BB0_21 Depth=1
+	.loc	1 111 55 is_stmt 1              ; kernel_registry.py:111:55
+	v_lshl_add_u64 v[72:73], v[84:85], 0, s[2:3]
+	.loc	1 112 20                        ; kernel_registry.py:112:20
+	global_load_dwordx4 v[72:75], v[72:73], off
+.LBB0_29:                               ;   in Loop: Header=BB0_21 Depth=1
+	.loc	1 0 20 is_stmt 0                ; kernel_registry.py:0:20
+	s_or_b64 exec, exec, s[16:17]
+	.loc	1 113 35 is_stmt 1              ; kernel_registry.py:113:35
+	s_waitcnt lgkmcnt(7)
+	v_mfma_f32_32x32x8_bf16 v[16:31], v[104:105], v[76:77], v[16:31]
+	.loc	1 110 22                        ; kernel_registry.py:110:22
+	s_add_i32 s12, s22, 1
+	s_cmp_lt_i32 s12, 2
+	s_cselect_b32 s22, s12, 0
+	.loc	1 111 20                        ; kernel_registry.py:111:20
+	s_lshl_b32 s12, s22, 14
+	s_add_i32 s12, s12, 0
+	s_waitcnt lgkmcnt(0)
+	s_barrier
+	.loc	1 113 35                        ; kernel_registry.py:113:35
+	v_mfma_f32_32x32x8_bf16 v[0:15], v[104:105], v[78:79], v[0:15]
+	.loc	1 112 20                        ; kernel_registry.py:112:20
+	s_add_i32 s16, s12, 0x8000
+	.loc	1 110 22                        ; kernel_registry.py:110:22
+	s_add_u32 s2, s2, s4
+	s_addc_u32 s3, s3, s5
+	s_add_i32 s24, s24, -1
+	s_sub_i32 s23, s23, 64
+	v_lshl_add_u64 v[86:87], v[86:87], 0, s[10:11]
+	.loc	1 113 35                        ; kernel_registry.py:113:35
+	v_mfma_f32_32x32x8_bf16 v[16:31], v[102:103], v[68:69], v[16:31]
+	.loc	1 110 22                        ; kernel_registry.py:110:22
+	v_lshl_add_u64 v[88:89], v[88:89], 0, s[10:11]
+	s_cmp_lg_u32 s24, 0
+	.loc	1 113 35                        ; kernel_registry.py:113:35
+	v_mfma_f32_32x32x8_bf16 v[0:15], v[102:103], v[70:71], v[0:15]
+	v_mfma_f32_32x32x8_bf16 v[16:31], v[100:101], v[64:65], v[16:31]
+	v_mfma_f32_32x32x8_bf16 v[0:15], v[100:101], v[66:67], v[0:15]
+	v_mfma_f32_32x32x8_bf16 v[16:31], v[96:97], v[60:61], v[16:31]
+	v_mfma_f32_32x32x8_bf16 v[0:15], v[96:97], v[62:63], v[0:15]
+	v_mfma_f32_32x32x8_bf16 v[16:31], v[98:99], v[56:57], v[16:31]
+	v_mfma_f32_32x32x8_bf16 v[0:15], v[98:99], v[58:59], v[0:15]
+	v_mfma_f32_32x32x8_bf16 v[16:31], v[94:95], v[52:53], v[16:31]
+	v_mfma_f32_32x32x8_bf16 v[0:15], v[94:95], v[54:55], v[0:15]
+	v_mfma_f32_32x32x8_bf16 v[16:31], v[92:93], v[48:49], v[16:31]
+	v_mfma_f32_32x32x8_bf16 v[0:15], v[92:93], v[50:51], v[0:15]
+	v_mfma_f32_32x32x8_bf16 v[16:31], v[90:91], v[44:45], v[16:31]
+	.loc	1 111 20                        ; kernel_registry.py:111:20
+	v_add_u32_e32 v44, s12, v119
+	s_waitcnt vmcnt(0)
+	ds_write2st64_b64 v44, v[36:37], v[40:41] offset1:16
+	v_add_u32_e32 v36, s12, v120
+	ds_write2st64_b64 v36, v[38:39], v[42:43] offset1:16
+	.loc	1 112 20                        ; kernel_registry.py:112:20
+	v_add_u32_e32 v36, s12, v121
+	v_perm_b32 v37, v72, v32, s25
+	ds_write_b32 v36, v37 offset:32768
+	.loc	1 113 35                        ; kernel_registry.py:113:35
+	v_mfma_f32_32x32x8_bf16 v[0:15], v[90:91], v[46:47], v[0:15]
+	.loc	1 112 20                        ; kernel_registry.py:112:20
+	v_add_u32_e32 v36, s16, v122
+	v_perm_b32 v32, v72, v32, s26
+	ds_write_b32 v36, v32 offset:128
+	v_add_u32_e32 v32, s16, v123
+	v_perm_b32 v36, v73, v33, s25
+	ds_write_b32 v32, v36 offset:256
+	v_add_u32_e32 v32, s16, v124
+	v_perm_b32 v33, v73, v33, s26
+	ds_write_b32 v32, v33 offset:384
+	v_add_u32_e32 v32, s16, v125
+	v_perm_b32 v33, v74, v34, s25
+	ds_write_b32 v32, v33 offset:512
+	v_add_u32_e32 v32, s16, v127
+	v_perm_b32 v33, v74, v34, s26
+	ds_write_b32 v32, v33 offset:640
+	v_add_u32_e32 v32, s16, v129
+	v_perm_b32 v33, v75, v35, s25
+	ds_write_b32 v32, v33 offset:768
+	v_add_u32_e32 v32, s16, v130
+	v_perm_b32 v33, v75, v35, s26
+	ds_write_b32 v32, v33 offset:896
+	.loc	1 110 22                        ; kernel_registry.py:110:22
+	s_cbranch_scc0 .LBB0_31
+; %bb.30:                               ;   in Loop: Header=BB0_21 Depth=1
+	.loc	1 0 22 is_stmt 0                ; kernel_registry.py:0:22
+	s_mov_b32 s27, s20
+	s_mov_b32 s28, s21
+	.loc	1 110 22                        ; kernel_registry.py:110:22
+	s_branch .LBB0_21
+.LBB0_31:                               ; %._crit_edge.loopexit
+	.loc	1 0 22                          ; kernel_registry.py:0:22
+	v_mov_b32_e32 v32, v131
+.LBB0_32:                               ; %._crit_edge
+	.loc	1 112 20 is_stmt 1              ; kernel_registry.py:112:20
+	v_mov_b32_e32 v33, 0x808
+	v_cmp_eq_u32_e32 vcc, 0, v32
+	.loc	1 111 20                        ; kernel_registry.py:111:20
+	s_waitcnt lgkmcnt(0)
+	s_barrier
+	.loc	1 112 20                        ; kernel_registry.py:112:20
+	v_cndmask_b32_e64 v32, v33, 0, vcc
+	v_xor_b32_e32 v32, v126, v32
+	v_xor_b32_e32 v32, v32, v109
+	v_or_b32_e32 v39, v32, v128
+	v_xor_b32_e32 v38, 16, v39
+	v_xor_b32_e32 v37, 32, v39
+	v_xor_b32_e32 v36, 48, v39
+	v_xor_b32_e32 v35, 64, v39
+	v_xor_b32_e32 v34, 0x50, v39
+	v_xor_b32_e32 v33, 0x60, v39
+	.loc	1 113 35                        ; kernel_registry.py:113:35
+	s_andn2_b64 vcc, exec, s[14:15]
+	.loc	1 112 20                        ; kernel_registry.py:112:20
+	v_xor_b32_e32 v32, 0x70, v39
+	.loc	1 113 35                        ; kernel_registry.py:113:35
+	s_cbranch_vccnz .LBB0_34
+; %bb.33:
+	.loc	1 112 20                        ; kernel_registry.py:112:20
+	v_add_u32_e32 v40, s20, v39
+	ds_read_b64 v[72:73], v40
+	.loc	1 111 20                        ; kernel_registry.py:111:20
+	v_add_u32_e32 v40, s21, v117
+	ds_read2st64_b64 v[40:43], v40 offset1:16
+	.loc	1 112 20                        ; kernel_registry.py:112:20
+	v_add_u32_e32 v44, s20, v38
+	v_add_u32_e32 v48, s20, v37
+	v_add_u32_e32 v52, s20, v36
+	v_add_u32_e32 v56, s20, v35
+	v_add_u32_e32 v60, s20, v34
+	v_add_u32_e32 v64, s20, v33
+	.loc	1 113 35                        ; kernel_registry.py:113:35
+	s_waitcnt lgkmcnt(0)
+	v_mfma_f32_32x32x8_bf16 v[16:31], v[72:73], v[40:41], v[16:31]
+	.loc	1 112 20                        ; kernel_registry.py:112:20
+	ds_read_b64 v[40:41], v44
+	.loc	1 111 20                        ; kernel_registry.py:111:20
+	v_add_u32_e32 v44, s21, v116
+	ds_read2st64_b64 v[44:47], v44 offset1:16
+	.loc	1 112 20                        ; kernel_registry.py:112:20
+	v_add_u32_e32 v68, s20, v32
+	.loc	1 113 35                        ; kernel_registry.py:113:35
+	v_mfma_f32_32x32x8_bf16 v[0:15], v[72:73], v[42:43], v[0:15]
+	s_waitcnt lgkmcnt(0)
+	v_mfma_f32_32x32x8_bf16 v[16:31], v[40:41], v[44:45], v[16:31]
+	.loc	1 112 20                        ; kernel_registry.py:112:20
+	ds_read_b64 v[44:45], v48
+	.loc	1 111 20                        ; kernel_registry.py:111:20
+	v_add_u32_e32 v48, s21, v115
+	ds_read2st64_b64 v[48:51], v48 offset1:16
+	.loc	1 113 35                        ; kernel_registry.py:113:35
+	v_mfma_f32_32x32x8_bf16 v[0:15], v[40:41], v[46:47], v[0:15]
+	s_waitcnt lgkmcnt(0)
+	v_mfma_f32_32x32x8_bf16 v[16:31], v[44:45], v[48:49], v[16:31]
+	.loc	1 112 20                        ; kernel_registry.py:112:20
+	ds_read_b64 v[48:49], v52
+	.loc	1 111 20                        ; kernel_registry.py:111:20
+	v_add_u32_e32 v52, s21, v114
+	ds_read2st64_b64 v[52:55], v52 offset1:16
+	.loc	1 113 35                        ; kernel_registry.py:113:35
+	v_mfma_f32_32x32x8_bf16 v[0:15], v[44:45], v[50:51], v[0:15]
+	s_waitcnt lgkmcnt(0)
+	v_mfma_f32_32x32x8_bf16 v[16:31], v[48:49], v[52:53], v[16:31]
+	.loc	1 112 20                        ; kernel_registry.py:112:20
+	ds_read_b64 v[52:53], v56
+	.loc	1 111 20                        ; kernel_registry.py:111:20
+	v_add_u32_e32 v56, s21, v113
+	ds_read2st64_b64 v[56:59], v56 offset1:16
+	.loc	1 113 35                        ; kernel_registry.py:113:35
+	v_mfma_f32_32x32x8_bf16 v[0:15], v[48:49], v[54:55], v[0:15]
+	s_waitcnt lgkmcnt(0)
+	v_mfma_f32_32x32x8_bf16 v[16:31], v[52:53], v[56:57], v[16:31]
+	.loc	1 112 20                        ; kernel_registry.py:112:20
+	ds_read_b64 v[56:57], v60
+	.loc	1 111 20                        ; kernel_registry.py:111:20
+	v_add_u32_e32 v60, s21, v112
+	ds_read2st64_b64 v[60:63], v60 offset1:16
+	.loc	1 113 35                        ; kernel_registry.py:113:35
+	v_mfma_f32_32x32x8_bf16 v[0:15], v[52:53], v[58:59], v[0:15]
+	s_waitcnt lgkmcnt(0)
+	v_mfma_f32_32x32x8_bf16 v[16:31], v[56:57], v[60:61], v[16:31]
+	.loc	1 112 20                        ; kernel_registry.py:112:20
+	ds_read_b64 v[60:61], v64
+	.loc	1 111 20                        ; kernel_registry.py:111:20
+	v_add_u32_e32 v64, s21, v111
+	ds_read2st64_b64 v[64:67], v64 offset1:16
+	.loc	1 113 35                        ; kernel_registry.py:113:35
+	v_mfma_f32_32x32x8_bf16 v[0:15], v[56:57], v[62:63], v[0:15]
+	s_waitcnt lgkmcnt(0)
+	v_mfma_f32_32x32x8_bf16 v[16:31], v[60:61], v[64:65], v[16:31]
+	.loc	1 112 20                        ; kernel_registry.py:112:20
+	ds_read_b64 v[64:65], v68
+	.loc	1 111 20                        ; kernel_registry.py:111:20
+	v_add_u32_e32 v68, s21, v110
+	ds_read2st64_b64 v[68:71], v68 offset1:16
+	.loc	1 113 35                        ; kernel_registry.py:113:35
+	v_mfma_f32_32x32x8_bf16 v[0:15], v[60:61], v[66:67], v[0:15]
+	s_waitcnt lgkmcnt(0)
+	v_mfma_f32_32x32x8_bf16 v[16:31], v[64:65], v[68:69], v[16:31]
+	v_mfma_f32_32x32x8_bf16 v[0:15], v[64:65], v[70:71], v[0:15]
+.LBB0_34:                               ; %._crit_edge._crit_edge
+	s_andn2_b64 vcc, exec, s[0:1]
+	s_cbranch_vccnz .LBB0_36
+; %bb.35:
+	.loc	1 112 20                        ; kernel_registry.py:112:20
+	v_add_u32_e32 v39, s16, v39
+	ds_read_b64 v[56:57], v39
+	v_add_u32_e32 v38, s16, v38
+	ds_read_b64 v[58:59], v38
+	.loc	1 111 20                        ; kernel_registry.py:111:20
+	v_add_u32_e32 v39, s12, v117
+	ds_read2st64_b64 v[40:43], v39 offset1:16
+	.loc	1 112 20                        ; kernel_registry.py:112:20
+	v_add_u32_e32 v37, s16, v37
+	ds_read_b64 v[60:61], v37
+	.loc	1 111 20                        ; kernel_registry.py:111:20
+	v_add_u32_e32 v38, s12, v116
+	v_add_u32_e32 v37, s12, v115
+	.loc	1 113 35                        ; kernel_registry.py:113:35
+	s_waitcnt lgkmcnt(1)
+	v_mfma_f32_32x32x8_bf16 v[16:31], v[56:57], v[40:41], v[16:31]
+	.loc	1 111 20                        ; kernel_registry.py:111:20
+	ds_read2st64_b64 v[38:41], v38 offset1:16
+	ds_read2st64_b64 v[44:47], v37 offset1:16
+	.loc	1 112 20                        ; kernel_registry.py:112:20
+	v_add_u32_e32 v36, s16, v36
+	v_add_u32_e32 v35, s16, v35
+	v_add_u32_e32 v34, s16, v34
+	v_add_u32_e32 v33, s16, v33
+	v_add_u32_e32 v32, s16, v32
+	.loc	1 113 35                        ; kernel_registry.py:113:35
+	v_mfma_f32_32x32x8_bf16 v[0:15], v[56:57], v[42:43], v[0:15]
+	.loc	1 112 20                        ; kernel_registry.py:112:20
+	ds_read_b64 v[62:63], v35
+	.loc	1 111 20                        ; kernel_registry.py:111:20
+	v_add_u32_e32 v35, s12, v113
+	ds_read2st64_b64 v[48:51], v35 offset1:16
+	.loc	1 112 20                        ; kernel_registry.py:112:20
+	ds_read_b64 v[64:65], v33
+	.loc	1 111 20                        ; kernel_registry.py:111:20
+	v_add_u32_e32 v33, s12, v111
+	ds_read2st64_b64 v[52:55], v33 offset1:16
+	.loc	1 113 35                        ; kernel_registry.py:113:35
+	s_waitcnt lgkmcnt(5)
+	v_mfma_f32_32x32x8_bf16 v[16:31], v[58:59], v[38:39], v[16:31]
+	v_mfma_f32_32x32x8_bf16 v[0:15], v[58:59], v[40:41], v[0:15]
+	s_waitcnt lgkmcnt(4)
+	v_mfma_f32_32x32x8_bf16 v[16:31], v[60:61], v[44:45], v[16:31]
+	.loc	1 112 20                        ; kernel_registry.py:112:20
+	ds_read_b64 v[44:45], v36
+	.loc	1 111 20                        ; kernel_registry.py:111:20
+	v_add_u32_e32 v36, s12, v114
+	ds_read2st64_b64 v[36:39], v36 offset1:16
+	.loc	1 113 35                        ; kernel_registry.py:113:35
+	v_mfma_f32_32x32x8_bf16 v[0:15], v[60:61], v[46:47], v[0:15]
+	s_waitcnt lgkmcnt(0)
+	v_mfma_f32_32x32x8_bf16 v[16:31], v[44:45], v[36:37], v[16:31]
+	v_mfma_f32_32x32x8_bf16 v[0:15], v[44:45], v[38:39], v[0:15]
+	v_mfma_f32_32x32x8_bf16 v[16:31], v[62:63], v[48:49], v[16:31]
+	.loc	1 112 20                        ; kernel_registry.py:112:20
+	ds_read_b64 v[48:49], v34
+	.loc	1 111 20                        ; kernel_registry.py:111:20
+	v_add_u32_e32 v34, s12, v112
+	ds_read2st64_b64 v[34:37], v34 offset1:16
+	.loc	1 113 35                        ; kernel_registry.py:113:35
+	v_mfma_f32_32x32x8_bf16 v[0:15], v[62:63], v[50:51], v[0:15]
+	s_waitcnt lgkmcnt(0)
+	v_mfma_f32_32x32x8_bf16 v[16:31], v[48:49], v[34:35], v[16:31]
+	v_mfma_f32_32x32x8_bf16 v[0:15], v[48:49], v[36:37], v[0:15]
+	v_mfma_f32_32x32x8_bf16 v[16:31], v[64:65], v[52:53], v[16:31]
+	.loc	1 112 20                        ; kernel_registry.py:112:20
+	ds_read_b64 v[52:53], v32
+	.loc	1 111 20                        ; kernel_registry.py:111:20
+	v_add_u32_e32 v32, s12, v110
+	ds_read2st64_b64 v[32:35], v32 offset1:16
+	.loc	1 113 35                        ; kernel_registry.py:113:35
+	v_mfma_f32_32x32x8_bf16 v[0:15], v[64:65], v[54:55], v[0:15]
+	s_waitcnt lgkmcnt(0)
+	v_mfma_f32_32x32x8_bf16 v[16:31], v[52:53], v[32:33], v[16:31]
+	v_mfma_f32_32x32x8_bf16 v[0:15], v[52:53], v[34:35], v[0:15]
+.LBB0_36:
+	.loc	1 103 51                        ; kernel_registry.py:103:51
+	v_lshrrev_b32_e32 v32, 3, v106
+	v_lshrrev_b32_e32 v33, 1, v107
+	v_lshrrev_b32_e32 v34, 3, v108
+	.loc	1 103 38 is_stmt 0              ; kernel_registry.py:103:38
+	v_or3_b32 v38, v32, v81, s18
+	.loc	1 104 38 is_stmt 1              ; kernel_registry.py:104:38
+	v_or3_b32 v32, v34, v33, s19
+	.loc	1 120 33                        ; kernel_registry.py:120:33
+	v_mul_lo_u32 v34, v38, s13
+	.loc	1 120 21 is_stmt 0              ; kernel_registry.py:120:21
+	v_ashrrev_i32_e32 v35, 31, v34
+	v_lshl_add_u64 v[36:37], v[34:35], 1, s[6:7]
+	.loc	1 120 52                        ; kernel_registry.py:120:52
+	v_ashrrev_i32_e32 v33, 31, v32
+	.loc	1 121 33 is_stmt 1              ; kernel_registry.py:121:33
+	v_cmp_gt_i32_e64 s[10:11], s8, v38
+	.loc	1 121 58 is_stmt 0              ; kernel_registry.py:121:58
+	v_cmp_gt_i32_e64 s[0:1], s9, v32
+	.loc	1 120 52 is_stmt 1              ; kernel_registry.py:120:52
+	v_lshl_add_u64 v[36:37], v[32:33], 1, v[36:37]
+	.loc	1 121 39                        ; kernel_registry.py:121:39
+	s_and_b64 s[4:5], s[10:11], s[0:1]
+	.loc	1 122 21                        ; kernel_registry.py:122:21
+	s_and_saveexec_b64 s[2:3], s[4:5]
+	s_cbranch_execz .LBB0_38
+; %bb.37:
+	v_bfe_u32 v35, v18, 16, 1
+	s_movk_i32 s4, 0x7fff
+	v_bfe_u32 v39, v19, 16, 1
+	v_add3_u32 v35, v18, v35, s4
+	v_cmp_o_f32_e32 vcc, v18, v18
+	v_mov_b32_e32 v18, 0x7fff
+	v_bfe_u32 v40, v16, 16, 1
+	v_add3_u32 v39, v19, v39, s4
+	v_cndmask_b32_sdwa v35, v18, v35, vcc dst_sel:DWORD dst_unused:UNUSED_PAD src0_sel:DWORD src1_sel:WORD_1
+	v_cmp_o_f32_e32 vcc, v19, v19
+	v_bfe_u32 v41, v17, 16, 1
+	v_add3_u32 v40, v16, v40, s4
+	v_cndmask_b32_sdwa v19, v18, v39, vcc dst_sel:DWORD dst_unused:UNUSED_PAD src0_sel:DWORD src1_sel:WORD_1
+	v_cmp_o_f32_e32 vcc, v16, v16
+	v_add3_u32 v41, v17, v41, s4
+	s_mov_b32 s4, 0x5040100
+	v_cndmask_b32_sdwa v16, v18, v40, vcc dst_sel:DWORD dst_unused:UNUSED_PAD src0_sel:DWORD src1_sel:WORD_1
+	v_cmp_o_f32_e32 vcc, v17, v17
+	v_perm_b32 v19, v19, v35, s4
+	s_nop 0
+	v_cndmask_b32_sdwa v17, v18, v41, vcc dst_sel:DWORD dst_unused:UNUSED_PAD src0_sel:DWORD src1_sel:WORD_1
+	v_perm_b32 v18, v17, v16, s4
+	global_store_dwordx2 v[36:37], v[18:19], off
+.LBB0_38:
+	.loc	1 0 21 is_stmt 0                ; kernel_registry.py:0:21
+	s_or_b64 exec, exec, s[2:3]
+	.loc	1 104 38 is_stmt 1              ; kernel_registry.py:104:38
+	v_or_b32_e32 v16, 8, v32
+	.loc	1 121 58                        ; kernel_registry.py:121:58
+	v_cmp_gt_i32_e64 s[2:3], s9, v16
+	.loc	1 121 39 is_stmt 0              ; kernel_registry.py:121:39
+	s_and_b64 s[14:15], s[2:3], s[10:11]
+	.loc	1 122 21 is_stmt 1              ; kernel_registry.py:122:21
+	s_and_saveexec_b64 s[4:5], s[14:15]
+	s_cbranch_execz .LBB0_40
+; %bb.39:
+	.loc	1 0 21 is_stmt 0                ; kernel_registry.py:0:21
+	v_bfe_u32 v16, v22, 16, 1
+	s_movk_i32 s12, 0x7fff
+	v_bfe_u32 v17, v23, 16, 1
+	v_add3_u32 v16, v22, v16, s12
+	v_cmp_o_f32_e32 vcc, v22, v22
+	v_mov_b32_e32 v22, 0x7fff
+	v_bfe_u32 v18, v20, 16, 1
+	v_bfe_u32 v19, v21, 16, 1
+	v_add3_u32 v17, v23, v17, s12
+	v_cndmask_b32_sdwa v16, v22, v16, vcc dst_sel:DWORD dst_unused:UNUSED_PAD src0_sel:DWORD src1_sel:WORD_1
+	v_cmp_o_f32_e32 vcc, v23, v23
+	v_add3_u32 v19, v21, v19, s12
+	v_add3_u32 v18, v20, v18, s12
+	v_cndmask_b32_sdwa v17, v22, v17, vcc dst_sel:DWORD dst_unused:UNUSED_PAD src0_sel:DWORD src1_sel:WORD_1
+	s_mov_b32 s12, 0x5040100
+	v_cmp_o_f32_e32 vcc, v20, v20
+	v_perm_b32 v17, v17, v16, s12
+	s_nop 0
+	v_cndmask_b32_sdwa v16, v22, v18, vcc dst_sel:DWORD dst_unused:UNUSED_PAD src0_sel:DWORD src1_sel:WORD_1
+	v_cmp_o_f32_e32 vcc, v21, v21
+	s_nop 1
+	v_cndmask_b32_sdwa v18, v22, v19, vcc dst_sel:DWORD dst_unused:UNUSED_PAD src0_sel:DWORD src1_sel:WORD_1
+	v_perm_b32 v16, v18, v16, s12
+	.loc	1 122 21                        ; kernel_registry.py:122:21
+	global_store_dwordx2 v[36:37], v[16:17], off offset:16
+.LBB0_40:
+	.loc	1 0 21                          ; kernel_registry.py:0:21
+	s_or_b64 exec, exec, s[4:5]
+	.loc	1 104 38 is_stmt 1              ; kernel_registry.py:104:38
+	v_or_b32_e32 v16, 16, v32
+	.loc	1 121 58                        ; kernel_registry.py:121:58
+	v_cmp_gt_i32_e64 s[4:5], s9, v16
+	.loc	1 121 39 is_stmt 0              ; kernel_registry.py:121:39
+	s_and_b64 s[16:17], s[4:5], s[10:11]
+	.loc	1 122 21 is_stmt 1              ; kernel_registry.py:122:21
+	s_and_saveexec_b64 s[14:15], s[16:17]
+	s_cbranch_execz .LBB0_42
+; %bb.41:
+	.loc	1 0 21 is_stmt 0                ; kernel_registry.py:0:21
+	v_bfe_u32 v16, v26, 16, 1
+	s_movk_i32 s12, 0x7fff
+	v_bfe_u32 v17, v27, 16, 1
+	v_add3_u32 v16, v26, v16, s12
+	v_cmp_o_f32_e32 vcc, v26, v26
+	v_mov_b32_e32 v20, 0x7fff
+	v_bfe_u32 v18, v24, 16, 1
+	v_bfe_u32 v19, v25, 16, 1
+	v_add3_u32 v17, v27, v17, s12
+	v_cndmask_b32_sdwa v16, v20, v16, vcc dst_sel:DWORD dst_unused:UNUSED_PAD src0_sel:DWORD src1_sel:WORD_1
+	v_cmp_o_f32_e32 vcc, v27, v27
+	v_add3_u32 v19, v25, v19, s12
+	v_add3_u32 v18, v24, v18, s12
+	v_cndmask_b32_sdwa v17, v20, v17, vcc dst_sel:DWORD dst_unused:UNUSED_PAD src0_sel:DWORD src1_sel:WORD_1
+	s_mov_b32 s12, 0x5040100
+	v_cmp_o_f32_e32 vcc, v24, v24
+	v_perm_b32 v17, v17, v16, s12
+	s_nop 0
+	v_cndmask_b32_sdwa v16, v20, v18, vcc dst_sel:DWORD dst_unused:UNUSED_PAD src0_sel:DWORD src1_sel:WORD_1
+	v_cmp_o_f32_e32 vcc, v25, v25
+	s_nop 1
+	v_cndmask_b32_sdwa v18, v20, v19, vcc dst_sel:DWORD dst_unused:UNUSED_PAD src0_sel:DWORD src1_sel:WORD_1
+	v_perm_b32 v16, v18, v16, s12
+	.loc	1 122 21                        ; kernel_registry.py:122:21
+	global_store_dwordx2 v[36:37], v[16:17], off offset:32
+.LBB0_42:
+	.loc	1 0 21                          ; kernel_registry.py:0:21
+	s_or_b64 exec, exec, s[14:15]
+	.loc	1 104 38 is_stmt 1              ; kernel_registry.py:104:38
+	v_or_b32_e32 v16, 24, v32
+	.loc	1 121 58                        ; kernel_registry.py:121:58
+	v_cmp_gt_i32_e64 s[14:15], s9, v16
+	.loc	1 121 39 is_stmt 0              ; kernel_registry.py:121:39
+	s_and_b64 s[16:17], s[14:15], s[10:11]
+	.loc	1 122 21 is_stmt 1              ; kernel_registry.py:122:21
+	s_and_saveexec_b64 s[10:11], s[16:17]
+	s_cbranch_execz .LBB0_44
+; %bb.43:
+	.loc	1 0 21 is_stmt 0                ; kernel_registry.py:0:21
+	v_bfe_u32 v16, v30, 16, 1
+	s_movk_i32 s9, 0x7fff
+	v_bfe_u32 v17, v31, 16, 1
+	v_add3_u32 v16, v30, v16, s9
+	v_cmp_o_f32_e32 vcc, v30, v30
+	v_mov_b32_e32 v20, 0x7fff
+	v_bfe_u32 v18, v28, 16, 1
+	v_bfe_u32 v19, v29, 16, 1
+	v_add3_u32 v17, v31, v17, s9
+	v_cndmask_b32_sdwa v16, v20, v16, vcc dst_sel:DWORD dst_unused:UNUSED_PAD src0_sel:DWORD src1_sel:WORD_1
+	v_cmp_o_f32_e32 vcc, v31, v31
+	v_add3_u32 v19, v29, v19, s9
+	v_add3_u32 v18, v28, v18, s9
+	v_cndmask_b32_sdwa v17, v20, v17, vcc dst_sel:DWORD dst_unused:UNUSED_PAD src0_sel:DWORD src1_sel:WORD_1
+	s_mov_b32 s9, 0x5040100
+	v_cmp_o_f32_e32 vcc, v28, v28
+	v_perm_b32 v17, v17, v16, s9
+	s_nop 0
+	v_cndmask_b32_sdwa v16, v20, v18, vcc dst_sel:DWORD dst_unused:UNUSED_PAD src0_sel:DWORD src1_sel:WORD_1
+	v_cmp_o_f32_e32 vcc, v29, v29
+	s_nop 1
+	v_cndmask_b32_sdwa v18, v20, v19, vcc dst_sel:DWORD dst_unused:UNUSED_PAD src0_sel:DWORD src1_sel:WORD_1
+	v_perm_b32 v16, v18, v16, s9
+	.loc	1 122 21                        ; kernel_registry.py:122:21
+	global_store_dwordx2 v[36:37], v[16:17], off offset:48
+.LBB0_44:
+	.loc	1 0 21                          ; kernel_registry.py:0:21
+	s_or_b64 exec, exec, s[10:11]
+	.loc	1 120 33 is_stmt 1              ; kernel_registry.py:120:33
+	v_lshl_add_u32 v16, s13, 6, v34
+	.loc	1 103 38                        ; kernel_registry.py:103:38
+	v_or_b32_e32 v18, 64, v38
+	.loc	1 120 21                        ; kernel_registry.py:120:21
+	v_ashrrev_i32_e32 v17, 31, v16
+	v_lshl_add_u64 v[16:17], v[16:17], 1, s[6:7]
+	.loc	1 121 33                        ; kernel_registry.py:121:33
+	v_cmp_gt_i32_e64 s[6:7], s8, v18
+	.loc	1 120 52                        ; kernel_registry.py:120:52
+	v_lshl_add_u64 v[16:17], v[32:33], 1, v[16:17]
+	.loc	1 121 39                        ; kernel_registry.py:121:39
+	s_and_b64 s[8:9], s[6:7], s[0:1]
+	.loc	1 122 21                        ; kernel_registry.py:122:21
+	s_and_saveexec_b64 s[0:1], s[8:9]
+	s_cbranch_execnz .LBB0_49
+; %bb.45:
+	.loc	1 0 21 is_stmt 0                ; kernel_registry.py:0:21
+	s_or_b64 exec, exec, s[0:1]
+	.loc	1 121 39 is_stmt 1              ; kernel_registry.py:121:39
+	s_and_b64 s[2:3], s[6:7], s[2:3]
+	.loc	1 122 21                        ; kernel_registry.py:122:21
+	s_and_saveexec_b64 s[0:1], s[2:3]
+	s_cbranch_execnz .LBB0_50
+.LBB0_46:
+	.loc	1 0 21 is_stmt 0                ; kernel_registry.py:0:21
+	s_or_b64 exec, exec, s[0:1]
+	.loc	1 121 39 is_stmt 1              ; kernel_registry.py:121:39
+	s_and_b64 s[2:3], s[6:7], s[4:5]
+	.loc	1 122 21                        ; kernel_registry.py:122:21
+	s_and_saveexec_b64 s[0:1], s[2:3]
+	s_cbranch_execnz .LBB0_51
+.LBB0_47:
+	.loc	1 0 21 is_stmt 0                ; kernel_registry.py:0:21
+	s_or_b64 exec, exec, s[0:1]
+	.loc	1 121 39 is_stmt 1              ; kernel_registry.py:121:39
+	s_and_b64 s[0:1], s[6:7], s[14:15]
+	.loc	1 122 21                        ; kernel_registry.py:122:21
+	s_and_saveexec_b64 s[2:3], s[0:1]
+	s_cbranch_execnz .LBB0_52
+.LBB0_48:
+	.loc	1 122 4 is_stmt 0               ; kernel_registry.py:122:4
+	s_endpgm
+.LBB0_49:
+	.loc	1 0 4                           ; kernel_registry.py:0:4
+	v_bfe_u32 v18, v2, 16, 1
+	s_movk_i32 s8, 0x7fff
+	v_bfe_u32 v19, v3, 16, 1
+	v_add3_u32 v18, v2, v18, s8
+	v_cmp_o_f32_e32 vcc, v2, v2
+	v_mov_b32_e32 v2, 0x7fff
+	v_bfe_u32 v20, v0, 16, 1
+	v_add3_u32 v19, v3, v19, s8
+	v_cndmask_b32_sdwa v18, v2, v18, vcc dst_sel:DWORD dst_unused:UNUSED_PAD src0_sel:DWORD src1_sel:WORD_1
+	v_cmp_o_f32_e32 vcc, v3, v3
+	v_bfe_u32 v21, v1, 16, 1
+	v_add3_u32 v20, v0, v20, s8
+	v_cndmask_b32_sdwa v3, v2, v19, vcc dst_sel:DWORD dst_unused:UNUSED_PAD src0_sel:DWORD src1_sel:WORD_1
+	v_cmp_o_f32_e32 vcc, v0, v0
+	v_add3_u32 v21, v1, v21, s8
+	s_mov_b32 s8, 0x5040100
+	v_cndmask_b32_sdwa v0, v2, v20, vcc dst_sel:DWORD dst_unused:UNUSED_PAD src0_sel:DWORD src1_sel:WORD_1
+	v_cmp_o_f32_e32 vcc, v1, v1
+	v_perm_b32 v3, v3, v18, s8
+	s_nop 0
+	v_cndmask_b32_sdwa v1, v2, v21, vcc dst_sel:DWORD dst_unused:UNUSED_PAD src0_sel:DWORD src1_sel:WORD_1
+	v_perm_b32 v2, v1, v0, s8
+	.loc	1 122 21                        ; kernel_registry.py:122:21
+	global_store_dwordx2 v[16:17], v[2:3], off
+	s_or_b64 exec, exec, s[0:1]
+	.loc	1 121 39 is_stmt 1              ; kernel_registry.py:121:39
+	s_and_b64 s[2:3], s[6:7], s[2:3]
+	.loc	1 122 21                        ; kernel_registry.py:122:21
+	s_and_saveexec_b64 s[0:1], s[2:3]
+	s_cbranch_execz .LBB0_46
+.LBB0_50:
+	.loc	1 0 21 is_stmt 0                ; kernel_registry.py:0:21
+	v_bfe_u32 v0, v6, 16, 1
+	s_movk_i32 s2, 0x7fff
+	v_bfe_u32 v1, v7, 16, 1
+	v_add3_u32 v0, v6, v0, s2
+	v_cmp_o_f32_e32 vcc, v6, v6
+	v_mov_b32_e32 v6, 0x7fff
+	v_bfe_u32 v2, v4, 16, 1
+	v_bfe_u32 v3, v5, 16, 1
+	v_add3_u32 v1, v7, v1, s2
+	v_cndmask_b32_sdwa v0, v6, v0, vcc dst_sel:DWORD dst_unused:UNUSED_PAD src0_sel:DWORD src1_sel:WORD_1
+	v_cmp_o_f32_e32 vcc, v7, v7
+	v_add3_u32 v3, v5, v3, s2
+	v_add3_u32 v2, v4, v2, s2
+	v_cndmask_b32_sdwa v1, v6, v1, vcc dst_sel:DWORD dst_unused:UNUSED_PAD src0_sel:DWORD src1_sel:WORD_1
+	s_mov_b32 s2, 0x5040100
+	v_cmp_o_f32_e32 vcc, v4, v4
+	v_perm_b32 v1, v1, v0, s2
+	s_nop 0
+	v_cndmask_b32_sdwa v0, v6, v2, vcc dst_sel:DWORD dst_unused:UNUSED_PAD src0_sel:DWORD src1_sel:WORD_1
+	v_cmp_o_f32_e32 vcc, v5, v5
+	s_nop 1
+	v_cndmask_b32_sdwa v2, v6, v3, vcc dst_sel:DWORD dst_unused:UNUSED_PAD src0_sel:DWORD src1_sel:WORD_1
+	v_perm_b32 v0, v2, v0, s2
+	.loc	1 122 21                        ; kernel_registry.py:122:21
+	global_store_dwordx2 v[16:17], v[0:1], off offset:16
+	s_or_b64 exec, exec, s[0:1]
+	.loc	1 121 39 is_stmt 1              ; kernel_registry.py:121:39
+	s_and_b64 s[2:3], s[6:7], s[4:5]
+	.loc	1 122 21                        ; kernel_registry.py:122:21
+	s_and_saveexec_b64 s[0:1], s[2:3]
+	s_cbranch_execz .LBB0_47
+.LBB0_51:
+	.loc	1 0 21 is_stmt 0                ; kernel_registry.py:0:21
+	v_bfe_u32 v0, v10, 16, 1
+	s_movk_i32 s2, 0x7fff
+	v_bfe_u32 v1, v11, 16, 1
+	v_add3_u32 v0, v10, v0, s2
+	v_cmp_o_f32_e32 vcc, v10, v10
+	v_mov_b32_e32 v4, 0x7fff
+	v_bfe_u32 v2, v8, 16, 1
+	v_bfe_u32 v3, v9, 16, 1
+	v_add3_u32 v1, v11, v1, s2
+	v_cndmask_b32_sdwa v0, v4, v0, vcc dst_sel:DWORD dst_unused:UNUSED_PAD src0_sel:DWORD src1_sel:WORD_1
+	v_cmp_o_f32_e32 vcc, v11, v11
+	v_add3_u32 v3, v9, v3, s2
+	v_add3_u32 v2, v8, v2, s2
+	v_cndmask_b32_sdwa v1, v4, v1, vcc dst_sel:DWORD dst_unused:UNUSED_PAD src0_sel:DWORD src1_sel:WORD_1
+	s_mov_b32 s2, 0x5040100
+	v_cmp_o_f32_e32 vcc, v8, v8
+	v_perm_b32 v1, v1, v0, s2
+	s_nop 0
+	v_cndmask_b32_sdwa v0, v4, v2, vcc dst_sel:DWORD dst_unused:UNUSED_PAD src0_sel:DWORD src1_sel:WORD_1
+	v_cmp_o_f32_e32 vcc, v9, v9
+	s_nop 1
+	v_cndmask_b32_sdwa v2, v4, v3, vcc dst_sel:DWORD dst_unused:UNUSED_PAD src0_sel:DWORD src1_sel:WORD_1
+	v_perm_b32 v0, v2, v0, s2
+	.loc	1 122 21                        ; kernel_registry.py:122:21
+	global_store_dwordx2 v[16:17], v[0:1], off offset:32
+	s_or_b64 exec, exec, s[0:1]
+	.loc	1 121 39 is_stmt 1              ; kernel_registry.py:121:39
+	s_and_b64 s[0:1], s[6:7], s[14:15]
+	.loc	1 122 21                        ; kernel_registry.py:122:21
+	s_and_saveexec_b64 s[2:3], s[0:1]
+	s_cbranch_execz .LBB0_48
+.LBB0_52:
+	.loc	1 0 21 is_stmt 0                ; kernel_registry.py:0:21
+	v_bfe_u32 v0, v14, 16, 1
+	s_movk_i32 s0, 0x7fff
+	v_bfe_u32 v1, v15, 16, 1
+	v_add3_u32 v0, v14, v0, s0
+	v_cmp_o_f32_e32 vcc, v14, v14
+	v_mov_b32_e32 v4, 0x7fff
+	v_bfe_u32 v2, v12, 16, 1
+	v_bfe_u32 v3, v13, 16, 1
+	v_add3_u32 v1, v15, v1, s0
+	v_cndmask_b32_sdwa v0, v4, v0, vcc dst_sel:DWORD dst_unused:UNUSED_PAD src0_sel:DWORD src1_sel:WORD_1
+	v_cmp_o_f32_e32 vcc, v15, v15
+	v_add3_u32 v3, v13, v3, s0
+	v_add3_u32 v2, v12, v2, s0
+	v_cndmask_b32_sdwa v1, v4, v1, vcc dst_sel:DWORD dst_unused:UNUSED_PAD src0_sel:DWORD src1_sel:WORD_1
+	s_mov_b32 s0, 0x5040100
+	v_cmp_o_f32_e32 vcc, v12, v12
+	v_perm_b32 v1, v1, v0, s0
+	s_nop 0
+	v_cndmask_b32_sdwa v0, v4, v2, vcc dst_sel:DWORD dst_unused:UNUSED_PAD src0_sel:DWORD src1_sel:WORD_1
+	v_cmp_o_f32_e32 vcc, v13, v13
+	s_nop 1
+	v_cndmask_b32_sdwa v2, v4, v3, vcc dst_sel:DWORD dst_unused:UNUSED_PAD src0_sel:DWORD src1_sel:WORD_1
+	v_perm_b32 v0, v2, v0, s0
+	.loc	1 122 21                        ; kernel_registry.py:122:21
+	global_store_dwordx2 v[16:17], v[0:1], off offset:48
+	.loc	1 122 4                         ; kernel_registry.py:122:4
+	s_endpgm
+.Ltmp13:
+	.section	.rodata,"a",@progbits
+	.p2align	6, 0x0
+	.amdhsa_kernel matmul_kernel
+		.amdhsa_group_segment_fixed_size 0
+		.amdhsa_private_segment_fixed_size 0
+		.amdhsa_kernarg_size 64
+		.amdhsa_user_sgpr_count 16
+		.amdhsa_user_sgpr_dispatch_ptr 0
+		.amdhsa_user_sgpr_queue_ptr 0
+		.amdhsa_user_sgpr_kernarg_segment_ptr 1
+		.amdhsa_user_sgpr_dispatch_id 0
+		.amdhsa_user_sgpr_kernarg_preload_length 14
+		.amdhsa_user_sgpr_kernarg_preload_offset 0
+		.amdhsa_user_sgpr_private_segment_size 0
+		.amdhsa_uses_dynamic_stack 0
+		.amdhsa_enable_private_segment 0
+		.amdhsa_system_sgpr_workgroup_id_x 1
+		.amdhsa_system_sgpr_workgroup_id_y 0
+		.amdhsa_system_sgpr_workgroup_id_z 0
+		.amdhsa_system_sgpr_workgroup_info 0
+		.amdhsa_system_vgpr_workitem_id 0
+		.amdhsa_next_free_vgpr 141
+		.amdhsa_next_free_sgpr 29
+		.amdhsa_accum_offset 144
+		.amdhsa_reserve_vcc 1
+		.amdhsa_reserve_xnack_mask 1
+		.amdhsa_float_round_mode_32 0
+		.amdhsa_float_round_mode_16_64 0
+		.amdhsa_float_denorm_mode_32 3
+		.amdhsa_float_denorm_mode_16_64 3
+		.amdhsa_dx10_clamp 1
+		.amdhsa_ieee_mode 1
+		.amdhsa_fp16_overflow 0
+		.amdhsa_tg_split 0
+		.amdhsa_exception_fp_ieee_invalid_op 0
+		.amdhsa_exception_fp_denorm_src 0
+		.amdhsa_exception_fp_ieee_div_zero 0
+		.amdhsa_exception_fp_ieee_overflow 0
+		.amdhsa_exception_fp_ieee_underflow 0
+		.amdhsa_exception_fp_ieee_inexact 0
+		.amdhsa_exception_int_div_zero 0
+	.end_amdhsa_kernel
+	.text
+.Lfunc_end0:
+	.size	matmul_kernel, .Lfunc_end0-matmul_kernel
+	.cfi_endproc
+                                        ; -- End function
+	.set matmul_kernel.num_vgpr, 141
+	.set matmul_kernel.num_agpr, 0
+	.set matmul_kernel.numbered_sgpr, 29
+	.set matmul_kernel.private_seg_size, 0
+	.set matmul_kernel.uses_vcc, 1
+	.set matmul_kernel.uses_flat_scratch, 0
+	.set matmul_kernel.has_dyn_sized_stack, 0
+	.set matmul_kernel.has_recursion, 0
+	.set matmul_kernel.has_indirect_call, 0
+	.section	.AMDGPU.csdata,"",@progbits
+; Kernel info:
+; codeLenInByte = 5764
+; TotalNumSgprs: 35
+; NumVgprs: 141
+; NumAgprs: 0
+; TotalNumVgprs: 141
+; ScratchSize: 0
+; MemoryBound: 1
+; FloatMode: 240
+; IeeeMode: 1
+; LDSByteSize: 0 bytes/workgroup (compile time only)
+; SGPRBlocks: 4
+; VGPRBlocks: 17
+; NumSGPRsForWavesPerEU: 35
+; NumVGPRsForWavesPerEU: 141
+; AccumOffset: 144
+; Occupancy: 3
+; WaveLimiterHint : 0
+; COMPUTE_PGM_RSRC2:SCRATCH_EN: 0
+; COMPUTE_PGM_RSRC2:USER_SGPR: 16
+; COMPUTE_PGM_RSRC2:TRAP_HANDLER: 0
+; COMPUTE_PGM_RSRC2:TGID_X_EN: 1
+; COMPUTE_PGM_RSRC2:TGID_Y_EN: 0
+; COMPUTE_PGM_RSRC2:TGID_Z_EN: 0
+; COMPUTE_PGM_RSRC2:TIDIG_COMP_CNT: 0
+; COMPUTE_PGM_RSRC3_GFX90A:ACCUM_OFFSET: 35
+; COMPUTE_PGM_RSRC3_GFX90A:TG_SPLIT: 0
+	.text
+	.p2alignl 6, 3212836864
+	.fill 256, 4, 3212836864
+	.section	.AMDGPU.gpr_maximums,"",@progbits
+	.set amdgpu.max_num_vgpr, 0
+	.set amdgpu.max_num_agpr, 0
+	.set amdgpu.max_num_sgpr, 0
+	.text
+	.section	.debug_abbrev,"",@progbits
+	.byte	1                               ; Abbreviation Code
+	.byte	17                              ; DW_TAG_compile_unit
+	.byte	1                               ; DW_CHILDREN_yes
+	.byte	37                              ; DW_AT_producer
+	.byte	14                              ; DW_FORM_strp
+	.byte	19                              ; DW_AT_language
+	.byte	5                               ; DW_FORM_data2
+	.byte	3                               ; DW_AT_name
+	.byte	14                              ; DW_FORM_strp
+	.byte	16                              ; DW_AT_stmt_list
+	.byte	23                              ; DW_FORM_sec_offset
+	.byte	27                              ; DW_AT_comp_dir
+	.byte	14                              ; DW_FORM_strp
+	.byte	17                              ; DW_AT_low_pc
+	.byte	1                               ; DW_FORM_addr
+	.byte	18                              ; DW_AT_high_pc
+	.byte	6                               ; DW_FORM_data4
+	.byte	0                               ; EOM(1)
+	.byte	0                               ; EOM(2)
+	.byte	2                               ; Abbreviation Code
+	.byte	46                              ; DW_TAG_subprogram
+	.byte	0                               ; DW_CHILDREN_no
+	.byte	3                               ; DW_AT_name
+	.byte	14                              ; DW_FORM_strp
+	.byte	32                              ; DW_AT_inline
+	.byte	11                              ; DW_FORM_data1
+	.byte	0                               ; EOM(1)
+	.byte	0                               ; EOM(2)
+	.byte	3                               ; Abbreviation Code
+	.byte	46                              ; DW_TAG_subprogram
+	.byte	1                               ; DW_CHILDREN_yes
+	.byte	17                              ; DW_AT_low_pc
+	.byte	1                               ; DW_FORM_addr
+	.byte	18                              ; DW_AT_high_pc
+	.byte	6                               ; DW_FORM_data4
+	.byte	49                              ; DW_AT_abstract_origin
+	.byte	19                              ; DW_FORM_ref4
+	.byte	0                               ; EOM(1)
+	.byte	0                               ; EOM(2)
+	.byte	4                               ; Abbreviation Code
+	.byte	29                              ; DW_TAG_inlined_subroutine
+	.byte	0                               ; DW_CHILDREN_no
+	.byte	49                              ; DW_AT_abstract_origin
+	.byte	19                              ; DW_FORM_ref4
+	.byte	17                              ; DW_AT_low_pc
+	.byte	1                               ; DW_FORM_addr
+	.byte	18                              ; DW_AT_high_pc
+	.byte	6                               ; DW_FORM_data4
+	.byte	88                              ; DW_AT_call_file
+	.byte	11                              ; DW_FORM_data1
+	.byte	89                              ; DW_AT_call_line
+	.byte	11                              ; DW_FORM_data1
+	.byte	87                              ; DW_AT_call_column
+	.byte	11                              ; DW_FORM_data1
+	.byte	0                               ; EOM(1)
+	.byte	0                               ; EOM(2)
+	.byte	5                               ; Abbreviation Code
+	.byte	29                              ; DW_TAG_inlined_subroutine
+	.byte	0                               ; DW_CHILDREN_no
+	.byte	49                              ; DW_AT_abstract_origin
+	.byte	19                              ; DW_FORM_ref4
+	.byte	85                              ; DW_AT_ranges
+	.byte	23                              ; DW_FORM_sec_offset
+	.byte	88                              ; DW_AT_call_file
+	.byte	11                              ; DW_FORM_data1
+	.byte	89                              ; DW_AT_call_line
+	.byte	11                              ; DW_FORM_data1
+	.byte	87                              ; DW_AT_call_column
+	.byte	11                              ; DW_FORM_data1
+	.byte	0                               ; EOM(1)
+	.byte	0                               ; EOM(2)
+	.byte	0                               ; EOM(3)
+	.section	.debug_info,"",@progbits
+.Lcu_begin0:
+	.long	.Ldebug_info_end0-.Ldebug_info_start0 ; Length of Unit
+.Ldebug_info_start0:
+	.short	4                               ; DWARF version number
+	.long	.debug_abbrev                   ; Offset Into Abbrev. Section
+	.byte	8                               ; Address Size (in bytes)
+	.byte	1                               ; Abbrev [1] 0xb:0x64 DW_TAG_compile_unit
+	.long	.Linfo_string0                  ; DW_AT_producer
+	.short	2                               ; DW_AT_language
+	.long	.Linfo_string1                  ; DW_AT_name
+	.long	.Lline_table_start0             ; DW_AT_stmt_list
+	.long	.Linfo_string2                  ; DW_AT_comp_dir
+	.quad	.Lfunc_begin0                   ; DW_AT_low_pc
+	.long	.Lfunc_end0-.Lfunc_begin0       ; DW_AT_high_pc
+	.byte	2                               ; Abbrev [2] 0x2a:0x6 DW_TAG_subprogram
+	.long	.Linfo_string3                  ; DW_AT_name
+	.byte	1                               ; DW_AT_inline
+	.byte	3                               ; Abbrev [3] 0x30:0x3e DW_TAG_subprogram
+	.quad	.Lfunc_begin0                   ; DW_AT_low_pc
+	.long	.Lfunc_end0-.Lfunc_begin0       ; DW_AT_high_pc
+	.long	42                              ; DW_AT_abstract_origin
+	.byte	4                               ; Abbrev [4] 0x41:0x14 DW_TAG_inlined_subroutine
+	.long	42                              ; DW_AT_abstract_origin
+	.quad	.Ltmp1                          ; DW_AT_low_pc
+	.long	.Ltmp2-.Ltmp1                   ; DW_AT_high_pc
+	.byte	1                               ; DW_AT_call_file
+	.byte	86                              ; DW_AT_call_line
+	.byte	27                              ; DW_AT_call_column
+	.byte	5                               ; Abbrev [5] 0x55:0xc DW_TAG_inlined_subroutine
+	.long	42                              ; DW_AT_abstract_origin
+	.long	.Ldebug_ranges0                 ; DW_AT_ranges
+	.byte	1                               ; DW_AT_call_file
+	.byte	85                              ; DW_AT_call_line
+	.byte	27                              ; DW_AT_call_column
+	.byte	5                               ; Abbrev [5] 0x61:0xc DW_TAG_inlined_subroutine
+	.long	42                              ; DW_AT_abstract_origin
+	.long	.Ldebug_ranges1                 ; DW_AT_ranges
+	.byte	1                               ; DW_AT_call_file
+	.byte	110                             ; DW_AT_call_line
+	.byte	33                              ; DW_AT_call_column
+	.byte	0                               ; End Of Children Mark
+	.byte	0                               ; End Of Children Mark
+.Ldebug_info_end0:
+	.section	.debug_ranges,"",@progbits
+.Ldebug_ranges0:
+	.quad	.Ltmp3-.Lfunc_begin0
+	.quad	.Ltmp4-.Lfunc_begin0
+	.quad	.Ltmp5-.Lfunc_begin0
+	.quad	.Ltmp6-.Lfunc_begin0
+	.quad	.Ltmp7-.Lfunc_begin0
+	.quad	.Ltmp8-.Lfunc_begin0
+	.quad	0
+	.quad	0
+.Ldebug_ranges1:
+	.quad	.Ltmp9-.Lfunc_begin0
+	.quad	.Ltmp10-.Lfunc_begin0
+	.quad	.Ltmp11-.Lfunc_begin0
+	.quad	.Ltmp12-.Lfunc_begin0
+	.quad	0
+	.quad	0
+	.section	.debug_str,"MS",@progbits,1
+.Linfo_string0:
+	.asciz	"triton"                        ; string offset=0
+.Linfo_string1:
+	.asciz	"kernel_registry.py"            ; string offset=7
+.Linfo_string2:
+	.asciz	"/u/tmahmood1/project/nanochat/cisc662/analysis" ; string offset=26
+.Linfo_string3:
+	.asciz	"matmul_kernel"                 ; string offset=73
+	.section	".note.GNU-stack","",@progbits
+	.amdgpu_metadata
+---
+amdhsa.kernels:
+  - .agpr_count:     0
+    .args:
+      - .address_space:  global
+        .offset:         0
+        .size:           8
+        .value_kind:     global_buffer
+      - .address_space:  global
+        .offset:         8
+        .size:           8
+        .value_kind:     global_buffer
+      - .address_space:  global
+        .offset:         16
+        .size:           8
+        .value_kind:     global_buffer
+      - .offset:         24
+        .size:           4
+        .value_kind:     by_value
+      - .offset:         28
+        .size:           4
+        .value_kind:     by_value
+      - .offset:         32
+        .size:           4
+        .value_kind:     by_value
+      - .offset:         36
+        .size:           4
+        .value_kind:     by_value
+      - .offset:         40
+        .size:           4
+        .value_kind:     by_value
+      - .offset:         44
+        .size:           4
+        .value_kind:     by_value
+      - .address_space:  global
+        .offset:         48
+        .size:           8
+        .value_kind:     global_buffer
+      - .address_space:  global
+        .offset:         56
+        .size:           8
+        .value_kind:     global_buffer
+    .group_segment_fixed_size: 0
+    .kernarg_segment_align: 8
+    .kernarg_segment_size: 64
+    .max_flat_workgroup_size: 512
+    .name:           matmul_kernel
+    .private_segment_fixed_size: 0
+    .sgpr_count:     35
+    .sgpr_spill_count: 0
+    .symbol:         matmul_kernel.kd
+    .uses_dynamic_stack: false
+    .vgpr_count:     141
+    .vgpr_spill_count: 0
+    .wavefront_size: 64
+amdhsa.target:   amdgcn-amd-amdhsa--gfx942
+amdhsa.version:
+  - 1
+  - 2
+...
+
+	.end_amdgpu_metadata
+	.section	.debug_line,"",@progbits
+.Lline_table_start0:

@@ -1,0 +1,60 @@
+{
+ "variant": "triton_mixnorm_bwd_finish_768",
+ "kernel": "c662_rmsnorm_bwd_mixnorm_finish",
+ "grid": [
+  2
+ ],
+ "constexprs": {
+  "BLOCK": 2048
+ },
+ "num_warps": 8,
+ "shapes": {
+  "P": [
+   2,
+   32768
+  ],
+  "DR": [],
+  "DL": []
+ },
+ "dtypes": {
+  "P": "float32",
+  "DR": "float32",
+  "DL": "float32"
+ },
+ "triton": "3.5.1",
+ "torch": "2.9.1+cu128",
+ "name": "c662_rmsnorm_bwd_mixnorm_finish",
+ "n_regs": 32,
+ "n_spills": 0,
+ "shared": 64,
+ "num_stages": 3,
+ "num_warps_compiled": 8,
+ "arch": "sm90",
+ "ptx_version": null,
+ "hash": "45bc7772d8fa4b5ce1277dbcf895779f117d8e320a020f622db12ff0e36cfe6b",
+ "device": "NVIDIA GH200 120GB",
+ "slurm_job_id": "3409675",
+ "mode": "gpu-compile",
+ "ptxas_v": "ptxas info    : 0 bytes gmem\nptxas info    : Compiling entry function 'c662_rmsnorm_bwd_mixnorm_finish' for 'sm_90a'\nptxas info    : Function properties for c662_rmsnorm_bwd_mixnorm_finish\n    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads\nptxas info    : Used 32 registers, used 1 barriers\nptxas info    : Compile time = 4.314 ms",
+ "spill_store_bytes": 0,
+ "spill_load_bytes": 0,
+ "smem_bytes_ptxas": null,
+ "sass_stats": {
+  "LDG.E.128": 2,
+  "LDG.E.64": 0,
+  "LDG.E(32)": 0,
+  "LDG.E.U16": 0,
+  "STG.E.128": 0,
+  "STG.E.64": 0,
+  "STG.E(32)": 1,
+  "STG.E.U16": 0,
+  "SHFL": 16,
+  "MUFU.RSQ": 0,
+  "LDS": 2,
+  "STS": 2,
+  "BAR": 2,
+  "LDL": 0,
+  "STL": 0,
+  "F2FP.BF16": 0
+ }
+}

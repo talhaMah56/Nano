@@ -1,9 +1,9 @@
 # STATUS — read this first when resuming
 
-Last session: **S2 — 2026-10-18 (moved up from Tue 10-20) — Talha (with Claude)**. Plan: [PLAN.md](PLAN.md) · tasks: [TASKS.md](TASKS.md) · rules: [AGENT_GUIDE.md](AGENT_GUIDE.md) · findings: [findings.md](findings.md) · every job: [../results/RUNLOG.md](../results/RUNLOG.md).
-SU: S2 **0.263** (cap 1.5) | cumulative **0.597** / planned 25 (hard cap 40; pre-P1 limit 10, re-plan checkpoint 8) | pool balance 6,604 SU (`accounts`, 2026-10-18 13:35). `jobcharge -u tmahmood1 -d 30` shows 0.28 SU more: those are HW2 jobs on 10-12 (`hw2_run`/`hw2_ncu`, ghx4-interactive), not this project.
-In-flight jobs: **none**. Queue runner: `slurm/queue.sh` (tmux `cisc662`, windows `queue`/`queue2`; drained and exited).
-Storage: ≈ 11 GB on `/work/nvme/bffp/tmahmood1/cisc662` (+64 MB S2 ncu/debug profiles). Git: S1 committed as `a43b52f` on `cisc662` (by Talha, 10-18 12:14); **all S2 work is uncommitted** (needs the user's OK).
+Last session: **S2 + S3 — 2026-10-18 (both moved up from 10-20 / 10-23) — Talha (with Claude)**. Plan: [PLAN.md](PLAN.md) · tasks: [TASKS.md](TASKS.md) · rules: [AGENT_GUIDE.md](AGENT_GUIDE.md) · findings: [findings.md](findings.md) · every job: [../results/RUNLOG.md](../results/RUNLOG.md) · access drafts: [access_requests.md](access_requests.md).
+SU: S2 **0.263** (cap 1.5) · S3 **0.061** (cap 1.0; sacct-based queue estimate 0.064) | cumulative **0.658** (ledger) / planned 25 (hard cap 40; pre-P1 limit 10, re-plan checkpoint 8) | pool balance 6,604 SU (`accounts`, 10-18 22:40). `jobcharge` additionally shows 0.28 SU of HW2 jobs on 10-12 (not this project).
+In-flight jobs: **none**. Queue runner: `slurm/queue.sh`; S3 queue drained (tmux `cisc662` on **gh-login03**).
+Storage: ≈ 11 GB on `/work/nvme/bffp/tmahmood1/cisc662` (+64 MB S2 ncu/debug profiles). Git: S1 `a43b52f` (Talha); S2 `0216189` + `1144de5` (committed 10-18 with the user's go-ahead; not pushed).
 
 ## How to resume
 ```bash
@@ -37,14 +37,20 @@ Facts that set vs-compile targets (from traces + the Inductor-generated code in 
 - **BAS-1 / D1** (3406171): `analysis/inductor_fusion.py` → `results/inductor_fusion_table.csv`, `findings.md#inductor-baseline`; KT-1..KT-4 cards now carry measured "Target vs compile" lines.
 - **BAS-2** (3406173): `analysis/losscurve.py`; envelope 0.00128, val-bpb Δ 5e-6 ⇒ G4 runs on its floors (0.01 / 0.005); `results/db/loss/noise_envelope.json`, `results/figures/loss_noise_band.png`.
 - **BAS-3** (3406282): `bench/platform_probe.py`, `analysis/decode_remeasure.py`, `slurm/s2_harness.sbatch`; `results/db/platform/clocks_3406282.json`, `results/db/decode/s2_remeasure.json`; `findings.md#platform-s2`.
-- **ADM-2 partly:** `HF_XET_CHUNK_CACHE_SIZE_BYTES=0` in env.sh; the three deletions (≈ 354 MB) were **blocked by the Claude Code auto-mode classifier** — the user runs them (command in "Next").
+- **ADM-2 done:** `HF_XET_CHUNK_CACHE_SIZE_BYTES=0` in env.sh; deleted `scratch/toolchain-feasibility/{fa3_download,hf_home}` and `cache/hf/xet` (≈ 354 MB; the first attempt was blocked by the auto-mode classifier, retried after the user's go-ahead); FA3 blob in `cache/hf/hub` intact; footprint 9.9 GB; `r12_conv` intact.
 - Fixed `run_step` logging rc=0 on failures (`_common.sh`).
+
+## Done in S3 (2026-10-18; jobs 3409675, 3409677 + login-node work)
+- **KT-1** `kernels/triton/rmsnorm.py` (v1, v2, mixnorm v3 + bwd; `cisc662::rmsnorm`/`mixnorm` triton_ops), `tests/test_rmsnorm.py`, `bench/suite_rmsnorm.py`; **KT-2** `kernels/triton/qkrope.py` (q+k one launch, fwd + single-kernel bwd, fold_scale), `tests/test_qkrope.py`, `bench/suite_qkrope.py`. Pre-GPU adversarial review fixed 2 blockers (`findings.md#kt-review-s3`). **GPU (jobs 3409675 / 3409677): G1+G2 passed** (188 / 94 tests); **qkrope 1.33× vs compile fwd [1.32,1.33], 2.08× fwd+bwd [2.07,2.08]**, 12–15× vs eager; RMSNorm-768 v2 1.31× vs eager and compile (85% of roof), 128-wide parity, mixnorm 1.08–1.10× vs compile. ISA cards `findings.md#rmsnorm`, `#qkrope`. Gotcha: the Triton 3.5.1 interpreter truncates fp32→bf16 (GPU rounds to nearest even), so bf16 gates are meaningless under the interpreter.
+- **AMD-1** `analysis/{kernel_registry,xcompile,isa_report}.py` → `results/static_isa.csv` (358 STATIC rows: 16 kernels × 4 targets + 294 tuning pairs, 0 failures), dumps `results/isa/<kid>/triton_<v>/<target>/xc-<config>/`, `findings.md#static-isa`. Rerun after any kernel change: `python -m cisc662.analysis.xcompile --set all --kernels rmsnorm,qkrope --force` then `python -m cisc662.analysis.isa_report` (≈ 30 CPU-s).
+- **ANA-1 roofline v0** (`analysis/roofline.py`, `results/figures/roofline_v0.png`, `results/roofline_points_v0.csv`; acceptance met; `findings.md#roofline-v0`).
 
 ## Gates status
 No optimized kernels yet. Harness ready: G1/G2 machinery (`tests/tolerances.py`, `gates.py`), G4 machinery (`analysis/losscurve.py` + envelope). Tolerances final under amendment A1 (Decisions).
 
 ## Decisions
 - **D1 (S2, from BAS-1):** vs-compile targets — softcap+CE fwd 2.4–3.0× (Inductor at 30% of the roof), CE single-pass tail 2.4–2.9×; QK-norm+RoPE bwd 1.7–2.1× (2.09× the minimum bytes), fwd 1.3–1.6×; mixnorm/RMSNorm, relu², AdamW = parity (Inductor at the roof); Muon non-GEMM pointwise moves 4.8× its minimum (KT-8 stronger than planned; revisit at D4).
+- **KT-2 design (S3):** fused qkrope rotates in fp32 and takes rstd from the rotated row (not the card's un-rotated identity, which bf16 cos/sin break by ~1 ulp); recorded in the KT-2 card.
 - **Clock policy (BAS-3):** default clocks + `gpu_monitor.csv`; `--gpu-freq` is not honoured under the power cap; no pinned-clock repeats.
 - R12 frozen (PLAN.md §3). Timing metric = sum of dt over steps 10–109.
 - Budget: ≤ 10 SU before P1, 25 SU planned, 40 hard cap (PLAN.md §2).
@@ -55,13 +61,15 @@ No optimized kernels yet. Harness ready: G1/G2 machinery (`tests/tolerances.py`,
 ## Access status
 | Route | Status |
 |---|---|
+| **All six routes** | drafts ready to send in [access_requests.md](access_requests.md) (2026-10-18); **not sent** — needs Talha / a faculty PI |
 | NCSA Delta GPU (gpuMI100x8: MI100 + MI210; gpuA100x4) via ACCESS exchange | not yet requested (ADM-1) |
 | DARWIN (gpu-v100, gpu-mi100) Education allocation | not yet requested |
 | Chameleon CHI@TACC gpu_mi100 | not yet requested |
 | AMD Developer Cloud MI300X credit | not yet requested |
-| Hamza's DeltaAI account | unknown — check `sacctmgr show assoc account=bffp-dtai-gh format=user` |
+| Hamza's DeltaAI account | **none** in `bffp-dtai-gh` (checked 2026-10-18: 23 users, only `tmahmood1`); asked in the instructor draft |
 
 ## Known gotchas
+- **Login node is not fixed:** a VS Code/Claude reconnect can land on gh-login01 *or* gh-login03; tmux lives only on the node where it was started and `ssh gh-login0X` needs Duo (non-interactive ssh fails). Check `hostname` first; the S3 queue runs in tmux `cisc662` on **gh-login03** (S2's on gh-login01, exited). Queue state is on the shared filesystem, so a runner may be restarted on any node — just never run two runners on the same queue file.
 - **kbench timings need the queue pad** (now built in): without it, host overhead of compiled/autograd calls leaks into CUDA-event times (job 3406282 rows invalid). Never compare cold numbers across 3406282 and later jobs.
 - **GH200 power cap:** sustained tensor-core work runs at ≈ 1365 MHz / 545 W (`sw_power_cap`), bursts at 1980 MHz; always log clocks, interleave variants.
 - `--constraint=nvperf` is a no-op on DeltaAI (counters always on; sbatch prints a warning mentioning perf/xpmem — harmless, billing stays 1000 = 1 SU/h).
@@ -75,8 +83,10 @@ No optimized kernels yet. Harness ready: G1/G2 machinery (`tests/tolerances.py`,
 - `test`/`full` partitions are staff-only; `ghx4-interactive` bills 2× and allows one job.
 - Scratch to delete (ADM-2): `$CISC662_WORK/scratch/toolchain-feasibility/{fa3_download,hf_home}` (~233 MB).
 
-## Next session (S3, Fri 2026-10-23; cap 1.0 SU) — first actions
-1. **User:** ADM-1 access requests (six routes; D2 on 11-03) — still not sent. Decide the PLAN §7.3 tolerance amendment (Decisions). OK to commit S2 work? Run the ADM-2 deletions: `rm -rf $CISC662_WORK/scratch/toolchain-feasibility/{fa3_download,hf_home} $CISC662_WORK/cache/hf/xet` (FA3 itself lives in `cache/hf/hub`, verified; untouched).
-2. KT-1 (RMSNorm/mixnorm) + KT-2 (qkrope) into `slurm/s3_kernels.sbatch`; its first step is `pytest cisc662/tests -q -rxs` (re-checks `test_qkrope_g1[r12]` on GPU). Baselines to beat are in `results/db/ops_baseline/` (3406329): e.g. qkrope fwd+bwd compile 317 µs, eager 1900 µs; mixnorm fwd+bwd compile 181 µs; RMSNorm(768) fwd 42.6 µs eager = compile.
-3. AMD-1 static pipeline and ANA-1 roofline v0 (login node; split work so no process passes ~20 CPU-min).
-4. Submit through the queue: append lines to a new `slurm/queue_s3.txt`, start `bash cisc662/slurm/queue.sh cisc662/slurm/queue_s3.txt 1.0` in tmux, add a **Result** line to RUNLOG.md after each job.
+## Next session (S4, planned Tue 10-27; cap 1.9 SU) — first actions
+1. **User (only open human item):** send the ADM-1 requests — drafts in [access_requests.md](access_requests.md); log dates in the Access table; follow-up 10-27, D2 on 11-03.
+2. **KT-3** fused softcap+CE (`kernels/triton/ce.py`, `tests/test_ce.py`, `bench/suite_ce.py`; gate dlogits with `kind="dlogits"`, A1) — the headline kernel; BAS-1 target 2.4–3.0× fwd, 1.6–2.9× tail vs compile. Pin FMA contraction explicitly in any recompute (`findings.md#kt-review-s3`). Job `slurm/s4_ce.sbatch` (copy the s3 body pattern).
+3. **BAS-6** ncu baseline of the top-15 compiled kernels (`--nvtx --target-processes application-only`, see s2_inductor_dump) **plus ncu bytes of `c662_qkrope_*` and `c662_rmsnorm_*`** (KT-2 acceptance still needs ≈ 200 MB/call measured) → ANA-1 roofline v1.
+4. **BAS-4** only needs the max-autotune GEMM rows now (eager/compile rows exist from INF-3, job 3406329); **BAS-5** CPU per-op references (CPU-only jobs, ≈ 0.35 SU).
+5. Explain the 5% triton_op vs Function gap in qkrope with one nsys capture (fold into BAS-6's job).
+6. Login node: AMD-2 can start (HIP RMSNorm via hipify + CCE), AMD-1 static rows auto-refresh with `xcompile --force` after kernel changes.

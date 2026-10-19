@@ -1,0 +1,74 @@
+{
+ "kernel_id": "rmsnorm",
+ "variant": "mixnorm_bwd_finish_768",
+ "kernel": "c662_rmsnorm_bwd_mixnorm_finish",
+ "target": "cuda:90",
+ "target_dir": "sm_90a",
+ "tag": "nw4_st3_h1",
+ "is_base": false,
+ "cfg": {
+  "num_warps": 4,
+  "hints": true,
+  "num_stages": 3
+ },
+ "options": {
+  "num_warps": 4,
+  "num_stages": 3
+ },
+ "signature": {
+  "P": "*fp32",
+  "DR": "*fp32",
+  "DL": "*fp32",
+  "N": "i32",
+  "BLOCK": "constexpr"
+ },
+ "constexprs": {
+  "BLOCK": 2048
+ },
+ "divisibility_args": [
+  "P",
+  "DR",
+  "DL",
+  "N"
+ ],
+ "source": "cisc662/kernels/triton/rmsnorm.py",
+ "source_sha": "297fddc84add",
+ "shape": "P[2, 32768] bf16, grid=[2]",
+ "notes": "rmsnorm.CONFIGS launch (num_warps=8); constexprs {'BLOCK': 2048}",
+ "versions": {
+  "triton": "3.5.1",
+  "llvm": "22.0.0git (7d5de3033187, bundled in libtriton)",
+  "torch": "2.9.1+cu128",
+  "ptxas": "12.8 (/work/nvme/bffp/tmahmood1/cisc662/venv/lib/python3.10/site-packages/triton/backends/nvidia/bin/ptxas)"
+ },
+ "mode": "xcompile GPUTarget('cuda', 90, 32) on the login node, no GPU",
+ "label": "STATIC",
+ "ok": true,
+ "files": [
+  "/work/nvme/bffp/tmahmood1/cisc662/scratch/AMD-1/isa_ir/rmsnorm/triton_mixnorm_bwd_finish_768/sm_90a/xc-nw4_st3_h1/c662_rmsnorm_bwd_mixnorm_finish.ttgir",
+  "/work/nvme/bffp/tmahmood1/cisc662/scratch/AMD-1/isa_ir/rmsnorm/triton_mixnorm_bwd_finish_768/sm_90a/xc-nw4_st3_h1/c662_rmsnorm_bwd_mixnorm_finish.llir",
+  "/work/nvme/bffp/tmahmood1/cisc662/scratch/AMD-1/isa_ir/rmsnorm/triton_mixnorm_bwd_finish_768/sm_90a/xc-nw4_st3_h1/c662_rmsnorm_bwd_mixnorm_finish.ptx",
+  "c662_rmsnorm_bwd_mixnorm_finish.cubin"
+ ],
+ "name": "c662_rmsnorm_bwd_mixnorm_finish",
+ "hash": "37d475ea7ed694ab2bcb1af0cae94956754976039cad371d4d1c396cdf6e1ce3",
+ "metadata": {
+  "shared": 32,
+  "num_warps": 4,
+  "num_stages": 3,
+  "num_ctas": 1,
+  "arch": "sm90",
+  "ptx_version": null,
+  "warp_size": 32,
+  "cluster_dims": [
+   1,
+   1,
+   1
+  ],
+  "tmem_size": 0,
+  "global_scratch_size": 0,
+  "profile_scratch_size": 0
+ },
+ "wall_s": 0.02,
+ "cpu_s": 0.01
+}

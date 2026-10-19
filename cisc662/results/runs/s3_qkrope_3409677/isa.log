@@ -1,0 +1,6 @@
+v1    c662_qkrope_fwd  regs=32 spills=0 LDG.E.128=8 LDG=8 STG.E.128=4 SHFL=6 MUFU.RSQ=2 -> /u/tmahmood1/project/nanochat/cisc662/results/isa/qkrope/triton_v1/sm_90a/c662_qkrope_fwd.meta.json
+v1    c662_qkrope_bwd  regs=62 spills=0 LDG.E.128=12 LDG=14 STG.E.128=4 SHFL=6 MUFU.RSQ=0 -> /u/tmahmood1/project/nanochat/cisc662/results/isa/qkrope/triton_v1/sm_90a/c662_qkrope_bwd.meta.json
+ilp2  c662_qkrope_fwd  regs=52 spills=0 LDG.E.128=16 LDG=16 STG.E.128=8 SHFL=12 MUFU.RSQ=4 -> /u/tmahmood1/project/nanochat/cisc662/results/isa/qkrope/triton_ilp2/sm_90a/c662_qkrope_fwd.meta.json
+ilp2  c662_qkrope_bwd  regs=95 spills=0 LDG.E.128=24 LDG=28 STG.E.128=8 SHFL=12 MUFU.RSQ=0 -> /u/tmahmood1/project/nanochat/cisc662/results/isa/qkrope/triton_ilp2/sm_90a/c662_qkrope_bwd.meta.json
+ilp4  c662_qkrope_fwd  regs=94 spills=0 LDG.E.128=32 LDG=32 STG.E.128=16 SHFL=24 MUFU.RSQ=8 -> /u/tmahmood1/project/nanochat/cisc662/results/isa/qkrope/triton_ilp4/sm_90a/c662_qkrope_fwd.meta.json
+ilp4  c662_qkrope_bwd  regs=167 spills=0 LDG.E.128=48 LDG=56 STG.E.128=16 SHFL=24 MUFU.RSQ=0 -> /u/tmahmood1/project/nanochat/cisc662/results/isa/qkrope/triton_ilp4/sm_90a/c662_qkrope_bwd.meta.json

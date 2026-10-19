@@ -1,0 +1,50 @@
+Displaying notes found in: .note
+  Owner                Data size 	Description
+  AMDGPU               0x00000306	NT_AMDGPU_METADATA (AMDGPU Metadata)
+    AMDGPU Metadata:
+        ---
+amdhsa.kernels:
+  - .agpr_count:     0
+    .args:
+      - .address_space:  global
+        .offset:         0
+        .size:           8
+        .value_kind:     global_buffer
+      - .address_space:  global
+        .offset:         8
+        .size:           8
+        .value_kind:     global_buffer
+      - .address_space:  global
+        .offset:         16
+        .size:           8
+        .value_kind:     global_buffer
+      - .offset:         24
+        .size:           4
+        .value_kind:     by_value
+      - .address_space:  global
+        .offset:         32
+        .size:           8
+        .value_kind:     global_buffer
+      - .address_space:  global
+        .offset:         40
+        .size:           8
+        .value_kind:     global_buffer
+    .group_segment_fixed_size: 0
+    .kernarg_segment_align: 8
+    .kernarg_segment_size: 48
+    .max_flat_workgroup_size: 512
+    .name:           c662_rmsnorm_bwd_mixnorm_finish
+    .private_segment_fixed_size: 0
+    .sgpr_count:     21
+    .sgpr_spill_count: 0
+    .symbol:         c662_rmsnorm_bwd_mixnorm_finish.kd
+    .uses_dynamic_stack: false
+    .vgpr_count:     18
+    .vgpr_spill_count: 0
+    .wavefront_size: 64
+amdhsa.target:   amdgcn-amd-amdhsa--gfx942
+amdhsa.version:
+  - 1
+  - 2
+...
+
