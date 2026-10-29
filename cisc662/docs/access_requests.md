@@ -8,7 +8,7 @@ Checked by Claude (read-only, 2026-10-18): `sacctmgr show assoc account=bffp-dta
 
 | # | Route | Who acts | Expected wait | What it unlocks |
 |---|---|---|---|---|
-| 1 | Instructor email (scoping + DARWIN + allocation manager + Hamza's account) | Talha | days | static-AMD acceptance, DARWIN V100/MI100, who can move DeltaAI → Delta units |
+| 1 | Instructor email (scoping + allocation manager) | Talha | days | static-AMD acceptance, DARWIN V100/MI100, who can move DeltaAI → Delta units |
 | 2 | NCSA help desk: Delta GPU (gpuMI100x8, gpuA100x4) for `bffp` | Talha (cc instructor) | unknown | measured MI100/MI210 + A100 rows (AMD-6, AMD-5) |
 | 3 | `ssh login.delta.ncsa.illinois.edu` + `accounts` | Talha (needs Duo; Claude cannot do it) | minutes | tells whether a Delta login already exists |
 | 4 | Chameleon CHI@TACC `gpu_mi100` | advisor/instructor as PI | ≈ 1 business day after PI approval | bare-metal MI100 with a ROCm image |
@@ -19,21 +19,20 @@ Checked by Claude (read-only, 2026-10-18): `sacctmgr show assoc account=bffp-dta
 
 ## 1. Email to the course instructor
 
-**To:** `<instructor email>`  **Subject:** CISC662 project (Talha & Hamza Mahmood): platform change, AMD scope, and two access questions
+**To:** `<instructor email>`  **Subject:** CISC662 project (Talha & Hamza Mahmood): platform change, AMD scope and Delta usage
 
 Dear Professor `<name>`,
 
-Our project ("Optimizing nanochat down to the assembly level: NVPTX and AMDGCN") is under way on NCSA DeltaAI. Four points need your input:
+Our project ("Optimizing nanochat down to the assembly level: NVPTX and AMDGCN") is under way on NCSA DeltaAI. Three points need your input:
 
 1. **Platform change.** The proposal named DARWIN V100 as the primary GPU; we will instead work entirely on NCSA (DeltaAI GH200, H100-class, plus NCSA Delta for AMD), and we are not asking for DARWIN. Baselines are measured (e.g. 8.05 s per 100 training steps with torch.compile + FlashAttention-3; eager 15.08 s).
-2. **AMD half.** DeltaAI has no AMD GPUs and ROCm cannot be installed on its aarch64 nodes. We can already compile our kernels to AMDGCN (gfx908/gfx90a/gfx942) and analyse the ISA statically, and we are requesting AMD hardware (below). **Would a static-only AMD comparison, clearly labelled as such, be acceptable if no AMD hardware arrives by early November?**
-3. **DARWIN.** Not needed; we are dropping it.
-4. **Allocation manager.** Who is the PI or allocation manager of the class allocation `bffp-dtai-gh`? NCSA Delta (the non-AI system) has 8 MI100 + 1 MI210 GPUs (partition `gpuMI100x8`, charge factor 0.25); a PI or allocation manager can exchange a small amount of DeltaAI units to "NCSA Delta GPU" on the ACCESS portal. We would need about 20–40 Delta GPU SU. Also, Hamza does not have his own DeltaAI account in `bffp-dtai-gh` yet — could he be added?
+2. **AMD half.** DeltaAI has no AMD GPUs and ROCm cannot be installed on its aarch64 nodes. We can already compile our kernels to AMDGCN (gfx908/gfx90a/gfx942) and analyse the ISA statically, and we have Delta access for a small set of measured AMD runs (point 3), pending that node coming out of maintenance. **Would a static-only AMD comparison, clearly labelled as such, be acceptable if no AMD hardware arrives by early November?**
+3. **Delta access.** We already have the Delta accounts `bffp-delta-gpu` and `bffp-delta-cpu` and will run the AMD measurements on Delta's `gpuMI100x8` node within a small budget (at most about 6 Delta GPU SU, well inside the class pool). Please tell us if you would like us to stay under a different limit.
 
 So far we have used 0.6 of the GH200 hours for this project and plan at most 25 over the semester.
 
 Thank you,
-Talha Mahmood (`tmahmood1`) and Hamza Mahmood
+Talha Mahmood (`tmahmood1`), on behalf of Talha and Hamza Mahmood (Talha does the coding; Hamza presents)
 
 ## 2. Email to the NCSA help desk
 
@@ -44,7 +43,7 @@ Hello,
 I am a student on the ACCESS class project `bffp` (DeltaAI account `bffp-dtai-gh`, user `tmahmood1`). For a course project comparing GPU kernels on NVIDIA and AMD we need a small amount of time on **NCSA Delta GPU**: the `gpuMI100x8` partition (MI100 gfx908 and the MI210 gfx90a node) and, if possible, `gpuA100x4`.
 
 - Could NCSA Delta GPU be added to project `bffp` by an ACCESS exchange from DeltaAI (we are asking our instructor, who manages the allocation, to initiate it)? We estimate **20–40 Delta GPU SU** in total, short batch jobs only.
-- Please add both students: `tmahmood1` (Talha Mahmood) and `<Hamza's NCSA username>` (Hamza Mahmood).
+- Only `tmahmood1` (Talha Mahmood) needs access; Hamza does not run jobs.
 - The Unix groups `delta_active_users` and `delta_bffp` already exist on my account — does that mean a Delta login is already possible once units exist?
 
 Thank you,

@@ -74,7 +74,7 @@ No optimized kernels yet. Harness ready: G1/G2 machinery (`tests/tolerances.py`,
 | DARWIN (gpu-v100, gpu-mi100) | **dropped** (user decision 2026-10-19): platform = NCSA only (DeltaAI + Delta MI100/MI210) |
 | Chameleon CHI@TACC gpu_mi100 | not yet requested |
 | AMD Developer Cloud MI300X credit | not yet requested |
-| Hamza's DeltaAI account | **none** in `bffp-dtai-gh` (checked 2026-10-18: 23 users, only `tmahmood1`); asked in the instructor draft |
+| Hamza's DeltaAI account | **not needed** (user decision 2026-10-29): Talha does all coding and runs all jobs; Hamza gives the presentations and handles other course work |
 
 ## Known gotchas
 - **Login node is not fixed:** a VS Code/Claude reconnect can land on gh-login01 *or* gh-login03; tmux lives only on the node where it was started and `ssh gh-login0X` needs Duo (non-interactive ssh fails). Check `hostname` first; the S3 queue runs in tmux `cisc662` on **gh-login03** (S2's on gh-login01, exited). Queue state is on the shared filesystem, so a runner may be restarted on any node — just never run two runners on the same queue file.
