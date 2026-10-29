@@ -22,7 +22,7 @@ Project: CISC662 "Optimizing nanochat down to the assembly level: NVPTX and AMDG
 - Login nodes: any process is killed after 30 CPU-minutes or 7 days of wall-clock time. No benchmarks, no compiles of big things, no test suites on login nodes; use `nice -n 19` for anything that runs more than a minute; use short jobs for the rest. No idle background daemons. If you use tmux, close it at the end of the session and check for stray processes (`ps -u $USER`) before leaving.
 - Do not `sleep`-poll in the foreground. Use `squeue -u $USER` and read logs after the job ends; if your harness supports a bounded monitor, use that (see `cisc662/slurm/monitor.sh`, which is bounded to 6 h).
 - No `git commit`/`push` without the user's explicit OK. Branch is `cisc662`. Remote is `nano` (https://github.com/talhaMah56/Nano.git); the agent has no credentials, the user pushes.
-- Files: `/u` is shared Harbor storage mounted on both DeltaAI and Delta (100 GB / 750k inode quota). Put large things (venv, containers, caches, profiles) under `/work/nvme/<your Delta project>/<user>/cisc662/` — `/work` is also shared with DeltaAI. No backups on `/work`.
+- Files: **`/u` is NOT shared** — Delta and DeltaAI have different home directories (different CPU architectures). `/work/hdd` and `/work/nvme` ARE visible from both systems. The shared repo lives at `/work/nvme/bffp/tmahmood1/cisc662/nanochat.git` (a bare git repo, group `delta_bffp`); see section 2a. Put large things (venv, containers, caches, profiles) under `/work/nvme/bffp/<user>/cisc662/` if your Delta project is `bffp`, else under your Delta project's `/work` directory. No backups on `/work`.
 
 ## 2. Environment facts (what is the same, what differs)
 | Item | DeltaAI (where results so far come from) | Delta (where you work) |
@@ -32,7 +32,15 @@ Project: CISC662 "Optimizing nanochat down to the assembly level: NVPTX and AMDG
 | GPU | GH200 sm_90a, warp 32 | MI100 gfx908 / MI210 gfx90a, **wavefront 64**, 32 GB HBM2 |
 | Matrix unit | tensor cores (`HGMMA`) | MFMA (`v_mfma_*`) |
 | LDS / shared | up to 227 KB | **64 KiB per CU** |
-| Repo | `/u/tmahmood1/project/nanochat`, branch `cisc662` | same files (shared `/u`) — verify with `git -C … status` before you start |
+| Repo | `/u/tmahmood1/project/nanochat`, branch `cisc662` | **not visible** (`/u` is per-system); clone from the shared bare repo (section 2a) |
+
+### 2a. Getting the code onto Delta without copying files by hand
+```
+mkdir -p /work/nvme/<project>/$USER/cisc662 && cd /work/nvme/<project>/$USER/cisc662   # <project> = bffp if you are in that group
+git clone -b cisc662 /work/nvme/bffp/tmahmood1/cisc662/nanochat.git nanochat
+git remote add shared /work/nvme/bffp/tmahmood1/cisc662/nanochat.git   # already 'origin' after the clone
+```
+Work flow: commit on Delta (only with the user's OK), `git push origin HEAD:amd-delta` (push to a **separate branch** `amd-delta`, never to `cisc662`); on DeltaAI the user/agent runs `git fetch shared && git merge shared/amd-delta`. Bulk results (CSV/JSON, profiler output) are small and go through git; very large artifacts stay on `/work` and are read in place from either system. If `/work/nvme/bffp` is not readable from Delta (Delta user not in group `delta_bffp`, i.e. your Delta project is a different one), stop and tell the user: the fallback is GitHub (`git push -u nano cisc662` by the user) or Globus (the "NCSA Delta" collection shows both systems' folders).
 
 Software plan, in order of preference (record whichever you use and its exact versions in every result row):
 1. Pre-staged container: `/sw/external/MI100/pytorch-2.10.0-amdgpu.sif` (check it exists; note the torch version gap vs our 2.9.1). Run with `apptainer exec --rocm …`.
