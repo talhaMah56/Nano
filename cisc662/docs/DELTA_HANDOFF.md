@@ -14,8 +14,13 @@ Project: CISC662 "Optimizing nanochat down to the assembly level: NVPTX and AMDG
 
 **Acceptance (from the task card):** at least one measured kernel time per Tier-A kernel on at least one AMD architecture, with rocprofv3 timings, and the static VGPR/LDS numbers validated against `kernel_trace.csv`.
 
+## 0b. Access facts confirmed by the user on 2026-10-29
+- Delta accounts: **`bffp-delta-gpu`** (GPU jobs; 440 of 500 hours left) and `bffp-delta-cpu` (CPU-only; 153 of 212 left). User is in group `delta_bffp`, so `/work/nvme/bffp` is readable and the shared repo works. Use `#SBATCH --account=bffp-delta-gpu`.
+- Partition `gpuMI100x8` exists, time limit 2 days, one node `gpud01`, **currently in `maint`** (jobs will likely wait until maintenance ends). Check `sinfo -p gpuMI100x8 -o "%P %a %l %T %N"` and `scontrol show node gpud01 | grep -i -E "state|reason"` before queueing; never queue more than 2 jobs. Do the environment build and CPU-only prep on `bffp-delta-cpu` meanwhile.
+- The balance is a *class* pool shared with classmates: the cap of this task (6 SU, charge factor 0.25 => at most 24 MI100/MI210 GPU-hours) is a hard limit well inside it. Confirm with the account's usage command whether "hours" in the balance means GPU-hours or SU, and write the answer into STATUS.md.
+
 ## 1. Hard limits — do not exceed
-- **Budget: at most 6 Delta GPU SU for this whole task.** The partition's charge factor is 0.25 per GPU-hour (the AMD-6 card says ≤ 24 MI100/MI210 GPU-hours). Before any job, run `sacctmgr`/`accounts` and the project's usage command to see the real balance and which **Delta account** you charge — it is NOT `bffp-dtai-gh` (that is the DeltaAI class pool and must not be used here). If you cannot identify an account that is authorised for Delta GPUs, **stop and tell the user**; do not guess an account name and do not try the DeltaAI account.
+- **Budget: at most 6 Delta GPU SU for this whole task.** The partition's charge factor is 0.25 per GPU-hour (the AMD-6 card says ≤ 24 MI100/MI210 GPU-hours). Before any job, run `sacctmgr`/`accounts` and the project's usage command to see the real balance and which **Delta account** you charge — it is NOT `bffp-dtai-gh` (that is the DeltaAI class pool and must not be used here); use `bffp-delta-gpu`. If you cannot identify an account that is authorised for Delta GPUs, **stop and tell the user**; do not guess an account name and do not try the DeltaAI account.
 - Re-plan checkpoint: after 2 SU spent, stop and write down what is done and what the rest would cost.
 - One GPU per job, **walltime ≤ 30 min** per job (short jobs start fast), ≤ 2 jobs of this project queued at once. Never ask for the full node (9 GPUs).
 - Request GPUs **by type**, always: `--gpus=mi100:1` or `--gpus=mi210:1` (with `--partition=gpuMI100x8`). Plain `--gpus=1` returns an unpredictable mix and invalidates results. Record the `gcnArchName` printed inside every job.

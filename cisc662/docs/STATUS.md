@@ -70,7 +70,7 @@ No optimized kernels yet. Harness ready: G1/G2 machinery (`tests/tolerances.py`,
 | Route | Status |
 |---|---|
 | **All six routes** | drafts ready to send in [access_requests.md](access_requests.md) (2026-10-18); **not sent** — needs Talha / a faculty PI |
-| NCSA Delta GPU (gpuMI100x8: MI100 + MI210; gpuA100x4) via ACCESS exchange | not yet requested (ADM-1) |
+| NCSA Delta GPU (gpuMI100x8: MI100 + MI210; gpuA100x4) | **access exists** (checked by user 2026-10-29): accounts `bffp-delta-gpu` (440/500 h left) and `bffp-delta-cpu` (153/212 h left); `/work/nvme/bffp` readable from Delta; gpuMI100x8 node gpud01 was in `maint` that day. No exchange or help-desk request needed |
 | DARWIN (gpu-v100, gpu-mi100) | **dropped** (user decision 2026-10-19): platform = NCSA only (DeltaAI + Delta MI100/MI210) |
 | Chameleon CHI@TACC gpu_mi100 | not yet requested |
 | AMD Developer Cloud MI300X credit | not yet requested |
