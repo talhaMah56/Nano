@@ -1,0 +1,1 @@
+# Agent-loop GPU queue (docs/LOOP.md section 4). Workers append: <absolute sbatch path> <ID>

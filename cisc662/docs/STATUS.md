@@ -92,7 +92,9 @@ No optimized kernels yet. Harness ready: G1/G2 machinery (`tests/tolerances.py`,
 - `test`/`full` partitions are staff-only; `ghx4-interactive` bills 2× and allows one job.
 - Scratch to delete (ADM-2): `$CISC662_WORK/scratch/toolchain-feasibility/{fa3_download,hf_home}` (~233 MB).
 
-## Next session (S4, planned Tue 10-27; cap 1.9 SU) — first actions
+**SCHEDULE CHANGED 2026-10-29: see PLAN.md section 6-REV (final presentation 11-30, code freeze 11-24, report by 12-07; many cards cut).**
+
+## Next session (S4 list below is partly done; S4 finished 10-19; now follow 6-REV week 1) — first actions
 1. **User (only open human item):** send the ADM-1 requests — drafts in [access_requests.md](access_requests.md); log dates in the Access table; follow-up 10-27, D2 on 11-03.
 2. **KT-3** fused softcap+CE (`kernels/triton/ce.py`, `tests/test_ce.py`, `bench/suite_ce.py`; gate dlogits with `kind="dlogits"`, A1) — the headline kernel; BAS-1 target 2.4–3.0× fwd, 1.6–2.9× tail vs compile. Pin FMA contraction explicitly in any recompute (`findings.md#kt-review-s3`). Job `slurm/s4_ce.sbatch` (copy the s3 body pattern).
 3. **BAS-6** ncu baseline of the top-15 compiled kernels (`--nvtx --target-processes application-only`, see s2_inductor_dump) **plus ncu bytes of `c662_qkrope_*` and `c662_rmsnorm_*`** (KT-2 acceptance still needs ≈ 200 MB/call measured) → ANA-1 roofline v1.

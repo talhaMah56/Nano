@@ -76,7 +76,23 @@ Ladder for every kernel: **L0** eager at real shape → **L1** torch.compile (In
 | **C** | Attention: FA3 vs SDPA vs Triton FA2-style forward; dissection of FA3's sm_90a cubins | L0, L2, L4-static, L5 | — | 0.5–0.8× of FA3 (negative result) | Beating FA3 is out of scope; explaining it is in scope |
 | Decode | bf16 weight cache; `.item()` removal + CUDA graphs; fused small-op chains for T=1 | wrapper code | 3–10× tok/s at b=1–32 | n/a (infer_bench is eager) | Measured decode is launch-bound (GPU only 2.1–3.3× one CPU core at b=1 across S1 jobs) |
 
-## 6. Session timeline (≈ 2 sessions/week, 3–5 h each; one STATUS.md update per session)
+## 6-REV. REVISED schedule (2026-10-29) — SUPERSEDES the timeline in section 6 and the dates in sections 8 and 10
+Decision (user, 2026-10-29): **one combined final presentation + results on Mon 2026-11-30**; the written report may be a few days late (target 12-07). Presentation 1 is **Mon 11-02, 3 pm, 10 minutes**. Talha writes and runs all code; Hamza presents and handles other course work. There is no separate "Presentation 2".
+
+| Week | Dates | Work (task cards) |
+|---|---|---|
+| 1 | 10-30 to 11-05 | P1 on 11-02 (ANA-4, deck done). AMD-2 (HIP RMSNorm, static), ANA-1 v1 (roofline), BAS-5 (queued job 3484920). KC-1 CUDA RMSNorm: torch wrapper, gates G1/G2, timing |
+| 2 | 11-06 to 11-12 | KC-2 CUDA QK-norm+RoPE; INT-1 integration shim + graph-break gate G3 (start early: critical path); AMD-4 part 1 (HIP qkrope) |
+| 3 | 11-13 to 11-19 | KC-3 CUDA cross-entropy; INT-2 loss-curve gates G4; HIP cross-entropy (static); TUNE-1 |
+| 4 | 11-20 to 11-24 | INT-3, INT-4 end-to-end timing; **D5 per-kernel go/no-go 11-20; code freeze 11-24**; INT-6 final measurements 11-24 to 11-26 |
+| 5 | 11-25 to 11-30 | ANA-2/3/7 final figures, AMD static table (ANA-5), final deck, rehearsal; **presentation 11-30** |
+| after | 12-01 to 12-07 | ANA-10 final report |
+
+**Update 2026-10-29 (agent loop, docs/LOOP.md):** nothing is cut outright; cards are tiered in `docs/BOARD.md`: Tier 1 restored (KT-4, KT-5 sweep, AMD-3), Tier 2 stretch (DEC-1, DEC-2, KT-7), Tier 3 stretch after Tier 1 (KT-6, KT-8, KC-4). Any non-Tier-0 card not in review by 11-18 is dropped and reported as partial.
+**Kept:** three Tier-A kernels in Triton and CUDA, HIP as static analysis for all three, instruction-level analysis, loss-curve gate, end-to-end timing, roofline. **Measured AMD is opportunistic** (Delta MI100/MI210 jobs queued by the Delta agent; the node was down at last report): the report says STATIC unless measured rows exist.
+**Checkpoint 11-12:** if INT-1 and KC-2 are not done, cut KC-3 to a compile-check and move the time to integration.
+
+## 6. Session timeline (ORIGINAL, superseded by 6-REV) (≈ 2 sessions/week, 3–5 h each; one STATUS.md update per session)
 
 | Session | Date | Focus | Tasks (see TASKS.md) | GPU cap |
 |---|---|---|---|---|

@@ -1,0 +1,10 @@
+ceilings (1 threads): {'fp32_gemm_GFLOPs': 98.48651831117081, 'copy_GBps': 29.907608503404106}
+rmsnorm_fwd_2048x768                   0.84 ms  (  15.0 GB/s,     7.5 GFLOP/s)  -> R12 x16:    0.013 s
+qkrope_fwd_1x2048x6x128                4.26 ms  (   5.9 GB/s,     5.9 GFLOP/s)  -> R12 x16:    0.068 s
+ce_fwd_2048x32768                    547.58 ms  (   0.5 GB/s,     1.5 GFLOP/s)  -> R12 x16:    8.761 s
+ce_fwdbwd_2048x32768                 768.43 ms  (   0.7 GB/s,     1.7 GFLOP/s)  -> R12 x16:   12.295 s
+gemm_2048x768x768                     25.66 ms  (   0.6 GB/s,    94.1 GFLOP/s)  -> R12 x16:    0.411 s
+gemm_2048x768x3072                   104.24 ms  (   0.4 GB/s,    92.7 GFLOP/s)  -> R12 x16:    1.668 s
+attn_sdpa_fwd_1x6x2048x128           120.79 ms  (   0.2 GB/s,    53.3 GFLOP/s)  -> R12 x16:    1.933 s
+relu2_fwd_2048x3072                    3.63 ms  (  13.9 GB/s,     3.5 GFLOP/s)  -> R12 x16:    0.058 s
+wrote /u/tmahmood1/project/nanochat/cisc662/results/db/cpu/cpu_ref_t1_3485118.json

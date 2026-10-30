@@ -1,0 +1,3 @@
+# S4b queue (2026-10-29): BAS-5 CPU references; session cap 0.5 SU
+cisc662/slurm/s4_cpu_ref.sbatch BAS-5
+cisc662/slurm/s4_cpu_ref.sbatch BAS-5 (rerun: serial step)

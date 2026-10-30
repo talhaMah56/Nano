@@ -2,7 +2,7 @@
 # Keeps all heavy I/O (venv, caches, data, checkpoints, profiles) on /work/nvme, code in $HOME.
 # /projects/bffp and /work/hdd/bffp are over their soft quotas -- do not write there.
 
-export CISC662_REPO=/u/tmahmood1/project/nanochat
+export CISC662_REPO=${CISC662_REPO_OVERRIDE:-/u/tmahmood1/project/nanochat}   # loop jobs point this at their worktree (docs/LOOP.md 3.4)
 export CISC662_WORK=/work/nvme/bffp/tmahmood1/cisc662
 
 # Slurm account for DeltaAI (shared class allocation -- be frugal, see cisc662/docs/PLAN.md)
